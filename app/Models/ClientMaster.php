@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class ClientMaster extends Model
+{
+    use HasFactory;
+
+    protected $fillable =
+    [
+         "client_no", "name","company_name","contact_number","address"
+    ];
+}
