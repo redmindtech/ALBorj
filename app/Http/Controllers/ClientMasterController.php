@@ -17,10 +17,10 @@ class ClientMasterController extends Controller
      */
     public function index()
     {
-        $clients = ClientMaster::all();
-        return view('clientmaster.index')->with([
-            'clients' => $clients
-        ]);
+        // $clients = ClientMaster::all();
+        // return view('clientmaster.index')->with([
+        //     'clients' => $clients
+        // ]);
 
     }
 
