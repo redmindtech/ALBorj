@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\SupplierMaster;
+use Exception;
 
 use Illuminate\Http\Request;
-
 class SupplierMasterController extends Controller
 {
     /**
@@ -14,11 +14,19 @@ class SupplierMasterController extends Controller
      */
     public function index()
     {
-        //
+    try{
         $supplier = SupplierMaster::all();
         return view('suppliermaster.index')->with([
             'suppliers' => $supplier
         ]);
+    }
+    catch (Exception $e)
+      {
+        INFO($e);
+        return redirect()->route("suppliermaster.index")->with([
+            "error" => "An error occurred: " . $e
+        ]);
+     }
     }
 
     /**
@@ -28,8 +36,16 @@ class SupplierMasterController extends Controller
      */
     public function create()
     {
-        //
+      try{
         return view('suppliermaster.create');
+      }
+      catch (Exception $e)
+      {
+            INFO($e);
+            return redirect()->route("suppliermaster.index")->with([
+                "error" => "An error occurred: " . $e
+            ]);
+       }
     }
 
     /**
@@ -40,21 +56,31 @@ class SupplierMasterController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            //'supplier_no' => 'required',
+        try{
+            $this->validate($request, [
             'name' => 'required',
             'company_name' => 'required',
-            // 'code' => 'required',
+            'code'=>'',
             'address' => 'required',
             'contact_number' => 'required',
             'mail_id'=>'required',
+            'website'=>'required',
 
         ]);
-        $data = $request->except(['_token']);
-        SupplierMaster::create($data);
+            $data = $request->except(['_token']);
+            SupplierMaster::create($data);
+            return redirect()->route("suppliermaster.index")->with([
+                "success" => "Supplier details has been added successfully!"
+            ]);
+         }
+    catch (Exception $e)
+      {
+        INFO($e);
         return redirect()->route("suppliermaster.index")->with([
-            "success" => "Supplier details has been added successfully!"
+            "error" => "An error occurred: " . $e
         ]);
+     }
+
     }
 
     /**
@@ -65,10 +91,20 @@ class SupplierMasterController extends Controller
      */
     public function show($id)
     {
-        $supplier = SupplierMaster::where('supplier_no', $id)->first();
-        return view("suppliermaster.show", ['supplier' => $supplier, 'show' => true])->with([
-            "suppliers" => $supplier
-        ]);
+        try
+        {
+            $supplier = SupplierMaster::where('supplier_no', $id)->first();
+            return view("suppliermaster.show", ['supplier' => $supplier, 'show' => true])->with([
+                "suppliers" => $supplier
+            ]);
+        }
+        catch (Exception $e)
+        {
+            INFO($e);
+            return redirect()->route("suppliermaster.index")->with([
+                "error" => "An error occurred: " . $e
+            ]);
+        }
 
     }
 
@@ -79,23 +115,38 @@ class SupplierMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        $supplier = SupplierMaster::where('supplier_no', $id)->first();
-        return view("suppliermaster.edit")->with([
-            "suppliers" => $supplier
+    {  try
+        {
+            $supplier = SupplierMaster::where('supplier_no', $id)->first();
+            return view("suppliermaster.edit")->with([
+                "suppliers" => $supplier
 
-        ]);
+            ]);
+        }
+        catch (Exception $e)
+        {
+            INFO($e);
+            return redirect()->route("suppliermaster.index")->with([
+                "error" => "An error occurred: " . $e
+            ]);
+        }
+
     }
     public function supplier_edit_data(){
-        // info('edit');
-        $id=$_GET['id'];
-        // info($id);
-        // $data = SupplierMaster::where('supplier_no',$id)->all();
-        $data = SupplierMaster::where('supplier_no', $id)->get();
-        //  info($data);
-        return $data;
+        try{
+            $id=$_GET['id'];
 
+            $data = SupplierMaster::where('supplier_no', $id)->get();
 
+            return $data;
+        }
+        catch (Exception $e)
+        {
+            INFO($e);
+            return redirect()->route("suppliermaster.index")->with([
+                "error" => "An error occurred: " . $e
+            ]);
+        }
     }
 
 
@@ -108,17 +159,17 @@ class SupplierMasterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // info($request['supplier_no']);
+        try
+        {
         $supplier = SupplierMaster::where('supplier_no', $request['supplier_no'])->first();
         $this->validate($request, [
-         //   'id'=> '|unique:supplier,id,' . $supplier->id,
-        //'supplier_no' => 'required',
         'name' => 'required',
         'company_name' => 'required',
-        // 'code' => 'required',
         'address' => 'required',
         'contact_number' => 'required',
         'mail_id'=>'required',
+        'website'=>'required',
+
 
         ]);
 
@@ -128,6 +179,15 @@ class SupplierMasterController extends Controller
         return redirect()->route("suppliermaster.index")->with([
             "success" => "Supplier details has been updated!"
         ]);
+        }
+        catch (Exception $e)
+        {
+            INFO($e);
+            return redirect()->route("suppliermaster.index")->with([
+                "error" => "An error occurred: " . $e
+            ]);
+        }
+
     }
 
     /**
@@ -138,29 +198,23 @@ class SupplierMasterController extends Controller
      */
     public function destroy($id)
     {
+        try{
         $supplier = SupplierMaster::where('supplier_no', $id)->first();
         $supplier->delete();
         return redirect()->route("suppliermaster.index")->with([
             "success" => "Supplier details has been deleted successfully"
         ]);
     }
-    public function storeOrUpdate(Request $request, $id)
-{
-    if($request->input('action') == 'add') {
-        // Create a new supplier
-        $supplier = new SupplierMaster();
-        $supplier->name = $request->input('name');
-        // Set other fields
-        $supplier->save();
-    } else {
-        // Update an existing supplier
-        $supplier = SupplierMaster::find($request->input('supplier_no'));
-        $supplier->name = $request->input('name');
-        // Set other fields
-        $supplier->save();
-    }
+    catch (Exception $e)
+        {
+            INFO($e);
+            return redirect()->route("suppliermaster.index")->with([
+                "error" => "An error occurred: " . $e
+            ]);
+        }
 
-    // Redirect to the suppliers index page or return a response
 }
+
+
 
 }

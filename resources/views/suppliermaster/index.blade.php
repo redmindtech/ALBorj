@@ -48,7 +48,7 @@
                                                 <td>{{$key+=1}}</td>
                                                 <td>{{$supplier->name}}</td>
                                                 <td>{{$supplier->company_name}}</td>
-                                                <td>SUP00{{$supplier->supplier_no}}</td>
+                                                <td>{{$supplier->code}}</td>
                                                 <td>{{$supplier->contact_number}}</td>
                                                 <td>{{$supplier->mail_id}}</td>
                                                 <td>
@@ -100,7 +100,7 @@
                                             @csrf
                                             <div class="form-group col-md-6">
                                                 <label for="name" class="form-label fw-bold"> Name<a style="text-decoration: none;color:red">*</a></label>
-                                                <input type="text" name="name" value="{{old("name")}}" placeholder="Supplier Name" class="form-control" autocomplete="off" required id="name">
+                                                <input type="text" name="name" value="{{old("name")}}" placeholder="Supplier Name" class="form-control name1" autocomplete="off" id="name1" required >
                                                 <span id="name_val"></span>
                                             </div>
 
@@ -123,6 +123,11 @@
                                                 <label for="mail_id" class="form-label fw-bold">Email Id<a style="text-decoration: none;color:red">*</a></label>
                                                 <input type="email" name="mail_id" value="{{old("mail_id")}}" placeholder="Email Id" class="form-control" autocomplete="off" id="mail_id" required>
                                                 <span id="email_val"></span>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="website" class="form-label fw-bold">Website<a style="text-decoration: none;color:red">*</a></label>
+                                                <input type="website" name="website" value="{{old("website")}}" placeholder="Website" class="form-control" autocomplete="off" id="website" required>
+                                                <span id="website_val"></span>
                                             </div>
 
                                             <div class="form-group col-md-12">
@@ -158,10 +163,7 @@
                 </div>
                 <div class="modal-body">
                     <table class="table table-bordered table-striped" >
-                        <!-- <tr>
-                            <th>Supplier Number</th>
-                            <td>{{$supplier->supplier_no}}</td>
-                        </tr> -->
+
                         <tr>
                             <th>Supplier Name</th>
                             <td>{{$supplier->name}}</td>
@@ -172,7 +174,7 @@
                         </tr>
                         <tr>
                             <th>Supplier Code</th>
-                            <td>SUP00{{$supplier->supplier_no}}</td>
+                            <td>{{$supplier->code}}</td>
                         </tr>
                         <tr>
                             <th>Address</th>
@@ -185,6 +187,10 @@
                         <tr>
                             <th>Email Id</th>
                             <td>{{$supplier->mail_id}}</td>
+                        </tr>
+                        <tr>
+                            <th>Website</th>
+                            <td>{{$supplier->website}}</td>
                         </tr>
 
                     </table>
@@ -287,7 +293,7 @@
     </script>
  <script>
        $(document).ready(function() {
-        $("#name").input(function(){
+        $(".name1").input(function(){
             var re=/^[a-zA-Z ]+$/;
  if($(this).val()== ''){
     document.getElementById("name_val").innerHTML="<span class='text-danger m-2'>This field is required</span>";
@@ -415,6 +421,23 @@
           });
         });
 
+        $(document).ready(function() {
+        $("#website").focusout(function(){
+
+ if($(this).val()== ''){
+    document.getElementById("website_val").innerHTML="<span class='text-danger m-2'>This field is required</span>";
+    document.getElementById("add-info-btn").disabled=true;
+ }
+ else
+ {
+    document.getElementById("website_val").innerHTML="";
+    document.getElementById("add-info-btn").disabled=false;
+ }
+
+
+          });
+        });
+
       </script>
 
 
@@ -527,10 +550,24 @@ else if(re.test($(this).val())==false)
 
        });
      });
+     $(document).ready(function() {
+        $("#u_website").focusout(function(){
 
+ if($(this).val()== ''){
+    document.getElementById("u_website_val").innerHTML="<span class='text-danger m-2'>This field is required</span>";
+    document.getElementById("edit-info-btn").disabled=true;
+ }
+ else
+ {
+    document.getElementById("u_website_val").innerHTML="";
+    document.getElementById("edit-info-btn").disabled=false;
+ }
+
+
+          });
+        });
 
 
    </script>
 
 @stop
-
