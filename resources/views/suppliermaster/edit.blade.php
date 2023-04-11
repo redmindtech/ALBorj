@@ -40,23 +40,23 @@
                             <input type="text" name="address" value="{{old("address",$supplier->address)}}"placeholder="Address" class="form-control" id="u_address" required>
                             <span id="u_address_val"></span>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label for="contact_number" class="form-label fw-bold">Contact Number</label>
                             <input type="text" name="contact_number" maxlength="10" value="{{old("contact_number",$supplier->contact_number)}}" placeholder="Contact number" class="form-control contactno" id="u_contact_number" required>
                             <span id="u_contact_number_val"></span>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label for="mail_id" class="form-label fw-bold">Email Id</label>
                             <input type="text" name="mail_id" value="{{old("mail_id",$supplier->mail_id)}}" placeholder="Mail Id" class="form-control mailid" id="u_mail_id" required>
                             <span id="u_email_val"></span>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label for="website" class="form-label fw-bold">Website</label>
                             <input type="text" name="website" value="{{old("website",$supplier->website)}}" placeholder="Website" class="form-control website" id="u_website" required>
                             <span id="u_website_val"></span>
                         </div>
                         <div class="form-group row ">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <button type="submit" class="btn btn-primary" id="edit-info-btn">
                                     {{ __('Update') }}
                                 </button>
