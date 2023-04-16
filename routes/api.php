@@ -52,10 +52,16 @@ Route::get("/project/{project_no}/show", [App\Http\Controllers\ProjectMasterCont
 Route::get("/getautocompletesite", [App\Http\Controllers\SiteMasterController::class, 'getemployeedata'])->name('getemployeedata');
 Route::get("/getsitenoautocomplete", [App\Http\Controllers\ProjectMasterController::class, 'getsitedata'])->name('getsitedata');
 Route::get("/getclientnoautocomplete", [App\Http\Controllers\ProjectMasterController::class, 'getclientdata'])->name('getclientdata');
-
+// item master
 Route::post("/item", [App\Http\Controllers\ItemMasterController::class, 'store'])->name('store');
 Route::post("/item/{item}/update", [App\Http\Controllers\ItemMasterController::class, 'update'])->name('itemApi.update');
 Route::delete("/item/{item}/delete", [App\Http\Controllers\ItemMasterController::class, 'destroy'])->name('itemApi.delete');
 Route::get("/item/{item}/show", [App\Http\Controllers\ItemMasterController::class, 'show'])->name('itemApi.show');
 Route::get("/getitem", [App\Http\Controllers\ItemMasterController::class, 'getitem'])->name('getitem');
 Route::get("/getautocomplete", [App\Http\Controllers\ItemMasterController::class, 'getempdata'])->name('getempdata');
+// employee master
+Route::post("/employee",[App\Http\Controllers\EmployeeMasterController::class, 'store'])->name('employeeApi.store');
+Route::post("/employee/{employee}/update", [App\Http\Controllers\EmployeeMasterController::class, 'update'])->name('employeeApi.update');
+Route::delete("/employee/{employee}/delete", [App\Http\Controllers\EmployeeMasterController::class, 'destroy'])->name('employeeApi.delete');
+Route::get("/employee/{employee}/show", [App\Http\Controllers\EmployeeMasterController::class, 'show'])->name('employeeApi.show');
+Route::get("/getEmployee", [App\Http\Controllers\EmployeeMasterController::class, 'getEmployee'])->name('getEmployee');

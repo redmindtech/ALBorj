@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 use App\Models\EmployeeMaster;
 use App\Models\VisaDetails;
 use App\Models\SalaryDetails;
-
+use App\Http\Requests\EmployeeMasterRequest;
+use Exception;
 use Illuminate\Support\Facades\DB;
-
-
 use Illuminate\Http\Request;
+require_once(app_path('constants.php'));
 
 class EmployeeMasterController extends Controller
 {
@@ -17,31 +17,46 @@ class EmployeeMasterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     public function index()
     {
-        // $employes = EmployeeMaster::all();
-        $employe = DB::table('employee_masters')
-            ->join('salary_details', 'employee_masters.id', '=', 'salary_details.sno')
-            ->join('visa_details', 'salary_details.sno', '=', 'visa_details.sno')
-            ->select('employee_masters.*', 'salary_details.*', 'visa_details.*')
-            ->get();
-            // info($employe);
-
+        try{
+        $category = CATEGORY; 
+        $sponsor  =SPONSOR;
+        $department = DEPARTMENT;
+        $status = STATUS;
+        $religion = RELIGIONS;
+        $nationality = NATIONALITY;
+        $location = LOCATION;
+        $visa_status = VISA_STATUS;
+        $pay_group =PAY_GROUP;
+        $accomodation = ACCOMODATION;
+        $desigination = DESIGNATION;
+        $employes = EmployeeMaster::join('visa_details', 'employee_masters.id', '=', 'visa_details.employee_no')
+        ->join('salary_details', 'employee_masters.id', '=', 'salary_details.employee_no')
+        ->select('employee_masters.*', 'visa_details.*', 'salary_details.*')
+        ->get();
+    info($employes);
         return view('employeemaster.index')->with([
-            'employes' => $employe
+            'employes' => $employes,
+            'category' => $category,
+            'sponsor'  => $sponsor,
+            'department'=> $department,
+            'status' => $status,
+            'religion' => $religion,
+            'nationality' => $nationality,
+            'location' => $location,
+            'visa_status' => $visa_status,
+            'pay_group' => $pay_group,
+            'accomodation' => $accomodation,
+            'desigination' => $desigination
         ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('employeemaster.create');
+    catch (Exception $e) {
+        info($e);
+        return response()->json('Error occured in the loading page', 400);
     }
+    }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -49,63 +64,24 @@ class EmployeeMasterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EmployeeMasterRequest $request)
     {
-        // info($request);
-        $this->validate($request, [
-            'id'=> '|unique:employes',
-            'employee_no' => '',
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'fathername' => 'required',
-            'mothername' => 'required',
-            'join_date' => 'required',
-            'end_date' => 'required',
-            'category' => 'required',
-            'sponser' => 'required',
-            'working_as' => 'required',
-            'desigination' => 'required',
-            'depart' => 'required',
-            'status' => 'required',
-            'religion' => 'required',
-            'nationality' => 'required',
-            'city' => 'required',
-            'phone' => 'required|numeric',
-            'UAE_mobile_number' => 'required|numeric',
-            'pay_group' => 'required',
-            'accomodation' => 'required',
-            'passport_no' => 'required',
-            'passport_expiry_date' => '',
-            'emirates_id_no' => 'required',
-            'emirates_id_from_date' => 'required',
-            'emirates_id_to_date' => 'required',
-            'visa_status'=>'required',
-            'expiry_date'=>'required',
-            'total_salary'=>'required',
-            'hra'=>'required',
-
-            //'overtime_status'=>'required',
-
-
-
-        ]);
+    
         // $data1 = $request->except(['_token']);
-        $employeemaster = $request->only(["employee_no","firstname","lastname","fathername","mothername",
-        "join_date","end_date","category","sponser","working_as","desigination","depart",
-        "status","religion","nationality","city","phone","UAE_mobile_number","pay_group",
-        "accomodation","passport_no","passport_expiry_date","emirates_id_no","emirates_id_from_date","emirates_id_to_date"]);
-        $salarydetails= $request->only(["employee_no","total_salary","hra"]);
-        $visadetails=$request->only(["employee_no","visa_status","expiry_date"]);
+        try {      
 
-        SalaryDetails::create($salarydetails);
-        EmployeeMaster::create($employeemaster);
-        VisaDetails::create($visadetails);
+        EmployeeMaster::create($request->only(EmployeeMaster::REQUEST_INPUTS));
+        $request['employee_no']=EmployeeMaster::max('id');
+        SalaryDetails::create($request->only(SalaryDetails::REQUEST_INPUTS));
+        VisaDetails::create($request->only(VisaDetails::REQUEST_INPUTS));        
 
+        return response()->json('Employee Master Created Successfully', 200);      
 
-
-        return redirect()->route('employeemaster.index')->with([
-            "success" => "Employee added successfully"
-        ]);
+    } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the store', 400);
+        }
+       
     }
 
     /**
@@ -116,10 +92,24 @@ class EmployeeMasterController extends Controller
      */
     public function show($id)
     {
-        $employe = EmployeeMaster::where('id', $id);
-        return view("employeemaster.show")->with([
-            "employes" => $employe
-        ]);
+        try {
+            $employees = EmployeeMaster::join('visa_details', 'employee_masters.id', '=', 'visa_details.employee_no')
+            ->join('salary_details', 'employee_masters.id', '=', 'salary_details.employee_no')
+            ->select('employee_masters.*', 'visa_details.*', 'salary_details.*',
+            DB::raw('DATE(employee_masters.join_date) as join_date'),
+            DB::raw('DATE(employee_masters.end_date) as end_date'),
+            DB::raw('DATE(employee_masters.passport_expiry_date) as passport_expiry_date'),
+            DB::raw('DATE(employee_masters.emirates_id_from_date) as emirates_id_from_date'),
+            DB::raw('DATE(employee_masters.	emirates_id_to_date) as emirates_id_to_date'))
+            ->where('employee_masters.id', $id)
+            ->get();
+            // info($employees);
+             return response()->json($employees);
+
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the show', 400);
+        }
     }
 
     /**
@@ -128,19 +118,7 @@ class EmployeeMasterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
-{
-
-
-    $data1 = $request->except(['_token', '_method']);
-    SalaryDetails::where('sno', $id)->update($data1);
-    EmployeeMaster::where('id', $id)->update($data1);
-    VisaDetails::where('sno', $id)->update($data1);
-
-    return redirect()->route('employeemaster.index')->with([
-        "success" => "Employee updated successfully"
-    ]);
-}
+ 
 
     /**
      * Update the specified resource in storage.
@@ -150,84 +128,30 @@ class EmployeeMasterController extends Controller
      * @return \Illuminate\Http\Response
      *
      */
-    public function employee_data()
+   
+   public function update(EmployeeMasterRequest $request, $id)
     {
-        $id=$_GET['id'];
-        // info($id);
-        // $data = EmployeeMaster::where('id',$id)->all();
-        $data['employeemaster'] = EmployeeMaster::where('id', $id)->get();
-        $data['visadetails'] = VisaDetails::where('sno', $id)->get();
-        $data['salarydetails'] = SalaryDetails::where('sno', $id)->get();
-
-        //  info($data['employeemaster']);
-        return $data;
-   }
-   public function update(Request $request, $id)
-    {
-        info("hi");
+    
         try{
-        $employee = EmployeeMaster::findOrFail($request['id']);
-info("hello");
+           
+            $employee = EmployeeMaster::findOrFail($id);
+            $employee->update($request->only(EmployeeMaster::REQUEST_INPUTS));
+            $employee_no=$id;
+            $salary = SalaryDetails::where('employee_no', $employee_no)->firstOrFail();
+            $salary->update($request->only(SalaryDetails::REQUEST_INPUTS));
+            $visa = VisaDetails::where('employee_no', $employee_no)->firstOrFail();
+            $visa->update($request->only(VisaDetails::REQUEST_INPUTS));
 
+            return response()->json('Employee Updated Successfully');
 
-        $this->validate($request, [
-            //  'id'=> "unique:employee_masters,id,{$employee->id}",
-
-            'employee_no' => '',
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'fathername' => 'required',
-            'mothername' => 'required',
-            'join_date' => 'required',
-            'end_date' => 'required',
-            'category' => 'required',
-            'sponser' => 'required',
-            'working_as' => '',
-            'desigination' => 'required',
-            'depart' => 'required',
-            'status' => 'required',
-            'religion' => 'required',
-            'nationality' => 'required',
-            'city' => 'required',
-            'phone' => 'required|numeric',
-            'UAE_mobile_number' => 'required|numeric',
-            'pay_group' => 'required',
-            'accomodation' => 'required',
-            'passport_no' => 'required',
-            'passport_expiry_date' => '',
-            'emirates_id_no' => 'required',
-            'emirates_id_from_date' => 'required',
-            'emirates_id_to_date' => 'required',
-            'visa_status'=>'required',
-            'expiry_date'=>'required',
-            'total_salary'=>'required',
-            'hra'=>'required',
-            //'overtime_status'=>'required',
-        ]);
-        info("hi2");
-
-        $employeemaster = $request->only(["employee_no","firstname","lastname","fathername","mothername",
-        "join_date","end_date","category","sponser","working_as","desigination","depart",
-        "status","religion","nationality","city","phone","UAE_mobile_number","pay_group",
-        "accomodation","passport_no","passport_expiry_date","emirates_id_no","emirates_id_from_date","emirates_id_to_date"]);
-        $salarydetails= $request->only(["employee_no","total_salary","hra"]);
-        $visadetails=$request->only(["employee_no","visa_status","expiry_date"]);
-
-        $employee->update($employeemaster);
-         $employee->salaryDetails()->update($salarydetails);
-         $employee->visaDetails()->update($visadetails);
-
-    }
+        
+    } 
     catch(Exeception $e){
         info($e);
-        return redirect()->route('employeemaster.index')->with([
-            "error" => "error"
-        ]);
 
+        return response()->json('Error occured in the update', 400);
     }
-        return redirect()->route('employeemaster.index')->with([
-            "success" => "Employee updated successfully"
-        ]);
+        
     }
     /**
      * Remove the specified resource from storage.
@@ -237,14 +161,22 @@ info("hello");
      */
     public function destroy($id)
     {
+        try {
+            $employee_no=$id;
+            $visa = VisaDetails::where('employee_no', $employee_no)->firstOrFail();
+            $visa->delete();
+            $salary = SalaryDetails::where('employee_no', $employee_no)->firstOrFail();
+            $salary->delete();
+            $employee = EmployeeMaster::findOrFail($id);
+            $employee->delete();
 
-        EmployeeMaster::where('id', $id)->delete();
-        VisaDetails::where('sno', $id)->delete();
-        SalaryDetails::where('sno', $id)->delete();
-
-
-        return redirect()->route("employeemaster.index")->with([
-            "success" => "Employee deleted successfully"
-        ]);
-    }
+            return response()->json('EmployeeMaster Deleted Successfully', 200);
+        
+    
+} 
+catch (Exception $e) {
+    info($e);
+            return response()->json('Error occured in the edit', 400);
+        }
+}
 }

@@ -67,7 +67,8 @@ class ProjectMaster extends Model
         }
         protected static function booted()
         {
-            static::saving(function ($project) {
+            parent::boot();
+            static::creating(function ($project) {
                 $results = ProjectMaster::max('project_no');
                 info($results);
                 $currentYear = substr(date('Y'), -2);

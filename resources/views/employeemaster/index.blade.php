@@ -1,44 +1,36 @@
-@extends('adminlte::page')
-
-@section('plugins.Datatables', true)
-
+<!-- STYLE INCLUDED IN LAYOUT PAGE -->
+@extends('layouts.app',[
+    'activeName' => 'Employee Master'
+])
 @section('title', 'Employee Master')
 
 @section('content_header')
 @stop
 
 @section('content')
-    <div class="container-fluid">
-        <div class="col-md-12 mx-auto">
-            {{-- <div class="container-fluid">
-                <div class="col-md-6 mx-auto">
-                    @include('layouts.alert')
-                </div> --}}
-            </div>
-            <div class="row">
+<!-- DATA table -->
+     <div class="row">
                 <div class="container-fluid">
                     <div class="card shadow">
-                      <div class="card-header">
-                        <div class="d-flex justify-content-between">
-                          <h4 class="font-weight-bold text-dark py">EMPLOYEE MASTER</h4>
-                          <div style="width:120px">
-                            <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#myModal1">Add</button>
-                          </div>
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="font-weight-bold text-dark py">EMPLOYEE MASTER</h4>
+                                <div style="width:120px">
+                                    <button type="button" class="btn btn-block btn-primary" onclick="handleDialog()">Add</button>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                          <div class="card">
-
+                            <div class="card">
                             <div class="card-body">
-                                <div class="table-responsive">
                                 <table id="myTable" class="table table-bordered table-striped">
                                     <thead>
-                                        <tr>
-                                            {{-- <th>S.No</th> --}}
-                                            <th>Employee Id</th>
+                                        <tr class="text-center">
+                                            <!-- <th>S.No</th> -->
+                                            <th>Employee id</th>
                                             <th>First Name</th>
                                             <th>Last Name</th>
-                                            {{-- <th>Department</th>
-                                            <th>Date of Joining</th> --}}
+                                            <!-- <th>Department</th> -->
+                                            <th>Date of Joining</th>
                                             <th>Show</th>
                                             <th>Edit</th>
                                             <th>Delete</th>
@@ -46,334 +38,588 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($employes as $key => $employe)
-                                            <tr>
-                                                {{-- <td>{{$key+=1}}</td> --}}
-                                                <td>{{"EMP00".$employe->id}}</td>
+                                            <tr class="text-center">
+                                                <!-- <td>{{$key+=1}}</td> -->
+                                                <td>{{$employe->id}}</td>
                                                 <td>{{$employe->firstname}}</td>
                                                 <td>{{$employe->lastname}}</td>
-                                                {{-- <td>{{$employe->depart}}</td>
-                                                <td>{{$employe->join_date}}</td> --}}
+                                                <!-- <td>{{$employe->depart}}</td> -->
+                                                <td>{{$employe->join_date}}</td>
+
                                                 <td>
-                                                    {{-- <a href="{{route("employeemaster.show",$employe->id)}}"
-                                                        class="btn btn-primary btn-circle btn-sm"  data-toggle="modal" data-target="#view_employee_{{$employe->id}}" >
-                                                        <i class="fas fa-flag"></i>
-                                                    </a> --}}
-                                                    <a href="{{route("employeemaster.show",$employe->id)}}"
-                                                        class="btn btn-primary btn-circle btn-sm"  data-toggle="modal" data-target="#view_employeemaster_{{$employe->id}}" >
+                                                    <a  onclick="handleShowAndEdit('{{$employe->id}}','show')"
+                                                        class="btn btn-primary btn-circle btn-sm"   >
                                                         <i class="fas fa-flag"></i>
                                                     </a>
-
                                                 </td>
-
-                                                   <td>
-                                                    <a href="{{route("employeemaster.edit",$employe->id)}}"
-                                                    class="btn btn-info btn-circle btn-sm mx-2 edit" id="{{$employe->id}}"  data-toggle="modal" data-target="#edit_employee_{{$employe->id}}" >
+                                                <td>
+                                                    <a onclick="handleShowAndEdit('{{$employe->id}}','edit')"
+                                                        class="btn btn-info btn-circle btn-sm mx-2" >
                                                         <i class="fas fa-check"></i>
                                                     </a>
                                                 </td>
-                                                   <td>
-                                                    {{-- <form id="{{$employe->id}}" action="{{route("employeemaster.destroy",$employe->id)}}" method="post">
-                                                        @csrfz
-                                                        @method("DELETE")
-                                                    </form>
-                                                    <button onclick="deleteAd({{$employe->id}})"
-                                                        type="submit" class="btn btn-sm btn-danger">
+                                                <td>
+                                                    <button  type="submit" class="btn btn-sm btn-danger" onclick="handleDelete('{{$employe->id}}')">
                                                         <i class="fa fa-trash"></i>
-                                                    </button> --}}
-                                                    <form method="POST" action="{{route("employeemaster.destroy",$employe->id)}}" accept-charset="UTF-8" style="display:inline">
-                                                        {{ method_field('DELETE') }}
-                                                        {{ csrf_field() }}
-                                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete data" onclick="return confirm(&quot;Confirm delete?&quot;)"> <i class="fa fa-trash"></i></button>
-                                                    </form>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                             </div>
                             </div>
-
-                      </div>
-            </div>
-{{--------employee Add------------}}
-
-            <div id="myModal1" class="modal fade" role="dialog">
-                <div class="modal-dialog modal-xl">
-            <div class="modal-content ">
-                <div class="modal-header bg-primary">
-                    <h4 class="modal-title text-center">Employee Details</h4>
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-                </div>
-                <div class="modal-body">
-
-                          <div class="card-body ">
-                            @include('employeemaster.form')
                         </div>
-
-
                     </div>
 
-                  </div>
-                </div>
-              </div>
+                    <!-- ADD AND EDIT FORM -->
+          <dialog id="myDialog"  style="width:1000px;">
+            <div class="row">
 
-{{--employee edit--}}
+                <div class="col-md-12">
+               
+                     <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
+                     <h4  id='heading_name' style='color:white' align="center"><b>Update Employee</b></h4>
+                    </div>
+            </div>
+            
 
-@include('employeemaster.edit')
+ 
+            <form  class="form-row"  enctype="multipart/form-data" style="display:block" id="form" onsubmit="handleSubmit()">
+                <input type="hidden" id="method" value="ADD"/>
+                <input type="hidden" id="id" name="id" value=""/><br>
+               
+{!! csrf_field() !!}
+<div class="row">
+<div class="form-group col-md-12">
+        <label for="code" id="code_lable"class="form-label fw-bold">Employee Code<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="employee_no" name="employee_no" readonly value="{{ old('employee_no') }}" placeholder="Employee Code" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_code"></p>
+    </div>
+</div>
+<div class="row">
+<div class="form-group col-md-6">
+        <label for="firstname" class="form-label fw-bold">First Name<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="firstname"  name="firstname" value="{{ old('firstname') }}" placeholder="First Name" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_firstname"></p>
+    </div>
 
-  </div>
- </div>
+    <div class="form-group col-md-6">
+        <label for="lastname" class="form-label fw-bold">Last Name<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="lastname" name="lastname" value="{{ old('lastname') }}" placeholder="Last Name" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_lastname"></p>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-6">
+        <label for="fathername" class="form-label fw-bold">Father Name<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="fathername" name="fathername" value="{{ old('fathername') }}" placeholder="Father Name" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_fathername"></p>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="mothername" class="form-label fw-bold">Mother Name<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="mothername" name="mothername" value="{{ old('mothername') }}" placeholder="Mother Name" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_mothername"></p>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-6">
+        <label for="join_date" class="form-label fw-bold">Date of joining<a style="text-decoration: none;color:red">*</a></label>
+        <input type="date" id="join_date" name="join_date" value="{{ old('join_date') }}" placeholder="join_date" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_join_date"></p>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="end_date" class="form-label fw-bold">End Date<a style="text-decoration: none;color:red">*</a></label>
+        <input type="date" id="end_date" name="end_date" value="{{ old('end_date') }}" placeholder="end_date" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_end_date"></p>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-6">
+        <label for="category" class="form-label fw-bold">Category<a style="text-decoration: none;color:red">*</a></label>
+        <!-- <input type="text" id="category" name="category" value="{{ old('category') }}" placeholder="category" class="form-control" autocomplete="off"> -->
+        <select id="category" name="category" class="form-control" autocomplete="off">
+        <option value="">Select Option</option>
+            @foreach($category as $key => $value)
+                <option value="{{ $key }}">{{ $value }}</option>
+            @endforeach
+        </select>
+        <p style="color: red" id="error_category"></p>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="sponser" class="form-label fw-bold">Sponser As<a style="text-decoration: none;color:red">*</a></label>
+        <!-- <input type="text" id="sponser" name="sponser" value="{{ old('sponser') }}" placeholder="sponser" class="form-control" autocomplete="off"> -->
+        <select id="sponser" name="sponser" class="form-control" autocomplete="off">
+        <option value="">Select Option</option>
+            @foreach($sponsor as $key => $value)
+                <option value="{{ $key }}">{{ $value }}</option>
+            @endforeach
+        </select>
+        <p style="color: red" id="error_sponser"></p>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-6">
+        <label for="working_as" class="form-label fw-bold">Working As<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="working_as" name="working_as" value="{{ old('working_as') }}" placeholder="WorkingAs" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_working_as"></p>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="depart" class="form-label fw-bold">Department<a style="text-decoration: none;color:red">*</a></label>
+        <!-- <input type="text" id="depart" name="depart" value="{{ old('depart') }}" placeholder="Department" class="form-control" autocomplete="off"> -->
+        <select id="depart" name="depart" class="form-control" autocomplete="off">
+        <option value="">Select Option</option>
+            @foreach($department as $key => $value)
+                <option value="{{ $key }}">{{ $value }}</option>
+            @endforeach
+        </select>
+        <p style="color: red" id="error_depart"></p>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-6">
+        <label for="status" class="form-label fw-bold">Status<a style="text-decoration: none;color:red">*</a></label>
+        <!-- <input type="text" id="status" name="status" value="{{ old('status') }}" placeholder="status" class="form-control" autocomplete="off"> -->
+        <select id="status" name="status" class="form-control" autocomplete="off">
+        <option value="">Select Option</option>
+            @foreach($status as $key => $value)
+                <option value="{{ $key }}">{{ $value }}</option>
+            @endforeach
+        </select>
+        <p style="color: red" id="error_status"></p>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="religion" class="form-label fw-bold">Religion<a style="text-decoration: none;color:red">*</a></label>
+        <!-- <input type="text" id="religion" name="religion" value="{{ old('religion') }}" placeholder="Religion" class="form-control" autocomplete="off"> -->
+        <select id="religion" name="religion" class="form-control" autocomplete="off">
+        <option value="">Select Option</option>
+            @foreach($religion as $key => $value)
+                <option value="{{ $key }}">{{ $value }}</option>
+            @endforeach
+        </select>
+        <p style="color: red" id="error_religion"></p>
+    </div>
+</div>
+<div class="row">
+<div class="form-group col-md-6">
+        <label for="nationality" class="form-label fw-bold">Nationality<a style="text-decoration: none;color:red">*</a></label>
+        <!-- <input type="text" id="nationality" name="nationality"  value="{{ old('nationality') }}" placeholder=" nationality" class="form-control" autocomplete="off"> -->
+        <select id="nationality" name="nationality" class="form-control" autocomplete="off">
+        <option value="">Select Option</option>
+            @foreach($nationality as $key => $value)
+                <option value="{{ $key }}">{{ $value }}</option>
+            @endforeach
+        </select>
+        <p style="color: red" id="error_nationality"></p>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="city" class="form-label fw-bold">Current Location<a style="text-decoration: none;color:red">*</a></label>
+        <!-- <input type="text" id="city" name="city"  value="{{ old('city') }}" placeholder=" city" class="form-control" autocomplete="off"> -->
+        <select id="city" name="city" class="form-control" autocomplete="off">
+        <option value="">Select Option</option>
+            @foreach($location as $key => $value)
+                <option value="{{ $key }}">{{ $value }}</option>
+            @endforeach
+        </select>
+        <p style="color: red" id="error_city"></p>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-6">
+        <label for="phone" class="form-label fw-bold">Home Country Contact Number<a style="text-decoration: none;color:red">*</a></label>
+        <input type="tel" id="phone" name="phone"  value="{{ old('phone') }}" placeholder=" phone" class="form-control phone_number" autocomplete="off">
+        <p style="color: red" id="error_phone"></p>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="UAE_mobile_number" class="form-label fw-bold">UAE Mobile Number<a style="text-decoration: none;color:red">*</a></label>
+        <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">{{+971}}</span>
+            <!-- </div> -->
+        <input type="text" id="UAE_mobile_number" name="UAE_mobile_number"  value="{{old('UAE_mobile_number') }}" placeholder=" UAE_mobile_number" class="form-control" autocomplete="off"></div>
+        <p style="color: red" id="error_UAE_mobile_number"></p>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-6">
+        <label for="pay_group" class="form-label fw-bold">Pay Group<a style="text-decoration: none;color:red">*</a></label>
+        <!-- <input type="text" id="pay_group" name="pay_group"  value="{{ old('pay_group') }}" placeholder=" pay_group" class="form-control" autocomplete="off"> -->
+        <select id="pay_group" name="pay_group" class="form-control" autocomplete="off">
+        <option value="">Select Option</option>
+            @foreach($pay_group as $key => $value)
+                <option value="{{ $key }}">{{ $value }}</option>
+            @endforeach
+        </select>
+        <p style="color: red" id="error_pay_group"></p>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="accomodation" class="form-label fw-bold">Accomodation<a style="text-decoration: none;color:red">*</a></label>
+        <!-- <input type="text" id="accomodation" name="accomodation"  value="{{ old('accomodation') }}" placeholder=" accomodation" class="form-control" autocomplete="off"> -->
+        <select id="accomodation" name="accomodation" class="form-control" autocomplete="off">
+        <option value="">Select Option</option>
+            @foreach($accomodation as $key => $value)
+                <option value="{{ $key }}">{{ $value }}</option>
+            @endforeach
+        </select>
+        <p style="color: red" id="error_accomodation"></p>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-6">
+        <label for="passport_no" class="form-label fw-bold">Passport Number<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="passport_no" name="passport_no"  value="{{ old('passport_no') }}" placeholder=" passport_no" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_passport_no"></p>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="passport_expiry_date" class="form-label fw-bold">Passport Expiry Date<a style="text-decoration: none;color:red">*</a></label>
+        <input type="date" id="passport_expiry_date" name="passport_expiry_date"  value="{{ old('passport_expiry_date') }}" placeholder=" passport_expiry_date" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_passport_expiry_date"></p>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-6">
+        <label for="emirates_id_no" class="form-label fw-bold">Emirates Id No<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="emirates_id_no" name="emirates_id_no"  value="{{ old('emirates_id_no') }}" placeholder=" emirates_id_no" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_emirates_id_no"></p>
+    </div>
+
+     <div class="form-group col-md-6">
+        <label for="emirates_id_from_date" class="form-label fw-bold">Emirates Id From Date<a style="text-decoration: none;color:red">*</a></label>
+        <input type="date" id="emirates_id_from_date" name="emirates_id_from_date"  value="{{ old('emirates_id_from_date') }}" placeholder=" emirates_id_from_date" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_emirates_id_from_date"></p>
+    </div>
+</div>
+<div class="row">
+     <div class="form-group col-md-6">
+        <label for="emirates_id_to_date" class="form-label fw-bold">Emirates Id To Date<a style="text-decoration: none;color:red">*</a></label>
+        <input type="date" id="emirates_id_to_date" name="emirates_id_to_date"  value="{{ old('emirates_id_to_date') }}" placeholder=" emirates_id_to_date" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_emirates_id_to_date"></p>
+    </div>
+
+
+<div class="form-group col-md-6">
+        <label for="expiry_date" class="form-label fw-bold">Visa End Date<a style="text-decoration: none;color:red">*</a></label>
+        <input type="date" id="expiry_date" name="expiry_date"  value="{{ old('expiry_date') }}" placeholder=" expiry_date" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_expiry_date"></p>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-6">
+        <label for="visa_status" class="form-label fw-bold">Visa Status<a style="text-decoration: none;color:red">*</a></label>
+        <!-- <input type="text" id="visa_status" name="visa_status"  value="{{ old('visa_status') }}" placeholder=" visa_status" class="form-control" autocomplete="off"> -->
+        <select id="visa_status" name="visa_status" class="form-control" autocomplete="off">
+        <option value="">Select Option</option>
+            @foreach($visa_status as $key => $value)
+                <option value="{{ $key }}">{{ $value }}</option>
+            @endforeach
+        </select>
+        <p style="color: red" id="error_visa_status"></p>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="desigination" class="form-label fw-bold">Visa Designation<a style="text-decoration: none;color:red">*</a></label>
+        <!-- <input type="text" id="desigination" name="desigination"  value="{{ old('desigination') }}" placeholder=" desigination" class="form-control" autocomplete="off"> -->
+        <select id="desigination" name="desigination" class="form-control select2" autocomplete="off" style="width:100%">
+        <option value="">Select Option</option>
+            @foreach($desigination as $key => $value)
+                <option value="{{ $key }}">{{ $value }}</option>
+            @endforeach
+        </select>
+        <p style="color: red" id="error_desigination"></p>
+    </div>
+</div>
+<div class="row">
+     <div class="form-group col-md-6">
+        <label for="total_salary" class="form-label fw-bold">Total Salary<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="total_salary" name="total_salary"  value="{{ old('total_salary') }}" placeholder=" total_salary" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_total_salary"></p>
+    </div>
+<div class="form-group col-md-6">
+        <label for="hra" class="form-label fw-bold">HRA<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="hra" name="hra"  value="{{ old('hra') }}" placeholder=" hra" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_hra"></p>
+    </div>
 </div>
 
-{{--employee view--}}
-
-@foreach ($employes as $employe)
-    <div class="modal fade" id="view_employeemaster_{{$employe->id}}">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h4 class="modal-title"><b>View Employee</b></h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-bordered table-striped" >
-                        <h3 class="text-primary font-weight-bold text-center">
-                            Profile: {{$employe->firstname}}
-                        </h3>
-                        <tr>
-                            <th>Employee ID</th>
-                            <td>{{ "EMP00" . $employe->id }}</td>
-                        </tr>
-                        <tr>
-                            <th>First Name</th>
-                            <td>{{ $employe->firstname }}</td>
-                        </tr>
-                        <tr>
-                            <th>Last Name</th>
-                            <td>{{ $employe->lastname }}</td>
-                        </tr>
-
-
-                        <tr>
-                            <th>Father Name</th>
-                            <td>{{ $employe->fathername }}</td>
-                        </tr>
-                        <tr>
-                            <th>Mother Name</th>
-                            <td>{{ $employe->mothername }}</td>
-                        </tr>
-                        <tr>
-                            <th>Date of Joining</th>
-                            <td>{{ $employe->join_date }}</td>
-                        </tr>
-                        <tr>
-                            <th>End Date</th>
-                            <td>{{ $employe->end_date }}</td>
-                        </tr>
-                        <tr>
-                            <th>Category</th>
-                            <td>{{ $employe->category }}</td>
-                        </tr>
-                        <tr>
-                            <th>Sponsor</th>
-                            <td>{{ $employe->sponser }}</td>
-                        </tr>
-                        <tr>
-                            <th>Working As</th>
-                            <td>{{ $employe->working_as }}</td>
-                        </tr>
-                        <tr>
-                            <th>Visa Designation</th>
-                            <td>{{ $employe->desigination }}</td>
-                        </tr>
-                        <tr>
-                            <th>Department</th>
-                            <td>{{ $employe->depart }}</td>
-                        </tr>
-                        <tr>
-                            <th>Status</th>
-                            <td>{{ $employe->status }}</td>
-                        </tr>
-                        <tr>
-                            <th>Religion</th>
-                            <td>{{ $employe->religion }}</td>
-                        </tr>
-                        <tr>
-                            <th>Nationality</th>
-                            <td>{{ $employe->nationality }}</td>
-                        </tr>
-
-
-                        <tr>
-                            <th>Location</th>
-                            <td>{{ $employe->city }}</td>
-                        </tr>
-                        <tr>
-                            <th>Home Country Contact Number</th>
-                            <td>{{ $employe->phone }}</td>
-                        </tr>
-                        <tr>
-                            <th>UAE Mobile Number</th>
-                            <td>{{ $employe->UAE_mobile_number }}</td>
-                        </tr>
-                        <tr>
-                            <th>Pay Group</th>
-                            <td>{{ $employe->pay_group }}</td>
-                        </tr>
-                        <tr>
-                            <th>Accomodation</th>
-                            <td>{{ $employe->accomodation }}</td>
-                        </tr>
-                        <tr>
-                            <th>Passport Number</th>
-                            <td>{{ $employe->passport_no }}</td>
-                        </tr>
-                        <tr>
-                            <th>Passport Expiry Date</th>
-                            <td>{{ $employe->passport_expiry_date }}</td>
-                        </tr>
-                        <tr>
-                            <th>Emirates Id No</th>
-                            <td>{{ $employe->emirates_id_no }}</td>
-                        </tr>
-                        <tr>
-                            <th>Emirates Id From Date</th>
-                            <td>{{ $employe->emirates_id_from_date }}</td>
-                        </tr>
-                        <tr>
-                            <th>Emirates Id To Date</th>
-                            <td>{{ $employe->emirates_id_to_date }}</td>
-                        </tr>
-                        <tr>
-                            <th>Visa End Date</th>
-                            <td>{{ $employe->expiry_date }}</td>
-                        </tr>
-                        <tr>
-                            <th>Visa Status</th>
-                            <td>{{ $employe->category }}</td>
-                        </tr>
-                        <tr>
-                            <th>Total Salary</th>
-                            <td>{{ $employe->total_salary }}</td>
-                        </tr>
-                        <tr>
-                            <th>HRA</th>
-                            <td>{{ $employe->hra }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
+    <div class="form-group col-md-12">
+        <button type="submit" id="submit"  class="btn btn-primary float-end ">ADD</button>
     </div>
-@endforeach
-
-
-{{--employee index--}}
-
-
-
-        </div>
+</form>
+<!-- SHOW DIALOG -->
+<div class="card" id="show" style="display:none">
+    <div class="card-body" style="background-color:white;width:100%;height:20%;" >
+       
+                        <div class="row">
+                        <div class="col-md-3">
+                            <label>Employee code</label>
+                            <p id="show_employee_no"></p>
+                        </div>
+                        <div class="col-md-3">
+                            <label>First Name</label>
+                            <p id="show_firstname"></p>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Last Name</label>
+                            <p id="show_lastname"></p>
+                        </div>
+                        <div>
+                        <div class="row">
+                          <div class="col-md-3">
+                            <label>Father Name</label>
+                            <p id="show_fathername"></p>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Mother Name</label>
+                            <p id="show_mothername"></p>
+                        </div>                    
+                        <div class="col-md-3">
+                            <label>Date of Joining</label>
+                            <p id="show_join_date"></p>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-md-3">
+                            <label>End Date</label>
+                            <p id="show_end_date"></p>
+                        </div>            
+                        <div class="col-md-3">
+                            <label>Category</label>
+                            <p id="show_category"></p>
+                        </div>
+                         <div class="col-md-3">
+                            <label>Sponsor</label>
+                            <p id="show_sponser"></p>
+                        </div>
+                        </div>
+                        <div class="row">
+                         <div class="col-md-3">
+                            <label>Working As</label>
+                            <p id="show_working_as"></p>
+                        </div>
+                         <div class="col-md-3">
+                            <label>Visa Designation</label>
+                            <p id="show_desigination"></p>
+                        </div>                        
+                        <div class="col-md-3">
+                            <label>Department</label>
+                            <p id="show_depart"></p>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-md-3">
+                            <label>Status</label>
+                            <p id="show_status"></p>
+                        </div>                    
+                        <div class="col-md-3">
+                            <label>Nationality</label>
+                            <p id="show_nationality"></p>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Location</label>
+                            <p id="show_city"></p>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-md-3">
+                            <label>Home Country Number</label>
+                            <p id="show_phone"></p>
+                        </div>
+                         <div class="col-md-3">
+                            <label>UAE Mobile Number</label>
+                            <p id="show_UAE_mobile_number"></p>
+                        </div>                   
+                         <div class="col-md-3">
+                            <label>Accomodation</label>
+                            <p id="show_accomodation"></p>
+                        </div>
+                        </div>
+                        <div class="row">
+                         <div class="col-md-3">
+                            <label>Passport Number</label>
+                            <p id="show_passport_no"></p>
+                        </div>                    
+                         <div class="col-md-3">
+                            <label>Passport Expiry Date</label>
+                            <p id="show_passport_expiry_date"></p>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Emirates Id No</label>
+                            <p id="show_emirates_id_no"></p>
+                        </div>
+                    </div>
+                        <div class="row">
+                        <div class="col-md-3">
+                            <label>Emirates Id From Date</label>
+                            <p id="show_emirates_id_from_date"></p>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Emirates Id To Date</label>
+                            <p id="show_emirates_id_to_date"></p>
+                        </div>               
+                        <div class="col-md-3">
+                            <label>Visa End Date</label>
+                            <p id="show_expiry_date"></p>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-md-3">
+                            <label>Visa Status</label>
+                            <p id="show_visa_status"></p>
+                        </div>              
+                        <div class="col-md-3">
+                            <label>Total Salary</label>
+                            <p id="show_total_salary"></p>
+                        </div>
+                        <div class="col-md-3">
+                            <label>HRA</label>
+                            <p id="show_hra"></p>
+                        </div>
+                    </div>
+    
     </div>
-
-@stop
-
-@section('css')
-
-@stop
-
-@section('js')
-{{--Datatable search bar and export button code here--}}
+</div>
+          </dialog>
+          <script type="text/javascript">
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+</script>
 
     <script>
-         $("#myTable").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": [
-        {
-            extend: 'collection',
-            text: '<i class="fa fa-file-export" aria-hidden="true"></i>',
-            buttons: ['csv','excel','pdf',]
-
-        },
-        'colvis',
-        {
-            extend: 'collection',
-            text: '<i class="fa fa-print" aria-hidden="true"></i>',
-            buttons: ['print',]
-        },
-
-
-
-
-
-    ]
-    }).buttons().container().appendTo('#myTable_wrapper .col-md-6:eq(0)');
-    $('#myTable1').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-
-
- </script>
-
-
- {{--Delete Button Sweet Alert Code here--}}
-
-    @if(session()->has("success"))
-        <script>
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: "{{session()->get('success')}}",
-                showConfirmButton: false,
-                timer: 3500
-            });
-        </script>
-    @endif
-    {{-- <script>
-        function deleteAd(id){
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger mr-2'
-                },
-                buttonsStyling: false
+        $(function () {
+            $("#myTable").DataTable();
+        });
+    </script>    
+     <!--ADD DIALOG  -->
+          <script type="text/javascript">
+          function handleDialog(){
+             document.getElementById("myDialog").open = true;
+             $('#method').val("ADD");
+             $('#submit').text("ADD");
+             $('#heading_name').text("Add Employee").css('font-weight', 'bold');
+             $('#employee_no').hide();
+             $('#code_lable').hide();
+             $('#show').css('display','none');
+             $('#form').css('display','block');
+          }
+// DELETE FUNCTION
+          function handleDelete(id){
+             let url = '{{route('employeeApi.delete',":id")}}';
+            url= url.replace(':id',id);
+            if (confirm("Are you sure you want to delete this Employee Master?")) {
+              $.ajax({
+            url: url,
+            type: 'DELETE',
+            success: function (message) {
+             alert(message);
+             window.location.reload();
+            },
+        })}
+        
+          }
+// DIALOG CLOSE BUTTON
+          function handleClose(){
+            document.getElementById("myDialog").open = false;
+            window.location.reload();
+          }
+// DIALOG SUBMIT FOR ADD AND EDIT
+          function handleSubmit(){
+            event.preventDefault();
+         let form_data = new FormData(document.getElementById('form'));
+         let method = $('#method').val();
+         let url;
+         let type;
+         if(method == 'ADD'){
+            // employee.store
+            // alert('{{route('employeeApi.store')}}');
+             url = '{{route('employeeApi.store')}}';
+             type  = 'POST';
+            
+         } else {
+            let id = $('#id').val();
+            url = '{{route('employeeApi.update',":id")}}';
+            url= url.replace(':id',id);
+            type = 'POST';
+         }
+        $.ajax({
+            url: url,
+            type: type,
+            data: form_data,
+             contentType: false,
+            cache: false,
+            processData: false,
+            success: function (message) {
+             alert(message);
+             window.location.reload();
+            },error: function (message) {
+                var data = message.responseJSON;
+                $.each(data.errors, function (key, val) {
+                    console.log(key,val);
+                    $(`#error_${key}`).html(val[0]);
                 })
+            }
+        })
+          }
 
-                swalWithBootstrapButtons.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: 'No, cancel!',
-                    reverseButtons: true
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById(id).submit();
-                } else if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                        'Cancelled',
-                        'Your data was not deleted..',
-                        'error'
-                    )
+        //DATA SHOW FOR EDIT AND SHOW 
+          function handleShowAndEdit(id,action){
+            // alert('')
+            let url = '{{route('employeeApi.show',":id")}}';
+            url = url.replace(':id',id);
+            let type= "GET"
+            $.ajax({
+            url: url,
+            type: type,
+             contentType: false,
+            cache: false,
+            processData: false,
+            success: function (message) {
+                console.log(message);
+                if(action == 'edit'){
+                    $('#show').css('display','none');
+                     $('#form').css('display','block');
+                for (const [key, value] of Object.entries(message[0])) {
+//                console.log(`${key}: ${value}`);
+                    $(`#${key}`).val(value);
                 }
-                })
-        }
-    </script> --}}
+                $('#method').val('UPDATE');
+                $('#submit').text('UPDATE');
+            } else {
+                for (const [key, value] of Object.entries(message[0])) {
+                    $(`#show_${key}`).text(value);
+                }
+                $('#heading_name').text("View Employee").css('font-weight', 'bold');
+                $('#show').css('display','block');
+                $('#form').css('display','none');
+            }
+            document.getElementById("myDialog").open = true;
+                    
+            },
+        })
+          }
+
+//select2
+    
+    // $('.select2').select2({
+    // //   theme: 'bootstrap4',
+    //   tags:true
+    // });
 
 
+    // country code with phone number
+    var phone_number = window.intlTelInput(document.querySelector(".phone_number"), {
+  separateDialCode: true,
+//   preferredCountries:["in"],
+//   hiddenInput: "full",
+   utilsScript: "//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.js"
+});
 
-
-
+$("form").submit(function() {
+  var full_number = phone_number.getNumber(intlTelInputUtils.numberFormat.E164);
+$("input[name='phone']").val(full_number);
+//   alert(full_number);
+});
+        </script>
+    
+    
 
 @stop

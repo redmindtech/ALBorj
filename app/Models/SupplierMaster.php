@@ -30,7 +30,8 @@ class SupplierMaster extends Model
     ];
     protected static function booted()
     {
-        static::saving(function ($supplier) {
+        parent::boot();
+        static::creating(function ($supplier) {
            $results = DB::table('supplier_masters')->select('supplier_no')->get();
             info($results);
             // $supplier->code = substr($supplier->company_name, 0, 3) . '00' . $results[count($results) - 1]->supplier_no;

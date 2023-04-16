@@ -29,7 +29,9 @@ class ClientMaster extends Model
 
     protected static function booted()
     {
-        static::saving(function ($client)
+        parent::boot();
+       
+        static::creating(function ($client)
         {
            $results = DB::table('client_masters')->select('client_no')->get();
             info($results);

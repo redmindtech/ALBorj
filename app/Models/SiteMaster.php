@@ -31,7 +31,8 @@ class SiteMaster extends Model
     }
     protected static function booted()
     {
-        static::saving(function ($site) {
+        parent::boot();
+        static::creating(function ($site) {
             $results = SiteMaster::max('site_no');
             info($results);
             $currentYear = substr(date('Y'), -2);
