@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 
+use Exception;
+use App\Http\Requests\ClientRequest;
 use App\Models\ClientMaster;
 
 use Illuminate\Http\Request;
@@ -15,23 +15,21 @@ class ClientMasterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // FOR MAIN PAGE
     public function index()
     {
-        $clients = ClientMaster::all();
-        return view('clientmaster.index')->with([
-            'clients' => $clients
-        ]);
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('clientmaster.create');
+        try {
+            $clients = ClientMaster::all();
+            return view('clientmaster.index')->with([
+                'clients' => $clients
+            ]);
+        }
+        catch (Exception $e) {
+            info($e);
+            return redirect()->route("clientmaster.index")->with([
+                "error" => "An error occurred: " . $e
+            ]);
+        }
     }
 
     /**
@@ -40,37 +38,40 @@ class ClientMasterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    // DATA SAVE IN ADD DIALOG
+    public function store(ClientRequest $request)
     {
-        $this->validate($request, [
+        try {
 
+            ClientMaster::create($request->only(ClientMaster::REQUEST_INPUTS));
+            return response()->json('Client Master Created Successfully', 200);
 
-            'client_no'=>'',
-            'name' => 'required',
-            'company_name' => 'required',
-            'contact_number' => 'required',
-            'address' => 'required',
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the store', 400);
+        }
 
-        ]);
-        $data = $request->except(['_token']);
-        ClientMaster::create($data);
-        return redirect()->route("clientmaster.index")->with([
-            "success" => "client added successfully"
-        ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $client_no
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+     // DATA SHOW WHICH IS USED FOR EDIT AND SHOW
+
     public function show($client_no)
     {
-        $client = ClientMaster::where('id', $client_no)->first();
-        return view("clientmaster.show")->with([
-            "clients" => $client
-        ]);
+      info($client_no);
+      try {
+            $clients = ClientMaster::findOrFail($client_no);
+            return response()->json($clients);
+
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the show', 400);
+        }
     }
 
     /**
@@ -79,11 +80,6 @@ class ClientMasterController extends Controller
      * @param  int  $client_no
      * @return \Illuminate\Http\Response
      */
-    public function edit($client_no)
-    {
-        $client =ClientMaster::find($client_no);
-        return view('clientmaster.index',['clients' => $client]);
-    }
 
     /**
      * Update the specified resource in storage.
@@ -92,35 +88,21 @@ class ClientMasterController extends Controller
      * @param  int  $client_no
      * @return \Illuminate\Http\Response
      */
-    public function client_data()
-    {
-        // info('edit');
-        $client_no=$_GET['id'];
-        // info($client_no);
-        $data = ClientMaster::where('client_no',$client_no)->get();
-        // info($data);
-        return $data;
 
+public function update(ClientRequest $request, $client_no)
+{
+    try {
+        $clients = ClientMaster::findOrFail($client_no);
+        $clients->update($request->only(ClientMaster::REQUEST_INPUTS));
+        return response()->json('client Master Updated Successfully');
 
-   }
-    public function update(Request $request, $client_no)
-    {
-        // info($request['client_no']);
-        $client = ClientMaster::where('client_no', $request['client_no']);
-        $this->validate($request, [
-            'name' => 'required',
-            'company_name' => 'required',
-            'contact_number' => 'required',
-            'address' => 'required',
-
-        ]);
-        $input = $request->except(['_token', '_method']);
-        $client->update($input);
-        return redirect()->route("clientmaster.index")->with([
-            "success" => "clientmaster updated successfully"
-        ]);
-
+    } catch (Exception $e) {
+        info($e);
+        return response()->json('Error occured in the update', 400);
     }
+
+}
+
 
     /**
      * Remove the specified resource from storage.
@@ -128,12 +110,17 @@ class ClientMasterController extends Controller
      * @param  int  $client_no
      * @return \Illuminate\Http\Response
      */
-    public function destroy($client_no)
+      public function destroy($client_no)
     {
-        $client = ClientMaster::where('client_no', $client_no);
-        $client->delete();
-        return redirect()->route("clientmaster.index")->with([
-            "success" => "Client deleted successfully"
-        ]);
+        try {
+            $clients = ClientMaster::findOrFail($client_no);
+            $clients->delete();
+            return response()->json('Client Deleted Successfully', 200);
+
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the edit', 400);
+        }
     }
+
 }

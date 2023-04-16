@@ -28,6 +28,14 @@ class EmployeeMaster extends Model
     {
         return $this->hasOne(VisaDetails::class, 'sno', 'id');
     }
+    public function SiteMaster()
+    {
+        return $this->hasMany(SiteMaster::class, 'site_manager','id');
+    }
+    public function ProjectMaster()
+    {
+        return $this->hasMany(ProjectMaster::class, 'employee_no','id');
+    }
 }
 
 $result = EmployeeMaster::with([ 'SalaryDetails', 'VisaDetails'])

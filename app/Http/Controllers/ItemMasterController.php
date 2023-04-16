@@ -5,40 +5,48 @@ namespace App\Http\Controllers;
 use App\Models\ItemMaster;
 use App\Models\SupplierMaster;
 
+use Exception;
+use App\Http\Requests\ItemRequest;
 use Illuminate\Http\Request;
-
+require_once(app_path('constants.php'));
 class ItemMasterController extends Controller
 {
-    public function getData() {
-
-        $name = $_GET['name'];
-        $data = SupplierMaster::where('name','LIKE',$name.'%')->get();
-info($data);
-        return $data;
-    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    // FOR MAIN PAGE
+    public function  getempdata(){
+        
+        $suppliername = $_GET['suppliername'];
+        $data = SupplierMaster::where('name','LIKE',$suppliername.'%')->get();       
+        
+        return $data;
+    }
+
+
     public function index()
     {
+try{
+    $item_type = ITEMTYPE;
+    $item_category = ITEMCATEGORY;
+    $stock_type = STOCKTYPE;
         $items = ItemMaster::all();
         return view('itemmaster.index')->with([
-            'items' => $items
+            'items' => $items,
+            'item_type'=>$item_type,
+            'item_category'=>$item_category,
+            'stock_type'=>$stock_type
         ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-        return view('itemmaster.create');
+    catch (Exception $e) {
+        info($e);
+        return response()->json('Error occured in the loading page', 400);
     }
+    }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -46,24 +54,18 @@ info($data);
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    // DATA SAVE IN ADD DIALOG
+    public function store(ItemRequest $request)
     {
-        // info('hi');
-        $this->validate($request, [
+        try {
 
-            'item_name' => 'required',
-            'item_category' => 'required',
-            'stock_type' => 'required',
-            'item_type' => 'required',
-            'supplier_name' => 'required',
-            'supplier_code' => 'required',
+            ItemMaster::create($request->only(ItemMaster::REQUEST_INPUTS));
+            return response()->json('Item Master Created Successfully', 200);
 
-        ]);
-        $data = $request->except(['_token']);
-        ItemMaster::create($data);
-        return redirect()->route("itemmaster.index")->with([
-            "success" => "Item added successfully"
-        ]);
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the store', 400);
+        }
     }
 
     /**
@@ -72,36 +74,21 @@ info($data);
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    // DATA SHOW WHICH IS USED FOR EDIT AND SHOW
     public function show($id)
     {
-        $item = ItemMaster::where('id', $id)->first();
-        return view("itemmaster.show")->with([
-            "item" => $item
-        ]);
+        try {
+            $items = ItemMaster::findOrFail($id);
+            return response()->json($items);
+
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the show', 400);
+        }
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $item = ItemMaster::where('id', $id)->first();
-        return view("itemmaster.edit")->with([
-            "item" => $item
-
-        ]);
-    }
-
-    public function edit_data(){
-        $id=$_GET['id'];
-        $data = ItemMaster::where('id',$id)->get();
-        return $data;
+   
 
 
-    }
     /**
      * Update the specified resource in storage.
      *
@@ -109,26 +96,19 @@ info($data);
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    // UPDATE SAVE FUNCTION
+    public function update(ItemRequest $request, $id)
     {
+        try {
+            $items = ItemMaster::findOrFail($id);
+            $items->update($request->only(ItemMaster::REQUEST_INPUTS));
+            return response()->json('Item Master Updated Successfully');
 
-        $this->validate($request, [
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the update', 400);
+        }
 
-            'item_name' => 'required',
-            'item_category' => 'required',
-            'stock_type' => 'required',
-            'item_type' => 'required',
-            'supplier_name' => 'required',
-            'supplier_code' => 'required',
-
-        ]);
-
-        $item = ItemMaster::where('id', $request['id'])->first();
-        $input = $request->except(['_token', '_method']);
-        $item->update($input);
-        return redirect()->route("itemmaster.index")->with([
-            "success" => "itemmaster updated successfully"
-        ]);
     }
 
     /**
@@ -137,12 +117,18 @@ info($data);
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    // DELETE FUNCTION
     public function destroy($id)
     {
-        $item = ItemMaster::where('id', $id)->first();
-        $item->delete();
-        return redirect()->route("itemmaster.index")->with([
-            "success" => "Item deleted successfully"
-        ]);
+        try {
+            $items = ItemMaster::findOrFail($id);
+            $items->delete();
+            return response()->json('Item Master Deleted Successfully', 200);
+
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the edit', 400);
+        }
     }
+
 }

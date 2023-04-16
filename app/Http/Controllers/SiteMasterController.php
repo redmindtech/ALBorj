@@ -4,55 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Models\SiteMaster;
 use App\Models\EmployeeMaster;
-use App\Http\Requests\SiteMasterRequest;
+use Exception;
+use App\Http\Requests\SiteRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB; 
 
+require_once(app_path('constants.php'));
 class SiteMasterController extends Controller
 {
-    public function sitegetData() {
-        info('get');
-        $firstname = $_GET['firstname'];
-        $data = EmployeeMaster::where('firstname','LIKE',$firstname.'%')->get('firstname');
-        info('hi controller');
-        info($data);
-        // return response()->json($data);
-        return $data;
-    }
+    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    // INDEX FUNCTION
     public function index()
-    {
-        $employes = EmployeeMaster::select('id')->get();
-        // info($employes);
-        $datas = SiteMaster::all();
-        return view('sitemaster.index')->with([
-            'datas' => $datas
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-        return view('sitemaster.create');
+    {     
+        try{  
+            $site_status = SITESTATUS;       
+            $sitemaster = SiteMaster::all();
+            return view('sitemaster.index')->with([
+                'sitemasters' => $sitemaster,
+            'site_status'=>$site_status
+        ]);}
+        catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the store', 400);
+        }
 
     }
-public function data_edit()
-    {
-        $id=$_GET['id'];
-        info($id);
-        $data = SiteMaster::where('site_no',$id)->get();
-        info($data);
-        return $data;
 
-    }
+
+//     }
 
     /**
      * Store a newly created resource in storage.
@@ -60,25 +44,20 @@ public function data_edit()
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    // STORE DATA
+     public function store(SiteRequest $request)
     {
-        $this->validate($request, [
+        try {
 
-            'site_name' => 'required',
-            'site_location' => 'required',
-            'site_building' => 'required',
-            'site_floor' => 'required',
-            'room_number' => 'required',
-            'site_address' => 'required',
-            'site_manager' => 'required'
-        ]);
-        $input = $request->except(['_token']);
-        SiteMaster::create($input);
-        return redirect()->route("sitemaster.index")->with([
-            "success" => "SiteMaster added successfully"
-        ]);
+            SiteMaster::create($request->only(SiteMaster::REQUEST_INPUTS));
+            return response()->json('Site Master Created Successfully', 200);
+
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the store', 400);
+        }
     }
-    // public function dropdown(Request $request)
+    
 
     /**
      * Display the specified resource.
@@ -86,12 +65,24 @@ public function data_edit()
      * @param  \App\Models\SiteMaster  $siteMaster
      * @return \Illuminate\Http\Response
      */
+    // FOR EDIT AND SHOW DATA
     public function show($site_no)
-    {
-        $data = SiteMaster::where('site_no', $site_no)->first();
-        return view("sitemaster.index")->with([
-            "data" => $data
-        ]);
+    { 
+       
+        try {      
+           
+            $site = DB::table('site_masters')
+            ->join('employee_masters', 'site_masters.site_manager', '=', 'employee_masters.id')
+            ->select('site_masters.*', 'employee_masters.firstname')
+            ->where('site_no',$site_no)
+            ->get();    
+            
+            return response()->json($site);
+
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the show', 400);
+        }
     }
 
     /**
@@ -100,12 +91,7 @@ public function data_edit()
      * @param  \App\Models\SiteMaster  $siteMaster
      * @return \Illuminate\Http\Response
      */
-    public function edit($site_no)
-    {
-        // info($site_no);
-        // $data =SiteMaster::where('site_no', $site_no)->first();
-        // return view('sitemaster.index',['data' => $data]);
-    }
+   
 
     /**
      * Update the specified resource in storage.
@@ -114,25 +100,18 @@ public function data_edit()
      * @param  \App\Models\SiteMaster  $siteMaster
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $site_no)
+    // UPDATE DATA
+    public function update(SiteRequest $request, $site_no)
     {
-        info($request['site_no']);
-        $data = SiteMaster::where('site_no', $request['site_no']);
-        $this->validate($request, [
+        try {
+            $supplier = SiteMaster::findOrFail($site_no);
+            $supplier->update($request->only(SiteMaster::REQUEST_INPUTS));
+            return response()->json('Site Master Updated Successfully');
 
-            'site_name' => 'required',
-            'site_location' => 'required',
-            'site_building' => 'required',
-            'site_floor' => 'required',
-            'room_number' => 'required',
-            'site_address' => 'required',
-            'site_manager' => 'required'
-        ]);
-        $input = $request->except(['_token', '_method']);
-        $data->update($input);
-        return redirect()->route("sitemaster.index")->with([
-            "success" => "sitemaster updated successfully"
-        ]);
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the update', 400);
+        }
 
     }
 
@@ -142,12 +121,26 @@ public function data_edit()
      * @param  \App\Models\SiteMaster  $siteMaster
      * @return \Illuminate\Http\Response
      */
+    // DELETE DATA
     public function destroy($site_no)
-    {
-        $data = SiteMaster::where('site_no', $site_no)->first();
-        $data->delete();
-        return redirect()->route("sitemaster.index")->with([
-            "success" => "sitemaster deleted successfully"
-        ]);
+    { 
+        
+        try {
+            $site = SiteMaster::findOrFail($site_no);
+            $site->delete();
+            return response()->json('SiteMaster Deleted Successfully', 200);
+
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the delete', 400);
+        }
+    }
+    // AUTO COMPLETE FOR SITE MANAGER
+    public function  getemployeedata(){
+      
+        $firstname = $_GET['firstname'];
+        $data = EmployeeMaster::where('firstname','LIKE',$firstname.'%')->get();
+     
+        return $data;
     }
 }

@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\SupplierMaster;
 use Exception;
-
+use App\Http\Requests\SupplierRequest;
 use Illuminate\Http\Request;
+
 class SupplierMasterController extends Controller
 {
     /**
@@ -12,41 +14,22 @@ class SupplierMasterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // FOR MAIN PAGE
     public function index()
     {
     try{
         $supplier = SupplierMaster::all();
         return view('suppliermaster.index')->with([
             'suppliers' => $supplier
-        ]);
-    }
-    catch (Exception $e)
-      {
-        INFO($e);
-        return redirect()->route("suppliermaster.index")->with([
-            "error" => "An error occurred: " . $e
-        ]);
-     }
+        ]);}
+        catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the loading page', 400);
+        }
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-      try{
-        return view('suppliermaster.create');
-      }
-      catch (Exception $e)
-      {
-            INFO($e);
-            return redirect()->route("suppliermaster.index")->with([
-                "error" => "An error occurred: " . $e
-            ]);
-       }
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -54,33 +37,18 @@ class SupplierMasterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    // DATA SAVE IN ADD DIALOG
+    public function store(SupplierRequest $request)
     {
-        try{
-            $this->validate($request, [
-            'name' => 'required',
-            'company_name' => 'required',
-            'code'=>'',
-            'address' => 'required',
-            'contact_number' => 'required',
-            'mail_id'=>'required',
-            'website'=>'required',
+        try {
 
-        ]);
-            $data = $request->except(['_token']);
-            SupplierMaster::create($data);
-            return redirect()->route("suppliermaster.index")->with([
-                "success" => "Supplier details has been added successfully!"
-            ]);
-         }
-    catch (Exception $e)
-      {
-        INFO($e);
-        return redirect()->route("suppliermaster.index")->with([
-            "error" => "An error occurred: " . $e
-        ]);
-     }
+            SupplierMaster::create($request->only(SupplierMaster::REQUEST_INPUTS));
+            return response()->json('Supplier Master Created Successfully', 200);
 
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the store', 400);
+        }
     }
 
     /**
@@ -89,23 +57,17 @@ class SupplierMasterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    // DATA SHOW WHICH IS USED FOR EDIT AND SHOW
     public function show($id)
     {
-        try
-        {
-            $supplier = SupplierMaster::where('supplier_no', $id)->first();
-            return view("suppliermaster.show", ['supplier' => $supplier, 'show' => true])->with([
-                "suppliers" => $supplier
-            ]);
-        }
-        catch (Exception $e)
-        {
-            INFO($e);
-            return redirect()->route("suppliermaster.index")->with([
-                "error" => "An error occurred: " . $e
-            ]);
-        }
+        try {
+            $supplier = SupplierMaster::findOrFail($id);
+            return response()->json($supplier);
 
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the show', 400);
+        }
     }
 
     /**
@@ -114,40 +76,8 @@ class SupplierMasterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {  try
-        {
-            $supplier = SupplierMaster::where('supplier_no', $id)->first();
-            return view("suppliermaster.edit")->with([
-                "suppliers" => $supplier
+ 
 
-            ]);
-        }
-        catch (Exception $e)
-        {
-            INFO($e);
-            return redirect()->route("suppliermaster.index")->with([
-                "error" => "An error occurred: " . $e
-            ]);
-        }
-
-    }
-    public function supplier_edit_data(){
-        try{
-            $id=$_GET['id'];
-
-            $data = SupplierMaster::where('supplier_no', $id)->get();
-
-            return $data;
-        }
-        catch (Exception $e)
-        {
-            INFO($e);
-            return redirect()->route("suppliermaster.index")->with([
-                "error" => "An error occurred: " . $e
-            ]);
-        }
-    }
 
 
     /**
@@ -157,35 +87,17 @@ class SupplierMasterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    // UPDATE SAVE FUNCTION
+    public function update(SupplierRequest $request, $id)
     {
-        try
-        {
-        $supplier = SupplierMaster::where('supplier_no', $request['supplier_no'])->first();
-        $this->validate($request, [
-        'name' => 'required',
-        'company_name' => 'required',
-        'address' => 'required',
-        'contact_number' => 'required',
-        'mail_id'=>'required',
-        'website'=>'required',
+        try {
+            $supplier = SupplierMaster::findOrFail($id);
+            $supplier->update($request->only(SupplierMaster::REQUEST_INPUTS));
+            return response()->json('Supplier Master Updated Successfully');
 
-
-        ]);
-
-        $data = $request->except(['_token', '_method']);
-        $supplier->update($data);
-
-        return redirect()->route("suppliermaster.index")->with([
-            "success" => "Supplier details has been updated!"
-        ]);
-        }
-        catch (Exception $e)
-        {
-            INFO($e);
-            return redirect()->route("suppliermaster.index")->with([
-                "error" => "An error occurred: " . $e
-            ]);
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the update', 400);
         }
 
     }
@@ -196,25 +108,19 @@ class SupplierMasterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    // DELETE FUNCTION
     public function destroy($id)
     {
-        try{
-        $supplier = SupplierMaster::where('supplier_no', $id)->first();
-        $supplier->delete();
-        return redirect()->route("suppliermaster.index")->with([
-            "success" => "Supplier details has been deleted successfully"
-        ]);
-    }
-    catch (Exception $e)
-        {
-            INFO($e);
-            return redirect()->route("suppliermaster.index")->with([
-                "error" => "An error occurred: " . $e
-            ]);
+        try {
+            $supplier = SupplierMaster::findOrFail($id);
+            $supplier->delete();
+            return response()->json('Supplier Master Deleted Successfully', 200);
+
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occured in the edit', 400);
         }
-
-}
-
+    }
 
 
 }

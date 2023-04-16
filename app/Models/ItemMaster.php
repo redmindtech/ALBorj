@@ -8,12 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class ItemMaster extends Model
 {
     use HasFactory;
+    const REQUEST_INPUTS = [
+        "item_name","item_category","item_subcategory","stock_type","item_type",
+        "supplier_id"
+    ];
 
     protected $table ='item_masters';
+    protected $primaryKey='id';
     protected $fillable =
     [
-         "item_name","item_category","stock_type","item_type","supplier_name",
-        "supplier_code"
+         "item_name","item_category","item_subcategory","stock_type","item_type",
+        "supplier_id"
     ];
 
 

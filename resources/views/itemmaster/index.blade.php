@@ -1,89 +1,69 @@
-@extends('adminlte::page')
-
-@section('plugins.Datatables', true)
-
+<!-- STYLE INCLUDED IN LAYOUT PAGE -->
+@extends('layouts.app',[
+    'activeName' => 'item'
+])
 @section('title', 'Item Master')
 
 @section('content_header')
 @stop
 
 @section('content')
-    <div class="container-fluid">
-        <div class="col-md-12 mx-auto">
-            <div class="container-fluid">
-                <div class="col-md-6 mx-auto">
-                    @include('layouts.alert')
-                </div>
-            </div>
-            <div class="row">
+<!-- DATA table -->
+     <div class="row">
                 <div class="container-fluid">
                     <div class="card shadow">
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
                                 <h4 class="font-weight-bold text-dark py">ITEM MASTER</h4>
-                                <div style="width:120px" id="create_btn">
-                                    <button type="button" class="btn btn-block btn-primary" data-toggle="modal"   data-target="#create">Add</button>
+                                <div style="width:120px">
+                                    <button type="button" class="btn btn-block btn-primary" onclick="handleDialog()">Add</button>
                                 </div>
                             </div>
                         </div>
-                        @include('itemmaster.create')
-                       
-           
-                        <div class="card">
+                            <div class="card">
                             <div class="card-body">
                                 <table id="myTable" class="table table-bordered table-striped">
                                     <thead>
-                                        <tr>
-                                            <th>Item ID</th>
-                                            <th>Item Name</th>
-                                            <th>Item Category</th>
-                                            <th>Stock Type</th>
-                                            <th>Item Type</th>
-                                            <th>Supplier Name</th>
-                                            <th>Supplier Code</th>
-                                            <th>Show</th>
-                                            <th>Edit</th>
-                                            <th>Delete</th>
-                                        </tr>
+                                        <tr class="text-center">
+                                                <th>Item ID</th>
+                                                <th>Item Name</th>
+                                                <th>Item Category</th>
+                                                <th>Item Subcategory</th>
+                                                <th>Stock Type</th>
+                                                <th>Item Type</th>
+                                                <th>Supplier Code</th>
+                                                <th>Show</th>
+                                                <th>Edit</th>
+                                                <th>Delete</th>
+                                            </tr>
                                     </thead>
                                     <tbody>
-                                        
                                         @foreach ($items as $item)
-                                            <tr>
-                                                <td>{{"IM00".$item->id}}</td>
+                                            <tr class="text-center">
+                                                <td>{{$item->id}}</td>
                                                 <td>{{$item->item_name}}</td>
                                                 <td>{{$item->item_category}}</td>
+                                                <td>{{$item->item_subcategory}}</td>
                                                 <td>{{$item->stock_type}}</td>
                                                 <td>{{$item->item_type}}</td>
-                                                <td>{{$item->supplier_name}}</td>
-                                                <td>{{$item->supplier_code}}</td>
+                                                <td>{{$item->supplier_id}}</td>
                                                 <td>
-                                                    <a href="{{route('itemmaster.show',$item->id)}}"
-                                                        class="btn btn-primary btn-circle btn-sm show"  data-toggle="modal" id="{{$item->id}}" data-target="#view_itemmaster_{{$item->id}}" >
+                                                    <a  onclick="handleShowAndEdit('{{$item->id}}','show')"
+                                                        class="btn btn-primary btn-circle btn-sm"   >
                                                         <i class="fas fa-flag"></i>
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <a href="{{route('itemmaster.edit',$item->id)}}"
-                                                        class="btn btn-info btn-circle btn-sm mx-2v edit" data-toggle="modal" name="edit" id="{{$item->id}}" data-target="#edit" >
+                                                    <a onclick="handleShowAndEdit('{{$item->id}}','edit')"
+                                                        class="btn btn-info btn-circle btn-sm mx-2" >
                                                         <i class="fas fa-check"></i>
                                                     </a>
                                                 </td>
                                                 <td>
-                                                <form method="POST" action="{{route('itemmaster.destroy',$item->id)}}" accept-charset="UTF-8" style="display:inline">
-                                    {{ method_field('DELETE') }}
-                                    {{ csrf_field() }}
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete data" onclick="return confirm(&quot;Confirm delete?&quot;)"> <i class="fa fa-trash"></i></button>
-                                </form>
-                                                    <!-- <form action="{{route('itemmaster.destroy',$item->id)}}" method="post">
-                                                        @csrf
-                                                        @method("DELETE")
-                                                        
-                                                    <button onclick="deleteAd({{$item->id}})"  type="submit" name="submit" class="btn btn-sm btn-danger">
+
+                                                    <button  type="submit" class="btn btn-sm btn-danger" onclick="handleDelete('{{$item->id}}')">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
-                                                    </form> -->
-                                                    
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -92,150 +72,310 @@
                             </div>
                         </div>
                     </div>
-          @foreach ($items as $item)    
-           @include('itemmaster.edit') 
-           @endforeach
-           @foreach ($items as $item)
-         <div class="modal fade" id="view_itemmaster_{{$item->id}}">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h4 class="modal-title"><b>View Item</b></h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-bordered table-striped" >
-                        <tr>
-                            <th>Item ID</th>
-                            <td>{{"IM00".$item->id}}</td>
-                        </tr>
-                        <tr>
-                            <th>Item Name</th>
-                            <td>{{$item->item_name}}</td>
-                        </tr>
-                        <tr>
-                            <th>First Name</th>
-                            <td>{{$item->item_category}}</td>
-                        </tr>
-                        <tr>
-                            <th>Last Name</th>
-                            <td>{{$item->stock_type}}</td>
-                        </tr>
-                        <tr>
-                            <th>Middle Name</th>
-                            <td>{{$item->item_type}}</td>
-                        </tr>
-                        <tr>
-                            <th>Date of Joining</th>
-                            <td>{{$item->supplier_name}}</td>
-                        </tr>
-                        <tr>
-                            <th>Category</th>
-                            <td>{{$item->supplier_code}}</td>
-                        </tr>
 
-                    </table>
-                </div>
+                    <!-- ADD AND EDIT FORM -->
+          <dialog id="myDialog"  style="width:1000px;" >
+
+
+            <div class="row">
+
+                <div class="col-md-12">
+
+                     <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
+                     <h4  id='heading_name' style='color:white' align="center"><b>Update Item </b></h4>
+                    </div>
             </div>
-        </div>
-       </div>
-       @endforeach
 
-@stop
 
-@section('css')
 
-@stop
 
-@section('js')
-{{--Datatable search bar and export button code here--}}
+            <form  class="form-row"  enctype="multipart/form-data" style="display:block" id="form" onsubmit="handleSubmit()">
+                <input type="hidden" id="method" value="ADD"/>
+                <input type="hidden" id="id" name="id" value=""/><br>
+
+{!! csrf_field() !!}
+<div class="row">
+  <div class="form-group col-md-6">
+        <label for="item_name" class="form-label fw-bold">Item Name<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="item_name"  name="item_name" value="{{ old('item_name') }}" placeholder="Item Name" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_item_name"></p>
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="item_category" class="form-label fw-bold">Item category<a style="text-decoration: none;color:red">*</a></label>
+        <select id="item_category" name="item_category" class="form-control" autocomplete="off">
+            <option value="">Select Option</option>
+                @foreach($item_category as $key => $value)
+                    <option value="{{ $key }}">{{ $value }}</option>
+                @endforeach
+            </select>
+        <p style="color: red" id="error_item_category"></p>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-6">
+        <label for="item_subcategory" class="form-label fw-bold">Item Sub category<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="item_subcategory" name="item_subcategory" value="{{ old('item_subcategory') }}" placeholder="Item Sub Category" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_item_subcategory"></p>
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="stock_type" class="form-label fw-bold">Stock Type<a style="text-decoration: none;color:red">*</a></label>
+        <select id="stock_type" name="stock_type" class="form-control" autocomplete="off">
+            <option value="">Select Option</option>
+                @foreach($stock_type as $key => $value)
+                    <option value="{{ $key }}">{{ $value }}</option>
+                @endforeach
+            </select>
+        <p style="color: red" id="error_stock_type"></p>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-6">
+        <label for="item_type" class="form-label fw-bold">Item Type<a style="text-decoration: none;color:red">*</a></label>
+         <select id="item_type" name="item_type" class="form-control" autocomplete="off">
+            <option value="">Select Option</option>
+                @foreach($item_type as $key => $value)
+                    <option value="{{ $key }}">{{ $value }}</option>
+                @endforeach
+            </select>
+        <p style="color: red" id="error_item_type"></p>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="name" id="name_lable"class="form-label fw-bold">Supplier Name<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="supplier_name" name="name"  value="{{ old('name') }}" placeholder="Supplier Name" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_supplier_name"></p>
+    </div>
+</div>
+    <div class="row">
+   <div class="form-group col-md-6" >
+        <label for="supplier_id" id="supplier_id_lable"class="form-label fw-bold">Supplier Code<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="supplier_id" name="supplier_id"  value="{{ old('supplier_id') }}" placeholder="Supplier Id" class="form-control" autocomplete="off" readonly>
+        <p style="color: red" id="error_supplier_id"></p>
+    </div>
+
+</div>
+
+
+
+    <div class="form-group col-md-12">
+        <button type="submit" id="submit"  class="btn btn-primary float-end ">ADD</button>
+    </div>
+</form>
+<!-- SHOW DIALOG -->
+<div class="card" id="show" style="display:none">
+    <div class="card-body" style="background-color:white;width:100%;height:20%;" >
+
+                        <div class="row">
+                        <div class="col-md-6">
+                            <label>Item Name</label>
+                            <p id="show_item_name"></p>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Item category</label>
+                            <p id="show_item_category"></p>
+                        </div>
+                          </div>
+                          <div class="row">
+                        <div class="col-md-6">
+                            <label>Item Subcategory</label>
+                            <p id="show_item_subcategory"></p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Stock Type</label>
+                            <p id="show_stock_type"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                          <div class="col-md-6">
+                            <label>Item Type</label>
+                            <p id="show_item_type"></p>
+                        </div>
+                         <div class="col-md-6">
+                            <label>Supplier Code</label>
+                            <p id="show_supplier_id"></p>
+                        </div>
+                    </div>
+    </div>
+</div>
+          </dialog>
+          <script type="text/javascript">
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+</script>
 
     <script>
-         $("#myTable").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": [
-        {
-            extend: 'collection',
-            text: '<i class="fa fa-file-export" aria-hidden="true"></i>',
-
-            buttons: [ 'csv', 'excel', 'pdf',]
-
-        },
-
-        {
-            extend: 'collection',
-            text: '<i class="fa fa-print" aria-hidden="true"></i>',
-
-            buttons: 'print',
-
-        },
-    ]
-    }).buttons().container().appendTo('#myTable_wrapper .col-md-6:eq(0)');
-    $('#myTable1').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-
-
- </script>
-
- {{--Delete Button Sweet Alert Code here--}}
-
-    @if(session()->has("success"))
-        <script>
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: "{{session()->get('success')}}",
-                showConfirmButton: false,
-                timer: 3500
-            });
-        </script>
-    @endif
-  
-    <!-- <script>
-function deleteAd(id){
-const swalWithBootstrapButtons = Swal.mixin({
-    customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger mr-2'
-    },
-    buttonsStyling: false
-    })
-
-    swalWithBootstrapButtons.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
-    }).then((result) => {
-    if (result.isConfirmed) {
-        document.getElementById(id).submit();
-    } else if (
-        /* Read more about handling dismissals below */
-        result.dismiss === Swal.DismissReason.cancel
-    ) {
-        swalWithBootstrapButtons.fire(
-            'Cancelled',
-            'Your data was not deleted..',
-            'error'
-        )
-    }
-    })
-}
-
-      
+        $(function () {
+            $("#myTable").DataTable();
+        });
     </script>
- -->
+     <!--ADD DIALOG  -->
+          <script type="text/javascript">
+          function handleDialog(){
+             document.getElementById("myDialog").open = true;
+             $('#method').val("ADD");
+             $('#submit').text("ADD");
+             $('#heading_name').text("Add Item").css('font-weight', 'bold');
+             $('#supplier_id').hide();
+             $('#supplier_id_lable').hide();
+             $('#show').css('display','none');
+             $('#form').css('display','block');
+          }
+// DELETE FUNCTION
+          function handleDelete(id){
+             let url = '{{route('itemApi.delete',":id")}}';
+            url= url.replace(':id',id);
+            if (confirm("Are you sure you want to delete this item?")) {
+              $.ajax({
+            url: url,
+            type: 'DELETE',
+            success: function (message) {
+             alert(message);
+             window.location.reload();
+            },
+        })}
+
+          }
+// DIALOG CLOSE BUTTON
+          function handleClose(){
+            document.getElementById("myDialog").open = false;
+            window.location.reload();
+          }
+// DIALOG SUBMIT FOR ADD AND EDIT
+          function handleSubmit(){
+            event.preventDefault();
+         let form_data = new FormData(document.getElementById('form'));
+         let method = $('#method').val();
+         let url;
+         let type;
+         if(method == 'ADD'){
+          
+             url = '{{route('store')}}';
+             type  = 'POST';
+
+         } else {
+            let id = $('#id').val();
+            url = '{{route('itemApi.update',":id")}}';
+            url= url.replace(':id',id);
+            type = 'POST';
+         }
+        $.ajax({
+            url: url,
+            type: type,
+            data: form_data,
+             contentType: false,
+            cache: false,
+            processData: false,
+            success: function (message) {
+             alert(message);
+             window.location.reload();
+            },error: function (message) {
+                var data = message.responseJSON;
+                $.each(data.errors, function (key, val) {                  
+                    $(`#error_${key}`).html(val[0]);
+                })
+            }
+        })
+          }
+
+        //DATA SHOW FOR EDIT AND SHOW
+          function handleShowAndEdit(id,action){
+            
+            let url = '{{route('itemApi.show',":id")}}';
+            url = url.replace(':id',id);
+            let type= "GET"
+            $.ajax({
+            url: url,
+            type: type,
+             contentType: false,
+            cache: false,
+            processData: false,
+            success: function (message) {               
+                if(action == 'edit'){
+                    $('#show').css('display','none');
+                     $('#form').css('display','block');
+                     $('#supplier_name').hide();
+                     $('#name_lable').hide();
+                for (const [key, value] of Object.entries(message)) {
+  $(`#${key}`).val(value);
+                }
+                $('#method').val('UPDATE');
+                $('#submit').text('UPDATE');
+} else {
+    for (const [key, value] of Object.entries(message)) {
+         $(`#show_${key}`).text(value);
+    }
+    $('#heading_name').text("View Item").css('font-weight', 'bold');
+     $('#show').css('display','block');
+    $('#form').css('display','none');
+}
+ document.getElementById("myDialog").open = true;
+
+            },
+        })
+          }
+
+
+        </script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> </link>
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <script>
+           $("#supplier_name").autocomplete(
+      {
+
+      source: function( request, response ) {
+        $.ajax( {
+        type:"GET",
+          url: "{{ route('getempdata') }}",
+          dataType: "json",
+          data:{
+            'suppliername':$("#supplier_name").val()
+          },
+          success: function( data ) {
+
+            result = [];
+            for(var i in data)
+            {
+              result.push(data[i]["name"]);
+            }
+
+             response(result);
+          },fail: function(xhr, textStatus, errorThrown){
+       alert(errorThrown);
+    }
+        } );
+      },
+      });
+
+      $("#supplier_name").on('change',function(){
+   var code= $(this).val();
+
+   $.ajax( {
+        type:"GET",
+          url: "{{ route('getempdata') }}",
+          dataType: "json",
+          data:{
+            'suppliername':$(this).val()
+          },
+          success: function( data ) {      
+            result = [];
+            for(var i in data)
+            {
+              $('#supplier_id').val(data[i]["supplier_no"]);
+            }             
+          },fail: function(xhr, textStatus, errorThrown){
+       alert(errorThrown);
+    }
+        } );
+});
+    </script>
 
 
 
