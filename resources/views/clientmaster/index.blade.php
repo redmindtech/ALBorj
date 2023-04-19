@@ -25,27 +25,27 @@
                                 <table id="myTable" class="table table-bordered table-striped">
                                     <thead>
                                         <tr class="text-center">
-                                            <th>Client No</th>
+                                            <!-- <th>Client No</th> -->
                                             <th>Client Code</th>
                                             <th>Name</th>
                                             <th>Company Name</th>
                                             <th>Contact Number</th>
-                                            <th>Address</th>
-                                            <th data-orderable="false" >Show</th>
-                                            <th data-orderable="false">Edit</th>
-                                            <th data-orderable="false">Delete</th>
+                                            <!-- <th>Address</th> -->
+                                            <th data-orderable="false" class="action">Show</th>
+                                            <th data-orderable="false" class="action">Edit</th>
+                                            <th data-orderable="false" class="action">Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($clients as $key => $client)
                                             <tr class="text-center">
                                                 {{-- <td>{{$key+=1}}</td> --}}
-                                                <td>{{$client->client_no}}</td>
+                                                <!-- <td>{{$client->client_no}}</td> -->
                                                 <td>{{$client->client_code}}</td>
                                                 <td>{{$client->name}}</td>
                                                 <td>{{$client->company_name}}</td>
                                                 <td>{{$client->contact_number}}</td>
-                                                <td>{{$client->address}}</td>
+                                                <!-- <td>{{$client->address}}</td> -->
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$client->client_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -115,7 +115,7 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="website" class="form-label fw-bold">Website<a style="text-decoration: none;color:red">*</a></label>
-                                    <input type="text" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control" autocomplete="off">
+                                    <input type="url" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control" autocomplete="off">
                                     <p style="color: red" id="error_website"></p>
                                 </div>
                                 <div class="form-group col-md-6">

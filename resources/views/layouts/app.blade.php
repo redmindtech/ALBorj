@@ -28,10 +28,48 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- sudhachanges -->
+<!-- phone number -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/css/intlTelInput.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"></script> 
+
+<!-- autocomplete -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> </link>
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <!-- Styles -->
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+
+ <!-- DATA TABLE FILTERS -->
+ <script>
+    $(document).ready(function() {
+        var table = $('#myTable').DataTable( {
+
+            lengthChange: false,
+
+
+            buttons: [
+            {
+                extend: 'collection',
+                text: '<i class="fa fa-file-export" aria-hidden="true"></i>',
+                buttons: ['csv','excel','pdf',]
+
+            },
+            'colvis',
+            {
+                extend: 'collection',
+                text: '<i class="fa fa-print" aria-hidden="true"></i>',
+                buttons: ['print',]
+            },]
+        } );
+
+        table.buttons().container()
+            .appendTo( '#myTable_wrapper .col-md-6:eq(0)' );
+    } );
+
+    </script>
+
+<!-- Styles -->
     <style>
         dialog{
             width: 1000px;
@@ -65,9 +103,15 @@
    text-align:center;
    padding-top:10px; 
 }
-/* Style the heading inside the header */
 
-
+/* phone number flag in employee master */
+.iti-flag {
+  background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/10.0.2/img/flags.png");
+}
+/* data table last 3 column style */
+.action{
+    width: 2px;
+}
     </style>
   
    

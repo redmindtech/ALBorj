@@ -24,7 +24,7 @@ class UserAuth extends Controller
     function checklogin(Request $request)
     {
      $request->validate( [
-      'email'   => 'required|email|max:15',
+      'email'   => 'required|email|max:30',
       'password'  => 'required|min:5'
      ]);
      $data=$request->input();

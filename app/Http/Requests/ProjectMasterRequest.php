@@ -29,16 +29,16 @@ class ProjectMasterRequest extends FormRequest
               'project_type' => 'required',
              'firstname' => 'required',
              'company_name' => 'required',
-             'consultant_name' =>'regex:/^[A-Za-z\s]*$/',           
+             'consultant_name' =>'nullable|regex:/^[A-Za-z\s]*$/',           
              'start_date'=>'required',
              'end_date'=>'required',
              'actual_project_end_date'=>'required',
              'status'=>'required',
              'total_price_cost'=>'required|numeric',
              'advanced_amount'=>'required|numeric',
-            'retention'=>'numeric',
+            'retention'=>'nullable|numeric',
             'amount_to_be_received'=>'required|numeric',
-            'amount_return'=>'numeric'
+            'amount_return'=>'nullable|numeric'
 
 
         ]; 

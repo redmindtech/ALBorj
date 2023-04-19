@@ -33,17 +33,10 @@ class SiteMaster extends Model
     {
         parent::boot();
         static::creating(function ($site) {
-            $results = SiteMaster::max('site_no');
-            info($results);
+            $results = DB::selectOne("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'site_masters'")->AUTO_INCREMENT;
             $currentYear = substr(date('Y'), -2);
-            if ($results > 0) {
-                $site->site_code = 'ST' .  $currentYear. '0' . ($results +1 );
-            } else {
-                $site->site_code = 'ST' .  $currentYear.'0' .'1';
-            }
-            
-
-
+            $siteNo = str_pad($results, 3, '0', STR_PAD_LEFT);
+            $site->site_code = 'ST' .  $currentYear. $siteNo;
         });
     }
     public function ProjectMaster()

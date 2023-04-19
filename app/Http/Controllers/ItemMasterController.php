@@ -8,6 +8,7 @@ use App\Models\SupplierMaster;
 use Exception;
 use App\Http\Requests\ItemRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 require_once(app_path('constants.php'));
 class ItemMasterController extends Controller
 {
@@ -21,7 +22,7 @@ class ItemMasterController extends Controller
         
         $suppliername = $_GET['suppliername'];
         $data = SupplierMaster::where('name','LIKE',$suppliername.'%')->get();       
-        
+     
         return $data;
     }
 
@@ -32,7 +33,10 @@ try{
     $item_type = ITEMTYPE;
     $item_category = ITEMCATEGORY;
     $stock_type = STOCKTYPE;
-        $items = ItemMaster::all();
+        $items = DB::table('item_masters')
+        ->join('supplier_masters', 'item_masters.supplier_id', '=', 'supplier_masters.supplier_no')
+        ->select('item_masters.*', 'supplier_masters.*')    
+        ->get();
         return view('itemmaster.index')->with([
             'items' => $items,
             'item_type'=>$item_type,
@@ -57,6 +61,7 @@ try{
     // DATA SAVE IN ADD DIALOG
     public function store(ItemRequest $request)
     {
+       
         try {
 
             ItemMaster::create($request->only(ItemMaster::REQUEST_INPUTS));
@@ -78,8 +83,13 @@ try{
     public function show($id)
     {
         try {
-            $items = ItemMaster::findOrFail($id);
-            return response()->json($items);
+            $item = DB::table('item_masters')
+        ->join('supplier_masters', 'item_masters.supplier_id', '=', 'supplier_masters.supplier_no')
+        ->select('item_masters.*', 'supplier_masters.*')
+        ->where('item_masters.id', '=', $id)
+        ->get();
+             
+             return response()->json($item);
 
         } catch (Exception $e) {
             info($e);

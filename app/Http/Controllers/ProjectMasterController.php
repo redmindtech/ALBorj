@@ -27,7 +27,17 @@ class ProjectMasterController extends Controller
             $project_type = PROJECT_TYPE;  
              
            $project_status= PROJECT_STATUS;
-            $projectmaster = ProjectMaster::all();
+            $projectmaster = DB::table('project_masters')
+            ->join('site_masters', 'project_masters.site_no', '=', 'site_masters.site_no')
+            ->join('employee_masters', 'project_masters.employee_no', '=', 'employee_masters.id')
+            ->join('client_masters', 'project_masters.client_no', '=', 'client_masters.client_no')
+            ->select('site_masters.*', 'employee_masters.*', 'client_masters.*', 'project_masters.*',
+            DB::raw('DATE(project_masters.start_date) as start_date'),
+            DB::raw('DATE(project_masters.end_date) as end_date'),
+            DB::raw('DATE(project_masters.actual_project_end_date) as actual_project_end_date'),
+            DB::raw('DATE(project_masters.amount_return_date) as amount_return_date'))
+      
+            ->get();
             return view('projectmaster.index')->with([
                 'projectmasters' => $projectmaster,
                 'project_type' => $project_type,

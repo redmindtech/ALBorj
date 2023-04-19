@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class ProjectMaster extends Model
 {
@@ -69,17 +70,10 @@ class ProjectMaster extends Model
         {
             parent::boot();
             static::creating(function ($project) {
-                $results = ProjectMaster::max('project_no');
-                info($results);
+                $results = DB::selectOne("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'project_masters'")->AUTO_INCREMENT;
                 $currentYear = substr(date('Y'), -2);
-                if ($results > 0) {
-                    $project->project_code = 'PR' .  $currentYear. '0' . ($results +1 );
-                } else {
-                    $project->project_code = 'PR' .  $currentYear.'0' .'1';
-                }
-                
-    
-    
+                $projectNo = str_pad($results, 2, '0', STR_PAD_LEFT);
+                $project->project_code = 'PR' . $currentYear . $projectNo;
             });
         }
 

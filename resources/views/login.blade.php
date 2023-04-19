@@ -28,7 +28,7 @@ viewport" content="width=device-width, initial-scale=1.0">
                 <form action="{{ url('/main/checklogin') }}" class="py-5 px-4 mt-5 shadow-lg bg-white" method="post">
                     @csrf
                     <center><img src="{{ asset('images/al borj.jpeg') }}" style="width: 100%" height="100%"/>
-                    <h2 style="color: #173aeb">ERP</h2></center>
+                    <h2 style="color: #173aeb">ALBORJ ERP</h2></center>
 
                 <!--<center><h3 class="h3 my-3 text-primary">SASHTI REAL ESTATE</h3></center>-->
                 <div class="form-floating mb-3 mt-4">

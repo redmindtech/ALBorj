@@ -31,20 +31,20 @@
                                             <th>Last Name</th>
                                             <!-- <th>Department</th> -->
                                             <th>Date of Joining</th>
-                                            <th>Show</th>
-                                            <th>Edit</th>
-                                            <th>Delete</th>
+                                            <th data-orderable="false" class="action">Show</th>
+                                            <th data-orderable="false" class="action">Edit</th>
+                                            <th data-orderable="false" class="action">Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($employes as $key => $employe)
                                             <tr class="text-center">
                                                 <!-- <td>{{$key+=1}}</td> -->
-                                                <td>{{$employe->id}}</td>
+                                                <td>{{$employe->employee_no}}</td>
                                                 <td>{{$employe->firstname}}</td>
                                                 <td>{{$employe->lastname}}</td>
                                                 <!-- <td>{{$employe->depart}}</td> -->
-                                                <td>{{$employe->join_date}}</td>
+                                                <td>{{ date('d-m-Y', strtotime($employe->join_date))}}</td>
 
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$employe->id}}','show')"
@@ -146,8 +146,8 @@
         <p style="color: red" id="error_category"></p>
     </div>
     <div class="form-group col-md-6">
-        <label for="sponser" class="form-label fw-bold">Sponser As<a style="text-decoration: none;color:red">*</a></label>
-        <!-- <input type="text" id="sponser" name="sponser" value="{{ old('sponser') }}" placeholder="sponser" class="form-control" autocomplete="off"> -->
+        <label for="sponser" class="form-label fw-bold">Sponsor As<a style="text-decoration: none;color:red">*</a></label>
+        <!-- <input type="text" id="sponser" name="sponser" value="{{ old('sponser') }}" placeholder="sponsor" class="form-control" autocomplete="off"> -->
         <select id="sponser" name="sponser" class="form-control" autocomplete="off">
         <option value="">Select Option</option>
             @foreach($sponsor as $key => $value)
@@ -160,7 +160,13 @@
 <div class="row">
     <div class="form-group col-md-6">
         <label for="working_as" class="form-label fw-bold">Working As<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="working_as" name="working_as" value="{{ old('working_as') }}" placeholder="WorkingAs" class="form-control" autocomplete="off">
+        <!-- <input type="text" id="working_as" name="working_as" value="{{ old('working_as') }}" placeholder="WorkingAs" class="form-control" autocomplete="off"> -->
+        <select id="working_as" name="working_as" class="form-control" autocomplete="off">
+        <option value="">Select Option</option>
+            @foreach($category as $key => $value)
+                <option value="{{ $key }}">{{ $value }}</option>
+            @endforeach
+        </select>
         <p style="color: red" id="error_working_as"></p>
     </div>
     <div class="form-group col-md-6">
@@ -213,20 +219,20 @@
     </div>
     <div class="form-group col-md-6">
         <label for="city" class="form-label fw-bold">Current Location<a style="text-decoration: none;color:red">*</a></label>
-        <!-- <input type="text" id="city" name="city"  value="{{ old('city') }}" placeholder=" city" class="form-control" autocomplete="off"> -->
-        <select id="city" name="city" class="form-control" autocomplete="off">
-        <option value="">Select Option</option>
-            @foreach($location as $key => $value)
-                <option value="{{ $key }}">{{ $value }}</option>
-            @endforeach
-        </select>
+       <input type="text" id="city" name="city"  value="{{ old('city') }}" placeholder=" city" class="form-control" autocomplete="off">
+
         <p style="color: red" id="error_city"></p>
     </div>
+
 </div>
 <div class="row">
     <div class="form-group col-md-6">
-        <label for="phone" class="form-label fw-bold">Home Country Contact Number<a style="text-decoration: none;color:red">*</a></label>
-        <input type="tel" id="phone" name="phone"  value="{{ old('phone') }}" placeholder=" phone" class="form-control phone_number" autocomplete="off">
+        <label for="phone" class="form-label fw-bold">Home Country Contact Number<a style="text-decoration: none;color:red">*</a></label><br>
+        <!-- <input type="phone_number" name="phone" id="phone" value="{{ old('phone') }}" placeholder="Phone No" class="input form-control" autocomplete="off"> -->
+        <input type="hidden" id="country_code" name="country_code"  value="{{ old('country_code') }}"/>
+    <input type="tel" id="phone" name="phone"  value="{{ old('phone') }}" class="input form-control" size="60">
+
+        <!-- <input type="tel" id="phone" name="phone"  value="{{ old('phone') }}" placeholder=" phone" class="form-control phone_number" autocomplete="off"> -->
         <p style="color: red" id="error_phone"></p>
     </div>
     <div class="form-group col-md-6">
@@ -265,19 +271,19 @@
 <div class="row">
     <div class="form-group col-md-6">
         <label for="passport_no" class="form-label fw-bold">Passport Number<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="passport_no" name="passport_no"  value="{{ old('passport_no') }}" placeholder=" passport_no" class="form-control" autocomplete="off">
+        <input type="text" id="passport_no" name="passport_no"  value="{{ old('passport_no') }}" placeholder=" Passport no" class="form-control" autocomplete="off">
         <p style="color: red" id="error_passport_no"></p>
     </div>
     <div class="form-group col-md-6">
         <label for="passport_expiry_date" class="form-label fw-bold">Passport Expiry Date<a style="text-decoration: none;color:red">*</a></label>
-        <input type="date" id="passport_expiry_date" name="passport_expiry_date"  value="{{ old('passport_expiry_date') }}" placeholder=" passport_expiry_date" class="form-control" autocomplete="off">
+        <input type="date" id="passport_expiry_date" name="passport_expiry_date"  value="{{ old('passport_expiry_date') }}" placeholder="passport_expiry_date" class="form-control" autocomplete="off">
         <p style="color: red" id="error_passport_expiry_date"></p>
     </div>
 </div>
 <div class="row">
     <div class="form-group col-md-6">
         <label for="emirates_id_no" class="form-label fw-bold">Emirates Id No<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="emirates_id_no" name="emirates_id_no"  value="{{ old('emirates_id_no') }}" placeholder=" emirates_id_no" class="form-control" autocomplete="off">
+        <input type="text" id="emirates_id_no" name="emirates_id_no"  value="{{ old('emirates_id_no') }}" placeholder="Emirates id no" class="form-control" autocomplete="off">
         <p style="color: red" id="error_emirates_id_no"></p>
     </div>
 
@@ -328,14 +334,21 @@
 <div class="row">
      <div class="form-group col-md-6">
         <label for="total_salary" class="form-label fw-bold">Total Salary<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="total_salary" name="total_salary"  value="{{ old('total_salary') }}" placeholder=" total_salary" class="form-control" autocomplete="off">
+        <input type="text" id="total_salary" name="total_salary"  value="{{ old('total_salary') }}" placeholder="Total Salary" class="form-control" autocomplete="off">
         <p style="color: red" id="error_total_salary"></p>
     </div>
 <div class="form-group col-md-6">
         <label for="hra" class="form-label fw-bold">HRA<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="hra" name="hra"  value="{{ old('hra') }}" placeholder=" hra" class="form-control" autocomplete="off">
+        <input type="text" id="hra" name="hra"  value="{{ old('hra') }}" placeholder="HRA" class="form-control" autocomplete="off">
         <p style="color: red" id="error_hra"></p>
     </div>
+</div>
+<div class="row">
+<label>
+    Over Time:
+    <input type="checkbox" id="over_time" name="over_time" value="1" {{ old('over_time') ? 'checked' : '' }}>       
+        
+</label>
 </div>
 
     <div class="form-group col-md-12">
@@ -562,7 +575,7 @@ $.ajaxSetup({
 
         //DATA SHOW FOR EDIT AND SHOW 
           function handleShowAndEdit(id,action){
-            // alert('')
+            
             let url = '{{route('employeeApi.show',":id")}}';
             url = url.replace(':id',id);
             let type= "GET"
@@ -577,9 +590,23 @@ $.ajaxSetup({
                 if(action == 'edit'){
                     $('#show').css('display','none');
                      $('#form').css('display','block');
+                    $('#over_time').prop('checked', true);
                 for (const [key, value] of Object.entries(message[0])) {
-//                console.log(`${key}: ${value}`);
-                    $(`#${key}`).val(value);
+                    // console.log( $(`#${key}`).val(value));
+                    $(`#${key}`).val(value);     
+                    console.log(message[0].country_code)         
+                if (message[0].over_time == '1') {                 
+                   $('#over_time').is(":checked");               
+                } else {
+                    $('#over_time').prop('checked', false);
+                }
+                iti.getSelectedCountryData().iso2=message[0].country_code;
+                $('#country_code').val(iti.getSelectedCountryData().iso2);
+                iti.setCountry(message[0].country_code);
+        // set default value to the first option
+        $('#country').val( message[0].country_code );
+
+                // $('#country_code').val(iti.getSelectedCountryData().iso2);                    
                 }
                 $('#method').val('UPDATE');
                 $('#submit').text('UPDATE');
@@ -596,30 +623,67 @@ $.ajaxSetup({
             },
         })
           }
+        
+ // phone number -->
+var input = $('#phone');
+var country = $('#country');
+var iti = intlTelInput(input.get(0))
 
-//select2
-    
-    // $('.select2').select2({
-    // //   theme: 'bootstrap4',
-    //   tags:true
-    // });
+// listen to the telephone input for changes
+input.on('countrychange', function(e) {
+ 
+  $('#country_code').val(iti.getSelectedCountryData().iso2);
 
-
-    // country code with phone number
-    var phone_number = window.intlTelInput(document.querySelector(".phone_number"), {
-  separateDialCode: true,
-//   preferredCountries:["in"],
-//   hiddenInput: "full",
-   utilsScript: "//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/utils.js"
 });
+// current location auto complete
+     $("#city").autocomplete(
+      {
+      source: function( request, response ) {
+        $.ajax( {
+            type:"GET",
+            url: "{{ route('getlocdata') }}",
+            dataType: "json",
+            data:{
+            'projectname':$("#city").val()
+             },
+             success: function( data ) {
+             result = [];
+             for(var i in data)
+            {
+              result.push(data[i]["project_name"]);
+            }
+             response(result);
+           },fail: function(xhr, textStatus, errorThrown){
+        alert(errorThrown);
+      }
+      });
+      },
+      });
 
-$("form").submit(function() {
-  var full_number = phone_number.getNumber(intlTelInputUtils.numberFormat.E164);
-$("input[name='phone']").val(full_number);
-//   alert(full_number);
-});
-        </script>
-    
+      $("#city").on('change',function(){
+     var code= $(this).val();
+         $.ajax( {
+          type:"GET",
+          url: "{{ route('getlocdata') }}",
+          dataType: "json",
+          data:{
+            'projectname':$(this).val()
+          },
+          success: function( data ) {
+           result = [];
+            for(var i in data)
+            {
+              $('#city').val(data[i]["project_name"]);
+            }
+          },fail: function(xhr, textStatus, errorThrown){
+       alert(errorThrown);
+    }
+        });
+        });
+
+</script>
+
+
     
 
 @stop

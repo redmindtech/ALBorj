@@ -25,25 +25,27 @@
                                 <table id="myTable" class="table table-bordered table-striped">
                                     <thead>
                                         <tr class="text-center">
-                                            <th>S.No</th>
+                                            <!-- <th>S.No</th> -->
                                             <th>Project Code</th>
                                             <th>Project Name</th>
                                             <th>Project Type</th>
-                                            <!-- <th>Site Manager</th>                                             -->
-                                            <th data-orderable="false" >Show</th>
-                                            <th data-orderable="false">Edit</th>
-                                            <th data-orderable="false">Delete</th>
+                                            <th>Site Name</th>
+                                            <th>Site Manager</th>
+                                            <th data-orderable="false" class="action">Show</th>
+                                            <th data-orderable="false" class="action">Edit</th>
+                                            <th data-orderable="false" class="action">Delete</th>
                                         </tr>
                                     </thead>
                                   
                                     <tbody>
                                         @foreach ($projectmasters as $key => $projectmaster)
                                             <tr class="text-center">
-                                                <td>{{$key+=1}}</td>
+                                                <!-- <td>{{$key+=1}}</td> -->
                                                 <td>{{$projectmaster->project_code}}</td>                                                
                                                 <td>{{$projectmaster->project_name}}</td>
                                                 <td>{{$projectmaster->project_type}}</td>
-                                                <!-- <td>{{$projectmaster->manager}}</td> -->
+                                                <td>{{$projectmaster->site_name}}</td>
+                                                <td>{{$projectmaster->firstname}}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$projectmaster->project_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >

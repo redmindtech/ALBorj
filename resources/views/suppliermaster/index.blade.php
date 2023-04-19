@@ -25,26 +25,27 @@
                                 <table id="myTable" class="table table-bordered table-striped">
                                     <thead>
                                         <tr class="text-center">
-                                            <th>S.No</th>
-                                            <th>Supplier Name</th>
-                                            <th>Company</th>
+                                            <!-- <th>S.No</th> -->
                                             <th>Supplier Code</th>
+                                            <th>Supplier Name</th>
+                                            <th>Company</th>                                          
                                             <th>Contact No</th>
-                                            <th>Mail Id</th>
-                                            <th data-orderable="false" >Show</th>
-                                            <th data-orderable="false">Edit</th>
-                                            <th data-orderable="false">Delete</th>
+                                            <!-- <th>Mail Id</th> -->
+                                            <th data-orderable="false" class="action">Show</th>
+                                            <th data-orderable="false" class="action">Edit</th>
+                                            <th data-orderable="false" class="action">Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($suppliers as $key => $supplier)
                                             <tr class="text-center">
-                                                <td>{{$key+=1}}</td>
+                                                <!-- <td>{{$key+=1}}</td> -->
+                                                <td>{{$supplier->code}}</td>
                                                 <td>{{$supplier->name}}</td>
                                                 <td>{{$supplier->company_name}}</td>
-                                                <td>{{$supplier->code}}</td>
+                                               
                                                 <td>{{$supplier->contact_number}}</td>
-                                                <td>{{$supplier->mail_id}}</td>
+                                                <!-- <td>{{$supplier->mail_id}}</td> -->
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$supplier->supplier_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -108,7 +109,7 @@
 <div class="row">
     <div class="form-group col-md-6">
         <label for="website" class="form-label fw-bold">Website<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control" autocomplete="off">
+        <input type="url" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control" autocomplete="off">
         <p style="color: red" id="error_website"></p>
     </div>
     <div class="form-group col-md-6">
@@ -273,7 +274,7 @@ $.ajaxSetup({
             cache: false,
             processData: false,
             success: function (message) {
-                console.log(message);
+              
                 if(action == 'edit'){
                     $('#show').css('display','none');
                      $('#form').css('display','block');

@@ -30,7 +30,7 @@ class SiteRequest extends FormRequest
             'site_floor' => 'required',
             'room_number' => 'required',
             'site_address' => 'required',
-            'site_status'=>'required',
+            // 'site_status'=>'required',
             'site_manager'=>'required'
         ]; 
     }
@@ -42,7 +42,7 @@ class SiteRequest extends FormRequest
             'site_floor.required' => 'The site Floor is required.',
             'room_number.required' => 'The Room Number is required.',
             'site_address.required' => 'The Site Address is required.',
-            'site_status.required'=>'The Site Status is required',
+            // 'site_status.required'=>'The Site Status is required',
             'site_manager.url'=>'The Site Manager is required'
         ];
     }

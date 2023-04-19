@@ -22,8 +22,12 @@ class SiteMasterController extends Controller
     public function index()
     {     
         try{  
-            $site_status = SITESTATUS;       
-            $sitemaster = SiteMaster::all();
+            $site_status = SITESTATUS;    
+            $sitemaster = DB::table('site_masters')
+            ->join('employee_masters', 'site_masters.site_manager', '=', 'employee_masters.id')
+            ->select('site_masters.*', 'employee_masters.firstname')            
+            ->get();    
+           
             return view('sitemaster.index')->with([
                 'sitemasters' => $sitemaster,
             'site_status'=>$site_status

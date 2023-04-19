@@ -15,7 +15,7 @@ class EmployeeMaster extends Model
         "employee_no","firstname","lastname","fathername","mothername",
         "join_date","end_date","category","sponser","working_as","desigination","depart",
         "status","religion","nationality","city","phone","UAE_mobile_number","pay_group",
-        "accomodation","passport_no","passport_expiry_date","emirates_id_no","emirates_id_from_date","emirates_id_to_date"
+        "accomodation","passport_no","passport_expiry_date","emirates_id_no","emirates_id_from_date","emirates_id_to_date","deleted","over_time","country_code"
 
     ];
     protected $table ='employee_masters';
@@ -25,7 +25,7 @@ class EmployeeMaster extends Model
          "employee_no","firstname","lastname","fathername","mothername",
         "join_date","end_date","category","sponser","working_as","desigination","depart",
         "status","religion","nationality","city","phone","UAE_mobile_number","pay_group",
-        "accomodation","passport_no","passport_expiry_date","emirates_id_no","emirates_id_from_date","emirates_id_to_date",
+        "accomodation","passport_no","passport_expiry_date","emirates_id_no","emirates_id_from_date","emirates_id_to_date","deleted","over_time","country_code"
     ];
 
 
@@ -50,20 +50,14 @@ class EmployeeMaster extends Model
     protected static function booted()
     {
         parent::boot();
-        static::creating(function ($employe) {
-            $results = EmployeeMaster::max('id');
-            info($results);
+        static::creating(function ($employee) {
+            $results = DB::selectOne("SELECT AUTO_INCREMENT FROM information_schema.TABLES 
+            WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'employee_masters'")->AUTO_INCREMENT;
             $currentYear = substr(date('Y'), -2);
-            if ($results > 0) {
-                $employe->employee_no = 'AB' .  $currentYear. '0' . ($results +1 );
-            } else {
-                $employe->employee_no = 'AB' .  $currentYear.'0' .'1';
-            }
-            
-
-
+            $employeeNo = str_pad($results, 3, '0', STR_PAD_LEFT);
+            $employee->employee_no = 'AB' .  $currentYear. $employeeNo;
+            $employee->deleted='0';
         });
-    
     }
 }
 

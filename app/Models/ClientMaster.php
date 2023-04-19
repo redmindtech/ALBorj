@@ -30,22 +30,12 @@ class ClientMaster extends Model
     protected static function booted()
     {
         parent::boot();
-       
+
         static::creating(function ($client)
         {
-           $results = DB::table('client_masters')->select('client_no')->get();
-            info($results);
-           
-            if (count($results) > 0)
-            {
-                $client->client_code = 'AB' .'CL'. '00' . ($results[count($results) - 1]->client_no +1);
-            }
-            else
-            {
-                $client->client_code =  'AB' .'CL'. '00' .'1';
-            }
-
-
+            $results = DB::selectOne("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'client_masters'")->AUTO_INCREMENT;
+            $clientNo = str_pad($results, 2, '0', STR_PAD_LEFT);
+            $client->client_code = 'AB'.'CL' . $clientNo;
         });
     }
     public function ProjectMaster()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\EmployeeMaster;
+use App\Models\ProjectMaster;
 use App\Models\VisaDetails;
 use App\Models\SalaryDetails;
 use App\Http\Requests\EmployeeMasterRequest;
@@ -31,11 +32,17 @@ class EmployeeMasterController extends Controller
         $pay_group =PAY_GROUP;
         $accomodation = ACCOMODATION;
         $desigination = DESIGNATION;
-        $employes = EmployeeMaster::join('visa_details', 'employee_masters.id', '=', 'visa_details.employee_no')
-        ->join('salary_details', 'employee_masters.id', '=', 'salary_details.employee_no')
-        ->select('employee_masters.*', 'visa_details.*', 'salary_details.*')
+        $employes = EmployeeMaster::join('visa_details', 'employee_masters.id', '=', 'visa_details.employee_id')
+        ->join('salary_details', 'employee_masters.id', '=', 'salary_details.employee_id')
+        ->select('employee_masters.*', 'visa_details.*', 'salary_details.*',
+        DB::raw('DATE(employee_masters.join_date) as join_date'),
+        DB::raw('DATE(employee_masters.end_date) as end_date'),
+        DB::raw('DATE(employee_masters.passport_expiry_date) as passport_expiry_date'),
+        DB::raw('DATE(employee_masters.emirates_id_from_date) as emirates_id_from_date'),
+        DB::raw('DATE(employee_masters.	emirates_id_to_date) as emirates_id_to_date'))
+        ->where('employee_masters.deleted','0')
         ->get();
-    info($employes);
+     
         return view('employeemaster.index')->with([
             'employes' => $employes,
             'category' => $category,
@@ -66,12 +73,15 @@ class EmployeeMasterController extends Controller
      */
     public function store(EmployeeMasterRequest $request)
     {
-    
+     
+     if($request['over_time']==''){
+        $request['over_time']='0';
+     }
         // $data1 = $request->except(['_token']);
         try {      
 
         EmployeeMaster::create($request->only(EmployeeMaster::REQUEST_INPUTS));
-        $request['employee_no']=EmployeeMaster::max('id');
+        $request['employee_id']=EmployeeMaster::max('id');
         SalaryDetails::create($request->only(SalaryDetails::REQUEST_INPUTS));
         VisaDetails::create($request->only(VisaDetails::REQUEST_INPUTS));        
 
@@ -93,8 +103,8 @@ class EmployeeMasterController extends Controller
     public function show($id)
     {
         try {
-            $employees = EmployeeMaster::join('visa_details', 'employee_masters.id', '=', 'visa_details.employee_no')
-            ->join('salary_details', 'employee_masters.id', '=', 'salary_details.employee_no')
+            $employees = EmployeeMaster::join('visa_details', 'employee_masters.id', '=', 'visa_details.employee_id')
+            ->join('salary_details', 'employee_masters.id', '=', 'salary_details.employee_id')
             ->select('employee_masters.*', 'visa_details.*', 'salary_details.*',
             DB::raw('DATE(employee_masters.join_date) as join_date'),
             DB::raw('DATE(employee_masters.end_date) as end_date'),
@@ -133,13 +143,16 @@ class EmployeeMasterController extends Controller
     {
     
         try{
-           
+            if($request['over_time']==''){
+                $request['over_time']='0';
+             }
+           $request['deleted']='0';
             $employee = EmployeeMaster::findOrFail($id);
             $employee->update($request->only(EmployeeMaster::REQUEST_INPUTS));
             $employee_no=$id;
-            $salary = SalaryDetails::where('employee_no', $employee_no)->firstOrFail();
+            $salary = SalaryDetails::where('employee_id', $employee_no)->firstOrFail();
             $salary->update($request->only(SalaryDetails::REQUEST_INPUTS));
-            $visa = VisaDetails::where('employee_no', $employee_no)->firstOrFail();
+            $visa = VisaDetails::where('employee_id', $employee_no)->firstOrFail();
             $visa->update($request->only(VisaDetails::REQUEST_INPUTS));
 
             return response()->json('Employee Updated Successfully');
@@ -162,14 +175,24 @@ class EmployeeMasterController extends Controller
     public function destroy($id)
     {
         try {
-            $employee_no=$id;
-            $visa = VisaDetails::where('employee_no', $employee_no)->firstOrFail();
-            $visa->delete();
-            $salary = SalaryDetails::where('employee_no', $employee_no)->firstOrFail();
-            $salary->delete();
+            // $employee_no=$id;
+            // $visa = VisaDetails::where('employee_no', $employee_no)->firstOrFail();
+            // $visa->delete();
+            // $salary = SalaryDetails::where('employee_no', $employee_no)->firstOrFail();
+            // $salary->delete();
+            // $employee = EmployeeMaster::findOrFail($id);
+            // $employee->delete();
+            // EmployeeMaster::where('id', '')->update(['delete' => 1]);
+            // $employee = EmployeeMaster::findOrFail($id);
+            // $employee->update($request->only(EmployeeMaster::REQUEST_INPUTS));
+          
             $employee = EmployeeMaster::findOrFail($id);
-            $employee->delete();
-
+            $employee->update(['deleted' => 1]);
+            $employee_no=$id;
+            $salary = SalaryDetails::where('employee_id', $employee_no)->firstOrFail();
+            $salary->update(['deleted' => 1]);
+            $visa = VisaDetails::where('employee_id', $employee_no)->firstOrFail();
+            $visa->update(['deleted' => 1]);
             return response()->json('EmployeeMaster Deleted Successfully', 200);
         
     
@@ -178,5 +201,13 @@ catch (Exception $e) {
     info($e);
             return response()->json('Error occured in the edit', 400);
         }
+}
+// auto complete for current location
+public function  getlocdata(){
+
+    $projectname = $_GET['projectname'];
+    $data = ProjectMaster::where('project_name','LIKE',$projectname.'%')->get();
+
+    return $data;
 }
 }

@@ -63,7 +63,7 @@ class ClientMasterController extends Controller
 
     public function show($client_no)
     {
-      info($client_no);
+     
       try {
             $clients = ClientMaster::findOrFail($client_no);
             return response()->json($clients);

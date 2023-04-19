@@ -67,11 +67,11 @@ const RELIGIONS=[
 
 const NATIONALITY = [
     'Indian' => 'Indian',
-    'Pakistan' => 'Pakistan',
-    'Bangladesh' => 'Bangladesh',
-    'United Arab Emirates' => 'United Arab Emirates',
+    'Pakistani' => 'Pakistani',
+    'Bangladeshi' => 'Bangladeshi',
+    'Emirati ' => 'Emirati',
     'African' => 'African',
-    'Sri lanka' => 'Sri lanka',
+    'Sri lankan' => 'Sri lankan',
 
 ];
 const LOCATION=[
@@ -80,7 +80,7 @@ const LOCATION=[
     'Dubai Camp' => 'Dubai Camp',
 ];
 const VISA_STATUS =[
-    'Valid' => 'Valid',
+    'Active' => 'Active',
     'Expired' => 'Expired',
 ];
 const PAY_GROUP=[
@@ -117,4 +117,5 @@ const STOCKTYPE= [
     'Large-cap Stock' => 'Large-cap Stock',
     'Mid-cap Stock' => 'Mid-cap Stock',
 ];
+
 ?>

@@ -25,28 +25,28 @@
                                 <table id="myTable" class="table table-bordered table-striped">
                                     <thead>
                                         <tr class="text-center">
-                                                <th>Item ID</th>
+                                                <!-- <th>Item ID</th> -->
                                                 <th>Item Name</th>
                                                 <th>Item Category</th>
                                                 <th>Item Subcategory</th>
-                                                <th>Stock Type</th>
-                                                <th>Item Type</th>
+                                                <th>Supplier Name</th>
+                                                <!-- <th>Item Type</th> -->
                                                 <th>Supplier Code</th>
-                                                <th>Show</th>
-                                                <th>Edit</th>
-                                                <th>Delete</th>
+                                                <th data-orderable="false" class="action">Show</th>
+                                                <th data-orderable="false" class="action">Edit</th>
+                                                <th data-orderable="false" class="action">Delete</th>
                                             </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($items as $item)
                                             <tr class="text-center">
-                                                <td>{{$item->id}}</td>
+                                                <!-- <td>{{$item->id}}</td> -->
                                                 <td>{{$item->item_name}}</td>
                                                 <td>{{$item->item_category}}</td>
                                                 <td>{{$item->item_subcategory}}</td>
-                                                <td>{{$item->stock_type}}</td>
-                                                <td>{{$item->item_type}}</td>
-                                                <td>{{$item->supplier_id}}</td>
+                                                <td>{{$item->name}}</td>
+                                                <!-- <td>{{$item->item_type}}</td> -->
+                                                <td>{{$item->code}}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$item->id}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -103,19 +103,22 @@
 
     <div class="form-group col-md-6">
         <label for="item_category" class="form-label fw-bold">Item category<a style="text-decoration: none;color:red">*</a></label>
-        <select id="item_category" name="item_category" class="form-control" autocomplete="off">
-            <option value="">Select Option</option>
-                @foreach($item_category as $key => $value)
-                    <option value="{{ $key }}">{{ $value }}</option>
-                @endforeach
-            </select>
+        <select  id="item_category" name="item_category" onchange="configureDropDownLists(this,document.getElementById('item_subcategory'))" class="form-control" autocomplete="off">
+<option value="">Select Option</option>
+<option value="Electrical">Electrical</option>
+<option value="Plumbing">Plumbing</option>
+
+</select>
+
         <p style="color: red" id="error_item_category"></p>
     </div>
 </div>
 <div class="row">
     <div class="form-group col-md-6">
         <label for="item_subcategory" class="form-label fw-bold">Item Sub category<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="item_subcategory" name="item_subcategory" value="{{ old('item_subcategory') }}" placeholder="Item Sub Category" class="form-control" autocomplete="off">
+        <select id="item_subcategory" name="item_subcategory" class="form-control" autocomplete="off">
+        <option value="">Select Option</option>
+</select>
         <p style="color: red" id="error_item_subcategory"></p>
     </div>
 
@@ -142,18 +145,20 @@
         <p style="color: red" id="error_item_type"></p>
     </div>
     <div class="form-group col-md-6">
-        <label for="name" id="name_lable"class="form-label fw-bold">Supplier Name<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="supplier_name" name="name"  value="{{ old('name') }}" placeholder="Supplier Name" class="form-control" autocomplete="off">
+        <label for="name" class="form-label fw-bold">Supplier Name<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="name" name="name"  value="{{ old('name') }}" placeholder="Supplier Name" class="form-control" autocomplete="off">
+        <input type="text" id="supplier_no" name="supplier_id" hidden value="{{ old('supplier_no') }}" placeholder="Supplier Id" class="form-control" autocomplete="off" >
         <p style="color: red" id="error_supplier_name"></p>
     </div>
 </div>
     <div class="row">
    <div class="form-group col-md-6" >
-        <label for="supplier_id" id="supplier_id_lable"class="form-label fw-bold">Supplier Code<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="supplier_id" name="supplier_id"  value="{{ old('supplier_id') }}" placeholder="Supplier Id" class="form-control" autocomplete="off" readonly>
+        <label for="supplier_code" class="form-label fw-bold">Supplier Code</label>
+        <input type="text" id="code" name="code"  value="{{ old('code') }}" placeholder="Supplier code" class="form-control" autocomplete="off" readonly>
         <p style="color: red" id="error_supplier_id"></p>
     </div>
 
+    
 </div>
 
 
@@ -194,7 +199,7 @@
                         </div>
                          <div class="col-md-6">
                             <label>Supplier Code</label>
-                            <p id="show_supplier_id"></p>
+                            <p id="show_code"></p>
                         </div>
                     </div>
     </div>
@@ -221,7 +226,7 @@ $.ajaxSetup({
              $('#submit').text("ADD");
              $('#heading_name').text("Add Item").css('font-weight', 'bold');
              $('#supplier_id').hide();
-             $('#supplier_id_lable').hide();
+            
              $('#show').css('display','none');
              $('#form').css('display','block');
           }
@@ -298,15 +303,22 @@ $.ajaxSetup({
                 if(action == 'edit'){
                     $('#show').css('display','none');
                      $('#form').css('display','block');
-                     $('#supplier_name').hide();
-                     $('#name_lable').hide();
-                for (const [key, value] of Object.entries(message)) {
-  $(`#${key}`).val(value);
+                     
+                for (const [key, value] of Object.entries(message[0])) {
+                   
+                 var item_cat=message[0].item_category;
+                    
+                    configureDropDownLists1(item_cat,item_subcategory);
+                    $(`#${key}`).val(value);
+                    
+                     $("#item_subcategory").val(message[0].item_subcategory).attr("selected","selected");
+
+
                 }
                 $('#method').val('UPDATE');
                 $('#submit').text('UPDATE');
 } else {
-    for (const [key, value] of Object.entries(message)) {
+    for (const [key, value] of Object.entries(message[0])) {
          $(`#show_${key}`).text(value);
     }
     $('#heading_name').text("View Item").css('font-weight', 'bold');
@@ -322,12 +334,10 @@ $.ajaxSetup({
 
         </script>
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> </link>
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
 
     <script>
-           $("#supplier_name").autocomplete(
+           $("#name").autocomplete(
       {
 
       source: function( request, response ) {
@@ -336,7 +346,7 @@ $.ajaxSetup({
           url: "{{ route('getempdata') }}",
           dataType: "json",
           data:{
-            'suppliername':$("#supplier_name").val()
+            'suppliername':$("#name").val()
           },
           success: function( data ) {
 
@@ -354,7 +364,7 @@ $.ajaxSetup({
       },
       });
 
-      $("#supplier_name").on('change',function(){
+      $("#name").on('change',function(){
    var code= $(this).val();
 
    $.ajax( {
@@ -368,13 +378,70 @@ $.ajaxSetup({
             result = [];
             for(var i in data)
             {
-              $('#supplier_id').val(data[i]["supplier_no"]);
+              $('#supplier_no').val(data[i]["supplier_no"]);
+              $('#code').val(data[i]["code"]);
             }             
           },fail: function(xhr, textStatus, errorThrown){
        alert(errorThrown);
     }
         } );
 });
+// for add subcatgory need to change
+    function configureDropDownLists(ddl1,item_subcategory) {
+    var Electrical = ['Extension Cords','Switches & Dimmers','Electrical Wire','Cord Management','Electrical Connectors','Adapters & Multi-Outlets','Electric Motors','Tools & Testers'];
+    var Plumbing= ['Barb','Coupling','Cross','Elbow','Mechanical Sleeve','Adapter','Reducer'];
+    
+
+    switch (ddl1.value) {
+        case 'Electrical':
+            item_subcategory.options.length = 0;
+            for (i = 0; i < Electrical.length; i++) {
+                createOption(item_subcategory, Electrical[i], Electrical[i]);
+            }
+            break;
+        case 'Plumbing':
+            item_subcategory.options.length = 0; 
+        for (i = 0; i < Plumbing.length; i++) {
+            createOption(item_subcategory, Plumbing[i], Plumbing[i]);
+            }
+            break;
+        
+    }
+
+}
+
+    function createOption(item_category, text, value) {
+        var opt = document.createElement('option');
+        opt.value = value;
+        opt.text = text;
+        item_category.options.add(opt);
+    }
+
+
+// edit subcatgory need to change
+    function configureDropDownLists1(ddl1,item_subcategory) {
+    var Electrical = ['Extension Cords','Switches & Dimmers','Electrical Wire','Cord Management','Electrical Connectors','Adapters & Multi-Outlets','Electric Motors','Tools & Testers'];
+    var Plumbing= ['Barb','Coupling','Cross','Elbow','Mechanical Sleeve','Adapter','Reducer'];
+    
+
+    switch (ddl1) {
+        case 'Electrical':
+            item_subcategory.options.length = 0;
+            for (i = 0; i < Electrical.length; i++) {
+                createOption(item_subcategory, Electrical[i], Electrical[i]);
+            }
+            break;
+        case 'Plumbing':
+            item_subcategory.options.length = 0; 
+        for (i = 0; i < Plumbing.length; i++) {
+            createOption(item_subcategory, Plumbing[i], Plumbing[i]);
+            }
+            break;
+        
+    }
+
+}
+
     </script>
 
 

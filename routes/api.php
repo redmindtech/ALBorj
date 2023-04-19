@@ -52,6 +52,7 @@ Route::get("/project/{project_no}/show", [App\Http\Controllers\ProjectMasterCont
 Route::get("/getautocompletesite", [App\Http\Controllers\SiteMasterController::class, 'getemployeedata'])->name('getemployeedata');
 Route::get("/getsitenoautocomplete", [App\Http\Controllers\ProjectMasterController::class, 'getsitedata'])->name('getsitedata');
 Route::get("/getclientnoautocomplete", [App\Http\Controllers\ProjectMasterController::class, 'getclientdata'])->name('getclientdata');
+Route::get("/getitemdata", [App\Http\Controllers\EmployeeMasterController::class, 'getlocdata'])->name('getlocdata');
 // item master
 Route::post("/item", [App\Http\Controllers\ItemMasterController::class, 'store'])->name('store');
 Route::post("/item/{item}/update", [App\Http\Controllers\ItemMasterController::class, 'update'])->name('itemApi.update');

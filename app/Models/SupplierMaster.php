@@ -28,20 +28,14 @@ class SupplierMaster extends Model
          "name","company_name","code","address",
         "contact_number","mail_id","website"
     ];
+    
     protected static function booted()
     {
         parent::boot();
         static::creating(function ($supplier) {
-           $results = DB::table('supplier_masters')->select('supplier_no')->get();
-            info($results);
-            // $supplier->code = substr($supplier->company_name, 0, 3) . '00' . $results[count($results) - 1]->supplier_no;
-            if (count($results) > 0) {
-                $supplier->code = substr($supplier->company_name, 0, 3) . '00' . ($results[count($results) - 1]->supplier_no +1);
-            } else {
-                $supplier->code = substr($supplier->company_name, 0, 3) . '00' .'1';
-            }
-
-
+            $results = DB::selectOne("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'supplier_masters'")->AUTO_INCREMENT;
+            $supplierCode = substr($supplier->company_name, 0, 3) . '00' . $results;
+            $supplier->code = $supplierCode;
         });
     }
 }

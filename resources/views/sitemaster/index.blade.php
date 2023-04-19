@@ -25,25 +25,25 @@
                                 <table id="myTable" class="table table-bordered table-striped">
                                     <thead>
                                         <tr class="text-center">
-                                            <th>S.No</th>
-                                            <th>Site Name</th>
+                                            <!-- <th>S.No</th> -->
                                             <th>Site Code</th>
+                                            <th>Site Name</th>                                            
                                             <th>Site location</th>
-                                            <!-- <th>Site Manager</th>                                             -->
-                                            <th data-orderable="false" >Show</th>
-                                            <th data-orderable="false">Edit</th>
-                                            <th data-orderable="false">Delete</th>
+                                            <th>Site Manager</th>                                            
+                                            <th data-orderable="false" class="action">Show</th>
+                                            <th data-orderable="false" class="action">Edit</th>
+                                            <th data-orderable="false" class="action">Delete</th>
                                         </tr>
                                     </thead>
                                   
                                     <tbody>
                                         @foreach ($sitemasters as $key => $sitemaster)
                                             <tr class="text-center">
-                                                <td>{{$key+=1}}</td>
-                                                <td>{{$sitemaster->site_name}}</td>                                                
+                                                <!-- <td>{{$key+=1}}</td> -->
                                                 <td>{{$sitemaster->site_code}}</td>
+                                                <td>{{$sitemaster->site_name}}</td>                                        
                                                 <td>{{$sitemaster->site_location}}</td>
-                                                <!-- <td>{{$sitemaster->manager}}</td> -->
+                                                <td>{{$sitemaster->firstname}}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$sitemaster->site_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -138,7 +138,7 @@
     </div> 
     <div class="form-group col-md-6">
         
-        <label for="site_status" class="form-label fw-bold">Site Status<a style="text-decoration: none;color:red">*</a></label>
+        <label for="site_status" class="form-label fw-bold">Site Status</label>
         <select id="site_status" name="site_status" class="form-control" autocomplete="off">
         <option value="">Select Option</option>
             @foreach($site_status as $key => $value)
@@ -156,7 +156,7 @@
         <p style="color: red" id="error_description"></p>
     </div>
     <div class="form-group col-md-">
-        <label for="site_code" id="code_lable" class="form-label fw-bold">Site Code<a style="text-decoration: none;color:red">*</a></label>
+        <label for="site_code" id="code_lable" class="form-label fw-bold">Site Code</label>
         <input type="text" id="site_code" name="site_code" value="{{ old('site_code') }}" readonly placeholder="Site Code" class="form-control" autocomplete="off">
         <p style="color: red" id="error_site_code"></p>
     </div>
@@ -224,6 +224,7 @@
     </div>
 </div>
           </dialog>
+   
           <script type="text/javascript">
 $.ajaxSetup({
     headers: {
@@ -343,6 +344,7 @@ $.ajaxSetup({
             },
         })
           }
+  
 // auto complete
 $("#firstname").autocomplete(
       {
