@@ -32,6 +32,7 @@ class ItemMasterController extends Controller
 try{
     $item_type = ITEMTYPE;
     $item_category = ITEMCATEGORY;
+    $item_subcategory = ITEMSUBCATEGORY;
     $stock_type = STOCKTYPE;
         $items = DB::table('item_masters')
         ->join('supplier_masters', 'item_masters.supplier_id', '=', 'supplier_masters.supplier_no')
@@ -40,7 +41,8 @@ try{
         return view('itemmaster.index')->with([
             'items' => $items,
             'item_type'=>$item_type,
-            'item_category'=>$item_category,
+            'item_category'=>$item_category,'
+            item_subcategory'=>$item_subcategory,
             'stock_type'=>$stock_type
         ]);
     }

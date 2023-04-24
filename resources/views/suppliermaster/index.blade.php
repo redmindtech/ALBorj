@@ -119,9 +119,13 @@
     </div>
 </div>
 <div class="row">
-    <div class="form-group col-md-6">
+<div class="form-group col-md-6">
         <label for="contact_number" class="form-label fw-bold">Contact Number<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" maxlength="10" placeholder="Contact Number" class="form-control" autocomplete="off">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">{{+971}}</span>
+            <!-- </div> -->
+            <input type="text" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" maxlength="10" placeholder="Contact Number" class="form-control" autocomplete="off">
+        </div>
         <p style="color: red" id="error_contact_number"></p>
     </div>
     <div class="form-group col-md-6">

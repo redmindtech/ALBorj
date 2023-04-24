@@ -29,6 +29,10 @@ const CATEGORY= [
     'Staff' => 'Staff',
     'Labour' => 'Labour'
 ];
+const WORKING_AS= [
+    'Staff' => 'Staff',
+    'Labour' => 'Labour'
+];
 
 const SPONSOR=[
     'Al Borj Al Mumtaz tech cont' => 'Al Borj Al Mumtaz tech cont',
@@ -107,9 +111,34 @@ const ITEMTYPE= [
     'Elbow Pipe Fittings' => 'Elbow Pipe Fittings',
     'Reducer Pipe Fittings' => 'Reducer Pipe Fittings',
     ];
-const ITEMCATEGORY= [
-    'Electrical items' => 'Electrical items',
-    'Plumbing items' => 'Plumbing items',
+    const ITEMCATEGORY= [
+        'Electrical Works' => 'Electrical Works',
+        'Plumbing Works' => 'Plumbing Works',
+        ];
+    const ITEMSUBCATEGORY =[
+        'Electrical Items' =>
+        [
+    
+            'Extension Cords' => 'Extension Cords',
+            'Switches & Dimmers'=>'Switches & Dimmers',
+            'Electrical Wire'=>'Electrical Wire',
+            'Cord Management'=>'Cord Management',
+            'Electrical Connectors'=>'Electrical Connectors',
+            'Adapters & Multi-Outlets'=>'Adapters & Multi-Outlets',
+            'Electric Motors'=>'Electric Motors',
+            'Tools & Testers'=>'Tools & Testers',
+        ],
+        'Plumbing Items'=>
+        [
+            'Barb' => 'Barb',
+            'Coupling'=>'Coupling',
+            'Cross'=>'Cross',
+            'Elbow'=>'Elbow',
+            'Mechanical Sleeve'=>'Mechanical Sleeve',
+            'Adapter'=>'Adapter',
+            'Reducer'=>'Reducer',
+        ],
+    
     ];
 const STOCKTYPE= [
     'Common Stock' => 'Common Stock',
