@@ -21,12 +21,12 @@ class EmployeeMasterController extends Controller
     public function index()
     {
         try{
-            $category = CATEGORY;
+            $category = CATEGORY; 
             $sponsor  = SPONSOR;
             $sponsor1 = EmployeeMaster::distinct()->pluck('sponser')->toArray();
             $array1 = array_combine($sponsor1,$sponsor1);
             $spo = array_unique(array_merge( $sponsor,$array1));
-
+    
             $working_as = WORKING_AS;
             $working = EmployeeMaster::distinct()->pluck('working_as')->toArray();
             $array2 = array_combine($working,$working);
@@ -45,7 +45,7 @@ class EmployeeMasterController extends Controller
             $merged = array_unique(array_merge( $desigination,$array));
         $employes = EmployeeMaster::join('visa_details', 'employee_masters.id', '=', 'visa_details.employee_id')
         ->join('salary_details', 'employee_masters.id', '=', 'salary_details.employee_id')
-        ->select('employee_masters.', 'visa_details.', 'salary_details.*',
+        ->select('employee_masters.*', 'visa_details.*', 'salary_details.*',
         DB::raw('DATE(employee_masters.join_date) as join_date'),
         DB::raw('DATE(employee_masters.end_date) as end_date'),
         DB::raw('DATE(employee_masters.passport_expiry_date) as passport_expiry_date'),
@@ -53,7 +53,7 @@ class EmployeeMasterController extends Controller
         DB::raw('DATE(employee_masters.	emirates_id_to_date) as emirates_id_to_date'))
         ->where('employee_masters.deleted','0')
         ->get();
-
+     
         return view('employeemaster.index')->with([
             'employes' => $employes,
             'category' => $category,
@@ -75,7 +75,7 @@ class EmployeeMasterController extends Controller
         return response()->json('Error occured in the loading page', 400);
     }
     }
-
+    
 
     /**
      * Store a newly created resource in storage.
@@ -85,25 +85,25 @@ class EmployeeMasterController extends Controller
      */
     public function store(EmployeeMasterRequest $request)
     {
-
+     
      if($request['over_time']==''){
         $request['over_time']='0';
      }
         // $data1 = $request->except(['_token']);
-        try {
+        try {      
 
         EmployeeMaster::create($request->only(EmployeeMaster::REQUEST_INPUTS));
         $request['employee_id']=EmployeeMaster::max('id');
         SalaryDetails::create($request->only(SalaryDetails::REQUEST_INPUTS));
-        VisaDetails::create($request->only(VisaDetails::REQUEST_INPUTS));
+        VisaDetails::create($request->only(VisaDetails::REQUEST_INPUTS));        
 
-        return response()->json('Employee Master Created Successfully', 200);
+        return response()->json('Employee Master Created Successfully', 200);      
 
     } catch (Exception $e) {
             info($e);
             return response()->json('Error occured in the store', 400);
         }
-
+       
     }
 
     /**
@@ -117,7 +117,7 @@ class EmployeeMasterController extends Controller
         try {
             $employees = EmployeeMaster::join('visa_details', 'employee_masters.id', '=', 'visa_details.employee_id')
             ->join('salary_details', 'employee_masters.id', '=', 'salary_details.employee_id')
-            ->select('employee_masters.', 'visa_details.', 'salary_details.*',
+            ->select('employee_masters.*', 'visa_details.*', 'salary_details.*',
             DB::raw('DATE(employee_masters.join_date) as join_date'),
             DB::raw('DATE(employee_masters.end_date) as end_date'),
             DB::raw('DATE(employee_masters.passport_expiry_date) as passport_expiry_date'),
@@ -140,7 +140,7 @@ class EmployeeMasterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
+ 
 
     /**
      * Update the specified resource in storage.
@@ -150,10 +150,10 @@ class EmployeeMasterController extends Controller
      * @return \Illuminate\Http\Response
      *
      */
-
+   
    public function update(EmployeeMasterRequest $request, $id)
     {
-
+    
         try{
             if($request['over_time']==''){
                 $request['over_time']='0';
@@ -169,14 +169,14 @@ class EmployeeMasterController extends Controller
 
             return response()->json('Employee Updated Successfully');
 
-
-    }
+        
+    } 
     catch(Exeception $e){
         info($e);
 
         return response()->json('Error occured in the update', 400);
     }
-
+        
     }
     /**
      * Remove the specified resource from storage.
@@ -197,7 +197,7 @@ class EmployeeMasterController extends Controller
             // EmployeeMaster::where('id', '')->update(['delete' => 1]);
             // $employee = EmployeeMaster::findOrFail($id);
             // $employee->update($request->only(EmployeeMaster::REQUEST_INPUTS));
-
+          
             $employee = EmployeeMaster::findOrFail($id);
             $employee->update(['deleted' => 1]);
             $employee_no=$id;
@@ -206,9 +206,9 @@ class EmployeeMasterController extends Controller
             $visa = VisaDetails::where('employee_id', $employee_no)->firstOrFail();
             $visa->update(['deleted' => 1]);
             return response()->json('EmployeeMaster Deleted Successfully', 200);
-
-
-}
+        
+    
+} 
 catch (Exception $e) {
     info($e);
             return response()->json('Error occured in the edit', 400);

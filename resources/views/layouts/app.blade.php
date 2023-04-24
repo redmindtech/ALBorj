@@ -112,6 +112,9 @@
 .action{
     width: 2px;
 }
+.select2-container .select2-selection--single {
+    height:38px !important;
+}
     </style>
   
    
