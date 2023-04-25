@@ -345,7 +345,7 @@ return [
                 ],
                 [
                     'text' => 'Goods Receiving Note',
-                    'url'  => 'account',
+                    'url'  => 'goodsreceivingnote',
                     'icon' => 'nav-icon far fa-circle text-info',
 
                 ],

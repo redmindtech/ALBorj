@@ -44,6 +44,7 @@ Route::post('post-registration', [RegistrationController::class, 'postRegistrati
     Route::resource('suppliermaster', 'SupplierMasterController');
     Route::resource('employeemaster', 'EmployeeMasterController');
     Route::resource('sitemaster', 'SiteMasterController');
+    Route::resource('goodsreceivingnote', 'GoodsReceivingNoteController');
 
     Route::get('/account', function () {
         return view('layouts.account');
