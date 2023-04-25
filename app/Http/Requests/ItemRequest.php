@@ -29,20 +29,23 @@ class ItemRequest extends FormRequest
             'item_subcategory' => 'required',
             'stock_type' => 'required',
             'item_type' => 'required',
-            // 'supplier_id'=>'required',
-            //  'supplier_name'=>'required',
+            'item_qty'=>'nullable|regex:/^[0-9]*$/',           
+            'name'=>'required|regex:/^[A-Za-z\s]*$/',
+
         ];
     }
     public function messages(){
         return [
-            'item_name.required' => 'The Item Name is required.',
-       
+            'item_name.required' => 'The Item Name is required.',       
             'item_category.required' => 'The Item Category is required.',
             'item_subcategory.required' => 'The Item SubCategory is required.',
             'stock_type.required' => 'The Stock Type is required.',
-            'item_type.required' => 'The Item Type is required.',
-            // 'supplier_id.required'=>'The Supplier Id is required',
-            // 'supplier_name.required'=>'The Supplier Name is required',
+            'item_type.required' => 'The Item Type is required.',            
+            'name.required'=>'The Supplier Name is required',
+            'name.regex'=>'The Supplier Name allows only alphabets',
+            'item_qty.regex' => 'The Item Quantity allows only numbers not decimal numbers.',            
+
+
 
 
         ];

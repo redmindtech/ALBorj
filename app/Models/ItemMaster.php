@@ -10,7 +10,7 @@ class ItemMaster extends Model
     use HasFactory;
     const REQUEST_INPUTS = [
         "item_name","item_category","item_subcategory","stock_type","item_type",
-        "supplier_id"
+        "supplier_id","item_qty"
     ];
 
     protected $table ='item_masters';
@@ -18,7 +18,7 @@ class ItemMaster extends Model
     protected $fillable =
     [
          "item_name","item_category","item_subcategory","stock_type","item_type",
-        "supplier_id"
+        "supplier_id","item_qty"
     ];
 
 
