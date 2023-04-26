@@ -133,7 +133,7 @@
     <div class="form-group col-md-6">
         <label for="site_manager" class="form-label fw-bold">Site Manager<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="firstname" name="emp_id" value="{{ old('firstname') }}" placeholder="Site Manager" class="form-control" autocomplete="off">
-        <input type="text" id="site_manager" hidden name="site_manager" value="{{ old('site_manager') }}"  class="form-control" autocomplete="off">
+        <input type="text" id="site_manager"  hidden name="site_manager" value="{{ old('site_manager') }}"  class="form-control" autocomplete="off">
         <p style="color: red" id="error_site_manager"></p>
     </div> 
     <div class="form-group col-md-6">
@@ -358,7 +358,7 @@ $("#firstname").autocomplete(
             'firstname':$("#firstname").val()
           },
           success: function( data ) {
-
+console.log(data);
             result = [];
             for(var i in data)
             {
