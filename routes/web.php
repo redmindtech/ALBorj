@@ -7,6 +7,8 @@ use App\Http\Controllers\SiteMasterController;
 use App\Http\Controllers\ProjectMasterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ExpensesCategoryMasterController;
+use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\UserAuth;
 
 /*
@@ -45,7 +47,12 @@ Route::post('post-registration', [RegistrationController::class, 'postRegistrati
     Route::resource('employeemaster', 'EmployeeMasterController');
     Route::resource('sitemaster', 'SiteMasterController');
     Route::resource('goodsreceivingnote', 'GoodsReceivingNoteController');
+    Route::resource('expensescategorymaster', 'ExpensesCategoryMasterController');
+    Route::resource('expenses', 'ExpensesController');
 
     Route::get('/account', function () {
         return view('layouts.account');
+    });
+    Route::get('/timesheet', function () {
+        return view('timesheet.index');
     });

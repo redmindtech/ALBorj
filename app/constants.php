@@ -147,4 +147,16 @@ const STOCKTYPE= [
     'Mid-cap Stock' => 'Mid-cap Stock',
 ];
 
+// Expenses
+const SOURCE=[
+    'Cash'    => 'Cash',
+    'Card'    => 'Card',
+    'Transfer'=> 'Transfer',
+    'Cheque'  => 'Cheque',
+];
+const VAT=[
+    '0'  => '0',
+    '5'  => '5'
+]
+
 ?>

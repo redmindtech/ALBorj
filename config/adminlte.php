@@ -259,7 +259,7 @@ return [
                 ],
                 [
                     'text' => 'Daily Expenses-Payment Voucher',
-                    'url'  => 'account',
+                    'url'  => 'expenses',
                     'icon' => 'fas fa fa-credit-card',
                 ],
             ],
@@ -277,7 +277,7 @@ return [
                 ],
                 [
                     'text' => 'Timesheet-Sitewise',
-                    'url'  => 'account',
+                    'url'  => 'timesheet',
                     'icon' => 'fas fa-solid fa-calendar',
 
                 ],
@@ -323,6 +323,11 @@ return [
                     'url'  => 'suppliermaster',
                     'icon' => 'fas fa-truck-loading',
 
+                ],
+                [
+                    'text' => 'Expenses Category Master',
+                    'url'  => 'expensescategorymaster',
+                    'icon' => 'fas fa-fw fa-box',
                 ],
             ],
         ],

@@ -28,7 +28,7 @@ viewport" content="width=device-width, initial-scale=1.0">
                 <form action="{{ url('/main/checklogin') }}" class="py-5 px-4 mt-5 shadow-lg bg-white" method="post">
                     @csrf
                     <center><img src="{{ asset('images/al borj.jpeg') }}" style="width: 100%" height="100%"/>
-                    <h2 style="color: #173aeb">ALBORJ ERP</h2></center>
+                    <h2 style="color: #173aeb">Alborj ERP</h2></center>
 
                 <!--<center><h3 class="h3 my-3 text-primary">SASHTI REAL ESTATE</h3></center>-->
                 <div class="form-floating mb-3 mt-4">
@@ -36,11 +36,13 @@ viewport" content="width=device-width, initial-scale=1.0">
                                     value="{{old('email')}}"
                                         name="email" placeholder="Enter email" class="form-control"/>
                     <label>Email Id <span class="text-danger">*</span></label>
+                    <span style="color:red">@error('email'){{$message}}@enderror</span>
                     </div>
                     <div class="form-floating mb-3">
                         <input id="password" type="password"
                         name="password"  placeholder="Enter password" class="form-control"/>
                     <label for="">Password <span class="text-danger">*</span></label>
+                    <span style="color:red">@error('password'){{$message}}@enderror</span>
                     </div>
                     <div class="form-group">
                         <center><button type="submit" class="btn btn-primary btn-lg active">

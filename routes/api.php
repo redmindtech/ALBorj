@@ -66,3 +66,14 @@ Route::post("/employee/{employee}/update", [App\Http\Controllers\EmployeeMasterC
 Route::delete("/employee/{employee}/delete", [App\Http\Controllers\EmployeeMasterController::class, 'destroy'])->name('employeeApi.delete');
 Route::get("/employee/{employee}/show", [App\Http\Controllers\EmployeeMasterController::class, 'show'])->name('employeeApi.show');
 Route::get("/getEmployee", [App\Http\Controllers\EmployeeMasterController::class, 'getEmployee'])->name('getEmployee');
+//expensescategory master
+Route::post("/expensescategory", [App\Http\Controllers\ExpensesCategoryMasterController::class, 'store'])->name('expensescategoryApi.store');
+Route::post("/expensescategory/{expenses}/update", [App\Http\Controllers\ExpensesCategoryMasterController::class, 'update'])->name('expensescategoryApi.update');
+Route::delete("/expensescategory/{expenses}/delete", [App\Http\Controllers\ExpensesCategoryMasterController::class, 'destroy'])->name('expensescategoryApi.delete');
+Route::get("/expensescategory/{expenses}/show", [App\Http\Controllers\ExpensesCategoryMasterController::class, 'show'])->name('expensescategoryApi.show');
+// Expenses
+Route::post("/expense",[App\Http\Controllers\ExpensesController::class, 'store'])->name('expenseApi.store');
+Route::post("/expense/{expense}/update", [App\Http\Controllers\ExpensesController::class, 'update'])->name('expenseApi.update');
+Route::delete("/expense/{expense}/delete", [App\Http\Controllers\ExpensesController::class, 'destroy'])->name('expenseApi.delete');
+Route::get("/expense/{expense}/show", [App\Http\Controllers\ExpensesController::class, 'show'])->name('expenseApi.show');
+// Route::get("/ExpensesCategory", [App\Http\Controllers\ExpensesController::class, 'getExpensesCategory'])->name('getExpensesCategory');
