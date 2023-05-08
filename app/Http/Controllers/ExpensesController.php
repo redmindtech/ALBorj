@@ -64,7 +64,7 @@ class ExpensesController extends Controller
      */
     public function store(ExpensesRequest $request)
     {
-         info($request['exp_category_no']);
+         
          try {
             
             $exp_category = ExpensesCategoryMaster::select('category_name')->get();
@@ -139,9 +139,7 @@ class ExpensesController extends Controller
      */
     public function update(ExpensesRequest $request,  $exp_no)
     {
-        info($request);
-        info($exp_no);
-        info($request['exp_category_no']);
+      
         try {
             $exp_category = ExpensesCategoryMaster::select('category_name')->get();
             if ($exp_category->contains('category_name', $request['exp_category_no'])) {
@@ -186,13 +184,7 @@ class ExpensesController extends Controller
             return response()->json('Error occured in the delete', 400);
         }
     }
-    // public function  getExpensesCategory(){
-      
-    //     $category_name = $_GET['category_name'];
-    //     $data = ExpensesCategoryMaster::where('category_name','LIKE',$category_name.'%')->get();
-     
-    //     return $data;
-    // }
+   
     
     
 }

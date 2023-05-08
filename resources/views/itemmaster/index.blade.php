@@ -184,10 +184,16 @@
                                 <p id="show_item_type"></p>
                             </div>
                                 <div class="col-md-6">
+                                <label>Item Quantity</label>
+                                <p id="show_item_qty"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-md-6">
                                 <label>Supplier Code</label>
                                 <p id="show_code"></p>
                             </div>
-                        </div>
+                            </div
                     </div>
                 </div>
             </dialog>

@@ -28,7 +28,7 @@ class SupplierRequest extends FormRequest
             'company_name' => 'required',
             // 'code' => 'required',
             'address' => 'required',
-            'contact_number' => 'required|regex:/^[6-9][0-9]{9}$/',
+            'contact_number' => 'required|regex:/^[6-9][0-9]{8}$/',
             'mail_id' => 'required|email',
             'website'=>'required|url'
         ]; 

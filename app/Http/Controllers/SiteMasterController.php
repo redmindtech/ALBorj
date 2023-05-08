@@ -139,12 +139,6 @@ class SiteMasterController extends Controller
             return response()->json('Error occured in the delete', 400);
         }
     }
-    // AUTO COMPLETE FOR SITE MANAGER
-    public function  getemployeedata(){
-      
-        $firstname = $_GET['firstname'];
-        $data = EmployeeMaster::where('firstname','LIKE',$firstname.'%')->get();
-     
-        return $data;
-    }
+    
+   
 }

@@ -157,6 +157,12 @@ const SOURCE=[
 const VAT=[
     '0'  => '0',
     '5'  => '5'
-]
-
+];
+// grn project type
+const GRNPURCHASETYPE=[
+    'Local Purchase Order'=>'Local Purchase Order',
+   'Non Inventory purchase order'=>'Non Inventory purchase order',
+    'Hire order'=>'Hire order',
+    'Asset and miscellaneous order'=>'Asset and miscellaneous order',
+    'Cash purchase'=>'Cash purchase'];
 ?>

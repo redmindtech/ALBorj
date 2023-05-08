@@ -71,6 +71,9 @@
 
 <!-- Styles -->
     <style>
+        .main-sidebar{
+        z-index: 0 !important;
+    }
         dialog{
             width: 1000px;
     position: absolute;
@@ -81,6 +84,7 @@
     margin-top:45px !important;
    
     margin: auto;
+    
         }
         /* dialog {
   width: 1000px;

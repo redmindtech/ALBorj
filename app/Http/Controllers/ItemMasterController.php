@@ -18,13 +18,7 @@ class ItemMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     // FOR MAIN PAGE
-    public function  getempdata(){
-        
-        $suppliername = $_GET['suppliername'];
-        $data = SupplierMaster::where('name','LIKE',$suppliername.'%')->get();       
-     
-        return $data;
-    }
+  
 
 
     public function index()

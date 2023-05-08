@@ -10,7 +10,7 @@ use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ExpensesCategoryMasterController;
 use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\UserAuth;
-
+use App\Http\Controllers\GoodsReceivingNoteController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,6 +49,7 @@ Route::post('post-registration', [RegistrationController::class, 'postRegistrati
     Route::resource('goodsreceivingnote', 'GoodsReceivingNoteController');
     Route::resource('expensescategorymaster', 'ExpensesCategoryMasterController');
     Route::resource('expenses', 'ExpensesController');
+    Route::resource('goodsreceivingnote', 'GoodsReceivingNoteController');
 
     Route::get('/account', function () {
         return view('layouts.account');

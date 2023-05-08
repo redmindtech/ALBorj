@@ -620,7 +620,14 @@ $.ajaxSetup({
                 $('#method').val('UPDATE');
                 $('#submit').text('UPDATE');
             } else {
-                for (const [key, value] of Object.entries(message[0])) {
+                for (let [key, value] of Object.entries(message[0])) {
+                    if (key === "join_date" || key === "end_date" || key ==="passport_expiry_date" || key ==="emirates_id_from_date" || key === "emirates_id_to_date" || key === "expiry_date") {
+                    var dateObj = new Date(value);
+                    var day = dateObj.getDate();
+                    var month = dateObj.getMonth() + 1;
+                    var year = dateObj.getFullYear();
+                    value= day + '-' + month + '-' + year
+                    }
                     $(`#show_${key}`).text(value);
                 }
                 $('#heading_name').text("View Employee").css('font-weight', 'bold');

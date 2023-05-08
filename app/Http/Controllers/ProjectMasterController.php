@@ -67,22 +67,8 @@ class ProjectMasterController extends Controller
     return response()->json('Error occured in the store', 400);
 }
     }
-// autocomplete data from site name
-     public function  getsitedata(){
-      
-        $site_name = $_GET['site_name'];
-        $data = SiteMaster::where('site_name','LIKE',$site_name.'%')->get();
-     
-        return $data;
-    }
-    // autocomplete data from client company name
-    public function  getclientdata(){
-      
-        $company_name = $_GET['company_name'];
-        $data = ClientMaster::where('company_name','LIKE',$company_name.'%')->get();
-     
-        return $data;
-    }
+
+  
 
     /**
      * Display the specified resource.

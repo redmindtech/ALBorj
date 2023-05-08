@@ -186,17 +186,7 @@ class EmployeeMasterController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            // $employee_no=$id;
-            // $visa = VisaDetails::where('employee_no', $employee_no)->firstOrFail();
-            // $visa->delete();
-            // $salary = SalaryDetails::where('employee_no', $employee_no)->firstOrFail();
-            // $salary->delete();
-            // $employee = EmployeeMaster::findOrFail($id);
-            // $employee->delete();
-            // EmployeeMaster::where('id', '')->update(['delete' => 1]);
-            // $employee = EmployeeMaster::findOrFail($id);
-            // $employee->update($request->only(EmployeeMaster::REQUEST_INPUTS));
+        try {          
           
             $employee = EmployeeMaster::findOrFail($id);
             $employee->update(['deleted' => 1]);
@@ -205,21 +195,13 @@ class EmployeeMasterController extends Controller
             $salary->update(['deleted' => 1]);
             $visa = VisaDetails::where('employee_id', $employee_no)->firstOrFail();
             $visa->update(['deleted' => 1]);
-            return response()->json('EmployeeMaster Deleted Successfully', 200);
-        
+            return response()->json('EmployeeMaster Deleted Successfully', 200);       
     
-} 
-catch (Exception $e) {
-    info($e);
-            return response()->json('Error occured in the edit', 400);
+        } 
+        catch (Exception $e) {
+            info($e);
+                    return response()->json('Error occured in the edit', 400);
+                }
         }
-}
-// auto complete for current location
-public function  getlocdata(){
 
-    $projectname = $_GET['projectname'];
-    $data = ProjectMaster::where('project_name','LIKE',$projectname.'%')->get();
-
-    return $data;
-}
 }
