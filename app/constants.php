@@ -165,4 +165,10 @@ const GRNPURCHASETYPE=[
     'Hire order'=>'Hire order',
     'Asset and miscellaneous order'=>'Asset and miscellaneous order',
     'Cash purchase'=>'Cash purchase'];
+    // material issue
+    const MATERIALTYPE= [
+        'Issue' => 'Issue',
+        'Return' => 'Return',
+    
+    ];
 ?>

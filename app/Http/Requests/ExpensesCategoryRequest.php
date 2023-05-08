@@ -25,7 +25,7 @@ class ExpensesCategoryRequest extends FormRequest
     {
         return
         [
-            'category_name' => 'required|max:30|regex:/^[a-zA-Z]+$/'
+            'category_name' => 'required|max:30|regex:/^[a-z A-Z]+$/'
 
         ];
     }

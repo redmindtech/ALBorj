@@ -40,7 +40,7 @@ class AutoCompleteController extends Controller
           return response()->json('Error occured in the get po details', 400);
       }
      }
-    //  auto complete data for item name populated in GRN
+    //  auto complete data for item name populated in GRN and material issue item name
      public function  getitemnamedata(){
       try{
           $itemname = $_GET['itemname'];        
@@ -89,6 +89,16 @@ public function  getempdata(){
   info('hi');
   $suppliername = $_GET['suppliername'];
   $data = SupplierMaster::where('name','LIKE',$suppliername.'%')->get();    
+
+  return $data;
+}
+// sitemaster location for  material issue (location)
+public function  getsitelocationdata(){
+  info("hii material");
+  $site_name = $_GET['site_name'];
+
+  $data = SiteMaster::where('site_location','LIKE',$site_name.'%')->get();
+  //info($data);
 
   return $data;
 }

@@ -362,7 +362,7 @@ return [
                 ],
                 [
                     'text' => 'Material Issue',
-                    'url'  => 'account',
+                    'url'  => 'MaterialIssue',
                     'icon' => 'nav-icon far fa-circle text-warning',
 
                 ],

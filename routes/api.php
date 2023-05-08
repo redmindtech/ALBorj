@@ -56,6 +56,7 @@ Route::get("/getitemdata", [App\Http\Controllers\AutoCompleteController::class, 
 Route::get("/getitemnamedata", [App\Http\Controllers\AutoCompleteController::class, 'getitemnamedata'])->name('getitemnamedata');
 Route::get("/getautocomplete", [App\Http\Controllers\AutoCompleteController::class, 'getempdata'])->name('getempdata');
 Route::get("/get_po_details", [App\Http\Controllers\AutoCompleteController::class, 'get_po_details'])->name('get_po_details');
+Route::get("/getsitelocationdata", [App\Http\Controllers\AutoCompleteController::class, 'getsitelocationdata'])->name('getsitelocationdata');
 // item master
 Route::post("/item", [App\Http\Controllers\ItemMasterController::class, 'store'])->name('store');
 Route::post("/item/{item}/update", [App\Http\Controllers\ItemMasterController::class, 'update'])->name('itemApi.update');
@@ -86,3 +87,8 @@ Route::post("/GRN",[App\Http\Controllers\GoodsReceivingNoteController::class, 's
 Route::post("/GRN/{grnid}/update", [App\Http\Controllers\GoodsReceivingNoteController::class, 'update'])->name('grnApi.update');
 Route::get("/GRN/{grnid}/show", [App\Http\Controllers\GoodsReceivingNoteController::class, 'show'])->name('grnApi.show');
 Route::get("/GRN/{grnid}/delete", [App\Http\Controllers\GoodsReceivingNoteController::class, 'delete'])->name('gdelete');
+// material Issue
+Route::post("/materialissue", [App\Http\Controllers\MaterialIssueController::class, 'store'])->name('materialissueApi.store');
+Route::post("/materialissue/{mir_no}/update", [App\Http\Controllers\MaterialIssueController::class, 'update'])->name('materialissueApi.update');
+Route::delete("/materialissue/{mir_no}/delete", [App\Http\Controllers\MaterialIssueController::class, 'destroy'])->name('materialissueApi.delete');
+Route::get("/materialissue/{mir_no}/show", [App\Http\Controllers\MaterialIssueController::class, 'show'])->name('materialissueApi.show');

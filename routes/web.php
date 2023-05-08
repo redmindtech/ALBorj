@@ -50,6 +50,7 @@ Route::post('post-registration', [RegistrationController::class, 'postRegistrati
     Route::resource('expensescategorymaster', 'ExpensesCategoryMasterController');
     Route::resource('expenses', 'ExpensesController');
     Route::resource('goodsreceivingnote', 'GoodsReceivingNoteController');
+    Route::resource('MaterialIssue', 'MaterialIssueController');
 
     Route::get('/account', function () {
         return view('layouts.account');
