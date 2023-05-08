@@ -11,6 +11,7 @@ use App\Models\EmployeeMaster;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Requests\MaterialIssueRequest;
+use Exception;
 
 
 use Illuminate\Http\Request;
@@ -39,7 +40,7 @@ class MaterialIssueController extends Controller
                     DB::raw('DATE(material_issue_return.issue_date) as issue_date')
                 )
                 ->get();
-            return view('MaterialIssue.index')->with([
+            return view('Materialissue.index')->with([
                 'material_issues' => $material_issues,
                 'type' => $type,
 
