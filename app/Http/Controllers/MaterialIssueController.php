@@ -40,7 +40,7 @@ class MaterialIssueController extends Controller
                     DB::raw('DATE(material_issue_return.issue_date) as issue_date')
                 )
                 ->get();
-            return view('Materialissue.index')->with([
+            return view('materialissue.index')->with([
                 'material_issues' => $material_issues,
                 'type' => $type,
 
