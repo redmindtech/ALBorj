@@ -338,7 +338,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Material Requisition',
-                    'url'  => 'account',
+                    'url'  => 'materialrequisition',
                     'icon' => 'nav-icon far fa-circle text-success',
 
                 ],

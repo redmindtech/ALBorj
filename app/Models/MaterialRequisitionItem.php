@@ -15,14 +15,24 @@ class MaterialRequisitionItem extends Model
     protected $fillable = [
         'mr_no',
         'item_no',
+        'stock_qty',
         'quantity'
     ];
     protected $primaryKey='mr_item_no ';
     public function materials(){
-        return $this->belongsTo(MaterialRequisition::class,'material_id','id');
+        return $this->belongsTo(MaterialRequisition::class,'mr_no','mr_id');
     }
 
     public function items(){
         return $this->belongsTo(ItemMaster::class, 'item_no', 'id');
+    }
+    protected static function booted()
+    {
+        parent::boot();
+        static::creating(function ($mr_item) {
+            
+            $mr_item->deleted='0';
+            
+        });
     }
 }

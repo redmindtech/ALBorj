@@ -92,3 +92,8 @@ Route::post("/materialissue", [App\Http\Controllers\MaterialIssueController::cla
 Route::post("/materialissue/{mir_no}/update", [App\Http\Controllers\MaterialIssueController::class, 'update'])->name('materialissueApi.update');
 Route::delete("/materialissue/{mir_no}/delete", [App\Http\Controllers\MaterialIssueController::class, 'destroy'])->name('materialissueApi.delete');
 Route::get("/materialissue/{mir_no}/show", [App\Http\Controllers\MaterialIssueController::class, 'show'])->name('materialissueApi.show');
+// MaterialRequisition
+Route::post("/materialrequisition", [App\Http\Controllers\MaterialRequisitionController::class, 'store'])->name('material.store');
+Route::get("/materialrequisition/{id}/show", [App\Http\Controllers\MaterialRequisitionController::class, 'show'])->name('material.show');
+Route::delete("/materialrequisition/{id}/delete", [App\Http\Controllers\MaterialRequisitionController::class, 'destroy'])->name('material.delete');
+Route::post("/materialrequisition/{id}/update", [App\Http\Controllers\MaterialRequisitionController::class, 'update'])->name('material.update');

@@ -27,7 +27,7 @@ class GoodsReceivingNoteController extends Controller
              DB::raw('DATE(goods_received_note.grn_date) as grn_date'),
              DB::raw('DATE(goods_received_note.po_date) as po_date'),
              DB::raw('DATE(goods_received_note.due_Date) as due_Date'))  
-             ->where('deleted','0')          
+             ->where('goods_received_note.deleted','0')          
              ->get();
             return view('goodsreceivingnote.index')
             ->with([

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class MaterialRequisition extends Model
 {
@@ -29,21 +30,30 @@ class MaterialRequisition extends Model
         "date",
         "project_id",
         "user_id",
-        "purchase_type",
-        "mr_reference_no",
+        "purchase_type",        
         "mr_reference_code",
         "reference_date",
         "remarks"
     ];
-
+    protected $primaryKey='mr_id';
     public function projects(){
         return $this->belongsTo(ProjectMaster::class, 'project_id', 'project_no');
     }
     public function users(){
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'mr_id');
     }
 
     public function material_items(){
         return $this->hasMany(MaterialRequisitionItem::class,"material_id","id");
+    }
+    protected static function booted()
+    {
+        parent::boot();
+        static::creating(function ($mr) {
+            $results = DB::selectOne("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'materials'")->AUTO_INCREMENT;
+            $MRCode = 'MR' . '00' . $results;
+            $mr->mr_reference_code = $MRCode;
+            $mr->deleted='0';
+        });
     }
 }

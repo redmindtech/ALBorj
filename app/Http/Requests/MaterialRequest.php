@@ -24,17 +24,23 @@ class MaterialRequest extends FormRequest
     public function rules()
     {
         return [
+            'date'=> 'required',
+           
+           'purchase_type' => 'required',
             'project_id' => 'required',
-            'reference_date' => 'required',
-            'purchase_type' => 'required',
+            'user_id'=> 'required',
+           
         ];
     }
 
     public function messages(){
         return [
+            'date.required'=>'The date is required',
+            
+            'purchase_type.required' => 'The Purchase Type is required.',
             'project_id.required' => 'The Project Name is required.',
-            'reference_date.required' => 'The Reference Date is required',
-            'purchase_type.required' => 'The Purchase Type is required.'
+            'user_id.required'=>'The Employee Name is required.'
+       
         ];
     }
 }

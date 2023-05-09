@@ -11,6 +11,7 @@ use App\Http\Controllers\ExpensesCategoryMasterController;
 use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\UserAuth;
 use App\Http\Controllers\GoodsReceivingNoteController;
+use App\Http\Controllers\MaterialRequisitionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,7 +52,7 @@ Route::post('post-registration', [RegistrationController::class, 'postRegistrati
     Route::resource('expenses', 'ExpensesController');
     Route::resource('goodsreceivingnote', 'GoodsReceivingNoteController');
     Route::resource('MaterialIssue', 'MaterialIssueController');
-
+    Route::resource('materialrequisition', 'MaterialRequisitionController');
     Route::get('/account', function () {
         return view('layouts.account');
     });

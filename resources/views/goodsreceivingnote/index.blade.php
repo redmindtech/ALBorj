@@ -857,7 +857,7 @@ function handleShowAndEdit(id,action)
                script+= '</tbody></table>';
                $('show_table').remove();
                $('#item_details_show').append(script); 
-                    $('#heading_name').text("View Supplier").css('font-weight', 'bold');
+                    $('#heading_name').text("View Goods Receiving Note").css('font-weight', 'bold');
                     $('#show').css('display','block');
                     $('#form').css('display','none');
                 }
