@@ -315,7 +315,7 @@
                 {
                     $('#show').css('display','none');
                     $('#form').css('display','block');
-                    console.log(message[0]);
+                 
                     $("#item_category").val(message[0].item_category).attr("selected","selected");
                     itemcategory_load();
                     $("#item_subcategory").val(message[0].item_subcategory).attr("selected","selected");

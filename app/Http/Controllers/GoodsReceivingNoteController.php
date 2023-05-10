@@ -57,7 +57,13 @@ class GoodsReceivingNoteController extends Controller
                 GoodsReceivingNote::create($request->only(GoodsReceivingNote::REQUEST_INPUTS));         
                 $grn= GoodsReceivingNote::max('grn_no');
                 $itemCount = count($request['item_no']);
-                for ($i = 0; $i < $itemCount; $i++) {
+                for ($i = 0; $i < $itemCount; $i++) {                 
+                    $item_no=$request['item_no'][$i];
+                    $item_update = ItemMaster::where('id', $item_no)->value('item_qty');                   
+                    $item_qty=$item_update+ $request['receiving_qty'][$i];
+                    info($item_qty);  
+                ItemMaster::where('id', $item_no)
+                ->update(['item_qty' => $item_qty]);
                 GoodsReceivedNoteItem::create([
                 'grn_no'=>$grn, 
                 'item_no' => $request['item_no'][$i],

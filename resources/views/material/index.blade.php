@@ -351,7 +351,7 @@ $.ajaxSetup({
                 add_text(); // add a new row to the table
                 $('#item_name_' + rowid).val(item.item_name);
                 $('#item_no_' + rowid).val(item.item_no);
-                $('#stock_qty_'+ rowid).val(item.stock_qty);
+                $('#stock_qty_'+ rowid).val(item.item_qty);
                 $('#quantity_'+ rowid).val(item.quantity);
                             
                 rowid++;
@@ -374,7 +374,7 @@ $.ajaxSetup({
                     for (const item of message.mi_item) {
                    script += '<tr>';
                    script += '<td>' + item.item_name + '</td>';
-                   script += '<td>' + item.stock_qty + '</td>';
+                   script += '<td>' + item.item_qty + '</td>';
                    script += '<td>' + item.quantity+ '</td>';
                     script += '</tr>';
                 }

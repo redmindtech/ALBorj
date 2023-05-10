@@ -15,7 +15,6 @@ class MaterialRequisitionItem extends Model
     protected $fillable = [
         'mr_no',
         'item_no',
-        'stock_qty',
         'quantity'
     ];
     protected $primaryKey='mr_item_no ';
