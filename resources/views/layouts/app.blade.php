@@ -40,6 +40,10 @@
 
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
 
+<!-- timecalculation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
  <!-- DATA TABLE FILTERS -->
  <script>
     $(document).ready(function() {
@@ -118,6 +122,10 @@
 }
 .select2-container .select2-selection--single {
     height:38px !important;
+}
+input[type=checkbox] {
+  width: 25px;
+  height: 25px;
 }
     </style>
   

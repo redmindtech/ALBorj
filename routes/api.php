@@ -97,3 +97,8 @@ Route::post("/materialrequisition", [App\Http\Controllers\MaterialRequisitionCon
 Route::get("/materialrequisition/{id}/show", [App\Http\Controllers\MaterialRequisitionController::class, 'show'])->name('material.show');
 Route::delete("/materialrequisition/{id}/delete", [App\Http\Controllers\MaterialRequisitionController::class, 'destroy'])->name('material.delete');
 Route::post("/materialrequisition/{id}/update", [App\Http\Controllers\MaterialRequisitionController::class, 'update'])->name('material.update');
+// Employee Timesheet
+Route::post("/timesheet",[App\Http\Controllers\TimeSheetController::class, 'store'])->name('timesheetApi.store');
+Route::post("/timesheet/{timesheet}/update", [App\Http\Controllers\TimeSheetController::class, 'update'])->name('timesheetApi.update');
+Route::delete("/timesheet/{timesheet}/delete", [App\Http\Controllers\TimeSheetController::class, 'destroy'])->name('timesheetApi.delete');
+Route::get("/timesheet/{timesheet}/show", [App\Http\Controllers\TimeSheetController::class, 'show'])->name('timesheetApi.show');

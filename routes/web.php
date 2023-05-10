@@ -12,6 +12,8 @@ use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\UserAuth;
 use App\Http\Controllers\GoodsReceivingNoteController;
 use App\Http\Controllers\MaterialRequisitionController;
+use App\Http\Controllers\TimeSheetController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -59,3 +61,4 @@ Route::post('post-registration', [RegistrationController::class, 'postRegistrati
     Route::get('/timesheet', function () {
         return view('timesheet.index');
     });
+    Route::resource('timesheet', 'TimeSheetController');
