@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit36efe580f2c48dc9f00d4e3d6bf0da1e
+class ComposerStaticInita5d9c676f7cb66bb52041dc086dc1853
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -331,8 +331,8 @@ class ComposerStaticInit36efe580f2c48dc9f00d4e3d6bf0da1e
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -550,15 +550,19 @@ class ComposerStaticInit36efe580f2c48dc9f00d4e3d6bf0da1e
         'App\\Http\\Controllers\\AutoCompleteController' => __DIR__ . '/../..' . '/app/Http/Controllers/AutoCompleteController.php',
         'App\\Http\\Controllers\\ClientMasterController' => __DIR__ . '/../..' . '/app/Http/Controllers/ClientMasterController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/DashboardController.php',
         'App\\Http\\Controllers\\EmployeeMasterController' => __DIR__ . '/../..' . '/app/Http/Controllers/EmployeeMasterController.php',
         'App\\Http\\Controllers\\ExpensesCategoryMasterController' => __DIR__ . '/../..' . '/app/Http/Controllers/ExpensesCategoryMasterController.php',
         'App\\Http\\Controllers\\ExpensesController' => __DIR__ . '/../..' . '/app/Http/Controllers/ExpensesController.php',
         'App\\Http\\Controllers\\GoodsReceivingNoteController' => __DIR__ . '/../..' . '/app/Http/Controllers/GoodsReceivingNoteController.php',
         'App\\Http\\Controllers\\ItemMasterController' => __DIR__ . '/../..' . '/app/Http/Controllers/ItemMasterController.php',
+        'App\\Http\\Controllers\\MaterialIssueController' => __DIR__ . '/../..' . '/app/Http/Controllers/MaterialIssueController.php',
+        'App\\Http\\Controllers\\MaterialRequisitionController' => __DIR__ . '/../..' . '/app/Http/Controllers/MaterialRequisitionController.php',
         'App\\Http\\Controllers\\ProjectMasterController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProjectMasterController.php',
         'App\\Http\\Controllers\\RegistrationController' => __DIR__ . '/../..' . '/app/Http/Controllers/RegistrationController.php',
         'App\\Http\\Controllers\\SiteMasterController' => __DIR__ . '/../..' . '/app/Http/Controllers/SiteMasterController.php',
         'App\\Http\\Controllers\\SupplierMasterController' => __DIR__ . '/../..' . '/app/Http/Controllers/SupplierMasterController.php',
+        'App\\Http\\Controllers\\TimeSheetController' => __DIR__ . '/../..' . '/app/Http/Controllers/TimeSheetController.php',
         'App\\Http\\Controllers\\UserAuth' => __DIR__ . '/../..' . '/app/Http/Controllers/UserAuth.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
@@ -575,21 +579,29 @@ class ComposerStaticInit36efe580f2c48dc9f00d4e3d6bf0da1e
         'App\\Http\\Requests\\ExpensesRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ExpensesRequest.php',
         'App\\Http\\Requests\\GoodReceivingNoteRequest' => __DIR__ . '/../..' . '/app/Http/Requests/GoodReceivingNoteRequest.php',
         'App\\Http\\Requests\\ItemRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ItemRequest.php',
+        'App\\Http\\Requests\\MaterialIssueRequest' => __DIR__ . '/../..' . '/app/Http/Requests/MaterialIssueRequest.php',
+        'App\\Http\\Requests\\MaterialRequest' => __DIR__ . '/../..' . '/app/Http/Requests/MaterialRequest.php',
         'App\\Http\\Requests\\ProjectMasterRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ProjectMasterRequest.php',
         'App\\Http\\Requests\\SiteRequest' => __DIR__ . '/../..' . '/app/Http/Requests/SiteRequest.php',
         'App\\Http\\Requests\\SupplierRequest' => __DIR__ . '/../..' . '/app/Http/Requests/SupplierRequest.php',
+        'App\\Http\\Requests\\TimeSheetRequest' => __DIR__ . '/../..' . '/app/Http/Requests/TimeSheetRequest.php',
         'App\\Models\\ClientMaster' => __DIR__ . '/../..' . '/app/Models/ClientMaster.php',
+        'App\\Models\\EmployeeAttendanceSheet' => __DIR__ . '/../..' . '/app/Models/EmployeeAttendanceSheet.php',
         'App\\Models\\EmployeeMaster' => __DIR__ . '/../..' . '/app/Models/EmployeeMaster.php',
         'App\\Models\\Expenses' => __DIR__ . '/../..' . '/app/Models/Expenses.php',
         'App\\Models\\ExpensesCategoryMaster' => __DIR__ . '/../..' . '/app/Models/ExpensesCategoryMaster.php',
         'App\\Models\\GoodsReceivedNoteItem' => __DIR__ . '/../..' . '/app/Models/GoodsReceivedNoteItem.php',
         'App\\Models\\GoodsReceivingNote' => __DIR__ . '/../..' . '/app/Models/GoodsReceivingNote.php',
         'App\\Models\\ItemMaster' => __DIR__ . '/../..' . '/app/Models/ItemMaster.php',
+        'App\\Models\\MaterialIssue' => __DIR__ . '/../..' . '/app/Models/MaterialIssue.php',
+        'App\\Models\\MaterialIssueItem' => __DIR__ . '/../..' . '/app/Models/MaterialIssueItem.php',
         'App\\Models\\MaterialRequisition' => __DIR__ . '/../..' . '/app/Models/MaterialRequisition.php',
+        'App\\Models\\MaterialRequisitionItem' => __DIR__ . '/../..' . '/app/Models/MaterialRequisitionItem.php',
         'App\\Models\\ProjectMaster' => __DIR__ . '/../..' . '/app/Models/ProjectMaster.php',
         'App\\Models\\SalaryDetails' => __DIR__ . '/../..' . '/app/Models/SalaryDetails.php',
         'App\\Models\\SiteMaster' => __DIR__ . '/../..' . '/app/Models/SiteMaster.php',
         'App\\Models\\SupplierMaster' => __DIR__ . '/../..' . '/app/Models/SupplierMaster.php',
+        'App\\Models\\TimeSheet' => __DIR__ . '/../..' . '/app/Models/TimeSheet.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Models\\VisaDetails' => __DIR__ . '/../..' . '/app/Models/VisaDetails.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
@@ -2864,6 +2876,7 @@ class ComposerStaticInit36efe580f2c48dc9f00d4e3d6bf0da1e
         'JeroenNoten\\LaravelAdminLte\\View\\Components\\Form\\InputColor' => __DIR__ . '/..' . '/jeroennoten/laravel-adminlte/src/View/Components/Form/InputColor.php',
         'JeroenNoten\\LaravelAdminLte\\View\\Components\\Form\\InputDate' => __DIR__ . '/..' . '/jeroennoten/laravel-adminlte/src/View/Components/Form/InputDate.php',
         'JeroenNoten\\LaravelAdminLte\\View\\Components\\Form\\InputFile' => __DIR__ . '/..' . '/jeroennoten/laravel-adminlte/src/View/Components/Form/InputFile.php',
+        'JeroenNoten\\LaravelAdminLte\\View\\Components\\Form\\InputFileKrajee' => __DIR__ . '/..' . '/jeroennoten/laravel-adminlte/src/View/Components/Form/InputFileKrajee.php',
         'JeroenNoten\\LaravelAdminLte\\View\\Components\\Form\\InputGroupComponent' => __DIR__ . '/..' . '/jeroennoten/laravel-adminlte/src/View/Components/Form/InputGroupComponent.php',
         'JeroenNoten\\LaravelAdminLte\\View\\Components\\Form\\InputSlider' => __DIR__ . '/..' . '/jeroennoten/laravel-adminlte/src/View/Components/Form/InputSlider.php',
         'JeroenNoten\\LaravelAdminLte\\View\\Components\\Form\\InputSwitch' => __DIR__ . '/..' . '/jeroennoten/laravel-adminlte/src/View/Components/Form/InputSwitch.php',
@@ -2981,6 +2994,7 @@ class ComposerStaticInit36efe580f2c48dc9f00d4e3d6bf0da1e
         'Laravel\\Fortify\\Http\\Responses\\VerifyEmailResponse' => __DIR__ . '/..' . '/laravel/fortify/src/Http/Responses/VerifyEmailResponse.php',
         'Laravel\\Fortify\\LoginRateLimiter' => __DIR__ . '/..' . '/laravel/fortify/src/LoginRateLimiter.php',
         'Laravel\\Fortify\\RecoveryCode' => __DIR__ . '/..' . '/laravel/fortify/src/RecoveryCode.php',
+        'Laravel\\Fortify\\RoutePath' => __DIR__ . '/..' . '/laravel/fortify/src/RoutePath.php',
         'Laravel\\Fortify\\Rules\\Password' => __DIR__ . '/..' . '/laravel/fortify/src/Rules/Password.php',
         'Laravel\\Fortify\\TwoFactorAuthenticatable' => __DIR__ . '/..' . '/laravel/fortify/src/TwoFactorAuthenticatable.php',
         'Laravel\\Fortify\\TwoFactorAuthenticationProvider' => __DIR__ . '/..' . '/laravel/fortify/src/TwoFactorAuthenticationProvider.php',
@@ -3044,6 +3058,12 @@ class ComposerStaticInit36efe580f2c48dc9f00d4e3d6bf0da1e
         'League\\CommonMark\\Event\\DocumentPreRenderEvent' => __DIR__ . '/..' . '/league/commonmark/src/Event/DocumentPreRenderEvent.php',
         'League\\CommonMark\\Event\\DocumentRenderedEvent' => __DIR__ . '/..' . '/league/commonmark/src/Event/DocumentRenderedEvent.php',
         'League\\CommonMark\\Event\\ListenerData' => __DIR__ . '/..' . '/league/commonmark/src/Event/ListenerData.php',
+        'League\\CommonMark\\Exception\\AlreadyInitializedException' => __DIR__ . '/..' . '/league/commonmark/src/Exception/AlreadyInitializedException.php',
+        'League\\CommonMark\\Exception\\CommonMarkException' => __DIR__ . '/..' . '/league/commonmark/src/Exception/CommonMarkException.php',
+        'League\\CommonMark\\Exception\\IOException' => __DIR__ . '/..' . '/league/commonmark/src/Exception/IOException.php',
+        'League\\CommonMark\\Exception\\InvalidArgumentException' => __DIR__ . '/..' . '/league/commonmark/src/Exception/InvalidArgumentException.php',
+        'League\\CommonMark\\Exception\\LogicException' => __DIR__ . '/..' . '/league/commonmark/src/Exception/LogicException.php',
+        'League\\CommonMark\\Exception\\MissingDependencyException' => __DIR__ . '/..' . '/league/commonmark/src/Exception/MissingDependencyException.php',
         'League\\CommonMark\\Exception\\UnexpectedEncodingException' => __DIR__ . '/..' . '/league/commonmark/src/Exception/UnexpectedEncodingException.php',
         'League\\CommonMark\\Extension\\Attributes\\AttributesExtension' => __DIR__ . '/..' . '/league/commonmark/src/Extension/Attributes/AttributesExtension.php',
         'League\\CommonMark\\Extension\\Attributes\\Event\\AttributesListener' => __DIR__ . '/..' . '/league/commonmark/src/Extension/Attributes/Event/AttributesListener.php',
@@ -3276,6 +3296,7 @@ class ComposerStaticInit36efe580f2c48dc9f00d4e3d6bf0da1e
         'League\\CommonMark\\Parser\\MarkdownParserInterface' => __DIR__ . '/..' . '/league/commonmark/src/Parser/MarkdownParserInterface.php',
         'League\\CommonMark\\Parser\\MarkdownParserState' => __DIR__ . '/..' . '/league/commonmark/src/Parser/MarkdownParserState.php',
         'League\\CommonMark\\Parser\\MarkdownParserStateInterface' => __DIR__ . '/..' . '/league/commonmark/src/Parser/MarkdownParserStateInterface.php',
+        'League\\CommonMark\\Parser\\ParserLogicException' => __DIR__ . '/..' . '/league/commonmark/src/Parser/ParserLogicException.php',
         'League\\CommonMark\\Reference\\Reference' => __DIR__ . '/..' . '/league/commonmark/src/Reference/Reference.php',
         'League\\CommonMark\\Reference\\ReferenceInterface' => __DIR__ . '/..' . '/league/commonmark/src/Reference/ReferenceInterface.php',
         'League\\CommonMark\\Reference\\ReferenceMap' => __DIR__ . '/..' . '/league/commonmark/src/Reference/ReferenceMap.php',
@@ -3291,6 +3312,7 @@ class ComposerStaticInit36efe580f2c48dc9f00d4e3d6bf0da1e
         'League\\CommonMark\\Renderer\\Inline\\NewlineRenderer' => __DIR__ . '/..' . '/league/commonmark/src/Renderer/Inline/NewlineRenderer.php',
         'League\\CommonMark\\Renderer\\Inline\\TextRenderer' => __DIR__ . '/..' . '/league/commonmark/src/Renderer/Inline/TextRenderer.php',
         'League\\CommonMark\\Renderer\\MarkdownRendererInterface' => __DIR__ . '/..' . '/league/commonmark/src/Renderer/MarkdownRendererInterface.php',
+        'League\\CommonMark\\Renderer\\NoMatchingRendererException' => __DIR__ . '/..' . '/league/commonmark/src/Renderer/NoMatchingRendererException.php',
         'League\\CommonMark\\Renderer\\NodeRendererInterface' => __DIR__ . '/..' . '/league/commonmark/src/Renderer/NodeRendererInterface.php',
         'League\\CommonMark\\Util\\ArrayCollection' => __DIR__ . '/..' . '/league/commonmark/src/Util/ArrayCollection.php',
         'League\\CommonMark\\Util\\Html5EntityDecoder' => __DIR__ . '/..' . '/league/commonmark/src/Util/Html5EntityDecoder.php',
@@ -5899,10 +5921,10 @@ class ComposerStaticInit36efe580f2c48dc9f00d4e3d6bf0da1e
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit36efe580f2c48dc9f00d4e3d6bf0da1e::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit36efe580f2c48dc9f00d4e3d6bf0da1e::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit36efe580f2c48dc9f00d4e3d6bf0da1e::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit36efe580f2c48dc9f00d4e3d6bf0da1e::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita5d9c676f7cb66bb52041dc086dc1853::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita5d9c676f7cb66bb52041dc086dc1853::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInita5d9c676f7cb66bb52041dc086dc1853::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInita5d9c676f7cb66bb52041dc086dc1853::$classMap;
 
         }, null, ClassLoader::class);
     }
