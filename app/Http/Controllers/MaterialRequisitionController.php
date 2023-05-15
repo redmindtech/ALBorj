@@ -57,13 +57,12 @@ class MaterialRequisitionController extends Controller
             $material = MaterialRequisition::create($data);
             $material_items = $request->input('item_no') ?? null;
             $quantity = $request->input('quantity') ?? null;
-            $stock_qty = $request->input('stock_qty') ?? null;
+          
             if (count($material_items) > 0) {
                 foreach ($material_items as $key => $material_item) {
                     MaterialRequisitionItem::create([
                         'mr_no' => $material->mr_id,
-                        'item_no' => $material_item,
-                        'stock_qty' => $stock_qty[$key],
+                        'item_no' => $material_item,                      
                         'quantity' => $quantity[$key]
                     ]);
                 }
@@ -129,8 +128,7 @@ class MaterialRequisitionController extends Controller
             for ($i = 0; $i < $itemCount; $i++) {
                 MaterialRequisitionItem::create([
                     'mr_no' => $id,
-                    'item_no' => $request['item_no'][$i],
-                    'stock_qty' => $request['stock_qty'][$i],
+                    'item_no' => $request['item_no'][$i],                    
                     'quantity' => $request['quantity'][$i],
 
                 ]);

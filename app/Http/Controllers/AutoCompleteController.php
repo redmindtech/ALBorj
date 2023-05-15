@@ -17,28 +17,43 @@ class AutoCompleteController extends Controller
 {
   // to populate date from po in grn
      public function get_po_details(){
-      try{
-        //for po_id get from po tabel
-          $po_code = $_GET['project_code'];
-           $po_no = DB::table('purchase_order')
-          ->select('po_no')
-          ->where('po_code', $po_code)
-          ->value('po_no');
-          // items get from po_item table 
-           $po_items = DB::table('purchase_order_item')
-             ->join('item_masters', 'purchase_order_item.item_no', '=', 'item_masters.id')
-             ->select('purchase_order_item.*', 'item_masters.item_name')
-             ->where('po_no', $po_no)
-             ->get();
+      try {
+        // For po_id get from po table
+        $po_code = $_GET['project_code'];
+        $po_info = DB::table('purchase_order')
+            ->select('po_no', 'po_date') 
+            ->where('po_code', $po_code)
+            ->first(); 
+        
+        if ($po_info) {
+            $po_no = $po_info->po_no;
+            $po_date = $po_info->po_date;
+    
+            // Items get from po_item table
+            $po_items = DB::table('purchase_order_item')
+                ->join('item_masters', 'purchase_order_item.item_no', '=', 'item_masters.id')
+                ->select('purchase_order_item.*', 'item_masters.item_name')
+                ->where('po_no', $po_no)
+                ->get();
+    
             return response()->json([
-               'po_no' => $po_no,
-               'po_items' => $po_items
-           ]);        
-      }
-       catch (Exception $e) {
-          info($e);
-          return response()->json('Error occured in the get po details', 400);
-      }
+                'po_no' => $po_no,
+                'po_date' => $po_date, // Include po_date in the response
+                'po_items' => $po_items
+            ]);
+        } else {
+            // Handle case when no matching record is found
+            return response()->json([
+                'error' => 'No purchase order found with the given code.'
+            ], 404);
+        }
+    } catch (Exception $e) {
+        // Handle any exceptions that occur during the process
+        return response()->json([
+            'error' => 'An error occurred while retrieving purchase order data.'
+        ], 500);
+    }
+    
      }
     //  auto complete data for item name populated in GRN and material issue item name
      public function  getitemnamedata(){

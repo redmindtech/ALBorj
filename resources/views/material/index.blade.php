@@ -348,10 +348,11 @@ $.ajaxSetup({
                 }
                 var rowid=1;
                for (const item of message.mi_item) {
+                console.log(item.total_quantity);
                 add_text(); // add a new row to the table
                 $('#item_name_' + rowid).val(item.item_name);
                 $('#item_no_' + rowid).val(item.item_no);
-                $('#stock_qty_'+ rowid).val(item.item_qty);
+                $('#total_quantity_'+ rowid).text(item.total_quantity);
                 $('#quantity_'+ rowid).val(item.quantity);
                             
                 rowid++;
@@ -374,7 +375,7 @@ $.ajaxSetup({
                     for (const item of message.mi_item) {
                    script += '<tr>';
                    script += '<td>' + item.item_name + '</td>';
-                   script += '<td>' + item.item_qty + '</td>';
+                   script += '<td>' + item.total_quantity + '</td>';
                    script += '<td>' + item.quantity+ '</td>';
                     script += '</tr>';
                 }
@@ -414,7 +415,7 @@ function add_text()
         html += '<td>'+rowIdx+'</td>';
 		html += '<td><div class="col-xs-12"><input type="text" id="item_name_'+rowIdx+'"  name="item_name[]" class="item_name" placeholder="Start Typing Item name..."></div></td>';
         html += '<td hidden ><div class="col-xs-12"><input type="text"  id="item_no_'+rowIdx+'"  name="item_no[]" class="item_no_'+rowIdx+'"></div></td>';
-        html += '<td><div class="col-xs-12"><input type="text" id="stock_qty_'+rowIdx+'"  name="stock_qty[]" class="stock_qty"></div></td>';
+        html += '<td><center><div class="col-xs-12" id="total_quantity_'+ rowIdx + '" ></div></center></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="quantity_'+rowIdx+'"  name="quantity[]" class="quantity"></div></td>';
                html +='<td><button class="btn btn-danger remove" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';     
         html+='</tr>';
@@ -479,7 +480,7 @@ $(document).on('focus', '.item_name', function() {
                 for(var i in data)
                 {                    
                     $('#item_no_'+id).val(data[0]["id"]);
-                    $('#stock_qty_'+id).val(data[0]["item_qty"]);
+                    $('#total_quantity_'+id).text(data[0]["total_quantity"]);
                     
                 }
             },fail: function(xhr, textStatus, errorThrown){
@@ -494,11 +495,7 @@ $(document).on('focus', '.item_name', function() {
                 if ($('#item_name_'+row).val() == '') {
                     alert("Please enter item name.");
                 
-                } else if ($('#stock_qty_'+row).val() == '') {
-                    alert("Please enter stock quantity.");
-                } else if (!/^\d+(\.\d+)?$/.test($('#stock_qty_'+row).val())) {
-                    alert("Stock quantity should only contain numbers.");
-                } else if ($('#quantity_'+row).val() == '') {
+                }  else if ($('#quantity_'+row).val() == '') {
                     alert("Please enter quantity.");
                 } else if (!/^\d+(\.\d+)?$/.test($('#quantity_'+row).val())) {
                     alert("Quantity should only contain numbers.");

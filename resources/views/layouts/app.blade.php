@@ -127,6 +127,55 @@ input[type=checkbox] {
   width: 25px;
   height: 25px;
 }
+/* style for percentage and ruper to toggle */
+.checkbox {
+            width: 30px;
+            height: 30px;
+            position: relative;
+            display: block;
+        }
+        .checkbox { background-color: #4287f5; }
+        .checkbox {
+            opacity: 1; 
+            text-align: center;
+            animation-name: eh;
+            animation-duration: 0.3s;
+        }
+        .checkbox .checked-icon, .radio .rad-icon { transition: opacity 0.3s ease-out; }
+        .toggle {
+            position: relative;
+            width: 60px;
+            height: 34px;
+            display: inline-block;
+        }
+        .toggle .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+        .toggle .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.05);
+        }
+        .toggle .slider { background-color: #e3eefa; }
+        .toggle.on .slider { background-color: #4287f5; }
+        .toggle.on .slider:before { transform: translateX(26px); box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2); }
+        .toggle .label { position: absolute; left: 70px; top: 4px; vertical-align: middle; }
+        .st { height: 100%; width: 100%; opacity: 0; position: absolute; z-index: 100; cursor: pointer; vertical-align: middle;}
+        .toggle.focus .slider, .checkbox.focus   { box-shadow: 0px 0px 0px 2px #bababa; transition: all 0.4s; }
+     /* style for percentage and ruper to toggle  ends*/   
     </style>
   
    

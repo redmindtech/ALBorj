@@ -8,6 +8,7 @@
 @stop
 
 @section('content')
+
 <!-- DATA table -->
      <div class="row">
                 <div class="container-fluid">
@@ -129,18 +130,18 @@
         
     </div>
     <div class="form-group col-md-4">
-        <label for="po_no" class="form-label fw-bold">REF LPO</label>
-        <input type="text" id="po_code" name="po_code" value="{{ old('po_code') }}" class="form-control" autocomplete="off">
+        <label for="po_no" class="form-label fw-bold">REF LPO<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="po_code" name="po_code" value="{{ old('po_code') }}"  placeholder="REF LPO"class="form-control" autocomplete="off">
         <input type="text"  hidden id="po_no" name="po_no" value="{{ old('po_no') }}" class="form-control" autocomplete="off">
         <p style="color: red" id="error_po_no"></p>
     </div>
     <div class="form-group col-md-4" >
-        <label for="po_date" class="form-label fw-bold">REF LPO date</label>
+        <label for="po_date" class="form-label fw-bold">REF LPO date<a style="text-decoration: none;color:red">*</a></label>
         <input type="date" id="po_date" name="po_date"  value="{{ old('po_date') }}" placeholder="REF LPO date" class="form-control" autocomplete="off" >
-        <p style="color: red" id="error_grn_date"></p>
+        <p style="color: red" id="error_po_date"></p>
     </div>
     <div class="form-group col-md-4" >
-        <label for="due_Date" class="form-label fw-bold">Due date<a style="text-decoration: none;color:red">*</a></label>
+        <label for="due_Date" class="form-label fw-bold">Due date</label>
         <input type="date" id="due_Date" name="due_Date"  value="{{ old('due_Date') }}" placeholder="REF LPO date" class="form-control" autocomplete="off" >
         
     </div>    
@@ -174,12 +175,12 @@
 </tbody>
     </table>
         </div>
-        <div style="margin-top:8px">
+        <!-- <div style="margin-top:8px">
         <button class="btn btn-md btn-primary"
         id="addBtn" type="button">
             Add Row
         </button>
- </div>
+ </div> -->
     </div>
     <div class="row" style="margin-top:8px">
     <div class="form-group col-md-2">
@@ -198,13 +199,17 @@
         <label for="freight" class="form-label fw-bold">Freight</label>
         <input type="text" id="freight" name="freight" value="{{ old('freight')}}" placeholder="Freight" class="form-control" autocomplete="off">      
     </div>
-    <div class="form-group col-md-2">
-        <label for="purchase" class="form-label fw-bold">Purchase</label>
-        <input type="text" id="purchase" name="purchase" value="{{ old('purchase')}}" placeholder="Purchase" class="form-control" autocomplete="off">      
-    </div>
-    <div class="form-group col-md-2">
+  
+    <div class="form-group col-md-3">
         <label for="vat" class="form-label fw-bold">VAT</label>
-        <input type="text" id="vat" name="vat" value="{{ old('vat')}}"  placeholder="VAT" class="form-control" autocomplete="off">      
+        <div class="input-group">
+            <input type="text" id="vat" name="vat" value="{{ old('vat')}}"  placeholder="VAT" class="form-control" autocomplete="off">      
+        <div class="toggle focus">   
+              
+            <input type="checkbox" class="st" name="vat_type" id="vat_type" value="1" {{ old('vat_type') ? 'checked' : '' }}>
+                <span class="slider focus"></span>
+                <span class="label">₹</span>  </div>
+    </div>  
     </div>
  </div>
     <div class="row" style="margin-top:8px">
@@ -216,15 +221,16 @@
     </div>
     <div class="col-md-2">
     <label for="" id="total" class="float-end mt-2">Item Amount </label><br>
+    <label for="" class="float-end mt-3"> Discount Amount</label><br>
         <label for="" class="float-end mt-2">Total Amount</label><br>
-        <label for="" class="float-end mt-3"> Discount Amount</label><br>
+        
         <label for="" class="float-end my-3">VAT Amount</label>
         <label for="" class="float-end my-3">Grand Total</label>
     </div>
     <div class="col-md-4">
         <input type="text" name="total_item_amount"  id="total_item_amount" readonly class="form-control mb-2">
-        <input type="text" name="total_amount" id="total_amount"readonly class="form-control mb-2">
         <input type="text" name="discount" id="discount" readonly class="form-control mb-2">
+        <input type="text" name="total_amount" id="total_amount"readonly class="form-control mb-2">
         <input type="text" name="vat" id="vat1" readonly class="form-control mb-2">
         <input type="text" name="gross_amount" id="gross_amount"readonly class="form-control mb-2">
     </div>
@@ -234,7 +240,11 @@
     </div>
     <div class="col-md-4">
         <input type="file" name="attachments" class="form-control">
+        <span id="filename"></span>
     </div>
+    <div class="col-md-2">
+    <button type="button" id="deleteButton" class="btn btn-danger">Delete</button>
+</div>
 </div>
     <div class="row mt-3">
         <div class="form-group col-md-12">
@@ -344,30 +354,67 @@
      
 
        <!--script starts  -->
-<script>        
-        // jQuery button click event to add a row
-        $('#addBtn').on('click', function () {               
-           var row=rowIdx-1;
-        
-                if ($('#item_name_'+row).val() == '') {
-                    alert("Please enter item name.");
-                } else if (!/^[a-zA-Z]+$/.test($('#item_name_'+row).val())) {
-                    alert("Item name should only contain alphabets.");
-                } else if ($('#receiving_qty_'+row).val() == '') {
-                    alert("Please enter receiving quantity.");
-                } else if (!/^\d+(\.\d+)?$/.test($('#receiving_qty_'+row).val())) {
-                    alert("Receiving quantity should only contain numbers.");
-                } else if ($('#rate_per_qty_'+row).val() == '') {
-                    alert("Please enter rate per quantity.");
-                } else if (!/^\d+(\.\d+)?$/.test($('#rate_per_qty_'+row).val())) {
-                    alert("Rate per quantity should only contain numbers.");
-                } else{            
+<script> 
+   $(document).ready(function(){
+        $('.toggle input[type="checkbox"]').click(function(){
+            $(this).parent().toggleClass('on');
 
-           add_text();
-                 }                               
+            if ($(this).parent().hasClass('on')) {
+               $('#vat_type').val('1');
+               var total=  (parseFloat($('#total_amount').val()) || 0);
+               var vatPercentage = parseFloat($('input[name="vat"]').val() || 0);
+                vat = (vatPercentage / 100) * total;
+                var gross_amount =total+vat;
+                $('#gross_amount').val(gross_amount.toFixed(2));
+                $(this).parent().children('.label').text('%')
+
+            } else {
+                $('#vat_type').val('0');
+                var total=  (parseFloat($('#total_amount').val()) || 0);
+               var vatPercentage = parseFloat($('input[name="vat"]').val() || 0);
+              var gross_amount = vatPercentage + total;
+                
+                $('#gross_amount').val(gross_amount.toFixed(2));
+                $(this).parent().children('.label').text('₹')
+            }
+        });   
+        
+      
+      
+    }); 
+    document.getElementById("deleteButton").addEventListener("click", function() {
+    // Perform the delete operation here
+    // You can use AJAX or submit the form to a server endpoint to handle the deletion
+    // Alternatively, you can add your custom JavaScript code to handle the deletion logic
+    // For example, you can clear the file input and remove the displayed filename
+    document.querySelector("input[name='attachments']").value = "";
+    document.getElementById("filename").textContent = "";
+});
+
+    
+        // jQuery button click event to add a row
+        // $('#addBtn').on('click', function () {               
+        //    var row=rowIdx-1;
+        
+        //         if ($('#item_name_'+row).val() == '') {
+        //             alert("Please enter item name.");
+        //         } else if (!/^[a-zA-Z]+$/.test($('#item_name_'+row).val())) {
+        //             alert("Item name should only contain alphabets.");
+        //         } else if ($('#receiving_qty_'+row).val() == '') {
+        //             alert("Please enter receiving quantity.");
+        //         } else if (!/^\d+(\.\d+)?$/.test($('#receiving_qty_'+row).val())) {
+        //             alert("Receiving quantity should only contain numbers.");
+        //         } else if ($('#rate_per_qty_'+row).val() == '') {
+        //             alert("Please enter rate per quantity.");
+        //         } else if (!/^\d+(\.\d+)?$/.test($('#rate_per_qty_'+row).val())) {
+        //             alert("Rate per quantity should only contain numbers.");
+        //         } else{            
+
+        //    add_text();
+        //          }                               
               
            
-            });
+        //     });
             // delete row in dynamically created table
             $('#tbody1').on('click', '.remove', function() {
                                  // Getting all the rows next to the row containing the clicked button
@@ -425,20 +472,28 @@ $('#tbody1').on('input', 'input[id^="receiving_qty"], input[id^="rate_per_qty_"]
 });//end
 
     // calculation for total amount
-    $('input[name="invoice_amount"], input[name="misc_expenses"],  input[name="freight"],input[name="discount_amount"],input[name="vat"], input[name="purchase"],#total_item_amount').on('input', function() {
+    $(' input[name="misc_expenses"],  input[name="freight"],input[name="discount_amount"],input[name="vat"], input[name="purchase"],#total_item_amount').on('input', function() {
         // Get the values of the input fields
-        var invoiceAmount = parseFloat($('input[name="invoice_amount"]').val() || 0);
         var miscExpenses = parseFloat($('input[name="misc_expenses"]').val() || 0);        
         var freight = parseFloat($('input[name="freight"]').val() || 0);
-        var purchase = parseFloat($('input[name="purchase"]').val() || 0);
+        
         calculateTotal();
+        var discount=parseFloat($('input[name="discount_amount"]').val() || 0);
         // Calculate the total amount
-        var totalAmount = invoiceAmount + miscExpenses + freight + purchase + (parseFloat($('#total_item_amount').val()) || 0);
+        var totalAmount =  miscExpenses + freight + (parseFloat($('#total_item_amount').val()) || 0)-discount;
         // Set the value of the total_amount input field
         $('#total_amount').val(totalAmount.toFixed(2));
-        var discount=parseFloat($('input[name="discount_amount"]').val() || 0);
-        var vat=parseFloat($('input[name="vat"]').val() || 0);
-         var gross_amount =totalAmount+vat-discount;
+       
+        var vat = 0;
+    if ($('.toggle input[type="checkbox"]').parent().hasClass('on')) {
+        // VAT input is set to percentage
+        var vatPercentage = parseFloat($('input[name="vat"]').val() || 0);
+        vat = (vatPercentage / 100) * totalAmount;
+    } else {
+        // VAT input is set to rupee amount
+        vat = parseFloat($('input[name="vat"]').val() || 0);
+    }
+         var gross_amount =totalAmount+vat;
          $('#gross_amount').val(gross_amount.toFixed(2));
     });
 
@@ -455,15 +510,24 @@ $('#tbody1').on('input', 'input[id^="receiving_qty"], input[id^="rate_per_qty_"]
         }
 // after calculation if they add new row
     function updateGrossAmount() {
-    var invoiceAmount = parseFloat($('input[name="invoice_amount"]').val() || 0);
+   
     var miscExpenses = parseFloat($('input[name="misc_expenses"]').val() || 0);        
     var freight = parseFloat($('input[name="freight"]').val() || 0);
-    var purchase = parseFloat($('input[name="purchase"]').val() || 0);
+  
     var discount=parseFloat($('input[name="discount_amount"]').val() || 0);
-    var vat=parseFloat($('input[name="vat"]').val() || 0);
-    var totalAmount = invoiceAmount + miscExpenses + freight + purchase + (parseFloat($('#total_item_amount').val()) || 0);
+   
+    var totalAmount =  miscExpenses + freight +  (parseFloat($('#total_item_amount').val()) || 0)-discount;
     $('#total_amount').val(totalAmount.toFixed(2));
-    var gross_amount =totalAmount+vat-discount;
+    var vat = 0;
+    if ($('.toggle input[type="checkbox"]').parent().hasClass('on')) {
+        // VAT input is set to percentage
+        var vatPercentage = parseFloat($('input[name="vat"]').val() || 0);
+        vat = (vatPercentage / 100) * totalAmount;
+    } else {
+        // VAT input is set to rupee amount
+        vat = parseFloat($('input[name="vat"]').val() || 0);
+    }
+    var gross_amount =totalAmount+vat;
     $('#gross_amount').val(gross_amount.toFixed(2));    
        
     }       
@@ -473,7 +537,7 @@ $('#tbody1').on('input', 'input[id^="receiving_qty"], input[id^="rate_per_qty_"]
 function add_text()
 {
             var html = '';
-		html +='<tr id="row'+rowIdx+'">';
+		html +='<tr id="row'+rowIdx+'" class="rowtr">';
         html += '<td>'+rowIdx+'</td>';
 		html += '<td><div class="col-xs-12"><input type="text" id="item_name_'
         +rowIdx+'"  name="item_name[]" class="item_name" placeholder="Start Typing Item name..."></div></td>';
@@ -667,7 +731,9 @@ $(document).on('focus', '.item_name', function() {
 
 // table create with data for ref lpo number
     $("#po_code").on('change',function()
-    {        
+    {   console.log('hi');
+        $('.rowtr').remove();   
+       
         $.ajax
         ({
         type:"GET",
@@ -678,20 +744,13 @@ $(document).on('focus', '.item_name', function() {
             'project_code':$('#po_code').val()
         },
         success: function( data )
-        {   var len= data.po_items.length;
-            var create_id=1;
-            $(po_no).val(data.po_no);
-        if(len == 1)
         {   
-            for (const item of data.po_items) {         
-            $('#item_name_' + create_id).val(item.item_name);
-            $('#item_no_' + create_id).val(item.item_no);              
-            $('#quantity_'+ create_id).val(item.quantity);               
-            $('#rate_per_qty_'+ create_id).val(item.rate_per_qty);              
-             }
-        }
-        else{
-            for (const item of data.po_items) {                
+            var len= data.po_items.length;
+            $('#po_no').val(data.po_no);
+            $('#po_date').val(data.po_date.split(' ')[0]);
+            var create_id=1;   
+            for (const item of data.po_items) { 
+                console.log(create_id);     
             add_text();
             $('#item_name_' + create_id).val(item.item_name);
             $('#item_no_' + create_id).val(item.item_no);              
@@ -699,7 +758,7 @@ $(document).on('focus', '.item_name', function() {
             $('#rate_per_qty_'+ create_id).val(item.rate_per_qty);              
             create_id++;
             }  
-        }
+            rowIdx=1;      
 
     },fail: function(xhr, textStatus, errorThrown){
     alert(errorThrown);
@@ -709,7 +768,7 @@ $(document).on('focus', '.item_name', function() {
     // dialog open
     function handleDialog(){
              document.getElementById("myDialog").open = true;
-             add_text();
+            //  add_text();
              $('#method').val("ADD");
              $('#submit').text("Save");
              $('#heading_name').text("Add Goods Receiving Note").css('font-weight', 'bold');
@@ -753,12 +812,13 @@ $(document).on('focus', '.item_name', function() {
         let url;
         let type;
         if(method == 'ADD')
-        {          
+        {        ;  
             url = '{{route('grnApi.store')}}';
             type  = 'POST';
         }
         else
-        {           
+        {     
+            alert($('#vat_type').val() );     
             let id = $('#grn_no').val();
             url = '{{route('grnApi.update',":id")}}';
             url= url.replace(':id',id);
@@ -802,15 +862,21 @@ function handleShowAndEdit(id,action)
             cache: false,
             processData: false,
             success: function (message)
-            {
+            { 
                 if(action == 'edit')
-                {               
+                {   
                     $('#show').css('display','none');
                     $('#form').css('display','block');
-                    for (const [key, value] of Object.entries(message.grn[0]))
+                    for (const [key, value] of Object.entries(message.grn))
                     {
                         $(`#${key}`).val(value);
-                    }
+                    }                    
+             if (message.grn.vat_type == '1') {          
+          $('#vat_type').prop('checked', true).trigger('click');
+    }
+     let fileName = message.grn.filename;
+       $('#filename').text(fileName);
+       $('#attachments').text( message.grn.attachments);
                var rowid=1;
                for (const item of message.grn_item) {
                 add_text(); // add a new row to the table
@@ -825,14 +891,14 @@ function handleShowAndEdit(id,action)
                 rowid++;
             }
                     $('#total_item_amount').val(totalAmount);
-                    $('#vat1').val(message.grn[0].vat);
-                    $('#discount').val(message.grn[0].discount_amount);
+                    $('#vat1').val(message.grn.vat);
+                    $('#discount').val(message.grn.discount_amount);
                     $('#method').val('UPDATE');
                     $('#submit').text('UPDATE');
                 }
                 else
                 {
-                    for (let [key, value] of Object.entries(message.grn[0])) {
+                    for (let [key, value] of Object.entries(message.grn)) {
                         // date formate
                       if (key === "grn_date" || key === "po_date") {
                     var dateObj = new Date(value);
@@ -866,6 +932,4 @@ function handleShowAndEdit(id,action)
         })
     }   
     </script>        
-
-
 @stop
