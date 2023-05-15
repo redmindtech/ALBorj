@@ -13,10 +13,10 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
     |
     */
-
-    'title' => 'Employes Management System',
-    'title_prefix' => 'AL BORJ ERP',
-    'title_postfix' => '',
+    'title' => 'AL BORJ ERP',
+    // 'title' => 'Employes Management System',
+    // 'title_prefix' => 'AL BORJ ERP',
+    // 'title_postfix' => '',
 
     /*
     |--------------------------------------------------------------------------

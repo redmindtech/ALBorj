@@ -56,20 +56,47 @@
             {
                 extend: 'collection',
                 text: '<i class="fa fa-file-export" aria-hidden="true"></i>',
-                buttons: ['csv','excel','pdf',]
+                buttons: [
+            {
+                extend: 'csv',
+                //title:    function () { return cfTitle; },
+               filename: $('title').text().trim(),
+                exportOptions: {
+                    columns: ':not(.notexport)'
+                }
+            },
+            {
+                extend: 'pdf',
+                 filename: $('title').text().trim(),
+                exportOptions: {
+                    columns: ':not(.notexport)'
+                }
+            },
+           
+                ]
+                 
 
             },
             'colvis',
             {
                 extend: 'collection',
                 text: '<i class="fa fa-print" aria-hidden="true"></i>',
-                buttons: ['print',]
+                buttons:  [
+            {
+                extend: 'print',
+                exportOptions: {
+                    columns: ':not(.notexport)'
+                }
+            },
+           
+        ],
             },]
         } );
 
         table.buttons().container()
             .appendTo( '#myTable_wrapper .col-md-6:eq(0)' );
     } );
+
 
     </script>
 

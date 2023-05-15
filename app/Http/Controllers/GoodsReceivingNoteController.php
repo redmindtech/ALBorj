@@ -54,6 +54,7 @@ class GoodsReceivingNoteController extends Controller
      */
     public function store(GoodReceivingNoteRequest $request)
     {  
+        
     //    for vat_typr
         if($request['vat_type']=="")
         {
@@ -64,54 +65,83 @@ class GoodsReceivingNoteController extends Controller
             $request['vat_type']=null ; 
         }  
         $file = $request->file('attachments');        
-       
+        $po_no=$request['po_no'];
         try {
             // grn insert data
             $grn = new GoodsReceivingNote($request->only(GoodsReceivingNote::REQUEST_INPUTS));
                 if ($file) {
                     $fileData = file_get_contents($file->getRealPath());
                     $fileName = $file->getClientOriginalName();
-        
-                    // Save the file data as a BLOB in the database
+          // Save the file data as a BLOB in the database
                     $grn->attachments = $fileData;
                     $grn->filename = $fileName;
                 } 
-        
-                // Save the GoodsReceivingNote instance
+         // Save the GoodsReceivingNote instance
                 $grn->save();        
                 $grn= GoodsReceivingNote::max('grn_no');
-                // supplier_no
+         // supplier_no
                 $supplier_no=$request['supplier_no'];
-                // count of item_no
+         // count of item_no
                 $itemCount = count($request['item_no']);
-                // iteration 
+         // iteration 
                 for ($i = 0; $i < $itemCount; $i++)
             {                 
                  $item_no=$request['item_no'][$i];
-                //  update total qty in itemmaster table
+         //  update total qty in itemmaster table
                 $item_update = ItemMaster::where('id', $item_no)->value('total_quantity');                                     
                 $item_qty=$item_update+ $request['receiving_qty'][$i];                     
                 ItemMaster::where('id', $item_no)
                 ->update(['total_quantity' => $item_qty]);
+         // ITEM_SUPPLIER QUANTITY UPDATE OR CREATE NEW
                 $item_supplier_check = ItemSupplier::where('item_no', $item_no)
-                ->where('supplier_no', $supplier_no)->value('quantity');        
+                ->where('supplier_no', $supplier_no)->value('quantity');                        
                 $item_supplier_qty=$item_supplier_check+$request['receiving_qty'][$i];               
                 if($item_supplier_check == "")
                 {                 
-                    // create new record in itemsupplier
+        //   create new record in itemsupplier
                     ItemSupplier::create([
                         'item_no' => $request['item_no'][$i],
                         'supplier_no'=> $supplier_no,
                         'quantity'=>$request['receiving_qty'][$i],
-                        'price_per_qty'=>$request['receiving_qty'][$i]
+                        'price_per_qty'=>$request['rate_per_qty'][$i]
                     ]);
                 }
                 else{
-                        $item_supplier_check = ItemSupplier::where('item_no', $item_no)
-                    ->where('supplier_no', $supplier_no)->update(['quantity' => $item_supplier_qty]);  
+        // update itemsupplier quantity and rate per qty
+                      $item_supplier_check = ItemSupplier::where('item_no', $item_no)
+                    ->where('supplier_no', $supplier_no)->update(['quantity' => $item_supplier_qty, 'price_per_qty'=>$request['rate_per_qty'][$i]
+                ]);  
                 }
-                
-                // data added in grn item table
+        //UPDATE PO PENDING QUANTITY IN purchase_order_item
+                   $pendingQty = DB::table('purchase_order_item')
+                    ->where('item_no', $item_no)
+                    ->value('pending_qty');
+                if ($pendingQty !== null) {
+                    $updatePendingQty = $pendingQty - $request['receiving_qty'][$i];
+        // update po_status in purchase order table
+                    if($updatePendingQty =='0')
+                    {
+                        $pendingQty = DB::table('purchase_order')
+                        ->where('po_no',$po_no)
+                        ->update(['po_status' => '1']);
+                    }
+                    else{
+                        $pendingQty = DB::table('purchase_order')
+                        ->where('po_no',$po_no)
+                        ->update(['po_status' => '0']);
+                    }
+                    // end update po_status in purchase order table
+                    DB::table('purchase_order_item')
+                        ->where('item_no', $item_no)
+                        ->where('po_no',$po_no)
+                        ->update(['pending_qty' => $updatePendingQty]);
+                }
+                else{
+                    return response()->json('Error occured in the storing data in purchase_order_item', 400);
+                }
+
+          
+       // data added in grn item table
                 GoodsReceivedNoteItem::create([
                 'grn_no'=>$grn, 
                 'item_no' => $request['item_no'][$i],
@@ -121,7 +151,7 @@ class GoodsReceivingNoteController extends Controller
                 'receiving_qty' => $request['receiving_qty'][$i],
                 'item_amount' => $request['item_amount'][$i],
                 ]); 
-                // update closing bal in accounts_payables
+        // update closing bal in accounts_payables
                 $closing_bal_check=DB::table('accounts_payables')         
                 ->where('supplier_no', $supplier_no)
                 ->max('ap_no');  
@@ -137,7 +167,7 @@ class GoodsReceivingNoteController extends Controller
                  }  
 
             }              
-                return response()->json('Grn Created Successfully', 200);
+                 return response()->json('Grn Created Successfully', 200);
            } catch (Exception $e) {
                 info($e);
                 return response()->json('Error occured in the store', 400);
@@ -154,10 +184,9 @@ class GoodsReceivingNoteController extends Controller
      * @param  \App\Models\GoodsReceivingNote  $goodsReceivingNote
      * @return \Illuminate\Http\Response
      */
-    public function show($grn_no)
-    {        
-      try {
-        
+    public function show($grn_no,$po_no )
+    {
+          try {
         
         $grn = GoodsReceivingNote::join('project_masters', 'goods_received_note.project_no', '=', 'project_masters.project_no')
         ->join('supplier_masters', 'goods_received_note.supplier_no', '=', 'supplier_masters.supplier_no')
@@ -181,11 +210,13 @@ class GoodsReceivingNoteController extends Controller
         }
       
             $grn_item=GoodsReceivedNoteItem::     
-            join('item_masters', 'goods_received_note_item.item_no', '=', 'item_masters.id')
-            ->select( 'goods_received_note_item.*', 'item_masters.*')
+            join('item_masters', 'goods_received_note_item.item_no', '=', 'item_masters.id') 
+            ->join('purchase_order_item', 'goods_received_note_item.item_no', '=', 'purchase_order_item.item_no')               
+            ->select( 'goods_received_note_item.*', 'item_masters.*','purchase_order_item.pending_qty')
             ->where('goods_received_note_item.grn_no', $grn_no)
+            ->where('purchase_order_item.po_no', $po_no)
             ->get();    
-            info($grn);
+         
              return response()->json([
                 'grn' => $grn,
                 'grn_item' => $grn_item
@@ -208,8 +239,26 @@ class GoodsReceivingNoteController extends Controller
     {   
       
         try {
-             $grn = GoodsReceivingNote::where('grn_no', $grn_no)->first();
-             $grn->update($request->only(GoodsReceivingNote::REQUEST_INPUTS));          
+            $grn = GoodsReceivingNote::where('grn_no', $grn_no)->first();
+            $grn->update($request->only(GoodsReceivingNote::REQUEST_INPUTS));
+    
+            // Check if the delete button was clicked and delete the attachments
+            if ($request->has('delete_attachment') && $request->input('delete_attachment') === '1') {
+                $grn->attachments = null;
+                $grn->filename = null;
+                $grn->save();
+            }
+    
+            // Update the attachments if a new file is uploaded
+            $file = $request->file('attachments');
+            if ($file) {
+                $fileData = file_get_contents($file->getRealPath());
+                $fileName = $file->getClientOriginalName();
+                
+                $grn->attachments = $fileData;
+                $grn->filename = $fileName;
+                $grn->save();
+            }
             // update the GRN item data
             $itemCount = count($request['item_no']);      
            $grn_delete=GoodsReceivedNoteItem::where('grn_no',$grn_no)->delete();

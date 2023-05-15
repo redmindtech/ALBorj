@@ -85,7 +85,7 @@ Route::get("/expense/{expense}/show", [App\Http\Controllers\ExpensesController::
 // GRN
 Route::post("/GRN",[App\Http\Controllers\GoodsReceivingNoteController::class, 'store'])->name('grnApi.store');
 Route::post("/GRN/{grnid}/update", [App\Http\Controllers\GoodsReceivingNoteController::class, 'update'])->name('grnApi.update');
-Route::get("/GRN/{grnid}/show", [App\Http\Controllers\GoodsReceivingNoteController::class, 'show'])->name('grnApi.show');
+Route::get("/GRN/{grnid}/{po_no}show", [App\Http\Controllers\GoodsReceivingNoteController::class, 'show'])->name('grnApi.show');
 Route::get("/GRN/{grnid}/delete", [App\Http\Controllers\GoodsReceivingNoteController::class, 'delete'])->name('gdelete');
 // material Issue
 Route::post("/materialissue", [App\Http\Controllers\MaterialIssueController::class, 'store'])->name('materialissueApi.store');

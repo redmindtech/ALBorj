@@ -30,9 +30,9 @@
                                             <th>Site Name</th>                                            
                                             <th>Site location</th>
                                             <th>Site Manager</th>                                            
-                                            <th data-orderable="false" class="action">Show</th>
-                                            <th data-orderable="false" class="action">Edit</th>
-                                            <th data-orderable="false" class="action">Delete</th>
+                                            <th data-orderable="false" class="action notexport">Show</th>
+                                            <th data-orderable="false" class="action notexport">Edit</th>
+                                            <th data-orderable="false" clclass="action notexport">Delete</th>
                                         </tr>
                                     </thead>
                                   

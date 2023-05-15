@@ -30,9 +30,9 @@
                                             <th>Project Name</th>                                           
                                             <th>Project Type</th>
                                            
-                                            <th data-orderable="false" >Show</th>
-                                            <th data-orderable="false">Edit</th>
-                                            <th data-orderable="false">Delete</th>
+                                            <th data-orderable="false" class="action notexport">Show</th>
+                                            <th data-orderable="false" class="action notexport">Edit</th>
+                                            <th data-orderable="false" class="action notexport">Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -392,20 +392,21 @@ $.ajaxSetup({
             },
         })
           }
+        //   today date for date
           function getTodayDate() {
-    var today = new Date();
-    var day = today.getDate();
-    var month = today.getMonth() + 1;
-    var year = today.getFullYear();
+            var today = new Date();
+            var day = today.getDate();
+            var month = today.getMonth() + 1;
+            var year = today.getFullYear();
 
-    // Pad the month and day with leading zeros if necessary
-    month = (month < 10 ? "0" : "") + month;
-    day = (day < 10 ? "0" : "") + day;
+            // Pad the month and day with leading zeros if necessary
+            month = (month < 10 ? "0" : "") + month;
+            day = (day < 10 ? "0" : "") + day;
 
-    // Return the date string in YYYY-MM-DD format
-    date= year + "-" + month + "-" + day;
-    $('#date').val(date);
-}
+            // Return the date string in YYYY-MM-DD format
+            date= year + "-" + month + "-" + day;
+            $('#date').val(date);
+        }
 // function to add row dynamically
 var rowIdx =1;
 function add_text()

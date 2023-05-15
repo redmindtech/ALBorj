@@ -18,29 +18,44 @@ class AutoCompleteController extends Controller
   // to populate date from po in grn
      public function get_po_details(){
       try {
+      
+        
+// DB::enableQueryLog();
         // For po_id get from po table
-        $po_code = $_GET['project_code'];
+        $po_code = $_GET['po_code'];
+        info($po_code);
         $po_info = DB::table('purchase_order')
-            ->select('po_no', 'po_date') 
-            ->where('po_code', $po_code)
-            ->first(); 
+        ->join('supplier_masters', 'purchase_order.supplier_no', '=', 'supplier_masters.supplier_no')
+        ->select('purchase_order.po_no', 'purchase_order.po_date', 'purchase_order.supplier_no', 'supplier_masters.name')
+        ->where('purchase_order.po_code', $po_code)
+        ->first();
+        // info(
+          // $info = DB::getQueryLog();
+          // info($info);
         
         if ($po_info) {
             $po_no = $po_info->po_no;
             $po_date = $po_info->po_date;
-    
+            $supplier_name=$po_info->name;
+            $supplier_no=$po_info->supplier_no;
             // Items get from po_item table
             $po_items = DB::table('purchase_order_item')
                 ->join('item_masters', 'purchase_order_item.item_no', '=', 'item_masters.id')
                 ->select('purchase_order_item.*', 'item_masters.item_name')
                 ->where('po_no', $po_no)
                 ->get();
-    
+            
             return response()->json([
                 'po_no' => $po_no,
                 'po_date' => $po_date, // Include po_date in the response
-                'po_items' => $po_items
+                'po_items' => $po_items,
+                'supplier_name'=>$supplier_name,
+                'supplier_no'=> $supplier_no
+
+                
+
             ]);
+          
         } else {
             // Handle case when no matching record is found
             return response()->json([
@@ -101,7 +116,7 @@ public function  getlocdata(){
 }
 // auto complete for itemmaster for supplier_name
 public function  getempdata(){
-  info('hi');
+ 
   $suppliername = $_GET['suppliername'];
   $data = SupplierMaster::where('name','LIKE',$suppliername.'%')->get();    
 
@@ -109,7 +124,7 @@ public function  getempdata(){
 }
 // sitemaster location for  material issue (location)
 public function  getsitelocationdata(){
-  info("hii material");
+
   $site_name = $_GET['site_name'];
 
   $data = SiteMaster::where('site_location','LIKE',$site_name.'%')->get();

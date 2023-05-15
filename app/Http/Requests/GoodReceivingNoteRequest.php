@@ -24,7 +24,7 @@ class GoodReceivingNoteRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|regex:/^[A-Z a-z]+$/',
+            
             'grn_date'=>'required',
             'project_name'=>'required',
             'grn_purchase_type'=>'required',
@@ -36,7 +36,7 @@ class GoodReceivingNoteRequest extends FormRequest
     {
         return
         [
-            'name.required' => 'The Supplier Name is required.',
+          
             'name.regex' => 'The Supplier Name allows only alphabets.',
             'grn_date.required'=>'The GRN Invoice / Receive date is required',
             'project_name.required'=>'The Project Name is required',

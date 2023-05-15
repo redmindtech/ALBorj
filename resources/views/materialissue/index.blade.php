@@ -32,9 +32,9 @@
                                      <th>Location</th>
                                      <th>Issue Date</th>
                                      <!-- <th>Site Manager</th>                                             -->
-                                     <th data-orderable="false" class="action">Show</th>
-                                     <th data-orderable="false" class="action">Edit</th>
-                                     <th data-orderable="false" class="action">Delete</th>
+                                     <th data-orderable="false" class="action notexport">Show</th>
+                                     <th data-orderable="false" class="action notexport">Edit</th>
+                                     <th data-orderable="false" class="action notexport">Delete</th>
                                  </tr>
                              </thead>
 
@@ -282,15 +282,12 @@
 
                  // jQuery button click event to add a row
                  $('#addBtn').on('click', function() {
-                     //     alert('');
-                     //     alert(rowIdx);
+                    
                      var row = rowIdx - 1;
-                     //    alert(row)
-                     //     alert($('#receiving_qty_'+row).val());
+                   
                      if ($('#item_name_' + row).val() == '') {
                          alert("Please enter item name.");
-                     } else if (!/^[a-zA-Z]+$/.test($('#item_name_' + row).val())) {
-                         alert("Item name should only contain alphabets.");
+                     
                      } else if ($('#item_quantity_' + row).val() == '') {
                          alert("Please enter receiving quantity.");
                      } else if (!/^\d+(\.\d+)?$/.test($('#item_quantity_' + row).val())) {
@@ -368,7 +365,7 @@
                                          'itemname': request.term
                                      },
                                      success: function(data) {
-                                         console.log(data);
+                                       
 
                                          result = [];
                                          for (var i in data) {
@@ -388,10 +385,9 @@
 
                  });
                  $(document).on('change', '.item_name', function() {
-                     // var code= $(this).val();
-                     //  alert(rowIdx);
+                 
                      var id = rowIdx - 1;
-                     //  alert('#item_no_' + id);
+                    
                      $.ajax({
                          type: "GET",
                          url: "{{ route('getitemnamedata') }}",
@@ -400,7 +396,7 @@
                              'itemname': $(this).val()
                          },
                          success: function(data) {
-                             console.log(data[0]['id']);
+                           
                              result = [];
                              for (var i in data) {
 
@@ -485,7 +481,7 @@
                          error: function(message) {
                              var data = message.responseJSON;
                              $.each(data.errors, function(key, val) {
-                                 console.log(key, val);
+                             
                                  $(`#error_${key}`).html(val[0]);
                              })
                          }
@@ -494,7 +490,7 @@
 
                  //DATA SHOW FOR EDIT AND SHOW
                  function handleShowAndEdit(id, action) {
-                     // alert('')
+                  
                      let url = "{{ route('materialissueApi.show', ':mir_no') }}";
                      url = url.replace(':mir_no', id);
                      let type = "GET"
@@ -505,22 +501,17 @@
                          cache: false,
                          processData: false,
                          success: function(message) {
-                             console.log(message.material_issues);
-                             console.log(message.material_issues_item)
-
                              if (action == 'edit') {
 
                                  $('#show').css('display', 'none');
                                  $('#form').css('display', 'block');
                                  for (const [key, value] of Object.entries(message.material_issues[0])) {
-                                     //  console.log(`${key}: ${value}`);
+                                  ;
                                      $(`#${key}`).val(value);
                                  }
                                  var rowid = 1;
                                  for (const item of message.material_issues_item) {
                                      add_text(); // add a new row to the table
-                                     //  console.log(item.item_no);
-                                     console.log(rowid);
                                      $('#item_name_' + rowid).val(item.item_name);
                                      $('#item_no_' + rowid).val(item.item_no);
                                      $('#store_room_' + rowid).val(item.store_room);
@@ -671,7 +662,7 @@
                                      result.push(data[i]["site_location"]);
                                  }
                                  response(result);
-                                 console.log(result);
+                               
                              },
                              fail: function(xhr, textStatus, errorThrown) {
                                  alert(errorThrown);

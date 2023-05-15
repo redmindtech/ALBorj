@@ -32,9 +32,9 @@
                                     <th>Supplier Name</th>
                                     <!-- <th>Item Type</th> -->
                                     <th>Supplier Code</th>
-                                    <th data-orderable="false" class="action">Show</th>
-                                    <th data-orderable="false" class="action">Edit</th>
-                                    <th data-orderable="false" class="action">Delete</th>
+                                    <th data-orderable="false" class="action notexport">Show</th>
+                                    <th data-orderable="false" class="action notexport">Edit</th>
+                                    <th data-orderable="false" class="action notexport">Delete</th>
                                 </tr>
                                 </thead>
                                 <tbody>

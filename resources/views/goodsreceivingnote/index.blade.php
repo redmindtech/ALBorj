@@ -31,10 +31,9 @@
                                             <th>Project Name</th>
                                             <th>Supplier Name</th>
                                             <th>Purchase Type</th>
-                                           
-                                            <th data-orderable="false" >Show</th>
-                                            <th data-orderable="false">Edit</th>
-                                            <th data-orderable="false">Delete</th>
+                                            <th data-orderable="false" class="action notexport" >Show</th>
+                                            <th data-orderable="false" class="action notexport">Edit</th>
+                                            <th data-orderable="false" class="action notexport">Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -46,13 +45,13 @@
                                                 <td>{{$grn->name}}</td>  
                                                 <td>{{$grn->grn_purchase_type}}</td>                                               
                                                 <td>
-                                                    <a  onclick="handleShowAndEdit('{{$grn->grn_no}}','show')"
+                                                    <a  onclick="handleShowAndEdit('{{$grn->grn_no}}','{{$grn->po_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
                                                         <i class="fas fa-flag"></i>
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <a onclick="handleShowAndEdit('{{$grn->grn_no}}','edit')"
+                                                    <a onclick="handleShowAndEdit('{{$grn->grn_no}}','{{$grn->po_no}}','edit')"
                                                         class="btn btn-info btn-circle btn-sm mx-2" >
                                                         <i class="fas fa-check"></i>
                                                     </a>
@@ -94,16 +93,27 @@
 {!! csrf_field() !!}
 <div class="row g-3">
     <div class="form-group col-md-4">
-        <label for="name" class="form-label fw-bold">Supplier Name<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="name" name="name"  value="{{ old('name') }}" placeholder="Supplier Name" class="form-control" autocomplete="off">
-        <input type="text" id="supplier_no" hidden name="supplier_no"  value="{{ old('supplier_no') }}"  class="form-control" autocomplete="off">
-        <p style="color: red" id="error_name"></p>
+    <label for="po_no" class="form-label fw-bold">REF LPO<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="po_code" name="po_code" value="{{ old('po_code') }}"  placeholder="REF LPO"class="form-control" autocomplete="off">
+        <input type="text"  hidden id="po_no" name="po_no" value="{{ old('po_no') }}" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_po_no"></p>
+     
     </div>  
-
-   <div class="form-group col-md-4" >
+    <div class="form-group col-md-4" >
+        <label for="po_date" class="form-label fw-bold">REF LPO date<a style="text-decoration: none;color:red">*</a></label>
+        <input type="date" id="po_date" name="po_date"  value="{{ old('po_date') }}" placeholder="REF LPO date" class="form-control" autocomplete="off" >
+        <p style="color: red" id="error_po_date"></p>
+    </div>
+    <div class="form-group col-md-4" >
         <label for="grn_date" class="form-label fw-bold">GRN Invoice / Receive date<a style="text-decoration: none;color:red">*</a></label>
         <input type="date" id="grn_date" name="grn_date"  value="{{ old('grn_date') }}" placeholder="GRN Invoice / Receive date" class="form-control" autocomplete="off" >
         <p style="color: red" id="error_grn_date"></p>
+    </div>
+    <div class="form-group col-md-4">
+         <label for="name" class="form-label fw-bold">Supplier Name<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="name" name="name" readonly value="{{ old('name') }}" placeholder="Supplier Name" class="form-control" autocomplete="off">
+        <input type="text" id="supplier_no" hidden name="supplier_no"  value="{{ old('supplier_no') }}"  class="form-control" autocomplete="off">
+        
     </div>
     <div class="form-group col-md-4">
     <label for="project_name" class="form-label fw-bold">Project Name<a style="text-decoration: none;color:red">*</a></label>
@@ -118,6 +128,8 @@
         <input type="text" id="project_code" name="project_code" value="{{ old('project_code') }}" readonly placeholder="Project Code" class="form-control" autocomplete="off">
         
     </div>
+  
+   
     <div class="form-group col-md-4">
         <label for="grn_purchase_type" class="form-label fw-bold">Purchase type<a style="text-decoration: none;color:red">*</a></label>
         <select id="grn_purchase_type" name="grn_purchase_type" class="form-control" autocomplete="off">
@@ -128,17 +140,6 @@
                                 </select>
                                 <p style="color: red" id="error_grn_purchase_type"></p>
         
-    </div>
-    <div class="form-group col-md-4">
-        <label for="po_no" class="form-label fw-bold">REF LPO<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="po_code" name="po_code" value="{{ old('po_code') }}"  placeholder="REF LPO"class="form-control" autocomplete="off">
-        <input type="text"  hidden id="po_no" name="po_no" value="{{ old('po_no') }}" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_po_no"></p>
-    </div>
-    <div class="form-group col-md-4" >
-        <label for="po_date" class="form-label fw-bold">REF LPO date<a style="text-decoration: none;color:red">*</a></label>
-        <input type="date" id="po_date" name="po_date"  value="{{ old('po_date') }}" placeholder="REF LPO date" class="form-control" autocomplete="off" >
-        <p style="color: red" id="error_po_date"></p>
     </div>
     <div class="form-group col-md-4" >
         <label for="due_Date" class="form-label fw-bold">Due date</label>
@@ -162,16 +163,14 @@
                 <th hidden>item_id</th>
                 <th>Pack Specification</th>
                 <th>Quantity</th>
+                <th>Pending Qty</th>
                 <th>Receiving Qty</th>
                 <th>Rate per Qty</th>
                 <th>Total</th>
-                <th>Delete</th>
-              
+                <th hidden>Delete</th>
             </tr>
             </thead>
             <tbody id="tbody1">
-            
-  
 </tbody>
     </table>
         </div>
@@ -199,7 +198,6 @@
         <label for="freight" class="form-label fw-bold">Freight</label>
         <input type="text" id="freight" name="freight" value="{{ old('freight')}}" placeholder="Freight" class="form-control" autocomplete="off">      
     </div>
-  
     <div class="form-group col-md-3">
         <label for="vat" class="form-label fw-bold">VAT</label>
         <div class="input-group">
@@ -242,9 +240,10 @@
         <input type="file" name="attachments" class="form-control">
         <span id="filename"></span>
     </div>
-    <!-- <div class="col-md-2">
+    <div class="col-md-2">
     <button type="button" id="deleteButton" class="btn btn-danger">Delete</button>
-</div> -->
+</div>
+<input type="hidden" name="delete_attachment" id="deleteAttachmentInput" value="0">
 </div>
     <div class="row mt-3">
         <div class="form-group col-md-12">
@@ -318,10 +317,7 @@
                             <label>Freight</label>
                             <p id="show_freight"></p>
                         </div>                
-                          <div class="col-md-3">
-                            <label>Purchase</label>
-                            <p id="show_purchase"></p>
-                        </div>
+                       
                           <div class="col-md-3">
                             <label>VAT</label>
                             <p id="show_vat"></p>
@@ -330,15 +326,16 @@
                             <label>Total Amount</label>
                             <p id="show_total_amount"></p>
                         </div>
-                </div>
-                <div class="row">
                         <div class="col-md-3">
                             <label>Grand Total</label>
                             <p id="show_gross_amount"></p>
-                        </div>                
+                        </div>
+                </div>
+                <div class="row">
+                                        
                           <div class="col-md-3">
                             <label>Attachments</label>
-                            <p id="show_attachments"></p>
+                            <p id="show_filename"></p>
                         </div>
                           <div class="col-md-3">
                             <label>Remarks</label>
@@ -346,13 +343,11 @@
                         </div>
                 </div>
                 <div id="item_details_show"></div>
-                
-                       
+                                       
     </div>
 </div>
           </dialog>
      
-
        <!--script starts  -->
 <script> 
    $(document).ready(function(){
@@ -377,44 +372,39 @@
                 $('#gross_amount').val(gross_amount.toFixed(2));
                 $(this).parent().children('.label').text('₹')
             }
-        });   
-        
-      
-      
+        });           
     }); 
-//     document.getElementById("deleteButton").addEventListener("click", function() {
-//     // Perform the delete operation here
-//     // You can use AJAX or submit the form to a server endpoint to handle the deletion
-//     // Alternatively, you can add your custom JavaScript code to handle the deletion logic
-//     // For example, you can clear the file input and remove the displayed filename
-//     document.querySelector("input[name='attachments']").value = "";
-//     document.getElementById("filename").textContent = "";
-// });
+    // delete attachment
+        document.getElementById("deleteButton").addEventListener("click", function() {
+            if (confirm("Are you sure you want to delete this attachment?"))
+            {
+            document.getElementById("deleteAttachmentInput").value = "1";
+        document.querySelector("input[name='attachments']").value = "";
+        document.getElementById("filename").textContent = "";
+            }
+        });
 
-    
         // jQuery button click event to add a row
-        // $('#addBtn').on('click', function () {               
-        //    var row=rowIdx-1;
-        
-        //         if ($('#item_name_'+row).val() == '') {
-        //             alert("Please enter item name.");
-        //         } else if (!/^[a-zA-Z]+$/.test($('#item_name_'+row).val())) {
-        //             alert("Item name should only contain alphabets.");
-        //         } else if ($('#receiving_qty_'+row).val() == '') {
-        //             alert("Please enter receiving quantity.");
-        //         } else if (!/^\d+(\.\d+)?$/.test($('#receiving_qty_'+row).val())) {
-        //             alert("Receiving quantity should only contain numbers.");
-        //         } else if ($('#rate_per_qty_'+row).val() == '') {
-        //             alert("Please enter rate per quantity.");
-        //         } else if (!/^\d+(\.\d+)?$/.test($('#rate_per_qty_'+row).val())) {
-        //             alert("Rate per quantity should only contain numbers.");
-        //         } else{            
+        $('#addBtn').on('click', function () {               
+           var row=rowIdx-1;
+                        if ($('#item_name_'+row).val() == '') {
+                    alert("Please enter item name.");
+                } else if (!/^[a-zA-Z]+$/.test($('#item_name_'+row).val())) {
+                    alert("Item name should only contain alphabets.");
+                } else if ($('#receiving_qty_'+row).val() == '') {
+                    alert("Please enter receiving quantity.");
+                } else if (!/^\d+(\.\d+)?$/.test($('#receiving_qty_'+row).val())) {
+                    alert("Receiving quantity should only contain numbers.");
+                } else if ($('#rate_per_qty_'+row).val() == '') {
+                    alert("Please enter rate per quantity.");
+                } else if (!/^\d+(\.\d+)?$/.test($('#rate_per_qty_'+row).val())) {
+                    alert("Rate per quantity should only contain numbers.");
+                } else{            
 
-        //    add_text();
-        //          }                               
-              
-           
-        //     });
+           add_text();
+                 }                               
+                 
+            });
             // delete row in dynamically created table
             $('#tbody1').on('click', '.remove', function() {
                                  // Getting all the rows next to the row containing the clicked button
@@ -446,44 +436,42 @@
                              });
    
 
-// vat text box
-   var textbox1 = document.getElementById("vat");
-    var textbox2 = document.getElementById("vat1");
-    textbox1.addEventListener("input", function() {
-        textbox2.value = textbox1.value;
-    });// vat end
+            // vat text box
+            var textbox1 = document.getElementById("vat");
+                var textbox2 = document.getElementById("vat1");
+                textbox1.addEventListener("input", function() {
+                    textbox2.value = textbox1.value;
+                });// vat end
 
-    // discount_text
-    var textbox3 = document.getElementById("discount_amount");
-    var textbox4 = document.getElementById("discount"); 
-    textbox3.addEventListener("input", function() {
-        textbox4.value = textbox3.value;
-    });// discount end
+                // discount_text
+                var textbox3 = document.getElementById("discount_amount");
+                var textbox4 = document.getElementById("discount"); 
+                textbox3.addEventListener("input", function() {
+                    textbox4.value = textbox3.value;
+                });// discount end
 
-// table textbox multiple receiving_qty and rate_per_qty
-$('#tbody1').on('input', 'input[id^="receiving_qty"], input[id^="rate_per_qty_"]', function() {
-    var row = $(this).closest('tr');
-    var quantity = parseFloat(row.find('input[id^="receiving_qty"]').val()) || 0;
-    var rate = parseFloat(row.find('input[id^="rate_per_qty_"]').val()) || 0;
-    var itemAmount = quantity * rate;
-    row.find('input[id^="item_amount_"]').val(itemAmount);
-    calculateTotal();
-    updateGrossAmount();
-});//end
+            // table textbox multiple receiving_qty and rate_per_qty
+            $('#tbody1').on('input', 'input[id^="receiving_qty"], input[id^="rate_per_qty_"]', function() {
+                var row = $(this).closest('tr');
+                var quantity = parseFloat(row.find('input[id^="receiving_qty"]').val()) || 0;
+                var rate = parseFloat(row.find('input[id^="rate_per_qty_"]').val()) || 0;
+                var itemAmount = quantity * rate;
+                row.find('input[id^="item_amount_"]').val(itemAmount);
+                calculateTotal();
+                updateGrossAmount();
+            });//end
 
     // calculation for total amount
     $(' input[name="misc_expenses"],  input[name="freight"],input[name="discount_amount"],input[name="vat"], input[name="purchase"],#total_item_amount').on('input', function() {
         // Get the values of the input fields
         var miscExpenses = parseFloat($('input[name="misc_expenses"]').val() || 0);        
         var freight = parseFloat($('input[name="freight"]').val() || 0);
-        
         calculateTotal();
         var discount=parseFloat($('input[name="discount_amount"]').val() || 0);
         // Calculate the total amount
         var totalAmount =  miscExpenses + freight + (parseFloat($('#total_item_amount').val()) || 0)-discount;
         // Set the value of the total_amount input field
         $('#total_amount').val(totalAmount.toFixed(2));
-       
         var vat = 0;
     if ($('.toggle input[type="checkbox"]').parent().hasClass('on')) {
         // VAT input is set to percentage
@@ -508,9 +496,9 @@ $('#tbody1').on('input', 'input[id^="receiving_qty"], input[id^="rate_per_qty_"]
         });
         $("#total_item_amount").val(total.toFixed(2));
         }
+
 // after calculation if they add new row
     function updateGrossAmount() {
-   
     var miscExpenses = parseFloat($('input[name="misc_expenses"]').val() || 0);        
     var freight = parseFloat($('input[name="freight"]').val() || 0);
   
@@ -533,10 +521,9 @@ $('#tbody1').on('input', 'input[id^="receiving_qty"], input[id^="rate_per_qty_"]
     }       
     
     // dynamic table creation
-   var rowIdx =1;
+var rowIdx =1;
 function add_text()
-{
-            var html = '';
+{    var html = '';
 		html +='<tr id="row'+rowIdx+'" class="rowtr">';
         html += '<td>'+rowIdx+'</td>';
 		html += '<td><div class="col-xs-12"><input type="text" id="item_name_'
@@ -544,25 +531,22 @@ function add_text()
         html += '<td hidden ><div class="col-xs-12"><input type="text"  id="item_no_'+rowIdx+'"  name="item_no[]" class="item_no_'+rowIdx+'"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="pack_specification_'+rowIdx+'"  name="pack_specification[]" class="pack_specification"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="quantity_'+rowIdx+'"  name="quantity[]" class="quantity"></div></td>';
+        html += '<td><center><div class="col-xs-12"name="pending_qty[]" id="pending_qty_'+ rowIdx + '" ></div></center></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="receiving_qty_'+rowIdx+'" name="receiving_qty[]" class="receiving_qty"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="rate_per_qty_'+rowIdx+'"  name="rate_per_qty[]"class="rate_per_qty"></div></td>';       
         html += '<td><div class="col-xs-12"><input type="text"  id="item_amount_'+rowIdx+'"name="item_amount[]" class="item_amount"></div></td>';
-        html +='<td><button class="btn btn-danger remove" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';     
+        html +='<td hidden><button class="btn btn-danger remove" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';     
         html+='</tr>';
-        
         $("#tbody1").append(html);        
         rowIdx++;     
-  
-}
+ }
 // auto complete function for item name and item no
 jQuery($ => {
   
 $(document).on('focus', '.item_name', function() {
         
     $('#tbody1').find('.item_name').autocomplete({
-    
-
-        source: function( request, response )
+            source: function( request, response )
         {
             $.ajax
             ({
@@ -618,65 +602,7 @@ $(document).on('focus', '.item_name', function() {
             }
         });
     });
-
-// supplier autocomplete
-          $("#name").autocomplete(
-    {
-
-        source: function( request, response )
-        {
-            $.ajax
-            ({
-                type:"GET",
-                url: "{{ route('getempdata') }}",
-                dataType: "json",
-                data:
-                {
-                    'suppliername':$("#name").val()
-                },
-                success: function( data )
-                {
-
-                    result = [];
-                    for(var i in data)
-                    {
-                        result.push(data[i]["name"]);
-                    }
-                    response(result);
-                },fail: function(xhr, textStatus, errorThrown)
-                {
-                    alert(errorThrown);
-                }
-            });
-        },
-    });
-
-    $("#name").on('change',function()
-    {
-        var code= $(this).val();
-
-        $.ajax
-        ({
-            type:"GET",
-            url: "{{ route('getempdata') }}",
-            dataType: "json",
-            data:
-            {
-                'suppliername':$(this).val()
-            },
-            success: function( data )
-            {
-                result = [];
-                for(var i in data)
-                {
-                    $('#supplier_no').val(data[i]["supplier_no"]);
-                    // $('#code').val(data[i]["code"]);
-                }
-            },fail: function(xhr, textStatus, errorThrown){
-            alert(errorThrown);
-            }
-        });
-    });
+        
     // project name auto complete
     $("#project_name").autocomplete(
       {
@@ -731,7 +657,7 @@ $(document).on('focus', '.item_name', function() {
 
 // table create with data for ref lpo number
     $("#po_code").on('change',function()
-    {   console.log('hi');
+    {   
         $('.rowtr').remove();   
        
         $.ajax
@@ -741,20 +667,23 @@ $(document).on('focus', '.item_name', function() {
         dataType: "json",
         data:
         {
-            'project_code':$('#po_code').val()
+            'po_code':$('#po_code').val()
         },
         success: function( data )
         {   
-            var len= data.po_items.length;
             $('#po_no').val(data.po_no);
             $('#po_date').val(data.po_date.split(' ')[0]);
+            $('#name').val(data.supplier_name);
+            $('#supplier_no').val(data.supplier_no);
             var create_id=1;   
             for (const item of data.po_items) { 
-                console.log(create_id);     
             add_text();
             $('#item_name_' + create_id).val(item.item_name);
             $('#item_no_' + create_id).val(item.item_no);              
-            $('#quantity_'+ create_id).val(item.quantity);               
+            $('#quantity_'+ create_id).val(item.quantity);                      
+            $('#pending_qty_'+ create_id).text(item.pending_qty);  
+            $('#receiving_qty_'+ create_id).val('0');
+            $('#item_name_' + create_id).val(item.item_name);   
             $('#rate_per_qty_'+ create_id).val(item.rate_per_qty);              
             create_id++;
             }  
@@ -804,55 +733,72 @@ $(document).on('focus', '.item_name', function() {
 
     }
     // DIALOG SUBMIT FOR ADD AND EDIT     
-    function handleSubmit()
-    {
+    function handleSubmit() {
         event.preventDefault();
-        let form_data = new FormData(document.getElementById('form'));
-        let method = $('#method').val();
-        let url;
-        let type;
-        if(method == 'ADD')
-        {        ;  
-            url = '{{route('grnApi.store')}}';
-            type  = 'POST';
+    var hasError = false;
+    // check receiving qty
+    $('.rowtr').each(function() {
+        // Get the row index
+        var rowIdx = $(this).attr('id').replace('row', '');
+
+        // Get the receiving quantity value for the current row
+        var receivingQty = parseFloat($('#receiving_qty_' + rowIdx).val());
+
+        // Get the pending quantity value for the current row
+        var pendingQty = parseFloat($('#pending_qty_' + rowIdx).text());
+
+        // Check if receiving quantity is greater than pending quantity
+        if (receivingQty > pendingQty) {
+            // Display an error message or handle the condition as needed
+            alert('Receiving quantity cannot be greater than pending quantity for row ' + rowIdx);
+            hasError = true;
+            return false; // Exit the loop
         }
-        else
-        {     
-          
-            let id = $('#grn_no').val();
-            url = '{{route('grnApi.update',":id")}}';
-            url= url.replace(':id',id);
-            type = 'POST';
-        }
-        $.ajax
-        ({
-            url: url,
-            type: type,
-            data: form_data,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function (message)
-            {
-                alert(message);
-                window.location.reload();
-            },error: function (message)
-            {
-                var data = message.responseJSON;
-                $.each(data.errors, function (key, val)
-                {               
-                    $(`#error_${key}`).html(val[0]);
-                })
+    });
+        if(!hasError) {
+            let form_data = new FormData(document.getElementById('form'));
+            let method = $('#method').val();
+            let url;
+            let type;
+            if (method == 'ADD') {
+                url = '{{ route('grnApi.store') }}';
+                type = 'POST';
+            } else {
+                let id = $('#grn_no').val();
+                url = '{{ route('grnApi.update', ":id") }}';
+                url = url.replace(':id', id);
+                type = 'POST';
             }
-        })
-    }
-    
+            $.ajax({
+                url: url,
+                type: type,
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (message) {
+                    alert(message);
+                    window.location.reload();
+                },
+                error: function (message) {
+                    var data = message.responseJSON;
+                    $.each(data.errors, function (key, val) {
+                        $(`#error_${key}`).html(val[0]);
+                    });
+                }
+            });
+        }
+  
+}
+
 //DATA SHOW FOR EDIT AND SHOW
-function handleShowAndEdit(id,action)
+function handleShowAndEdit(id,po_no,action)
     { var totalAmount=0;
          
-        let url = '{{route('grnApi.show',":id")}}';
-        url = url.replace(':id',id);
+        
+        let url = '{{ route('grnApi.show', [":grnid", ":po_no"]) }}';
+        url = url.replace(':grnid', id);
+        url = url.replace(':po_no', po_no);
         let type= "GET"
         $.ajax
         ({
@@ -884,6 +830,7 @@ function handleShowAndEdit(id,action)
                 $('#item_no_' + rowid).val(item.item_no);
                 $('#pack_specification_'+ rowid).val(item.pack_specification);
                 $('#quantity_'+ rowid).val(item.quantity);
+                $('#pending_qty_'+ rowid).text(item.pending_qty);
                 $('#receiving_qty_'+ rowid).val(item.receiving_qty);
                 $('#rate_per_qty_'+ rowid).val(item.rate_per_qty);
                 $('#item_amount_'+ rowid).val(item.item_amount);
@@ -900,6 +847,7 @@ function handleShowAndEdit(id,action)
                 {
                     for (let [key, value] of Object.entries(message.grn)) {
                         // date formate
+                    
                       if (key === "grn_date" || key === "po_date") {
                     var dateObj = new Date(value);
                     var day = dateObj.getDate();
@@ -908,13 +856,15 @@ function handleShowAndEdit(id,action)
                     value= day + '-' + month + '-' + year
                     }
                     $(`#show_${key}`).text(value);
+
                     }                   
-                    let script = '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Pack Specification</th><th>Quantity</th><th>Receiving Quantity</th><th>Rate per Qty</th><th>Total Amount</th></tr></thead><tbody>';
+                    let script = '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Pack Specification</th><th>Quantity</th><th>Pendind Qty</th><th>Receiving Quantity</th><th>Rate per Qty</th><th>Total Amount</th></tr></thead><tbody>';
                     for (const item of message.grn_item) {
                    script += '<tr>';
                    script += '<td>' + item.item_name + '</td>';
                    script += '<td>' + item.pack_specification + '</td>';
                    script += '<td>' + item.quantity+ '</td>';
+                   script += '<td>' + item.pending_qty+ '</td>';
                    script += '<td>' + item.receiving_qty + '</td>';
                    script += '<td>' + item.rate_per_qty + '</td>';
                    script += '<td>' + item.item_amount + '</td>';
