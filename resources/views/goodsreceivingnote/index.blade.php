@@ -242,9 +242,9 @@
         <input type="file" name="attachments" class="form-control">
         <span id="filename"></span>
     </div>
-    <div class="col-md-2">
+    <!-- <div class="col-md-2">
     <button type="button" id="deleteButton" class="btn btn-danger">Delete</button>
-</div>
+</div> -->
 </div>
     <div class="row mt-3">
         <div class="form-group col-md-12">
@@ -382,14 +382,14 @@
       
       
     }); 
-    document.getElementById("deleteButton").addEventListener("click", function() {
-    // Perform the delete operation here
-    // You can use AJAX or submit the form to a server endpoint to handle the deletion
-    // Alternatively, you can add your custom JavaScript code to handle the deletion logic
-    // For example, you can clear the file input and remove the displayed filename
-    document.querySelector("input[name='attachments']").value = "";
-    document.getElementById("filename").textContent = "";
-});
+//     document.getElementById("deleteButton").addEventListener("click", function() {
+//     // Perform the delete operation here
+//     // You can use AJAX or submit the form to a server endpoint to handle the deletion
+//     // Alternatively, you can add your custom JavaScript code to handle the deletion logic
+//     // For example, you can clear the file input and remove the displayed filename
+//     document.querySelector("input[name='attachments']").value = "";
+//     document.getElementById("filename").textContent = "";
+// });
 
     
         // jQuery button click event to add a row
@@ -818,7 +818,7 @@ $(document).on('focus', '.item_name', function() {
         }
         else
         {     
-            alert($('#vat_type').val() );     
+          
             let id = $('#grn_no').val();
             url = '{{route('grnApi.update',":id")}}';
             url= url.replace(':id',id);
@@ -863,7 +863,7 @@ function handleShowAndEdit(id,action)
             processData: false,
             success: function (message)
             { 
-                if(action == 'edit')
+                 if(action == 'edit')
                 {   
                     $('#show').css('display','none');
                     $('#form').css('display','block');
@@ -876,7 +876,7 @@ function handleShowAndEdit(id,action)
     }
      let fileName = message.grn.filename;
        $('#filename').text(fileName);
-       $('#attachments').text( message.grn.attachments);
+      
                var rowid=1;
                for (const item of message.grn_item) {
                 add_text(); // add a new row to the table
