@@ -32,9 +32,9 @@
                                      <th>Location</th>
                                      <th>Issue Date</th>
                                      <!-- <th>Site Manager</th>                                             -->
-                                     <th data-orderable="false" class="action notexport">Show</th>
-                                     <th data-orderable="false" class="action notexport">Edit</th>
-                                     <th data-orderable="false" class="action notexport">Delete</th>
+                                     <th data-orderable="false" class="action">Show</th>
+                                     <th data-orderable="false" class="action">Edit</th>
+                                     <th data-orderable="false" class="action">Delete</th>
                                  </tr>
                              </thead>
 
@@ -492,7 +492,7 @@
 
                  //DATA SHOW FOR EDIT AND SHOW
                  function handleShowAndEdit(id, action) {
-                    // alert(id);
+                    alert(id);
                      let url = "{{ route('materialissueApi.show', ':mir_no') }}";
                      url = url.replace(':mir_no', id);
                      let type = "GET"
