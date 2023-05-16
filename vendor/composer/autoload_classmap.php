@@ -49,6 +49,7 @@ return array(
     'App\\Http\\Requests\\MaterialIssueRequest' => $baseDir . '/app/Http/Requests/MaterialIssueRequest.php',
     'App\\Http\\Requests\\MaterialRequest' => $baseDir . '/app/Http/Requests/MaterialRequest.php',
     'App\\Http\\Requests\\ProjectMasterRequest' => $baseDir . '/app/Http/Requests/ProjectMasterRequest.php',
+    'App\\Http\\Requests\\PurchaseOrderRequest' => $baseDir . '/app/Http/Requests/PurchaseOrderRequest.php',
     'App\\Http\\Requests\\SiteRequest' => $baseDir . '/app/Http/Requests/SiteRequest.php',
     'App\\Http\\Requests\\SupplierRequest' => $baseDir . '/app/Http/Requests/SupplierRequest.php',
     'App\\Http\\Requests\\TimeSheetRequest' => $baseDir . '/app/Http/Requests/TimeSheetRequest.php',
