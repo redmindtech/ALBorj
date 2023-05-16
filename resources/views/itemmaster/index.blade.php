@@ -45,7 +45,7 @@
                                             <td>{{$item->item_category}}</td>
                                             <td>{{$item->item_subcategory}}</td>
                                             <td>{{$item->name}}</td>
-                                            <!-- <td>{{$item->item_type}}</td> -->
+                                            {{-- <td>{{$item->item_type}}</td> --}}
                                             <td>{{$item->code}}</td>
                                             <td>
                                                 <a  onclick="handleShowAndEdit('{{$item->id}}','show')"
@@ -96,7 +96,7 @@
                             <div class="form-group col-md-6">
                                 <label for="item_category" class="form-label fw-bold">Item category<a style="text-decoration: none;color:red">*</a></label>
                                 <select id="item_category" name="item_category" class="form-control" autocomplete="off" onchange="itemcategory_load()">
-                                <option value="">Select Option</option>       
+                                <option value="">Select Option</option>
                                 @foreach($item_category as $key => $value)
                                             <option value="{{ $key }}">{{ $value }}</option>
                                         @endforeach
@@ -134,21 +134,21 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="name" class="form-label fw-bold">Item Quantity<a style="text-decoration: none;color:red">*</a></label>
-                                <input type="text" id="item_qty" name="item_qty"  value="{{ old('item_qty') }}" placeholder="Item Quantity" class="form-control" autocomplete="off">
-                                <p style="color: red" id="error_item_qty"></p>
+                                <input type="text" id="total_quantity	" name="total_quantity"  value="{{ old('total_quantity	') }}" placeholder="Item Quantity" class="form-control" autocomplete="off">
+                                <p style="color: red" id="error_total_quantity	"></p>
                             </div>
                         </div>
                         <div class="row">
                         <div class="form-group col-md-6">
                                 <label for="name" class="form-label fw-bold">Supplier Name<a style="text-decoration: none;color:red">*</a></label>
                                 <input type="text" id="name" name="name"  value="{{ old('name') }}" placeholder="Supplier Name" class="form-control" autocomplete="off">
-                                <input type="text" id="supplier_no" name="supplier_id" hidden value="{{ old('supplier_no') }}" placeholder="Supplier Id" class="form-control" autocomplete="off" >
+                                <input type="text" id="supplier_no" name="supplier_no" hidden value="{{ old('supplier_no') }}" placeholder="Supplier Id" class="form-control" autocomplete="off" >
                                 <p style="color: red" id="error_name"></p>
                             </div>
                             <div class="form-group col-md-6" >
                                 <label for="supplier_code" class="form-label fw-bold">Supplier Code</label>
                                 <input type="text" id="code" name="code"  value="{{ old('code') }}" placeholder="Supplier code" class="form-control" autocomplete="off" readonly>
-                                <p style="color: red" id="error_supplier_id"></p>
+                                <p style="color: red" id="error_code"></p>
                             </div>
                         </div>
                         <div class="form-group col-md-12">
@@ -185,15 +185,15 @@
                             </div>
                                 <div class="col-md-6">
                                 <label>Item Quantity</label>
-                                <p id="show_item_qty"></p>
+                                <p id="show_total_quantity"></p>
                             </div>
                         </div>
                         <div class="row">
                         <div class="col-md-6">
                                 <label>Supplier Code</label>
-                                <p id="show_code"></p>
+                                <p id="show_supplier_no"></p>
                             </div>
-                            </div
+                        </div>
                     </div>
                 </div>
             </dialog>
@@ -315,7 +315,7 @@
                 {
                     $('#show').css('display','none');
                     $('#form').css('display','block');
-                 
+
                     $("#item_category").val(message[0].item_category).attr("selected","selected");
                     itemcategory_load();
                     $("#item_subcategory").val(message[0].item_subcategory).attr("selected","selected");

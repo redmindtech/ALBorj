@@ -57,6 +57,7 @@ Route::get("/getitemnamedata", [App\Http\Controllers\AutoCompleteController::cla
 Route::get("/getautocomplete", [App\Http\Controllers\AutoCompleteController::class, 'getempdata'])->name('getempdata');
 Route::get("/get_po_details", [App\Http\Controllers\AutoCompleteController::class, 'get_po_details'])->name('get_po_details');
 Route::get("/getsitelocationdata", [App\Http\Controllers\AutoCompleteController::class, 'getsitelocationdata'])->name('getsitelocationdata');
+Route::get("/getpopricedata", [App\Http\Controllers\AutoCompleteController::class, 'getpopricedata'])->name('getpopricedata');
 // item master
 Route::post("/item", [App\Http\Controllers\ItemMasterController::class, 'store'])->name('store');
 Route::post("/item/{item}/update", [App\Http\Controllers\ItemMasterController::class, 'update'])->name('itemApi.update');
@@ -102,3 +103,9 @@ Route::post("/timesheet",[App\Http\Controllers\TimeSheetController::class, 'stor
 Route::post("/timesheet/{timesheet}/update", [App\Http\Controllers\TimeSheetController::class, 'update'])->name('timesheetApi.update');
 Route::delete("/timesheet/{timesheet}/delete", [App\Http\Controllers\TimeSheetController::class, 'destroy'])->name('timesheetApi.delete');
 Route::get("/timesheet/{timesheet}/show", [App\Http\Controllers\TimeSheetController::class, 'show'])->name('timesheetApi.show');
+
+//purchaseorder
+Route::post("/purchaseorder", [App\Http\Controllers\PurchaseOrderController::class, 'store'])->name('purchaseorderApi.store');
+Route::post("/purchaseorder/{po_no}/update", [App\Http\Controllers\PurchaseOrderController::class, 'update'])->name('purchaseorderApi.update');
+Route::delete("/purchaseorder/{po_no}/delete", [App\Http\Controllers\PurchaseOrderController::class, 'destroy'])->name('purchaseorderApi.delete');
+Route::get("/purchaseorder/{po_no}/show", [App\Http\Controllers\PurchaseOrderController::class, 'show'])->name('purchaseorderApi.show');

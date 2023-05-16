@@ -171,4 +171,17 @@ const GRNPURCHASETYPE=[
         'Return' => 'Return',
     
     ];
+    //PURCHASE ORDER
+const CURRENCY= [
+    'AED' => 'AED',
+    'INR' => 'INR',
+
+];
+const PROJECTORDERTYPE= [
+    'Local Purchase Order' => 'Local Purchase Order',
+    'Non Inventory Purchase Order' => 'Non Inventory Purchase Order',
+    'Hire Order' => 'Hire Order',
+    'Asset and miscellaneous Order' => 'Asset and miscellaneous Order',
+    'Cash Purchase' => 'Cash Purchase',
+];
 ?>

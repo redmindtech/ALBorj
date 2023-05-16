@@ -13,6 +13,7 @@ use App\Http\Controllers\UserAuth;
 use App\Http\Controllers\GoodsReceivingNoteController;
 use App\Http\Controllers\MaterialRequisitionController;
 use App\Http\Controllers\TimeSheetController;
+use APP\Http\ControllersPurchaseOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,3 +63,4 @@ Route::post('post-registration', [RegistrationController::class, 'postRegistrati
         return view('timesheet.index');
     });
     Route::resource('timesheet', 'TimeSheetController');
+    Route::resource('purchaseorder', 'PurchaseOrderController');

@@ -132,4 +132,25 @@ public function  getsitelocationdata(){
 
   return $data;
 }
+// purchase order item population for price from item supplier
+public function getpopricedata(){
+  try {
+      $itemname = $_GET['itemname'];
+      $data = DB::table('item_masters')
+          ->select('item_masters.id', 'item_masters.item_name', 'item_supplier.*','item_supplier.supplier_no')
+          ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
+          ->where('item_masters.item_name', 'LIKE', $itemname.'%')
+          ->get();
+
+      if (count($data) == 0) {
+          return response()->json('No data found', 404);
+      }
+
+      return $data;
+  } catch (Exception $e) {
+      info($e);
+      return response()->json('Error occurred in the loading page', 400);
+  }
+
+}
 }

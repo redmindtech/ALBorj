@@ -344,7 +344,7 @@ return [
                 ],
                 [
                     'text' => 'Purchase Order',
-                    'url'  => 'account',
+                    'url'  => 'purchaseorder',
                     'icon' => 'nav-icon far fa-circle text-primary',
 
                 ],
