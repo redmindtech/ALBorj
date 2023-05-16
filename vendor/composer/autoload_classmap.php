@@ -26,6 +26,7 @@ return array(
     'App\\Http\\Controllers\\MaterialRequisitionController' => $baseDir . '/app/Http/Controllers/MaterialRequisitionController.php',
     'App\\Http\\Controllers\\ProjectMasterController' => $baseDir . '/app/Http/Controllers/ProjectMasterController.php',
     'App\\Http\\Controllers\\PurchaseOrderController' => $baseDir . '/app/Http/Controllers/PurchaseOrderController.php',
+    'App\\Http\\Controllers\\PurchaseReturnController' => $baseDir . '/app/Http/Controllers/PurchaseReturnController.php',
     'App\\Http\\Controllers\\RegistrationController' => $baseDir . '/app/Http/Controllers/RegistrationController.php',
     'App\\Http\\Controllers\\SiteMasterController' => $baseDir . '/app/Http/Controllers/SiteMasterController.php',
     'App\\Http\\Controllers\\SupplierMasterController' => $baseDir . '/app/Http/Controllers/SupplierMasterController.php',
