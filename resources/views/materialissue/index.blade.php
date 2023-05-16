@@ -492,7 +492,7 @@
 
                  //DATA SHOW FOR EDIT AND SHOW
                  function handleShowAndEdit(id, action) {
-                    alert(id);
+                    // alert(id);
                      let url = "{{ route('materialissueApi.show', ':mir_no') }}";
                      url = url.replace(':mir_no', id);
                      let type = "GET"

@@ -599,9 +599,9 @@ $(document).on('change', '.item_name', function() {
              $('#heading_name').text("Add Purchase Order").css('font-weight', 'bold');
              $('#site_code').hide();
              $('#code_lable').hide();
-             $('#th_qty').hide();
-             $('.pending_qty').hide();
-             $('#tr_qty').hide();
+            //  $('#th_qty').hide();
+            //  $('.pending_qty').hide();
+            //  $('#tr_qty').hide();
 
              $('#show').css('display','none');
              $('#form').css('display','block');

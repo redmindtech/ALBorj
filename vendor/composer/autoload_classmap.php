@@ -69,6 +69,7 @@ return array(
     'App\\Models\\ProjectMaster' => $baseDir . '/app/Models/ProjectMaster.php',
     'App\\Models\\PurchaseOrder' => $baseDir . '/app/Models/PurchaseOrder.php',
     'App\\Models\\PurchaseOrderItem' => $baseDir . '/app/Models/PurchaseOrderItem.php',
+    'App\\Models\\PurchaseReturn' => $baseDir . '/app/Models/PurchaseReturn.php',
     'App\\Models\\SalaryDetails' => $baseDir . '/app/Models/SalaryDetails.php',
     'App\\Models\\SiteMaster' => $baseDir . '/app/Models/SiteMaster.php',
     'App\\Models\\SupplierMaster' => $baseDir . '/app/Models/SupplierMaster.php',

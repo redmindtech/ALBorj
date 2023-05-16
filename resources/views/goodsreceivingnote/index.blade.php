@@ -680,7 +680,7 @@ $(document).on('focus', '.item_name', function() {
             add_text();
             $('#item_name_' + create_id).val(item.item_name);
             $('#item_no_' + create_id).val(item.item_no);              
-            $('#quantity_'+ create_id).val(item.quantity);                      
+            $('#quantity_'+ create_id).val(item.qty);                      
             $('#pending_qty_'+ create_id).text(item.pending_qty);  
             $('#receiving_qty_'+ create_id).val('0');
             $('#item_name_' + create_id).val(item.item_name);   

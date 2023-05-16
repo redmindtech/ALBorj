@@ -331,8 +331,8 @@ class ComposerStaticInitba505407c9324b11f79b71cefe4f68fe
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -603,6 +603,7 @@ class ComposerStaticInitba505407c9324b11f79b71cefe4f68fe
         'App\\Models\\ProjectMaster' => __DIR__ . '/../..' . '/app/Models/ProjectMaster.php',
         'App\\Models\\PurchaseOrder' => __DIR__ . '/../..' . '/app/Models/PurchaseOrder.php',
         'App\\Models\\PurchaseOrderItem' => __DIR__ . '/../..' . '/app/Models/PurchaseOrderItem.php',
+        'App\\Models\\PurchaseReturn' => __DIR__ . '/../..' . '/app/Models/PurchaseReturn.php',
         'App\\Models\\SalaryDetails' => __DIR__ . '/../..' . '/app/Models/SalaryDetails.php',
         'App\\Models\\SiteMaster' => __DIR__ . '/../..' . '/app/Models/SiteMaster.php',
         'App\\Models\\SupplierMaster' => __DIR__ . '/../..' . '/app/Models/SupplierMaster.php',

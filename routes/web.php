@@ -64,3 +64,4 @@ Route::post('post-registration', [RegistrationController::class, 'postRegistrati
     });
     Route::resource('timesheet', 'TimeSheetController');
     Route::resource('purchaseorder', 'PurchaseOrderController');
+    Route::resource('purchasereturn', 'PurchaseReturnController');
