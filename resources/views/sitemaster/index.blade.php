@@ -29,7 +29,9 @@
                                             <th>Site Code</th>
                                             <th>Site Name</th>                                            
                                             <th>Site location</th>
-                                            <th>Site Manager</th>                                            
+                                            <th>Site Manager</th>  
+                                            <th>Site Address</th>                                            
+                                            <th>Status</th>                                            
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" clclass="action notexport">Delete</th>
@@ -40,10 +42,12 @@
                                         @foreach ($sitemasters as $key => $sitemaster)
                                             <tr class="text-center">
                                                 <!-- <td>{{$key+=1}}</td> -->
-                                                <td>{{$sitemaster->site_code}}</td>
+                                                <td>{{$sitemaster->site_code}}<div id="blur-background" class="blur-background"></div></td>
                                                 <td>{{$sitemaster->site_name}}</td>                                        
                                                 <td>{{$sitemaster->site_location}}</td>
                                                 <td>{{$sitemaster->firstname}}</td>
+                                                <td>{{$sitemaster->site_address}}</td>
+                                                <td>{{$sitemaster->site_status}}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$sitemaster->site_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -249,6 +253,8 @@ $.ajaxSetup({
              $('#code_lable').hide();
              $('#show').css('display','none');
              $('#form').css('display','block');
+             $('#blur-background').css('display','block');
+
           }
 // DELETE FUNCTION
           function handleDelete(id){
@@ -324,6 +330,8 @@ $.ajaxSetup({
                 if(action == 'edit'){
                     $('#show').css('display','none');
                      $('#form').css('display','block');
+                     $('#blur-background').css('display','block');
+
                 for (const [key, value] of Object.entries(message[0])) {
 //   console.log(`${key}: ${value}`);
   $(`#${key}`).val(value);
@@ -338,6 +346,8 @@ $.ajaxSetup({
     $('#heading_name').text("View SiteMaster").css('font-weight', 'bold');
      $('#show').css('display','block');
     $('#form').css('display','none');
+    $('#blur-background').css('display','block');
+
 }
  document.getElementById("myDialog").open = true;
           

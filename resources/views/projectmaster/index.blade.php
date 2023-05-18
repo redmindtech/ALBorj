@@ -30,7 +30,16 @@
                                             <th>Project Name</th>
                                             <th>Project Type</th>
                                             <th>Site Name</th>
-                                            <th>Site Manager</th>
+                                            <th>Manager Name</th>
+                                            <th>Client Name</th>
+                                            <th>Actual Start Date</th>
+                                            <th>Actual End Date</th>
+                                            <th>Status</th>
+                                            <th>Project Cost</th>
+                                            <th>Advance Amount</th>
+                                            <th>Retention</th>
+                                            <th>Balance Amount</th>
+                                            <th>Amount Return</th>
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
@@ -41,11 +50,21 @@
                                         @foreach ($projectmasters as $key => $projectmaster)
                                             <tr class="text-center">
                                                 <!-- <td>{{$key+=1}}</td> -->
-                                                <td>{{$projectmaster->project_code}}</td>                                                
+                                                <td>{{$projectmaster->project_code}}<div id="blur-background" class="blur-background"></div></td>                                                
                                                 <td>{{$projectmaster->project_name}}</td>
                                                 <td>{{$projectmaster->project_type}}</td>
                                                 <td>{{$projectmaster->site_name}}</td>
                                                 <td>{{$projectmaster->firstname}}</td>
+                                                <td>{{$projectmaster->name}}</td>
+                                                <td>{{$projectmaster->start_date}}</td>
+                                                <td>{{$projectmaster->end_date}}</td>
+                                                <td>{{$projectmaster->status}}</td>
+                                                <td>{{$projectmaster->total_price_cost}}</td>
+                                                <td>{{$projectmaster->advanced_amount}}</td>
+                                                <td>{{$projectmaster->retention}}</td>
+                                                <td>{{$projectmaster->amount_to_be_received}}</td>
+                                                <td>{{$projectmaster->amount_return}}</td>
+
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$projectmaster->project_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -390,6 +409,8 @@ $.ajaxSetup({
              $('#code_lable').hide();
              $('#show').css('display','none');
              $('#form').css('display','block');
+             $('#blur-background').css('display','block');
+
           }
 // DELETE FUNCTION
           function handleDelete(id){
@@ -465,6 +486,8 @@ $.ajaxSetup({
                 if(action == 'edit'){
                     $('#show').css('display','none');
                      $('#form').css('display','block');
+                     $('#blur-background').css('display','block');
+
                 for (const [key, value] of Object.entries(message[0])) {
 
   $(`#${key}`).val(value);
@@ -479,6 +502,8 @@ $.ajaxSetup({
     $('#heading_name').text("View ProjectMaster").css('font-weight', 'bold');
      $('#show').css('display','block');
     $('#form').css('display','none');
+    $('#blur-background').css('display','block');
+
 }
  document.getElementById("myDialog").open = true;
           

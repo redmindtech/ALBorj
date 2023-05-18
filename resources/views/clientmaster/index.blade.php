@@ -30,7 +30,8 @@
                                             <th>Name</th>
                                             <th>Company Name</th>
                                             <th>Contact Number</th>
-                                            <!-- <th>Address</th> -->
+                                            <th>Address</th>
+                                            <th>Website</th>
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
@@ -41,11 +42,12 @@
                                             <tr class="text-center">
                                                 {{-- <td>{{$key+=1}}</td> --}}
                                                 <!-- <td>{{$client->client_no}}</td> -->
-                                                <td>{{$client->client_code}}</td>
+                                                <td>{{$client->client_code}} <div id="blur-background" class="blur-background"></div></td>
                                                 <td>{{$client->name}}</td>
                                                 <td>{{$client->company_name}}</td>
                                                 <td>{{$client->contact_number}}</td>
-                                                <!-- <td>{{$client->address}}</td> -->
+                                                <td>{{$client->address}}</td>
+                                                <td>{{$client->website}}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$client->client_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -59,10 +61,6 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    {{-- <form id="{{$supplier->supplier_no}}" action="{{route("suppliermaster.destroy",$supplier->supplier_no)}}" method="post">
-                                                        @csrf
-                                                        @method("DELETE")
-                                                    </form> --}}
                                                     <button  type="submit" class="btn btn-sm btn-danger" onclick="handleDelete('{{$client->client_no}}')">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
@@ -192,6 +190,8 @@
             $('#code_lable').hide();
             $('#show').css('display','none');
             $('#form').css('display','block');
+            $('#blur-background').css('display','block');
+
         }
 // DELETE FUNCTION
         function handleDelete(id)
@@ -216,6 +216,9 @@
         function handleClose()
         {
             document.getElementById("myDialog").open = false;
+            // $("#myDialog").load(" #myDialog > *");
+            //  rowIdx=1;
+            //  $('#blur-background').css('display','none');
             window.location.reload();
           }
 // DIALOG SUBMIT FOR ADD AND EDIT
@@ -284,6 +287,7 @@
                 {
                     $('#show').css('display','none');
                     $('#form').css('display','block');
+                    $('#blur-background').css('display','block');
                     for (const [key, value] of Object.entries(message))
                     {
                         console.log(`${key}: ${value}`);
@@ -302,6 +306,7 @@
                     $('#heading_name').text("View Supplier").css('font-weight', 'bold');
                     $('#show').css('display','block');
                     $('#form').css('display','none');
+                    $('#blur-background').css('display','block');
                 }
                 document.getElementById("myDialog").open = true;
 

@@ -28,9 +28,11 @@
                                             <!-- <th>S.No</th> -->
                                             <th>Supplier Code</th>
                                             <th>Supplier Name</th>
-                                            <th>Company</th>                                          
+                                            <th>Company Name</th>                                          
                                             <th>Contact No</th>
-                                            <!-- <th>Mail Id</th> -->
+                                            <th>Address</th>
+                                            <th>Website</th>
+                                            <th>Mail Id</th>
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
@@ -40,12 +42,13 @@
                                         @foreach ($suppliers as $key => $supplier)
                                             <tr class="text-center">
                                                 <!-- <td>{{$key+=1}}</td> -->
-                                                <td>{{$supplier->code}}</td>
+                                                <td>{{$supplier->code}}<div id="blur-background" class="blur-background"></div></td>
                                                 <td>{{$supplier->name}}</td>
                                                 <td>{{$supplier->company_name}}</td>
-                                               
                                                 <td>{{$supplier->contact_number}}</td>
-                                                <!-- <td>{{$supplier->mail_id}}</td> -->
+                                                <td>{{$supplier->address}}</td>
+                                                <td>{{$supplier->website}}</td>
+                                                <td>{{$supplier->mail_id}}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$supplier->supplier_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -59,10 +62,6 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    {{-- <form id="{{$supplier->supplier_no}}" action="{{route("suppliermaster.destroy",$supplier->supplier_no)}}" method="post">
-                                                        @csrf
-                                                        @method("DELETE")
-                                                    </form> --}}
                                                     <button  type="submit" class="btn btn-sm btn-danger" onclick="handleDelete('{{$supplier->supplier_no}}')">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
@@ -206,6 +205,8 @@ $.ajaxSetup({
              $('#code_lable').hide();
              $('#show').css('display','none');
              $('#form').css('display','block');
+             $('#blur-background').css('display','block');
+
           }
 // DELETE FUNCTION
           function handleDelete(id){
@@ -288,6 +289,8 @@ $.ajaxSetup({
                 }
                 $('#method').val('UPDATE');
                 $('#submit').text('UPDATE');
+                $('#blur-background').css('display','block');
+
             } else {
                 for (const [key, value] of Object.entries(message)) {
                     $(`#show_${key}`).text(value);
@@ -295,6 +298,8 @@ $.ajaxSetup({
                 $('#heading_name').text("View Supplier").css('font-weight', 'bold');
                 $('#show').css('display','block');
                 $('#form').css('display','none');
+                $('#blur-background').css('display','block');
+
             }
             document.getElementById("myDialog").open = true;
                     

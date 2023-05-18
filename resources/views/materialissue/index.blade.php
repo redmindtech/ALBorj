@@ -28,13 +28,15 @@
                              <thead>
                                  <tr class="text-center">
                                      <th>S.NO</th>
-                                     <th>MIR.Code</th>
+                                     <th>MIR Code</th>
                                      <th>Location</th>
                                      <th>Issue Date</th>
-                                     <!-- <th>Site Manager</th>                                             -->
-                                     <th data-orderable="false" class="action">Show</th>
-                                     <th data-orderable="false" class="action">Edit</th>
-                                     <th data-orderable="false" class="action">Delete</th>
+                                     <th>Project Name</th> 
+                                     <th>Employee Name</th> 
+                                     <th>Type</th>                                          
+                                     <th data-orderable="false" class="action notexport">Show</th>
+                                     <th data-orderable="false" class="action notexport">Edit</th>
+                                     <th data-orderable="false" class="action notexport">Delete</th>
                                  </tr>
                              </thead>
 
@@ -42,10 +44,12 @@
                                  @foreach ($material_issues as $key => $material_issue)
                                      <tr class="text-center">
                                          <td>{{ $key += 1 }}</td>
-                                         <td>{{ $material_issue->mir_code }}</td>
+                                         <td>{{ $material_issue->mir_code }}<div id="blur-background" class="blur-background"></div></td>
                                          <td>{{ $material_issue->location }}</td>
                                          <td>{{ $material_issue->issue_date }}</td>
-
+                                         <td>{{ $material_issue->project_name }}</td>
+                                         <td>{{ $material_issue->firstname }}</td>
+                                         <td>{{ $material_issue->type }}</td>
                                          <td>
                                              <a onclick="handleShowAndEdit('{{ $material_issue->mir_no }}','show')"
                                                  class="btn btn-primary btn-circle btn-sm">
@@ -145,7 +149,7 @@
                                  <option value="">Select Option</option>
                                  @foreach ($type as $key => $value)
                                      <option value="{{ $key }}">{{ $value }}</option>
-                                 @endforeach
+                                 @endforeach 
                              </select>
                              <p style="color: red" id="error_type"></p>
                          </div>
@@ -203,7 +207,7 @@
                          </div>
                          <div class="col-md-4">
                              <textarea name="remarks" id="remarks" cols="30" rows="4" class="form-control" name="remarks"
-                                 id="remarks"></textarea>
+                                 id="remarks" autocomplete="off"></textarea>
                          </div>
 
                      </div>
@@ -430,6 +434,8 @@
                      $('#mir_code_lable').hide();
                      $('#show').css('display', 'none');
                      $('#form').css('display', 'block');
+                     $('#blur-background').css('display','block');
+
                  }
                  // DELETE FUNCTION
                  function handleDelete(id) {
@@ -510,6 +516,8 @@
 
                                  $('#show').css('display', 'none');
                                  $('#form').css('display', 'block');
+                                 $('#blur-background').css('display','block');
+
                                  for (const [key, value] of Object.entries(message.material_issues[0])) {
                                      //  console.log(`${key}: ${value}`);
                                      $(`#${key}`).val(value);
@@ -552,6 +560,8 @@
                                  $('#heading_name').text("View Material issue/return").css('font-weight', 'bold');
                                  $('#show').css('display', 'block');
                                  $('#form').css('display', 'none');
+                                 $('#blur-background').css('display','block');
+
                              }
                              document.getElementById("myDialog").open = true;
                          },

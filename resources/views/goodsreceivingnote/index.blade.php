@@ -29,8 +29,12 @@
                                             <!-- <th>S.NO</th> -->
                                             <th>GRN Code</th>
                                             <th>Project Name</th>
-                                            <th>Supplier Name</th>
+                                            <!-- <th>Supplier Name</th> -->
                                             <th>Purchase Type</th>
+                                            <th>GRN Date</th>
+                                            <th>Discount</th>
+                                            <th>Vat</th>
+                                            <th>Grand Total</th>
                                             <th data-orderable="false" class="action notexport" >Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
@@ -40,10 +44,14 @@
                                         @foreach ($grns as $key => $grn)
                                             <tr class="text-center">
                                                 <!-- <td>{{$key+=1}}</td> -->
-                                                <td>{{$grn->grn_code}}</td>
+                                                <td>{{$grn->grn_code}}<div id="blur-background" class="blur-background"></div></td>
                                                 <td>{{$grn->project_name}}</td>                                        
-                                                <td>{{$grn->name}}</td>  
-                                                <td>{{$grn->grn_purchase_type}}</td>                                               
+                                                <!-- <td>{{$grn->name}}</td>   -->
+                                                <td>{{$grn->grn_purchase_type}}</td>
+                                                <td>{{$grn->grn_date}}</td>                                               
+                                                <td>{{$grn->discount_amount}}</td>                                               
+                                                <td>{{$grn->vat}}</td>    
+                                                <td>{{$grn->gross_amount}}</td>                                                                                             
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$grn->grn_no}}','{{$grn->po_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -57,10 +65,6 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    {{-- <form id="{{$grn->grn_no}}" action="{{route("goodsreceivingnote.destroy",$grn->grn_no)}}" method="post">
-                                                        @csrf
-                                                        @method("DELETE")
-                                                    </form> --}}
                                                     <button  type="submit" class="btn btn-sm btn-danger" onclick="handleDelete('{{$grn->grn_no}}')">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
@@ -100,9 +104,8 @@
      
     </div>  
     <div class="form-group col-md-4" >
-        <label for="po_date" class="form-label fw-bold">REF LPO date<a style="text-decoration: none;color:red">*</a></label>
-        <input type="date" id="po_date" name="po_date"  value="{{ old('po_date') }}" placeholder="REF LPO date" class="form-control" autocomplete="off" >
-        <p style="color: red" id="error_po_date"></p>
+        <label for="po_date" class="form-label fw-bold">REF LPO Date</label>
+        <input type="date" id="po_date" name="po_date" readonly  value="{{ old('po_date') }}" placeholder="REF LPO date" class="form-control" autocomplete="off" >
     </div>
     <div class="form-group col-md-4" >
         <label for="grn_date" class="form-label fw-bold">GRN Invoice / Receive date<a style="text-decoration: none;color:red">*</a></label>
@@ -705,10 +708,15 @@ $(document).on('focus', '.item_name', function() {
              $('#grn_code_lable').hide();
              $('#show').css('display','none');
              $('#form').css('display','block');
+             $('#blur-background').css('display','block');
+
           }
 // dialogclose
           function handleClose(){
             document.getElementById("myDialog").open = false;
+            // $("#myDialog").load(" #myDialog > *");
+            //  rowIdx=1;
+            //  $('#blur-background').css('display','none');
             window.location.reload();
           }
 
@@ -813,6 +821,8 @@ function handleShowAndEdit(id,po_no,action)
                 {   
                     $('#show').css('display','none');
                     $('#form').css('display','block');
+                    $('#blur-background').css('display','block');
+
                     for (const [key, value] of Object.entries(message.grn))
                     {
                         $(`#${key}`).val(value);
@@ -876,6 +886,8 @@ function handleShowAndEdit(id,po_no,action)
                     $('#heading_name').text("View Goods Receiving Note").css('font-weight', 'bold');
                     $('#show').css('display','block');
                     $('#form').css('display','none');
+                    $('#blur-background').css('display','block');
+
                 }
                 document.getElementById("myDialog").open = true;
             },

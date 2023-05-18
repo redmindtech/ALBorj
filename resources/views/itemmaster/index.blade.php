@@ -25,28 +25,32 @@
                         <table id="myTable" class="table table-bordered table-striped">
                             <thead>
                                 <tr class="text-center">
-                                    <th>Item ID</th>
+                                     <th>S.No</th>
+                                    <!-- <th>Item ID</th> -->
                                     <th>Item Name</th>
                                     <th>Item Category</th>
                                     <th>Item Subcategory</th>
-                                    <th>Supplier Name</th>
-                                    <!-- <th>Item Type</th> -->
-                                    <th>Supplier Code</th>
+                                    <!-- <th>Supplier Name</th> -->
+                                    <th>Item Type</th>
+                                    <th>Item Quentity</th>
+                                    <!-- <th>Supplier Code</th> -->
                                     <th data-orderable="false" class="action notexport">Show</th>
                                     <th data-orderable="false" class="action notexport">Edit</th>
                                     <th data-orderable="false" class="action notexport">Delete</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($items as $item)
+                                    @foreach ($items as $key => $item)
                                         <tr class="text-center">
-                                            <td>{{$item->id}}</td>
-                                            <td>{{$item->item_name}}</td>
+                                            <td>{{$key+=1}}</td> 
+                                            <!-- <td>{{$item->id}}</td> -->
+                                            <td>{{$item->item_name}}<div id="blur-background" class="blur-background"></div></td>
                                             <td>{{$item->item_category}}</td>
                                             <td>{{$item->item_subcategory}}</td>
-                                            <td>{{$item->name}}</td>
-                                            {{-- <td>{{$item->item_type}}</td> --}}
-                                            <td>{{$item->code}}</td>
+                                            <!-- <td>{{$item->name}}</td> -->
+                                            <td>{{$item->item_type}}</td> 
+                                            <td>{{$item->total_quantity}}</td> 
+                                            <!-- <td>{{$item->code}}</td> -->
                                             <td>
                                                 <a  onclick="handleShowAndEdit('{{$item->id}}','show')"
                                                     class="btn btn-primary btn-circle btn-sm"   >
@@ -223,6 +227,7 @@
         $('#supplier_id').hide();
         $('#show').css('display','none');
         $('#form').css('display','block');
+        $('#blur-background').css('display','block');
         $('#item_qty').val('0');
         itemcategory_load();
           }
@@ -250,6 +255,9 @@
     function handleClose()
     {
         document.getElementById("myDialog").open = false;
+        // $("#myDialog").load(" #myDialog > *");
+        //      rowIdx=1;
+        //      $('#blur-background').css('display','none');
         window.location.reload();
     }
     // DIALOG SUBMIT FOR ADD AND EDIT
@@ -315,6 +323,7 @@
                 {
                     $('#show').css('display','none');
                     $('#form').css('display','block');
+                    $('#blur-background').css('display','block');
 
                     $("#item_category").val(message[0].item_category).attr("selected","selected");
                     itemcategory_load();
@@ -337,6 +346,8 @@
                     $('#heading_name').text("View Item").css('font-weight', 'bold');
                     $('#show').css('display','block');
                     $('#form').css('display','none');
+                    $('#blur-background').css('display','block');
+
                 }
                 document.getElementById("myDialog").open = true;
 

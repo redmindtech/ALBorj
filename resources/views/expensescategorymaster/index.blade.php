@@ -36,7 +36,7 @@
                                     <tbody>
                                         @foreach ($expenses as $key => $expense)
                                             <tr class="text-center">
-                                                <td>{{$expense->id}}</td>
+                                                <td>{{$expense->id}}<div id="blur-background" class="blur-background"></div></td>
                                                 <td>{{$expense->category_name}}</td>
                                                 <td>{{$expense->category_description}}</td>
                                                 <td>
@@ -136,6 +136,8 @@
         $('#heading_name').text("Add ExpensesCategory").css('font-weight', 'bold');
         $('#show').css('display','none');
         $('#form').css('display','block');
+        $('#blur-background').css('display','block');
+
     }
       // DELETE FUNCTION
     function handleDelete(id)
@@ -161,6 +163,9 @@
     function handleClose()
     {
         document.getElementById("myDialog").open = false;
+        // $("#myDialog").load(" #myDialog > *");
+        //      rowIdx=1;
+        //      $('#blur-background').css('display','none');
         window.location.reload();
     }
     // DIALOG SUBMIT FOR ADD AND EDIT
@@ -225,6 +230,8 @@
                 {
                     $('#show').css('display','none');
                     $('#form').css('display','block');
+                    $('#blur-background').css('display','block');
+
 
                     for (const [key, value] of Object.entries(message))
                     {
@@ -243,6 +250,8 @@
                     $('#heading_name').text("View ExpensesCategory").css('font-weight', 'bold');
                     $('#show').css('display','block');
                     $('#form').css('display','none');
+                    $('#blur-background').css('display','block');
+
                 }
                 document.getElementById("myDialog").open = true;
 

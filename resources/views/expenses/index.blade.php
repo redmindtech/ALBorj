@@ -27,12 +27,15 @@
                                         <tr class="text-center">
                                                 
                                                 <th>voucher No</th>
-                                                <!-- <th>Date</th> -->
                                                 <th>Project Name</th>
                                                 <th>Supplier Name</th>
                                                 <th>Total Amount</th>
-                                                <!-- <th>Employee Name</th> -->
-                                                <!-- <th>Created By</th> -->
+                                                <th>Employee Name</th>
+                                                <th>Bill Date</th>
+                                                <th>Expense Category</th>
+                                                <th>Source</th>
+                                                <th>Bill Amount</th>
+                                                <th>Vat</th>
                                                 <th data-orderable="false" class="action notexport">Show</th>
                                                 <th data-orderable="false" class="action notexport">Edit</th>
                                                 <th data-orderable="false" class="action notexport">Delete</th>
@@ -41,12 +44,16 @@
                                     <tbody>
                                         @foreach ($expenses as $expense)
                                             <tr class="text-center">
-                                                <td>{{$expense->exp_code}}</td>
-                                                <!-- <td>{{$expense->bill_date}}</td> -->
+                                                <td>{{$expense->exp_code}}<div id="blur-background" class="blur-background"></div></td>
                                                 <td>{{$expense->project_name}}</td>
                                                 <td>{{$expense->name}}</td>
                                                 <td>{{$expense->total_amount}}</td>
-                                                <!-- <td>{{$expense->firstname}}</td> -->
+                                                <td>{{$expense->firstname}}</td>
+                                                <td>{{$expense->bill_date}}</td>
+                                                <td>{{$expense->exp_category_no}}</td>
+                                                <td>{{$expense->source}}</td>
+                                                <td>{{$expense->bill_amount}}</td>
+                                                <td>{{$expense->vat}}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$expense->exp_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -291,6 +298,8 @@ $(function () {
              $('#code_lable').hide();
              $('#show').css('display','none');
              $('#form').css('display','block');
+             $('#blur-background').css('display','block');
+
           }
 
     // DELETE FUNCTION
@@ -313,6 +322,9 @@ $(function () {
 // DIALOG CLOSE BUTTON
           function handleClose(){
             document.getElementById("myDialog").open = false;
+            // $("#myDialog").load(" #myDialog > *");
+            //  rowIdx=1;
+            //  $('#blur-background').css('display','none');
             window.location.reload();
           }
 
@@ -374,6 +386,8 @@ $(function () {
                 {
                     $('#show').css('display','none');
                     $('#form').css('display','block');
+                    $('#blur-background').css('display','block');
+
                     console.log(message[0]);
                     for (const [key, value] of Object.entries(message[0]))
                     {
@@ -394,6 +408,8 @@ $(function () {
                     $('#heading_name').text("View Item").css('font-weight', 'bold');
                     $('#show').css('display','block');
                     $('#form').css('display','none');
+                    $('#blur-background').css('display','block');
+
                 }
                 document.getElementById("myDialog").open = true;
 

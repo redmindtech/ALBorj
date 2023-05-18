@@ -28,22 +28,31 @@
                                     <th>S.NO</th>
                                     <th>PO Code</th>
                                     <th>PO Type</th>
-                                    <th>PO Date</th>
-
-
-                                    <th data-orderable="false" class="action">Show</th>
-                                    <th data-orderable="false" class="action">Edit</th>
-                                    <th data-orderable="false" class="action">Delete</th>
+                                    <!-- <th>PO Date</th> -->
+                                    <th>Supplier Name</th>
+                                    <th>Delivery Location</th>
+                                    <th>Delivery Terms</th>
+                                    <th>PO Prepared By</th>
+                                    <th>Vat</th>
+                                    <th>Grand Total</th>
+                                    <th data-orderable="false" class="action notexport">Show</th>
+                                    <th data-orderable="false" class="action notexport">Edit</th>
+                                    <th data-orderable="false" class="action notexport">Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($purchase_orders as $key => $purchase_order)
                                     <tr class="text-center">
                                         <td>{{$key+=1}}</td>
-                                        <td>{{$purchase_order->po_code}}</td>
+                                        <td>{{$purchase_order->po_code}}<div id="blur-background" class="blur-background"></div></td>
                                         <td>{{$purchase_order->po_type}}</td>
-                                        <td>{{$purchase_order->po_date}}</td>
-
+                                        <!-- <td>{{$purchase_order->po_date}}</td> -->
+                                        <td>{{$purchase_order->name}}</td>
+                                        <td>{{$purchase_order->delivery_location}}</td>
+                                        <td>{{$purchase_order->delivery_terms}}</td>
+                                        <td>{{$purchase_order->po_prepared}}</td>
+                                        <td>{{$purchase_order->vat}}</td>
+                                        <td>{{$purchase_order->gross_amount}}</td>
                                         <td>
                                             <a  onclick="handleShowAndEdit('{{$purchase_order->po_no}}','show')"
                                                 class="btn btn-primary btn-circle btn-sm"   >
@@ -605,6 +614,8 @@ $(document).on('change', '.item_name', function() {
 
              $('#show').css('display','none');
              $('#form').css('display','block');
+             $('#blur-background').css('display','block');
+
           }
 // DELETE FUNCTION
           function handleDelete(id){
@@ -683,6 +694,8 @@ $(document).on('change', '.item_name', function() {
 
                                 $('#show').css('display', 'none');
                                 $('#form').css('display', 'block');
+                                $('#blur-background').css('display','block');
+
                                 for (const [key, value] of Object.entries(message.purchase_orders[0])) {
                                     //   console.log(`${key}: ${value}`);
                                     $(`#${key}`).val(value);
@@ -735,6 +748,8 @@ $(document).on('change', '.item_name', function() {
                                 $('#heading_name').text("View Purchase Order").css('font-weight', 'bold');
                                 $('#show').css('display', 'block');
                                 $('#form').css('display', 'none');
+                                $('#blur-background').css('display','block');
+
                             }
                             document.getElementById("myDialog").open = true;
                         },

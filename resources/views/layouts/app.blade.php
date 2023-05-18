@@ -47,10 +47,19 @@
  <!-- DATA TABLE FILTERS -->
  <script>
     $(document).ready(function() {
+        var column_length = $('#myTable tr th').length;
+        
         var table = $('#myTable').DataTable( {
 
             lengthChange: false,
 
+        columnDefs:[
+            {
+                visible:true,targets:[0,1,2,3,column_length-3, column_length-2,column_length-1]
+                
+            },
+           { targets: '_all', visible: false }
+             ],
 
             buttons: [
             {
@@ -202,7 +211,27 @@ input[type=checkbox] {
         .toggle .label { position: absolute; left: 70px; top: 4px; vertical-align: middle; }
         .st { height: 100%; width: 100%; opacity: 0; position: absolute; z-index: 100; cursor: pointer; vertical-align: middle;}
         .toggle.focus .slider, .checkbox.focus   { box-shadow: 0px 0px 0px 2px #bababa; transition: all 0.4s; }
-     /* style for percentage and ruper to toggle  ends*/   
+     /* style for percentage and ruper to toggle  ends*/ 
+     .blur-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(8px);
+            z-index:1;
+            display: none; /* Initially hidden */
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background color */
+        }
+
+        dialog {
+            z-index:2;
+        }
+         #myTable_paginate, #myTable_info  {
+            position:relative;
+            z-index: 0;
+        }
+        
     </style>
   
    

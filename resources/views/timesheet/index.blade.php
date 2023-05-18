@@ -37,7 +37,7 @@
                                         
                                             @foreach($times as $time)
                                             <tr class="text-center">
-                                                <td>{{$time->firstname}}</td>
+                                                <td>{{$time->firstname}}<div id="blur-background" class="blur-background"></div></td>
                                                 <td>{{$time->desigination}}</td>
                                                 <td>{{$time->depart}}</td>
                                                 <td>{{$time->project_name}}</td>
@@ -368,6 +368,8 @@ $(function () {
              $('#heading_name').text("Add Timesheet").css('font-weight', 'bold');
              $('#show').css('display','none');
              $('#form').css('display','block');
+             $('#blur-background').css('display','block');
+
           }
 
      // DELETE FUNCTION
@@ -459,6 +461,8 @@ $(function () {
                 {
                     $('#show').css('display','none');
                     $('#form').css('display','block');
+                    $('#blur-background').css('display','block');
+
                     for (const [key, value] of Object.entries(message.time[0]))
                     {
                         $(`#${key}`).val(value);
@@ -524,6 +528,8 @@ $(function () {
                     $('#heading_name').text("View Timesheet").css('font-weight', 'bold');
                     $('#show').css('display','block');
                     $('#form').css('display','none');
+                    $('#blur-background').css('display','block');
+
                 }
                     document.getElementById("myDialog").open = true;
             },

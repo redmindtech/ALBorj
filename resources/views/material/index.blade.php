@@ -1,8 +1,8 @@
 <!-- STYLE INCLUDED IN LAYOUT PAGE -->
 @extends('layouts.app',[
-    'activeName' => 'supplier'
+    'activeName' => 'Material'
 ])
-@section('title', 'Supplier Master')
+@section('title', 'Material Requisition')
 
 @section('content_header')
 @stop
@@ -15,8 +15,8 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
                                 <h4 class="font-weight-bold text-dark py">MATERIAL REQUISITION</h4>
-                                <div>
-                                    <button type="button" class="btn btn-block btn-primary" onclick="handleDialog()">NEW MATERIAL REQUISITION</button>
+                                <div style="width:120px">
+                                    <button type="button" class="btn btn-block btn-primary" onclick="handleDialog()">Add</button>
                                 </div>
                             </div>
                         </div>
@@ -28,8 +28,9 @@
                                             <th>MR Code</th>
                                             <th>Date</th>
                                             <th>Project Name</th>                                           
-                                            <th>Project Type</th>
-                                           
+                                            <th>Invoice No</th>
+                                            <th>Purchase Type</th>
+                                            <th>Employee Name</th>
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
@@ -38,12 +39,13 @@
                                     <tbody>
                                      @foreach ($materials as $key => $material)
                                             <tr class="text-center">
-                                                <td>{{$material->mr_reference_code}}</td>
+                                                <td>{{$material->mr_reference_code}}<div id="blur-background" class="blur-background"></div></td>
                                                
                                                 <td>{{ date('d-m-Y', strtotime($material->date))}}</td>
                                                 <td>{{$material->project_name}}</td>                                        
+                                                <td>{{$material->voucher_no}}</td>
                                                 <td>{{$material->purchase_type}}</td>
-                                              
+                                                <td>{{$material->firstname}}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$material->mr_id}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -74,125 +76,116 @@
                     </div>
 
                     <!-- ADD AND EDIT FORM -->
-          <dialog id="myDialog"  style="width:1000px;">
+                    <dialog id="myDialog"  style="width:1000px;">
             <div class="row">
-
                 <div class="col-md-12">
-               
-                     <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
-                     <h4  id='heading_name' style='color:white' align="center"><b>Update Material </b></h4>
-                    </div>
+                    <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;">
+                        <i class="fas fa-close"></i>
+                    </a>
+                    <h4  id='heading_name' style='color:white' align="center"><b>Update Material Requisition</b></h4>
+                </div>
             </div>
             <form  class="form-row"  enctype="multipart/form-data" style="display:block" id="form" onsubmit="handleSubmit()">
                 <input type="hidden" id="method" value="ADD"/>
                 <input type="hidden" id="mr_id" name="mr_id" value=""/><br>
-               
-{!! csrf_field() !!}
 
-<div class="row">
-    <div class="form-group col-md-6">
-        <label for="date" class="form-label fw-bold">Date<a style="text-decoration: none;color:red">*</a></label>
-        <input type="date" id="date" name="date" value="{{ old('date')}}" placeholder="Company Name" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_date"></p>
-    </div>
-    <div class="form-group col-md-6">
-        <label for="voucher_no" class="form-label fw-bold">Invoice Voucher No</label>
-        <input type="text" id="voucher_no"  name="voucher_no" value="{{ old('voucher_no') }}" placeholder="Voucher No" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_voucher_no"></p>
-    </div>
-</div>
-<div class="row">
+                {!! csrf_field() !!}
 
-    <div class="form-group col-md-6">
-        <label for="reference_date" class="form-label fw-bold">REF DATE</label>
-        <input type="date" id="reference_date" name="reference_date" value="{{ old('reference_date') }}" placeholder="Reference Date" class="form-control" autocomplete="off">
-       
-    </div>
-    <div class="form-group col-md-6">
-        <label for="address" class="form-label fw-bold">Type of Purchase<a style="text-decoration: none;color:red">*</a></label>
-        <select name="purchase_type" id="purchase_type"class="form-control">  
-             <option value="">Select Option</option>
-                                    @foreach($purchase_type as $key => $value)
-                                        <option value="{{ $key }}">{{ $value }}</option>
-                                    @endforeach
-          </select>
-        <p style="color: red" id="error_purchase_type"></p>
-    </div> 
-</div>
-<div class="row">
-        <div class="form-group col-md-6">
-        <label for="contact_number" class="form-label fw-bold">Project Name<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="project_name" name="project_name" value="{{ old('project_name') }}"  placeholder="Project Name" class="form-control" >
-        <input type="text" hidden  id="project_id" name="project_id" value="{{ old('project_id') }}"   class="form-control" />
-        <p style="color: red" id="error_project_id"></p>
-    </div>
-    <div class="form-group col-md-6">
-        <label for="project_code" class="form-label fw-bold">Project Code</label>
-        <input type="text" id="project_code" name="project_code" readonly value="{{ old('project_code') }}" placeholder="Project Code" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_project_code"></p>
-    </div>
-</div>
-<div class="row">
-<div class="form-group col-md-6">
-        <label for="contact_number" class="form-label fw-bold">Employee Name<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="firstname" name="firstname" value="{{ old('firstname') }}"  placeholder="Employee Name" class="form-control" >
-        <input type="text"  id="user_id" hidden name="user_id" value="{{ old('user_id') }}"   class="form-control" />
-        <p style="color: red" id="error_user_id"></p>
-    </div>
-<div class="form-group col-md-6">
-        <label for="mr_reference_code"  id="mr_reference_code_lable" class="form-label fw-bold">MR No<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" readonly id="mr_reference_code" name="mr_reference_code" value="{{ old('mr_reference_code') }}" placeholder="Reference No" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_mr_reference_code"></p>
-    </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="date" class="form-label fw-bold">Date<a style="text-decoration: none;color:red">*</a></label>
+                        <input type="date" id="date" name="date" value="{{ old('date')}}" placeholder="Company Name" class="form-control" autocomplete="off">
+                        <p style="color: red" id="error_date"></p>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="voucher_no" class="form-label fw-bold">Invoice Voucher No</label>
+                        <input type="text" id="voucher_no"  name="voucher_no" value="{{ old('voucher_no') }}" placeholder="Voucher No" class="form-control" autocomplete="off">
+                        <p style="color: red" id="error_voucher_no"></p>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="reference_date" class="form-label fw-bold">REF DATE</label>
+                        <input type="date" id="reference_date" name="reference_date" value="{{ old('reference_date') }}" placeholder="Reference Date" class="form-control" autocomplete="off">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="address" class="form-label fw-bold">Type of Purchase<a style="text-decoration: none;color:red">*</a></label>
+                        <select name="purchase_type" id="purchase_type"class="form-control"  autocomplete="off">
+                            <option value="">Select Option</option>
+                            @foreach($purchase_type as $key => $value)
+                                <option value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
+                        </select>
+                        <p style="color: red" id="error_purchase_type"></p>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="contact_number" class="form-label fw-bold">Project Name<a style="text-decoration: none;color:red">*</a></label>
+                        <input type="text" id="project_name" name="project_name" value="{{ old('project_name') }}"  placeholder="Project Name" class="form-control" autocomplete="off" >
+                        <input type="text" hidden  id="project_id" name="project_id" value="{{ old('project_id') }}"   class="form-control" />
+                        <p style="color: red" id="error_project_name"></p>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="project_code" class="form-label fw-bold">Project Code</label>
+                        <input type="text" id="project_code" name="project_code" readonly value="{{ old('project_code') }}" placeholder="Project Code" class="form-control" autocomplete="off">
+                        <p style="color: red" id="error_project_code"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="contact_number" class="form-label fw-bold">Employee Name<a style="text-decoration: none;color:red">*</a></label>
+                        <input type="text" id="firstname" name="firstname" value="{{ old('firstname') }}"  placeholder="Employee Name" class="form-control"  autocomplete="off">
+                        <input type="text"  id="user_id" hidden name="user_id" value="{{ old('user_id') }}"   class="form-control" />
+                        <p style="color: red" id="error_firstname"></p>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="mr_reference_code"  id="mr_reference_code_lable" class="form-label fw-bold">MR No<a style="text-decoration: none;color:red">*</a></label>
+                        <input type="text" readonly id="mr_reference_code" name="mr_reference_code" value="{{ old('mr_reference_code') }}" placeholder="Reference No" class="form-control" autocomplete="off">
+                        <p style="color: red" id="error_mr_reference_code"></p>
+                    </div>
+                </div>
+                {{-- <div class="row"></div> --}}
+                <div class="container pt-4">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="register">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Item Name</th>
+                                    <th hidden>item_id</th>
+                                    <th>Item Stock</th>
+                                    <th>Quantity</th>
+                                    <th>Delete</th>
 
-</div>
-<div class="container pt-4">
-        <div class="table-responsive">
-        <table class="table table-bordered" id="register">
-            <thead>
-            <tr>
-                <th>S.No</th>               
-                <th>Item Name</th>
-                <th hidden>item_id</th>
-                <th>Item Stock</th>
-                <th>Quantity</th>      
-                <th>Delete</th>
-              
-            </tr>
-            </thead>
-            <tbody id="tbodyMI">        
-            </tbody>
-    </table>
-        </div>
-        <div style="margin-top:8px">
-        <button class="btn btn-md btn-primary"
-        id="addBtn" type="button">
-            Add Row
-        </button>
- </div>
-    <div class="row">
-        <div class="col-md-12">
-            <label class="form-label">Remarks</label>
-            <textarea class="form-control" id="remarks" name="remarks"></textarea>
-        </div>
-    </div>
-</div>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyMI">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="margin-top:8px">
+                        <button class="btn btn-md btn-primary" id="addBtn" type="button">
+                            Add Row
+                        </button>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Remarks</label>
+                            <textarea class="form-control" id="remarks" cols="30" rows="5" name="remarks" autocomplete="off" ></textarea>
+                        </div>
+                    </div>
+                </div>
 
-<div class="row mt-3">
-        <div class="form-group col-md-12">
-            <center><button id="submit" class="btn btn-primary mx-3 mt-3">Save</button>
-                {{-- <button type="submit"  class="btn btn-primary mx-3">Print</button>
-                <button type="submit" class="btn btn-primary mx-3">Clear</button> --}}
-            </center>
-        </div>
-    </div>
-</form>
-<!-- SHOW DIALOG -->
-<div class="card" id="show" style="display:none">
-    <div class="card-body" style="background-color:white;width:100%;height:20%;" >
-       
-                          <div class="row">
-                      
+                <div class="row mt-3">
+                    <div class="form-group col-md-12">
+                        <center><button id="submit" class="btn btn-primary mx-3 mt-3">Save</button> </center>
+                    </div>
+                </div>
+            </form>
+                <!-- SHOW DIALOG -->
+            <div class="card" id="show" style="display:none">
+                <div class="card-body" style="background-color:white;width:100%;height:20%;" >
+
+                    <div class="row">
                         <div class="col-md-3">
                             <label>MR NO.</label>
                             <p id="show_mr_reference_code"></p>
@@ -209,13 +202,13 @@
                             <label>Reference Date</label>
                             <p id="show_reference_date"></p>
                         </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-3">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
                             <label>Project Name</label>
                             <p id="show_project_name"></p>
                         </div>
-                          <div class="col-md-3">
+                        <div class="col-md-3">
                             <label>Project Code</label>
                             <p id="show_project_code"></p>
                         </div>
@@ -233,12 +226,12 @@
                             <label>Remarks</label>
                             <p id="show_remarks"></p>
                         </div>
-                </div>
+                    </div>
                     <div id="item_details_show"></div>
-                
+
+                </div>
             </div>
-</div>
-          </dialog>
+        </dialog>
      
           <script type="text/javascript">
 $.ajaxSetup({
@@ -255,15 +248,17 @@ $.ajaxSetup({
           function handleDialog(){
              document.getElementById("myDialog").open = true;
              $('#method').val("ADD");
-             $('#submit').text("ADD");
+             $('#submit').text("Save");
              getTodayDate();
              $('#mr_reference_code').hide();
              $("#mr_reference_code_lable").hide();
              add_text();
-             $('#heading_name').text("Add Material").css('font-weight', 'bold');
+             $('#heading_name').text("Add Material Requisition").css('font-weight', 'bold');
          
              $('#show').css('display','none');
              $('#form').css('display','block');
+             $('#blur-background').css('display','block');
+
           }
 // DELETE FUNCTION
           function handleDelete(id){
@@ -341,7 +336,9 @@ $.ajaxSetup({
                  console.log(message);
                 if(action == 'edit'){
                     $('#show').css('display','none');
-                     $('#form').css('display','block');         
+                     $('#form').css('display','block');  
+                     $('#blur-background').css('display','block');
+       
                 for (const [key, value] of Object.entries(message.mi[0])) {
                console.log(`${key}: ${value}`);
                     $(`#${key}`).val(value);
@@ -383,9 +380,11 @@ $.ajaxSetup({
                $('show_table').remove();
                $('#item_details_show').append(script); 
                 
-                $('#heading_name').text("View Material").css('font-weight', 'bold');
+                $('#heading_name').text("View Material Requisition").css('font-weight', 'bold');
                 $('#show').css('display','block');
                 $('#form').css('display','none');
+                $('#blur-background').css('display','block');
+
             }
             document.getElementById("myDialog").open = true;
                     

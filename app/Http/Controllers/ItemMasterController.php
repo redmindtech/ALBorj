@@ -29,31 +29,31 @@ class ItemMasterController extends Controller
 
     public function index()
     {
-try{
-    $item_type = ITEMTYPE;
-    $item_category = ITEMCATEGORY;
-    $item_subcategory = ITEMSUBCATEGORY;
-    $stock_type = STOCKTYPE;
-    $items = DB::table('item_masters')
-    ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
-    ->join('supplier_masters', 'item_supplier.supplier_no', '=', 'supplier_masters.supplier_no')
-    ->select('item_masters.*', 'item_supplier.*', 'supplier_masters.*')
-    ->get();
+        try{
+            $item_type = ITEMTYPE;
+            $item_category = ITEMCATEGORY;
+            $item_subcategory = ITEMSUBCATEGORY;
+            $stock_type = STOCKTYPE;
+            $items = DB::table('item_masters')
+            ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
+            ->join('supplier_masters', 'item_supplier.supplier_no', '=', 'supplier_masters.supplier_no')
+            ->select('item_masters.*', 'item_supplier.*', 'supplier_masters.*')
+            ->get();
 
-        info($items);
-        return view('itemmaster.index')->with([
-            'items' => $items,
-            'item_type'=>$item_type,
-            'item_category'=>$item_category,'
-            item_subcategory'=>$item_subcategory,
-            'stock_type'=>$stock_type
-        ]);
+                info($items);
+                return view('itemmaster.index')->with([
+                    'items' => $items,
+                    'item_type'=>$item_type,
+                    'item_category'=>$item_category,'
+                    item_subcategory'=>$item_subcategory,
+                    'stock_type'=>$stock_type
+                ]);
 
-    }
-    catch (Exception $e) {
-        info($e);
-        return response()->json('Error occured in the loading page', 400);
-    }
+            }
+            catch (Exception $e) {
+                info($e);
+                return response()->json('Error occured in the loading page', 400);
+            }
     }
 
 
@@ -69,7 +69,7 @@ try{
     {
 
         try {
-info($request);
+
             ItemMaster::create($request->only(ItemMaster::REQUEST_INPUTS));
             $request['item_no']=ItemMaster::max('id');
             ItemSupplier::create($request->only(ItemSupplier::REQUEST_INPUTS));

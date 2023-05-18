@@ -26,11 +26,18 @@
                                     <thead>
                                         <tr class="text-center">
                                             <!-- <th>S.No</th> -->
-                                            <th>Employee id</th>
+                                            <th>Employee Code</th>
                                             <th>First Name</th>
                                             <th>Last Name</th>
-                                            <!-- <th>Department</th> -->
                                             <th>Date of Joining</th>
+                                            <th>Category</th>
+                                            <th>Sponsor</th>
+                                            <th>Working As</th>
+                                            <th>Department</th>
+                                            <th>UAE Mobile Number</th>
+                                            <th>Accomodation</th>
+                                            <th>Visa Status</th>
+                                            <th>Total Salary</th>
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false"class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
@@ -40,12 +47,18 @@
                                         @foreach ($employes as $key => $employe)
                                             <tr class="text-center">
                                                 <!-- <td>{{$key+=1}}</td> -->
-                                                <td>{{$employe->employee_no}}</td>
+                                                <td>{{$employe->employee_no}}<div id="blur-background" class="blur-background"></div></td>
                                                 <td>{{$employe->firstname}}</td>
                                                 <td>{{$employe->lastname}}</td>
-                                                <!-- <td>{{$employe->depart}}</td> -->
                                                 <td>{{ date('d-m-Y', strtotime($employe->join_date))}}</td>
-
+                                                <td>{{$employe->category}}</td>
+                                                <td>{{$employe->sponser}}</td>
+                                                <td>{{$employe->working_as}}</td>
+                                                <td>{{$employe->depart}}</td>
+                                                <td>{{$employe->UAE_mobile_number}}</td>
+                                                <td>{{$employe->accomodation}}</td>
+                                                <td>{{$employe->visa_status}}</td>
+                                                <td>{{$employe->total_salary}}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$employe->id}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -513,6 +526,7 @@ $.ajaxSetup({
              $('#code_lable').hide();
              $('#show').css('display','none');
              $('#form').css('display','block');
+             $('#blur-background').css('display','block');
           }
 // DELETE FUNCTION
           function handleDelete(id){
@@ -532,7 +546,10 @@ $.ajaxSetup({
 // DIALOG CLOSE BUTTON
           function handleClose(){
             document.getElementById("myDialog").open = false;
-            window.location.reload();
+            $("#myDialog").load(" #myDialog > *");
+             rowIdx=1;
+             $('#blur-background').css('display','none');
+            // window.location.reload();
           }
 // DIALOG SUBMIT FOR ADD AND EDIT
           function handleSubmit(){
@@ -590,11 +607,12 @@ $.ajaxSetup({
                 if(action == 'edit'){
                     $('#show').css('display','none');
                      $('#form').css('display','block');
+                     $('#blur-background').css('display','block');
                     $('#over_time').prop('checked', true);
                 for (const [key, value] of Object.entries(message[0])) {
                     // console.log( $(`#${key}`).val(value));
                     $(`#${key}`).val(value);     
-                    console.log(message[0].country_code)         
+                    console.log(message[0].country_code);         
                 if (message[0].over_time == '1') {                 
                    $('#over_time').is(":checked");               
                 } else {
@@ -633,6 +651,7 @@ $.ajaxSetup({
                 $('#heading_name').text("View Employee").css('font-weight', 'bold');
                 $('#show').css('display','block');
                 $('#form').css('display','none');
+                $('#blur-background').css('display','block');
             }
             document.getElementById("myDialog").open = true;
                     
