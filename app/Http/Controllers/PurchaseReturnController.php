@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PurchaseReturnRequest;
+use App\Models\ItemMaster;
+use App\Models\ItemSupplier;
 use App\Models\PurchaseReturn;
 use App\Models\PurchaseReturnItem;
 use Illuminate\Http\Request;
@@ -62,8 +64,30 @@ class PurchaseReturnController extends Controller
         PurchaseReturn::create($request->only(PurchaseReturn::REQUEST_INPUTS));
         $pr= PurchaseReturn::max('pr_no');
         $itemCount = count($request['item_no']);
+        $supplier_no=$request['supplier_no'];
         for ($i = 0; $i < $itemCount; $i++)
-        {                 
+        {       
+           $item_no= $request['item_no'][$i];
+           info($item_no);
+            $item_update = ItemMaster::where('id', $item_no)->value('total_quantity'); 
+            info($item_update);
+            info( $request['item_return_quantity'][$i]);
+            $item_qty=$item_update - $request['item_return_quantity'][$i];    
+
+           
+            ItemMaster::where('id', $item_no)
+            ->update(['total_quantity' => $item_qty]);
+
+            $item_supplier_check = ItemSupplier::where('item_no', $item_no)
+                ->where('supplier_no', $supplier_no)->value('quantity');                        
+                $item_supplier_qty=$item_supplier_check - $request['item_return_quantity'][$i]; 
+
+                // update itemsupplier quantity and rate per qty
+                $item_supplier_check = ItemSupplier::where('item_no', $item_no)
+                ->where('supplier_no', $supplier_no)->update(['quantity' => $item_supplier_qty,
+                 'price_per_qty'=>$request['rate_per_qty'][$i]
+            ]);   
+
         PurchaseReturnItem::create([
             'pr_no'=>$pr, 
             'item_no' => $request['item_no'][$i],
@@ -97,7 +121,7 @@ class PurchaseReturnController extends Controller
         ->get();
         $pr_item=PurchaseReturnItem::     
         join('item_masters', 'purchase_return_item.item_no', '=', 'item_masters.id') 
-        ->select( 'purchase_return_item.*', 'item_masters.*')        
+        ->select( 'purchase_return_item.', 'item_masters.')        
         ->where('purchase_return_item.pr_no', $purchaseReturn)
         ->get();  
         

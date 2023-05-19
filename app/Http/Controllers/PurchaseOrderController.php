@@ -179,8 +179,7 @@ class PurchaseOrderController extends Controller
                      ->select('supplier_masters.*', 'project_masters.*', 'purchase_order.*', 'employee_masters.*', 'materials.*',
                          DB::raw('DATE(purchase_order.quote_date) as quote_date'),
                          DB::raw('DATE(purchase_order.po_date) as po_date'),
-                         DB::raw('DATE(purchase_order.credit_period) as credit_period'),
-                         'purchase_order.filename')
+                         DB::raw('DATE(purchase_order.credit_period) as credit_period'))
                      ->where('purchase_order.po_no', $po_no)
                      ->get();
 

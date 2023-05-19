@@ -25,10 +25,12 @@ class MaterialRequest extends FormRequest
     {
         return [
             'date'=> 'required',
-           
-           'purchase_type' => 'required',
+            'purchase_type' => 'required',
             'project_id' => 'required',
+            'project_name' => 'required',
+            'firstname'=>'required',
             'user_id'=> 'required',
+           
            
         ];
     }
@@ -36,9 +38,9 @@ class MaterialRequest extends FormRequest
     public function messages(){
         return [
             'date.required'=>'The date is required',
-            
             'purchase_type.required' => 'The Purchase Type is required.',
-            'project_id.required' => 'The Project Name is required.',
+            'project_id.required' => 'Please Enter Valid Project Name ',
+            'project_name.required' => 'The Project Name is required.',
             'user_id.required'=>'The Employee Name is required.'
        
         ];

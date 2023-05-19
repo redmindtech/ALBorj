@@ -131,7 +131,7 @@
                                 autocomplete="off">
                             <input type="text" id="project_no" hidden name="project_no"
                                 value="{{ old('project_no') }}" class="form-control" autocomplete="off">
-                            <p style="color: red" id="error_project_no"></p>
+                            <p style="color: red" id="error_project_name"></p>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="receiving_employee" class="form-label fw-bold">Receiving Employee<a
@@ -140,7 +140,7 @@
                                 placeholder="Receiving Employee" class="form-control" autocomplete="off">
                             <input type="text" id="receiving_employee" hidden name="receiving_employee"
                                 value="{{ old('receiving_employee') }}" class="form-control" autocomplete="off">
-                            <p style="color: red" id="error_receiving_employee"></p>
+                            <p style="color: red" id="error_firstname"></p>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="type" class="form-label fw-bold">Type<a
@@ -161,14 +161,13 @@
                     <div class="row">
 
                         <div class="form-group col-md-4">
-                            <label for="grn_code" class="form-label fw-bold">PULL MR No<a
-                                    style="text-decoration: none;color:red">*</a></label>
+                            <label for="grn_code" class="form-label fw-bold">PULL MR No</label>
                             <input type="text" id="mr_id" name="mr_no" value="{{ old('mr_no') }}"
                                 class="form-control" autocomplete="off" hidden>
                             <input type="text" id="mr_reference_code" name="mr_reference_code"
                                 value="{{ old('mr_reference_code') }}" placeholder="MR Code" class="form-control"
                                 autocomplete="off">
-                            <p style="color: red" id="error_mr_reference_code"></p>
+                            <!-- <p style="color: red" id="error_mr_reference_code"></p> -->
                         </div>
                     </div>
 
@@ -223,44 +222,43 @@
                      <div class="card-body" style="background-color:white;width:100%;height:20%;">
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label>Location</label>
                                 <p id="show_location"></p>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label>Issue Date</label>
                                 <p id="show_issue_date"></p>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label>Remarks</label>
                                 <p id="show_remarks"></p>
                             </div>
-                            <div class="col-md-6">
+                            </div>
+                        <div class="row">
+                            <div class="col-md-4">
                                 <label>Issue Ref No</label>
                                 <p id="show_issue_ref_no"></p>
                             </div>
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label>Project Name</label>
                                 <p id="show_project_name"></p>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label>MIR Code</label>
                                 <p id="show_mir_code"></p>
                             </div>
                         </div>
                         <div class="row">
-
-
-                            <div class="col-md-6">
+                        <div class="col-md-4">
+                                <label>Receiving Employee</label>
+                                <p id="show_firstname"></p>
+                            </div>
+                            <div class="col-md-4">
                                 <label>Type</label>
                                 <p id="show_type"></p>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label>Pull Mr Code</label>
                                 <p id="show_mr_reference_code"></p>
                             </div>
@@ -285,8 +283,8 @@
 
                  // jQuery button click event to add a row
                  $('#addBtn').on('click', function() {
-                     //     alert('');
-                     //     alert(rowIdx);
+                    //  //     alert('');
+                    //  //     alert(rowIdx);
                      var row = rowIdx - 1;
                      //    alert(row)
                      //     alert($('#receiving_qty_'+row).val());
@@ -301,7 +299,7 @@
                      } else {
                          add_text();
                      }
-                     // detele row
+                    //  detele row
 
                  });
                  $('#tbody').on('click', '.remove', function() {
@@ -337,7 +335,7 @@
 
                  function add_text() {
                      var html = '';
-                     html += '<tr id="row' + rowIdx + '">';
+                     html += '<tr id="row' + rowIdx + '" class="rowtr">';
                      html += '<td>' + rowIdx + '</td>';
                      html += '<td><div class="col-xs-12"><input type="text" id="item_name_' + rowIdx +
                          '"  name="item_name[]" class="item_name" placeholder="Item name"><input type="text"  name="item_no[]" id="item_no_' +
@@ -460,6 +458,28 @@
                  // DIALOG SUBMIT FOR ADD AND EDIT
                  function handleSubmit() {
                      event.preventDefault();
+                     var hasError = false;
+
+$('.rowtr').each(function() {
+  var rowIdx = $(this).attr('id').replace('row', '');
+
+  var itemname = $('#item_name_' + rowIdx).val();
+  var quantity = $('#quantity_' + rowIdx).val();
+
+  if (itemname === '') {
+    alert('Please enter an item name for row ' + rowIdx);
+    hasError = true;
+    return false;
+  }
+
+  if (quantity === '') {
+    alert('Please enter a quantity for row ' + rowIdx);
+    hasError = true;
+    return false;
+  }
+});
+
+        if(!hasError) {
                      let form_data = new FormData(document.getElementById('form'));
                      let method = $('#method').val();
                      let url;
@@ -490,11 +510,11 @@
                              $.each(data.errors, function(key, val) {
                                  console.log(key, val);
                                  $(`#error_${key}`).html(val[0]);
-                             })
+                             });
                          }
                      })
                  }
-
+                }
                  //DATA SHOW FOR EDIT AND SHOW
                  function handleShowAndEdit(id, action) {
                     // alert(id);
@@ -540,8 +560,14 @@
                                  $('#submit').text('UPDATE');
                              } else {
 
-                                 for (const [key, value] of Object.entries(message.material_issues[0])) {
-
+                                 for (let [key, value] of Object.entries(message.material_issues[0])) {
+                                    if (key === "issue_date") {
+                                    var dateObj = new Date(value);
+                                    var day = dateObj.getDate();
+                                    var month = dateObj.getMonth() + 1;
+                                    var year = dateObj.getFullYear();
+                                    value= day + '-' + month + '-' + year
+                                    }
                                      $(`#show_${key}`).text(value);
                                  }
                                  let script =

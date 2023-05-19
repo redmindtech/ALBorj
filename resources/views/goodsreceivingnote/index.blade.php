@@ -1,8 +1,8 @@
- <!-- STYLE INCLUDED IN LAYOUT PAGE -->
- @extends('layouts.app',[
-    'activeName' => 'purchase'
+<!-- STYLE INCLUDED IN LAYOUT PAGE -->
+@extends('layouts.app',[
+    'activeName' => 'GOODS RECEVING NOTES'
 ])
-@section('title', 'Purchase Order')
+@section('title', 'GOODS RECEVING NOTES')
 
 @section('content_header')
 @stop
@@ -15,7 +15,7 @@
                     <div class="card shadow">
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
-                                <h4 class="font-weight-bold text-dark py">GOODS REVECEIVING NOTES</h4>
+                                <h4 class="font-weight-bold text-dark py">GOODS RECEVING NOTES</h4>
                                 <div style="width:120px">
                                     <button type="button" class="btn btn-block btn-primary" onclick="handleDialog()">Add</button>
                                 </div>
@@ -34,7 +34,7 @@
                                             <th>GRN Date</th>
                                             <th>Discount</th>
                                             <th>Vat</th>
-                                            <th>Grand Total</th>
+                                            <th>Purchase Amount</th>
                                             <th data-orderable="false" class="action notexport" >Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
@@ -330,7 +330,7 @@
                             <p id="show_total_amount"></p>
                         </div>
                         <div class="col-md-3">
-                            <label>Grand Total</label>
+                            <label>Purchase Amount</label>
                             <p id="show_gross_amount"></p>
                         </div>
                 </div>
@@ -533,8 +533,10 @@ function add_text()
         +rowIdx+'"  name="item_name[]" class="item_name" placeholder="Start Typing Item name..."></div></td>';
         html += '<td hidden ><div class="col-xs-12"><input type="text"  id="item_no_'+rowIdx+'"  name="item_no[]" class="item_no_'+rowIdx+'"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="pack_specification_'+rowIdx+'"  name="pack_specification[]" class="pack_specification"></div></td>';
-        html += '<td><div class="col-xs-12"><input type="text" id="quantity_'+rowIdx+'"  name="quantity[]" class="quantity"></div></td>';
-        html += '<td><center><div class="col-xs-12"name="pending_qty[]" id="pending_qty_'+ rowIdx + '" ></div></center></td>';
+        html += '<td><center><div class="col-xs-12" name="quantity[]" id="quantity1_'+ rowIdx + '" ></div></center>';
+        html += '<div class="col-xs-12"><input hidden type="text" id="quantity_'+rowIdx+'" name="quantity[]" class="quantity"></td>';
+        html += '<td><center><div class="col-xs-12"name="pending_qty[]" id="pending_qty1_'+ rowIdx + '" ></div></center>';
+        html += '<div class="col-xs-12"><input type="text" hidden id="pending_qty_'+rowIdx+'" name="pending_qty[]" class="pending_qty"></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="receiving_qty_'+rowIdx+'" name="receiving_qty[]" class="receiving_qty"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="rate_per_qty_'+rowIdx+'"  name="rate_per_qty[]"class="rate_per_qty"></div></td>';       
         html += '<td><div class="col-xs-12"><input type="text"  id="item_amount_'+rowIdx+'"name="item_amount[]" class="item_amount"></div></td>';
@@ -683,9 +685,12 @@ $(document).on('focus', '.item_name', function() {
             add_text();
             $('#item_name_' + create_id).val(item.item_name);
             $('#item_no_' + create_id).val(item.item_no);              
-            $('#quantity_'+ create_id).val(item.qty);                      
-            $('#pending_qty_'+ create_id).text(item.pending_qty);  
-            $('#receiving_qty_'+ create_id).val('0');
+            $('#quantity1_'+ create_id).text(item.qty); 
+            $('#quantity_'+ create_id).val(item.qty); 
+                                 
+            $('#pending_qty1_'+ create_id).text(item.qty); 
+            $('#pending_qty_'+ create_id).val(item.qty); 
+         
             $('#item_name_' + create_id).val(item.item_name);   
             $('#rate_per_qty_'+ create_id).val(item.rate_per_qty);              
             create_id++;
@@ -753,8 +758,14 @@ $(document).on('focus', '.item_name', function() {
         var receivingQty = parseFloat($('#receiving_qty_' + rowIdx).val());
 
         // Get the pending quantity value for the current row
-        var pendingQty = parseFloat($('#pending_qty_' + rowIdx).text());
+        var pendingQty = parseFloat($('#pending_qty1_' + rowIdx).text());
 
+
+if (isNaN(receivingQty) ) {
+    alert('Please enter a valid Receiving quantity in row ' + rowIdx);
+    hasError = true;
+    return false; // Exit the loop
+}
         // Check if receiving quantity is greater than pending quantity
         if (receivingQty > pendingQty) {
             // Display an error message or handle the condition as needed
@@ -762,8 +773,9 @@ $(document).on('focus', '.item_name', function() {
             hasError = true;
             return false; // Exit the loop
         }
+
     });
-        if(!hasError) {
+         if(!hasError) {
             let form_data = new FormData(document.getElementById('form'));
             let method = $('#method').val();
             let url;
@@ -795,7 +807,7 @@ $(document).on('focus', '.item_name', function() {
                     });
                 }
             });
-        }
+         }
   
 }
 
@@ -816,7 +828,7 @@ function handleShowAndEdit(id,po_no,action)
             cache: false,
             processData: false,
             success: function (message)
-            { 
+            { console.log(message);
                  if(action == 'edit')
                 {   
                     $('#show').css('display','none');
@@ -840,10 +852,13 @@ function handleShowAndEdit(id,po_no,action)
                 $('#item_no_' + rowid).val(item.item_no);
                 $('#pack_specification_'+ rowid).val(item.pack_specification);
                 $('#quantity_'+ rowid).val(item.quantity);
-                $('#pending_qty_'+ rowid).text(item.pending_qty);
+                $('#quantity1_'+ rowid).text(item.quantity);
+              
+                $('#pending_qty1_'+ rowid).text(item.pending_qty); 
+                $('#pending_qty_'+ rowid).val(item.pending_qty); 
                 $('#receiving_qty_'+ rowid).val(item.receiving_qty);
                 $('#rate_per_qty_'+ rowid).val(item.rate_per_qty);
-                $('#item_amount_'+ rowid).val(item.item_amount);
+                // $('#item_amount_'+ rowid).val(item.item_amount);
                totalAmount += parseFloat(item.item_amount);             
                 rowid++;
             }
@@ -868,14 +883,13 @@ function handleShowAndEdit(id,po_no,action)
                     $(`#show_${key}`).text(value);
 
                     }                   
-                    let script = '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Pack Specification</th><th>Quantity</th><th>Pendind Qty</th><th>Receiving Quantity</th><th>Rate per Qty</th><th>Total Amount</th></tr></thead><tbody>';
+                    let script = '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Pack Specification</th><th>Quantity</th><th>Pendind Qty</th><th>Rate per Qty</th><th>Total Amount</th></tr></thead><tbody>';
                     for (const item of message.grn_item) {
                    script += '<tr>';
                    script += '<td>' + item.item_name + '</td>';
                    script += '<td>' + item.pack_specification + '</td>';
                    script += '<td>' + item.quantity+ '</td>';
                    script += '<td>' + item.pending_qty+ '</td>';
-                   script += '<td>' + item.receiving_qty + '</td>';
                    script += '<td>' + item.rate_per_qty + '</td>';
                    script += '<td>' + item.item_amount + '</td>';
                    script += '</tr>';

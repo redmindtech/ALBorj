@@ -138,7 +138,7 @@
                         <p style="color: red" id="error_firstname"></p>
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="mr_reference_code"  id="mr_reference_code_lable" class="form-label fw-bold">MR No<a style="text-decoration: none;color:red">*</a></label>
+                        <label for="mr_reference_code"  id="mr_reference_code_lable" class="form-label fw-bold">MR Code<a style="text-decoration: none;color:red">*</a></label>
                         <input type="text" readonly id="mr_reference_code" name="mr_reference_code" value="{{ old('mr_reference_code') }}" placeholder="Reference No" class="form-control" autocomplete="off">
                         <p style="color: red" id="error_mr_reference_code"></p>
                     </div>
@@ -187,7 +187,7 @@
 
                     <div class="row">
                         <div class="col-md-3">
-                            <label>MR NO.</label>
+                            <label>MR Code</label>
                             <p id="show_mr_reference_code"></p>
                         </div>
                         <div class="col-md-3">
@@ -283,6 +283,28 @@ $.ajaxSetup({
 // DIALOG SUBMIT FOR ADD AND EDIT
           function handleSubmit(){
             event.preventDefault();
+            var hasError = false;
+
+$('.rowtr').each(function() {
+  var rowIdx = $(this).attr('id').replace('row', '');
+
+  var itemname = $('#item_name_' + rowIdx).val();
+  var quantity = $('#quantity_' + rowIdx).val();
+
+  if (itemname === '') {
+    alert('Please enter an item name for row ' + rowIdx);
+    hasError = true;
+    return false;
+  }
+
+  if (quantity === '') {
+    alert('Please enter a quantity for row ' + rowIdx);
+    hasError = true;
+    return false;
+  }
+});
+
+        if(!hasError) {
          let form_data = new FormData(document.getElementById('form'));
          let method = $('#method').val();
          let url;
@@ -315,11 +337,12 @@ $.ajaxSetup({
                 $.each(data.errors, function (key, val) {
                     console.log(key,val);
                     $(`#error_${key}`).html(val[0]);
-                })
-            }
-        })
-          }
-
+                });
+                }
+            });
+        }
+  
+}
         //DATA SHOW FOR EDIT AND SHOW 
           function handleShowAndEdit(id,action){
            
@@ -411,7 +434,7 @@ var rowIdx =1;
 function add_text()
 {
             var html = '';
-		html +='<tr id="row'+rowIdx+'">';
+		html +='<tr id="row'+rowIdx+'" class="rowtr">';
         html += '<td>'+rowIdx+'</td>';
 		html += '<td><div class="col-xs-12"><input type="text" id="item_name_'+rowIdx+'"  name="item_name[]" class="item_name" placeholder="Start Typing Item name..."></div></td>';
         html += '<td hidden ><div class="col-xs-12"><input type="text"  id="item_no_'+rowIdx+'"  name="item_no[]" class="item_no_'+rowIdx+'"></div></td>';
@@ -490,19 +513,19 @@ $(document).on('focus', '.item_name', function() {
     });
     // add button function 
     $('#addBtn').on('click', function () {               
-           var row=rowIdx-1;
+        //    var row=rowIdx-1;
         
-                if ($('#item_name_'+row).val() == '') {
-                    alert("Please enter item name.");
+        //         if ($('#item_name_'+row).val() == '') {
+        //             alert("Please enter item name.");
                 
-                }  else if ($('#quantity_'+row).val() == '') {
-                    alert("Please enter quantity.");
-                } else if (!/^\d+(\.\d+)?$/.test($('#quantity_'+row).val())) {
-                    alert("Quantity should only contain numbers.");
-                } else{            
+        //         }  else if ($('#quantity_'+row).val() == '') {
+        //             alert("Please enter quantity.");
+        //         } else if (!/^\d+(\.\d+)?$/.test($('#quantity_'+row).val())) {
+        //             alert("Quantity should only contain numbers.");
+        //         } else{            
 
            add_text();
-                  }                               
+                //   }                               
                          
             });
             // delete row in dynamically created table

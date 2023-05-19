@@ -49,10 +49,12 @@ class MaterialRequisition extends Model
     protected static function booted()
     {
         parent::boot();
-        static::creating(function ($mr) {
+        static::creating(function ($mr)
+        {
             $results = DB::selectOne("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'materials'")->AUTO_INCREMENT;
-            $MRCode = 'MR' . '00' . $results;
-            $mr->mr_reference_code = $MRCode;
+            $currentYear = substr(date('Y'), -2);
+            $MRCode = str_pad($results, 3,'0',STR_PAD_LEFT);
+            $mr->mr_reference_code = 'AB'. $currentYear .'MR' . $MRCode ;
             $mr->deleted='0';
         });
     }

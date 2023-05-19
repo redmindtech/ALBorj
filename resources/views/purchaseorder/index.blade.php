@@ -732,8 +732,15 @@ $(document).on('change', '.item_name', function() {
                  }
                  else {
 
-                    for (const [key, value] of Object.entries(message.purchase_orders[0])) {
-                                    console.log(`${key}: ${value}`);
+                    for (let [key, value] of Object.entries(message.purchase_orders[0])) {
+                                    // console.log(`${key}: ${value}`);
+                                    if (key === "po_date" || key === "quote_date" || key === "credit_period") {
+                                        var dateObj = new Date(value);
+                                        var day = dateObj.getDate();
+                                        var month = dateObj.getMonth() + 1;
+                                        var year = dateObj.getFullYear();
+                                        value= day + '-' + month + '-' + year
+                                        }
                                     $(`#show_${key}`).text(value);
 
                                 }

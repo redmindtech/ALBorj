@@ -27,8 +27,8 @@ class MaterialIssueRequest extends FormRequest
             'location' => 'required',
             'issue_date' => 'required',
             'issue_ref_no' => 'required',
-            'receiving_employee' => 'required',
-            'project_no'=>'required',
+            'firstname' => 'required',
+            'project_name'=>'required',
             'type'=>'required',
     ];
     }
@@ -37,8 +37,8 @@ class MaterialIssueRequest extends FormRequest
             'location.required' => 'The Location is required.',
             'issue_date.required' => 'The Item Issue Date is required.',
             'issue_ref_no.required' => 'The Issue Ref No is required.',
-            'receiving_employee.required' => 'The Receiving Employee is required.',
-            'project_no.required'=>'The Project No is required',
+            'firstname.required' => 'The Receiving Employee is required.',
+            'project_name.required'=>'The Project Name is required',
             'type.required'=>'The Type is required',
 
 

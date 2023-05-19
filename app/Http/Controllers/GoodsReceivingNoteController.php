@@ -54,7 +54,6 @@ class GoodsReceivingNoteController extends Controller
      */
     public function store(GoodReceivingNoteRequest $request)
     {  
-        
     //    for vat_typr
         if($request['vat_type']=="")
         {
@@ -113,13 +112,11 @@ class GoodsReceivingNoteController extends Controller
                 ]);  
                 }
         //UPDATE PO PENDING QUANTITY IN purchase_order_item
-                   $pendingQty = DB::table('purchase_order_item')
-                    ->where('item_no', $item_no)
-                    ->value('pending_qty');
-                if ($pendingQty !== null) {
-                    $updatePendingQty = $pendingQty - $request['receiving_qty'][$i];
+               $update_pending_qty= $request['pending_qty'][$i]-$request['receiving_qty'][$i];
+               
+                   
         // update po_status in purchase order table
-                    if($updatePendingQty =='0')
+                    if($update_pending_qty =='0')
                     {
                         $pendingQty = DB::table('purchase_order')
                         ->where('po_no',$po_no)
@@ -131,24 +128,14 @@ class GoodsReceivingNoteController extends Controller
                         ->update(['po_status' => '0']);
                     }
                     // end update po_status in purchase order table
-                    DB::table('purchase_order_item')
-                        ->where('item_no', $item_no)
-                        ->where('po_no',$po_no)
-                        ->update(['pending_qty' => $updatePendingQty]);
-                }
-                else{
-                    return response()->json('Error occured in the storing data in purchase_order_item', 400);
-                }
-
-          
-       // data added in grn item table
+               // data added in grn item table
                 GoodsReceivedNoteItem::create([
                 'grn_no'=>$grn, 
                 'item_no' => $request['item_no'][$i],
                 'pack_specification' => $request['pack_specification'][$i],
                 'quantity' => $request['quantity'][$i],
                 'rate_per_qty' => $request['rate_per_qty'][$i],
-                'receiving_qty' => $request['receiving_qty'][$i],
+                'pending_qty' => $update_pending_qty,
                 'item_amount' => $request['item_amount'][$i],
                 ]); 
         // update closing bal in accounts_payables
@@ -211,10 +198,10 @@ class GoodsReceivingNoteController extends Controller
       
             $grn_item=GoodsReceivedNoteItem::     
             join('item_masters', 'goods_received_note_item.item_no', '=', 'item_masters.id') 
-            ->join('purchase_order_item', 'goods_received_note_item.item_no', '=', 'purchase_order_item.item_no')               
-            ->select( 'goods_received_note_item.*', 'item_masters.*','purchase_order_item.pending_qty')
+                       
+            ->select( 'goods_received_note_item.*', 'item_masters.*')
             ->where('goods_received_note_item.grn_no', $grn_no)
-            ->where('purchase_order_item.po_no', $po_no)
+          
             ->get();    
          
              return response()->json([
@@ -262,14 +249,15 @@ class GoodsReceivingNoteController extends Controller
             // update the GRN item data
             $itemCount = count($request['item_no']);      
            $grn_delete=GoodsReceivedNoteItem::where('grn_no',$grn_no)->delete();
-           for ($i = 0; $i < $itemCount; $i++) {                
+           for ($i = 0; $i < $itemCount; $i++) {     
+            $update_pending_qty= $request['pending_qty'][$i]-$request['receiving_qty'][$i];           
             GoodsReceivedNoteItem::create([
             'grn_no'=>$grn_no, 
             'item_no' => $request['item_no'][$i],
             'pack_specification' => $request['pack_specification'][$i],
             'quantity' => $request['quantity'][$i],
             'rate_per_qty' => $request['rate_per_qty'][$i],
-            'receiving_qty' => $request['receiving_qty'][$i],
+            'pending_qty' =>$update_pending_qty,
             'item_amount' => $request['item_amount'][$i],
         ]);
         }          
@@ -293,4 +281,3 @@ class GoodsReceivingNoteController extends Controller
     } 
   
 }
-
