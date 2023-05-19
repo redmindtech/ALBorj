@@ -40,9 +40,9 @@ Route::post('post-registration', [RegistrationController::class, 'postRegistrati
    Route::get('successlogin', [UserAuth::class,'successlogin']);
    Route::get('logout', [UserAuth::class,'logout']);
 
-    Route::get('/home', function () {
-        return view('home');
-    })->name('home');
+    // Route::get('/home', function () {
+    //     return view('home');
+    // })->name('home');
 
     Route::resource('itemmaster', 'ItemMasterController');
     Route::resource('clientmaster', 'ClientMasterController');
@@ -65,3 +65,4 @@ Route::post('post-registration', [RegistrationController::class, 'postRegistrati
     Route::resource('timesheet', 'TimeSheetController');
     Route::resource('purchaseorder', 'PurchaseOrderController');
     Route::resource('purchasereturn', 'PurchaseReturnController');
+    Route::resource('dashboard', 'DashboardController');

@@ -228,7 +228,7 @@ return [
         // Navbar items:
         [
             'text' => 'DASHBOARD',
-            'url'  => 'home',
+            'url'  => 'dashboard',
             'icon' => 'fas fa-users',
         ],
         [

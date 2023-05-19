@@ -79,7 +79,10 @@
                  filename: $('title').text().trim(),
                 exportOptions: {
                     columns: ':not(.notexport)'
-                }
+                },
+                orientation : 'landscape',
+                pageSize : 'A0', 
+            
             },
            
                 ]
@@ -212,6 +215,7 @@ input[type=checkbox] {
         .st { height: 100%; width: 100%; opacity: 0; position: absolute; z-index: 100; cursor: pointer; vertical-align: middle;}
         .toggle.focus .slider, .checkbox.focus   { box-shadow: 0px 0px 0px 2px #bababa; transition: all 0.4s; }
      /* style for percentage and ruper to toggle  ends*/ 
+     /* background blur style */
      .blur-background {
             position: fixed;
             top: 0;
@@ -231,7 +235,14 @@ input[type=checkbox] {
             position:relative;
             z-index: 0;
         }
+        /* end background blur style */
         
+        /* chart css */
+        #chartdiv{
+        width: 100%;
+        height: 500px;
+    }
+    /* chart css end */
     </style>
   
    
