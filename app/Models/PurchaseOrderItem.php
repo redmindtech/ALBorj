@@ -15,13 +15,13 @@ class PurchaseOrderItem extends Model
         "qty",
         "rate_per_qty",
         "discount",
-        "item_amount","pending_qty"
+        "item_amount","deleted"
     ];
     protected $table ='purchase_order_item';
     protected $primaryKey='po_item_no';
     protected $fillable =
     [
-        'po_no','item_no','qty','rate_per_qty','discount','item_amount','pending_qty'
+        'po_no','item_no','qty','rate_per_qty','discount','item_amount','deleted',
     ];
     public function purchaseissue()
     {
@@ -29,5 +29,14 @@ class PurchaseOrderItem extends Model
     }
     public function items(){
         return $this->belongsTo(ItemMaster::class, 'item_no', 'po_no');
+    }
+    protected static function booted()
+    {
+        parent::boot();
+        static::creating(function ($po_item) {
+
+            $po_item->deleted='0';
+
+        });
     }
 }

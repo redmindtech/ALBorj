@@ -16,6 +16,7 @@ class MaterialIssue extends Model
         "location",
         "issue_date",
         "issue_ref_no",
+        "mr_no",
         "receiving_employee",
         "remarks","project_no","type",
     ];
@@ -23,7 +24,7 @@ class MaterialIssue extends Model
     protected $primaryKey='mir_no';
     protected $fillable =
     [
-        'mir_code','location','issue_date','issue_ref_no','receiving_employee','remarks','project_no','type'
+        'mir_code','location','issue_date','issue_ref_no','receiving_employee','remarks','project_no','type','mr_no'
     ];
     protected static function booted()
     {

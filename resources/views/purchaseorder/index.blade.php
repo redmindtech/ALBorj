@@ -79,146 +79,138 @@
                     </div>
 
                     <!-- ADD AND EDIT FORM -->
-          <dialog id="myDialog"  style="width:1000px;">
-            <div class="row">
+                    <dialog id="myDialog"  style="width:1000px;">
+                        <div class="row">
 
-                <div class="col-md-12">
+                            <div class="col-md-12">
 
-                     <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
-                     <h4  id='heading_name' style='color:white' align="center"><b>Update purchaseOrder </b></h4>
-                    </div>
+                                 <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
+                                 <h4  id='heading_name' style='color:white' align="center"><b>Update purchaseOrder </b></h4>
+                                </div>
+                        </div>
+
+
+
+                        <form  class="form-row"  enctype="multipart/form-data" style="display:block" id="form" onsubmit="handleSubmit()">
+                            <input type="hidden" id="method" value="ADD"/>
+                            <input type="hidden" id="po_no" name="po_no" value=""/><br>
+
+            {!! csrf_field() !!}
+            <div class="row g-3">
+                <div class="form-group col-md-4">
+                    <label for="po_type" class="form-label fw-bold">Type<a style="text-decoration: none;color:red">*</a></label>
+                    <select id="po_type" name="po_type" class="form-control" autocomplete="off">
+                    <option value="">Select Option</option>
+                    @foreach($po_type as $key => $value)
+                    <option value="{{ $key }}">{{ $value }}</option>
+                @endforeach
+                    </select>
+                    <p style="color: red" id="error_po_type"></p>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="supplier_name" class="form-label fw-bold">Supplier Name<a
+                            style="text-decoration: none;color:red">*</a></label>
+                    <input type="text" id="name" name="name" value="{{ old('name') }}"
+                        placeholder="Supplier Name" class="form-control supplier_name" autocomplete="off">
+                    <input type="text" id="supplier_no" hidden name="supplier_no"
+                        value="{{ old('supplier_no') }}" class="form-control supplier_no" autocomplete="off">
+                    <p style="color: red" id="error_supplier_no"></p>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="po_date" class="form-label fw-bold">Date<a style="text-decoration: none;color:red">*</a></label>
+                    <input type="date" id="po_date" name="po_date" value="{{ old('po_date') }}" placeholder="Site Building" class="form-control" autocomplete="off" data-date-format="dd-mm-yy">
+                    <p style="color: red" id="error_po_date"></p>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="quote_ref" class="form-label fw-bold">Quote Reference</label>
+                    <input type="text" id="quote_ref" name="quote_ref" value="{{ old('quote_ref') }}" placeholder="Quote Reference" class="form-control" autocomplete="off">
+                    <p style="color: red" id="error_quote_ref"></p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="quote_date" class="form-label fw-bold">Quote Date<a style="text-decoration: none;color:red">*</a></label>
+                    <input type="date" id="quote_date" name="quote_date" value="{{ old('quote_date') }}" class="form-control" autocomplete="off">
+                    <p style="color: red" id="error_quote_date"></p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="currency" class="form-label fw-bold">Currency<a style="text-decoration: none;color:red">*</a></label>
+                    <select id="currency" name="currency" class="form-control" autocomplete="off">
+                        @foreach ($currency as $key => $value)
+                            <option value="{{ $key }}">{{ $value }}</option>
+                        @endforeach
+                    </select>
+                    <p style="color: red" id="error_currency"></p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="email" class="form-label fw-bold">Email</label>
+                    <input type="email" id="mail_id" name="mail_id" value="{{ old('mail_id') }}"
+                        placeholder="Email" class="form-control email" autocomplete="off" readonly>
+                    <p style="color: red" id="error_email"></p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="contact_person" class="form-label fw-bold">Contact Person</label>
+                    <input type="text" id="c_name" name="c_name" value="{{ old('name') }}" placeholder="Contact Person" class="form-control contact_person" autocomplete="off" readonly>
+                    <p style="color: red" id="error_contact_person"></p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="mobile_no" class="form-label fw-bold">Mobile Number</label>
+                    <input type="text" id="contact_number" name="contact_number" value="{{ old('mobile_no') }}" placeholder="Mobile Number" class="form-control mobile_no" autocomplete="off" readonly>
+                    <p style="color: red" id="error_mobile_no"></p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="website" class="form-label fw-bold">Website</label>
+                    <input type="text" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control website" autocomplete="off" readonly>
+                    <p style="color: red" id="error_website"></p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="credit_period" class="form-label fw-bold">Credit period<a style="text-decoration: none;color:red">*</a></label>
+                    <input type="date" id="credit_period" name="credit_period" value="{{ old('credit_period') }}"  class="form-control" autocomplete="off">
+                    <p style="color: red" id="error_credit_period"></p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="Payment Terms" class="form-label fw-bold">Payment Terms (In Percentage)<a style="text-decoration: none;color:red">*</a></label>
+                    <input type="text" id="payment_terms" name="payment_terms" value="{{ old('payment_terms') }}" placeholder="Payment Terms" class="form-control" autocomplete="off">
+                    <p style="color: red" id="error_payment_terms"></p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="delivery_location" class="form-label fw-bold">Delivery Location<a
+                            style="text-decoration: none;color:red">*</a></label>
+                    <input type="text" id="project_name" name="delivery_location"
+                        value="{{ old('delivery_location') }}" placeholder="Delivery Location"
+                        class="form-control" autocomplete="off">
+                    <input type="text" id="project_no" hidden name="delivery_location"
+                        value="{{ old('delivery_location') }}" class="form-control" autocomplete="off">
+                        <p style="color: red" id="error_delivery_location"></p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="delivery_terms" class="form-label fw-bold">Delivery Terms<a style="text-decoration: none;color:red">*</a></label>
+                    <input type="text" id="delivery_terms" name="delivery_terms" value="{{ old('delivery_terms') }}" placeholder="Delivery Terms" class="form-control" autocomplete="off">
+                    <p style="color: red" id="error_delivery_terms"></p>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="po_prepared" class="form-label fw-bold">Prepared By<a
+                            style="text-decoration: none;color:red">*</a></label>
+                    <input type="text" id="firstname" name="firstname"
+                        value="{{ old('firstname') }}" placeholder="Po Prepared By"
+                        class="form-control" autocomplete="off">
+                    <input type="text" id="id" hidden name="po_prepared"
+                        value="{{ old('po_prepared') }}" class="form-control" autocomplete="off">
+                        <p style="color: red" id="error_po_prepared"></p>
+                </div>
+
+                <div class="form-group col-md-1">
+                    <label for="mr_reference_code" class="form-label fw-bold">PULL MR NO</label>
+                </div>
+                <div class="form-group col-md-6">
+
+                    <input type="text" id="mr_id" name="mr_no" value="{{ old('mr_no') }}"  class="form-control" autocomplete="off" hidden >
+                    <input type="text" id="mr_reference_code" name="mr_reference_code" value="{{ old('mr_reference_code') }}" placeholder="MR Code" class="form-control" autocomplete="off">
+                    <p style="color: red" id="error_mr_reference_code"></p>
+                </div>
+
             </div>
-
-
-
-            <form  class="form-row"  enctype="multipart/form-data" style="display:block" id="form" onsubmit="handleSubmit()">
-                <input type="hidden" id="method" value="ADD"/>
-                <input type="hidden" id="po_no" name="po_no" value=""/><br>
-
-{!! csrf_field() !!}
-<div class="row g-3">
-    <div class="form-group col-md-4">
-        <label for="po_type" class="form-label fw-bold">PO Type<a style="text-decoration: none;color:red">*</a></label>
-        <select id="po_type" name="po_type" class="form-control" autocomplete="off">
-        <option value="">Select Option</option>
-        @foreach($po_type as $key => $value)
-        <option value="{{ $key }}">{{ $value }}</option>
-    @endforeach
-        </select>
-        <p style="color: red" id="error_po_type"></p>
-    </div>
-
-    <div class="form-group col-md-4">
-        <label for="supplier_name" class="form-label fw-bold">Supplier Name<a
-                style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="name" name="name" value="{{ old('name') }}"
-            placeholder="Supplier Name" class="form-control supplier_name" autocomplete="off">
-        <input type="text" id="supplier_no" hidden name="supplier_no"
-            value="{{ old('supplier_no') }}" class="form-control supplier_no" autocomplete="off">
-        <p style="color: red" id="error_supplier_no"></p>
-    </div>
-
-   {{-- <div class="form-group col-md-4" >
-        <label for="supplier_no" id="supplier_no_lable"class="form-label fw-bold">Supplier Code<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="supplier_no" name="supplier_no"  value="{{ old('supplier_no') }}" placeholder="Supplier Id" class="form-control" autocomplete="off" readonly>
-        <p style="color: red" id="error_supplier_no"></p>
-    </div> --}}
-    <div class="form-group col-md-4">
-        <label for="po_date" class="form-label fw-bold">PO Date<a style="text-decoration: none;color:red">*</a></label>
-        <input type="date" id="po_date" name="po_date" value="{{ old('po_date') }}" placeholder="Site Building" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_po_date"></p>
-    </div>
-
-    <div class="form-group col-md-4">
-        <label for="quote_ref" class="form-label fw-bold">Quote Reference</label>
-        <input type="text" id="quote_ref" name="quote_ref" value="{{ old('quote_ref') }}" placeholder="Quote Reference" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_quote_ref"></p>
-    </div>
-    <div class="form-group col-md-4">
-        <label for="quote_date" class="form-label fw-bold">Quote Date</label>
-        <input type="date" id="quote_date" name="quote_date" value="{{ old('quote_date') }}" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_quote_date"></p>
-    </div>
-    <div class="form-group col-md-4">
-        <label for="currency" class="form-label fw-bold">Currency</label>
-        {{-- <input type="text" id="currency" name="currency" value="{{ old('currency') }}" placeholder="Currency" class="form-control" autocomplete="off"> --}}
-        <select id="currency" name="currency" class="form-control" autocomplete="off">
-            {{-- <option value="">Select Option</option> --}}
-            @foreach ($currency as $key => $value)
-                <option value="{{ $key }}">{{ $value }}</option>
-            @endforeach
-        </select>
-        <p style="color: red" id="error_currency"></p>
-    </div>
-    <div class="form-group col-md-4">
-        <label for="email" class="form-label fw-bold">Email<a
-                style="text-decoration: none;color:red">*</a></label>
-        <input type="email" id="mail_id" name="mail_id" value="{{ old('mail_id') }}"
-            placeholder="Email" class="form-control email" autocomplete="off">
-        <p style="color: red" id="error_email"></p>
-    </div>
-    <div class="form-group col-md-4">
-        <label for="contact_person" class="form-label fw-bold">Contact Person<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="c_name" name="c_name" value="{{ old('name') }}" placeholder="Contact Person" class="form-control contact_person" autocomplete="off">
-        <p style="color: red" id="error_contact_person"></p>
-    </div>
-    <div class="form-group col-md-4">
-        <label for="mobile_no" class="form-label fw-bold">Mobile Number<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="contact_number" name="contact_number" value="{{ old('mobile_no') }}" placeholder="Mobile Number" class="form-control mobile_no" autocomplete="off">
-        <p style="color: red" id="error_mobile_no"></p>
-    </div>
-    <div class="form-group col-md-4">
-        <label for="website" class="form-label fw-bold">Website<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control website" autocomplete="off">
-        <p style="color: red" id="error_website"></p>
-    </div>
-    <div class="form-group col-md-4">
-        <label for="credit_period" class="form-label fw-bold">Credit period<a style="text-decoration: none;color:red">*</a></label>
-        <input type="date" id="credit_period" name="credit_period" value="{{ old('credit_period') }}"  class="form-control" autocomplete="off">
-        <p style="color: red" id="error_credit_period"></p>
-    </div>
-    <div class="form-group col-md-4">
-        <label for="Payment Terms" class="form-label fw-bold">Payment Terms (In Percentage)<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="payment_terms" name="payment_terms" value="{{ old('payment_terms') }}" placeholder="Payment Terms" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_payment_terms"></p>
-    </div>
-    <div class="form-group col-md-4">
-        <label for="delivery_location" class="form-label fw-bold">Delivery Location<a
-                style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="delivery_location" name="delivery_location"
-            value="{{ old('delivery_location') }}" placeholder="Delivery Location"
-            class="form-control" autocomplete="off">
-        <input type="text" id="project_no" hidden name="delivery_location"
-            value="{{ old('delivery_location') }}" class="form-control" autocomplete="off">
-            <p style="color: red" id="error_delivery_location"></p>
-    </div>
-    <div class="form-group col-md-4">
-        <label for="delivery_terms" class="form-label fw-bold">Delivery Terms<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="delivery_terms" name="delivery_terms" value="{{ old('delivery_terms') }}" placeholder="Delivery Terms" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_delivery_terms"></p>
-    </div>
-    <div class="form-group col-md-4">
-        <label for="po_prepared" class="form-label fw-bold">Po Prepared By<a
-                style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="po_prepared" name="po_prepared"
-            value="{{ old('po_prepared') }}" placeholder="Po Prepared By"
-            class="form-control" autocomplete="off">
-        <input type="text" id="id" hidden name="po_prepared"
-            value="{{ old('po_prepared') }}" class="form-control" autocomplete="off">
-            <p style="color: red" id="error_po_prepared"></p>
-    </div>
-
-    <div class="form-group col-md-1">
-        <label class="form-label fw-bold float-end">PULL MR PULL</label>
-    </div>
-    <div class="form-group col-md-9">
-        <input type="text" id="mr_no" name="mr_no" value="{{ old('mr_no') }}"  placeholder="MR VOUCHER NO" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_mr_voucher_no"></p>
-    </div>
-    <div class="form-group col-md-2">
-        <button class="btn btn-primary">Show</button>
-    </div>
-</div>
 
 {{-- Add row table code --}}
 
@@ -234,7 +226,7 @@
                 <th>Discount</th>
                 <th>Amount</th>
                 <th>Previous Rate</th>
-                <th id="th_qty">Pending Qty</th>
+                {{-- <th id="th_qty">Pending Qty</th> --}}
                 <th>Remove</th>
             </tr>
             </thead>
@@ -275,14 +267,16 @@
     </div>
     <div class="col-md-4">
         <input type="file" name="attachments" class="form-control">
+        <span id="filename"></span>
+    </div>
+    <div class="col-md-6">
+        <button type="button" id="deleteButton" class="btn btn-danger">Delete</button>
+        <input type="hidden" name="delete_attachment" id="deleteAttachmentInput" value="0">
     </div>
 </div>
-
     <div class="row mt-3">
         <div class="form-group col-md-12">
             <center><button id="submit" class="btn btn-primary mx-3 mt-3">Save</button>
-                {{-- <button type="submit"  class="btn btn-primary mx-3">Print</button>
-                <button type="submit" class="btn btn-primary mx-3">Clear</button> --}}
             </center>
         </div>
     </div>
@@ -293,15 +287,15 @@
 
         <div class="row">
             <div class="col-md-6">
-                <label>Po Type</label>
+                <label>Type</label>
                 <p id="show_po_type"></p>
             </div>
             <div class="col-md-6">
-                <label>Po Code</label>
+                <label>Code</label>
                 <p id="show_po_code"></p>
             </div>
             <div class="col-md-6">
-                <label>PO Date</label>
+                <label>Date</label>
                 <p id="show_po_date"></p>
             </div>
             <div class="col-md-6">
@@ -344,7 +338,7 @@
             </div>
             <div class="col-md-6">
                 <label>Delivery Location</label>
-                <p id="show_delivery_location"></p>
+                <p id="show_project_name"></p>
             </div>
 
         </div>
@@ -358,8 +352,16 @@
                 <p id="show_delivery_terms"></p>
             </div>
             <div class="col-md-6">
-                <label>Po Prepared By</label>
-                <p id="show_po_prepared"></p>
+                <label>Prepared By</label>
+                <p id="show_firstname"></p>
+            </div>
+            <div class="col-md-6">
+                <label>Pull Mr Code</label>
+                <p id="show_mr_reference_code"></p>
+            </div>
+            <div class="col-md-3">
+                <label>Attachments</label>
+                <p id="show_filename"></p>
             </div>
         </div>
 
@@ -448,8 +450,14 @@ $(document).ready(function() {
 
 
 <script>
-    // Denotes total number of rows
-
+      // delete attachment
+      document.getElementById("deleteButton").addEventListener("click", function() {
+                     if (confirm("Are you sure you want to delete this attachment?")) {
+                         document.getElementById("deleteAttachmentInput").value = "1";
+                         document.querySelector("input[name='attachments']").value = "";
+                         document.getElementById("filename").textContent = "";
+                     }
+                 });
 
     // jQuery button click event to add a row
     $('#addBtn').on('click', function() {
@@ -525,8 +533,8 @@ $(document).ready(function() {
         html += '<td><div class="col-xs-12"><input type="text" name="item_amount[]" id="item_amount_' + rowIdx +
             '"  name="item_amount[]" class="item_amount"></div></td>';
             html += '<td><center><div class="col-xs-12" id="price_per_qty_'+ rowIdx + '" ></div></center></td>';
-        html += '<td id="tr_qty"><div class="col-xs-12"><input type="text" name="pending_qty[]" id="pending_qty_' + rowIdx +
-            '"  name="pending_qty[]" class="pending_qty" ></div></td>';
+        // html += '<td id="tr_qty"><div class="col-xs-12"><input type="text" name="pending_qty[]" id="pending_qty_' + rowIdx +
+        //     '"  name="pending_qty[]" class="pending_qty" ></div></td>';
         html +=
             '<td><button class="btn btn-danger remove" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
         html += '</tr>';
@@ -608,9 +616,7 @@ $(document).on('change', '.item_name', function() {
              $('#heading_name').text("Add Purchase Order").css('font-weight', 'bold');
              $('#site_code').hide();
              $('#code_lable').hide();
-            //  $('#th_qty').hide();
-            //  $('.pending_qty').hide();
-            //  $('#tr_qty').hide();
+
 
              $('#show').css('display','none');
              $('#form').css('display','block');
@@ -697,12 +703,15 @@ $(document).on('change', '.item_name', function() {
                                 $('#blur-background').css('display','block');
 
                                 for (const [key, value] of Object.entries(message.purchase_orders[0])) {
-                                    //   console.log(`${key}: ${value}`);
+                                    //  console.log(`${key}: ${value}`);
                                     $(`#${key}`).val(value);
 
                                 }
-                                // console.log(message.purchase_orders[0].name);
+                                console.log(message.purchase_orders[0].mr_reference_code);
+                                console.log(message.purchase_orders[0].filename);
                                 $('#c_name').val(message.purchase_orders[0].name);
+                                $('#filename').text(message.purchase_orders[0].filename);
+
                                 var rowid = 1;
                                 for (const item of message.purchase_orders_item) {
                                     add_text(); // add a new row to the table
@@ -715,22 +724,21 @@ $(document).on('change', '.item_name', function() {
                                     $('#discount_' + rowid).val(item.discount);
                                     $('#item_amount_' + rowid).val(item.item_amount);
                                     $('#price_per_qty_' + rowid).text(item.price_per_qty);
-                                    $('#pending_qty_' + rowid).val(item.pending_qty);
+                                    // $('#pending_qty_' + rowid).val(item.pending_qty);
                                     rowid++;
                                 }
-
                                 $('#method').val('UPDATE');
                                 $('#submit').text('UPDATE');
                  }
                  else {
 
-                                for (const [key, value] of Object.entries(message.purchase_orders[0])) {
+                    for (const [key, value] of Object.entries(message.purchase_orders[0])) {
                                     console.log(`${key}: ${value}`);
                                     $(`#show_${key}`).text(value);
 
                                 }
                                 let script =
-                                    '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Item Quantity</th><th>Rate Per Quantity</th><th>Discount</th><th>Item Amount</th><th>Previous Rate</th><th>Pending Qty</th></tr></thead><tbody>';
+                                    '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Item Quantity</th><th>Rate Per Quantity</th><th>Discount</th><th>Item Amount</th><th>Previous Rate</th></tr></thead><tbody>';
                                 for (const item of message.purchase_orders_item) {
                                     script += '<tr>';
                                     script += '<td>' + item.item_name + '</td>';
@@ -739,7 +747,7 @@ $(document).on('change', '.item_name', function() {
                                     script += '<td>' + item.discount + '</td>';
                                     script += '<td>' + item.item_amount + '</td>';
                                     script += '<td >' + item.price_per_qty + '</td>';
-                                    script += '<td>' + item.pending_qty + '</td>';
+                                    // script += '<td>' + item.pending_qty + '</td>';
                                     script += '</tr>';
                                 }
                                 script += '</tbody></table>';
@@ -816,59 +824,58 @@ $(document).on('change', '.item_name', function() {
 </script>
 
 <script>
-    $("#delivery_location").autocomplete({
+    $("#project_name").autocomplete({
 
-        source: function(request, response) {
-            $.ajax({
-                type: "GET",
-                url: "{{ route('getlocdata') }}",
-                dataType: "json",
-                data: {
-                    'projectname': $("#delivery_location").val()
-                },
-                success: function(data) {
-
-                    result = [];
-                    for (var i in data) {
-                        result.push(data[i]["project_name"]);
-                    }
-
-                    response(result);
-                },
-                fail: function(xhr, textStatus, errorThrown) {
-                    alert(errorThrown);
-                }
-            });
+source: function(request, response) {
+    $.ajax({
+        type: "GET",
+        url: "{{ route('getlocdata') }}",
+        dataType: "json",
+        data: {
+            'projectname': $("#project_name").val()
         },
-    });
-    $("#delivery_location").on('change', function() {
-        var code = $(this).val();
+        success: function(data) {
 
-        $.ajax({
-            type: "GET",
-            url: "{{ route('getlocdata') }}",
-            dataType: "json",
-            data: {
-                'projectname': $(this).val()
-            },
-            success: function(data) {
-                result = [];
-                for (var i in data) {
-                    //console.log(data);
-                    $('#delivery_location').val(data[i]["project_name"]);
-                    $('#project_no').val(data[i]["project_no"]);
-
-                }
-            },
-            fail: function(xhr, textStatus, errorThrown) {
-                alert(errorThrown);
+            result = [];
+            for (var i in data) {
+                result.push(data[i]["project_name"]);
             }
-        });
-    });
 
+            response(result);
+        },
+        fail: function(xhr, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+},
+});
+$("#project_name").on('change', function() {
+var code = $(this).val();
+
+$.ajax({
+    type: "GET",
+    url: "{{ route('getlocdata') }}",
+    dataType: "json",
+    data: {
+        'projectname': $(this).val()
+    },
+    success: function(data) {
+        result = [];
+        for (var i in data) {
+            //console.log(data);
+            $('#project_name').val(data[i]["project_name"]);
+            $('#project_no').val(data[i]["project_no"]);
+
+        }
+    },
+    fail: function(xhr, textStatus, errorThrown) {
+        alert(errorThrown);
+    }
+});
+});
     //po prepared
 
-    $("#po_prepared").autocomplete({
+    $("#firstname").autocomplete({
 
 source: function(request, response) {
     $.ajax({
@@ -876,7 +883,7 @@ source: function(request, response) {
         url: "{{ route('getemployeedata') }}",
         dataType: "json",
         data: {
-            'firstname': $("#po_prepared").val()
+            'firstname': $("#firstname").val()
         },
         success: function(data) {
 
@@ -893,7 +900,7 @@ source: function(request, response) {
     });
 },
 });
-$("#po_prepared").on('change', function() {
+$("#firstname").on('change', function() {
 var code = $(this).val();
 
 $.ajax({
@@ -907,7 +914,7 @@ $.ajax({
         result = [];
         for (var i in data) {
             //console.log(data);
-            $('#po_prepared').val(data[i]["firstname"]);
+            $('#firstname').val(data[i]["firstname"]);
             $('#id').val(data[i]["id"]);
 
         }
@@ -917,6 +924,73 @@ $.ajax({
     }
 });
 });
+// table create with data for ref MR number
+$("#mr_reference_code").on('change',function()
+    {
+        var code= $(this).val();
+
+        $.ajax
+        ({
+            type:"GET",
+            url: "{{ route('getmrdata') }}",
+            dataType: "json",
+            data:
+            {
+                'mrcode':$('#mr_reference_code').val()
+            },
+            success: function( data )
+            {
+                console.log(data.mr_no);
+                console.log(data.mr_items);
+
+                result = [];
+                var mr = data.mr_items.length;
+                console.log(mr);
+                $('#mr_id').val(data.mr_data[0].mr_id);
+
+                var create_id=1;
+
+
+
+                if(mr == 1)
+                {
+                    for (const item of data.mr_items)
+                    {
+
+                        $('#item_name_' + create_id).val(item.item_name);
+                        $('#item_no_' + create_id).val(item.item_no);
+                        $('#qty_'+ create_id).val(item.quantity);
+                        // $('#rate_per_qty_'+ create_id).val(item.rate_per_qty);
+                        // $('#discount_' + create_id).val(item.discount);
+                        // $('#item_amount_' + create_id).val(item.item_amount);
+                        // $('#price_per_qty_' + create_id).text(item.price_per_qty);
+                    }
+
+                }
+                else
+                {
+                    for (const item of data.mr_items)
+                    {
+                        //console.log(item.item_name)
+                        add_text();
+                        $('#item_name_' + create_id).val(item.item_name);
+                        $('#item_no_' + create_id).val(item.item_no);
+                        $('#qty_'+ create_id).val(item.quantity);
+                        // $('#rate_per_qty_'+ create_id).val(item.rate_per_qty);
+                        // $('#discount_' + create_id).val(item.discount);
+                        // $('#item_amount_' + create_id).val(item.item_amount);
+                        // $('#price_per_qty_' + create_id).text(item.price_per_qty);
+                        create_id++;
+                    }
+
+
+                }
+            },fail: function(xhr, textStatus, errorThrown)
+            {
+                alert(errorThrown);
+            }
+        });
+    });
 </script>
 
 @stop

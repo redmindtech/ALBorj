@@ -36,7 +36,7 @@ Route::get("/getSupplier", [App\Http\Controllers\SupplierMasterController::class
  Route::post("/site/{site_no}/update", [App\Http\Controllers\SiteMasterController::class, 'update'])->name('siteApi.update');
  Route::delete("/site/{site_no}/delete", [App\Http\Controllers\SiteMasterController::class, 'destroy'])->name('siteApi.delete');
  Route::get("/site/{site_no}/show", [App\Http\Controllers\SiteMasterController::class, 'show'])->name('siteApi.show');
- 
+
 // client master
  Route::post("/client", [App\Http\Controllers\ClientMasterController::class, 'store'])->name('clientApi.store');
 Route::post("/client/{client}/update", [App\Http\Controllers\ClientMasterController::class, 'update'])->name('clientApi.update');
@@ -58,6 +58,7 @@ Route::get("/getautocomplete", [App\Http\Controllers\AutoCompleteController::cla
 Route::get("/get_po_details", [App\Http\Controllers\AutoCompleteController::class, 'get_po_details'])->name('get_po_details');
 Route::get("/getsitelocationdata", [App\Http\Controllers\AutoCompleteController::class, 'getsitelocationdata'])->name('getsitelocationdata');
 Route::get("/getpopricedata", [App\Http\Controllers\AutoCompleteController::class, 'getpopricedata'])->name('getpopricedata');
+Route::get("/getmrdata", [App\Http\Controllers\PurchaseOrderController::class, 'getmrdata'])->name('getmrdata');
 // item master
 Route::post("/item", [App\Http\Controllers\ItemMasterController::class, 'store'])->name('store');
 Route::post("/item/{item}/update", [App\Http\Controllers\ItemMasterController::class, 'update'])->name('itemApi.update');

@@ -7,6 +7,7 @@ use App\Models\ProjectMaster;
 use App\Models\SiteMaster;
 use App\Models\ItemMaster;
 use App\Models\EmployeeMaster;
+use App\Models\MaterialRequisition;
 use Exception;
 
 use Illuminate\Support\Facades\DB;
@@ -133,8 +134,9 @@ public function show($mir_no)
         $material_issues = DB::table('material_issue_return')
             ->join('employee_masters', 'material_issue_return.receiving_employee', '=', 'employee_masters.id')
            ->join('project_masters', 'material_issue_return.project_no', '=', 'project_masters.project_no')
+           ->join('materials', 'material_issue_return.mr_no', '=', 'materials.mr_id')
 
-           ->select( 'employee_masters.*','project_masters.*', 'material_issue_return.*',
+           ->select( 'employee_masters.*','project_masters.*', 'material_issue_return.*','materials.*',
            DB::raw('DATE(material_issue_return.issue_date) as issue_date'))
            ->where('material_issue_return.mir_no',$mir_no)
            ->get();

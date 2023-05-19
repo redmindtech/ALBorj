@@ -25,7 +25,7 @@ class ItemMasterController extends Controller
 
         return $data;
     }
- 
+
 
     public function index()
     {
@@ -35,9 +35,6 @@ class ItemMasterController extends Controller
             $item_subcategory = ITEMSUBCATEGORY;
             $stock_type = STOCKTYPE;
             $items = DB::table('item_masters')
-            ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
-            ->join('supplier_masters', 'item_supplier.supplier_no', '=', 'supplier_masters.supplier_no')
-            ->select('item_masters.*', 'item_supplier.*', 'supplier_masters.*')
             ->get();
 
                 info($items);

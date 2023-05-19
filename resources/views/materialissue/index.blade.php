@@ -31,9 +31,9 @@
                                      <th>MIR Code</th>
                                      <th>Location</th>
                                      <th>Issue Date</th>
-                                     <th>Project Name</th> 
-                                     <th>Employee Name</th> 
-                                     <th>Type</th>                                          
+                                     <th>Project Name</th>
+                                     <th>Employee Name</th>
+                                     <th>Type</th>
                                      <th data-orderable="false" class="action notexport">Show</th>
                                      <th data-orderable="false" class="action notexport">Edit</th>
                                      <th data-orderable="false" class="action notexport">Delete</th>
@@ -78,100 +78,99 @@
 
              <!-- ADD AND EDIT FORM -->
              <dialog id="myDialog" style="width:1000px;">
-                 <div class="row">
+                <div class="row">
 
-                     <div class="col-md-12">
+                    <div class="col-md-12">
 
-                         <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i
-                                 class="fas fa-close"></i></a>
-                         <h4 id='heading_name' style='color:white' align="center"><b>Update Material Issue/Return </b></h4>
-                     </div>
-                 </div>
-
-
-
-                 <form class="form-row" enctype="multipart/form-data" style="display:block" id="form"
-                     onsubmit="handleSubmit()">
-                     <input type="hidden" id="method" value="ADD" />
-                     <input type="hidden" id="mir_no" name="mir_no" value="" /><br>
-
-                     {!! csrf_field() !!}
-                     <div class="row">
-                         <div class="form-group col-md-4">
-                             <label for="location" class="form-label fw-bold">Location<a
-                                     style="text-decoration: none;color:red">*</a></label>
-                             <input type="text" id="location" name="location" value="{{ old('location') }}"
-                                 placeholder="Location" class="form-control" autocomplete="off">
-
-                             <p style="color: red" id="error_location"></p>
-                         </div>
-
-                         <div class="form-group col-md-4">
-                             <label for="issue_date" class="form-label fw-bold">Issue Date<a
-                                     style="text-decoration: none;color:red">*</a></label>
-                             <input type="date" id="issue_date" name="issue_date" value="{{ old('issue_date') }}"
-                                 placeholder="dd-mm-yyyy" class="form-control" autocomplete="off">
-                             <p style="color: red" id="error_issue_date"></p>
-                         </div>
-                         <div class="form-group col-md-4">
-                             <label for="issue_ref_no" class="form-label fw-bold">Issue Ref No<a
-                                     style="text-decoration: none;color:red">*</a></label>
-                             <input type="text" id="issue_ref_no" name="issue_ref_no" value="{{ old('issue_ref_no') }}"
-                                 placeholder="Issue Ref No" class="form-control" autocomplete="off">
-                             <p style="color: red" id="error_issue_ref_no"></p>
-                         </div>
-                     </div>
-                     <div class="row">
-
-                         <div class="form-group col-md-4">
-                             <label for="project_name" class="form-label fw-bold">Project Name<a
-                                     style="text-decoration: none;color:red">*</a></label>
-                             <input type="text" id="project_name" name="project_name"
-                                 value="{{ old('project_name') }}" placeholder="Project Name" class="form-control"
-                                 autocomplete="off">
-                             <input type="text" id="project_no" hidden name="project_no"
-                                 value="{{ old('project_no') }}" class="form-control" autocomplete="off">
-                             <p style="color: red" id="error_project_no"></p>
-                         </div>
-                         <div class="form-group col-md-4">
-                             <label for="receiving_employee" class="form-label fw-bold">Receiving Employee<a
-                                     style="text-decoration: none;color:red">*</a></label>
-                             <input type="text" id="firstname" name="firstname" value="{{ old('firstname') }}"
-                                 placeholder="Receiving Employee" class="form-control" autocomplete="off">
-                             <input type="text" id="receiving_employee" hidden name="receiving_employee"
-                                 value="{{ old('receiving_employee') }}" class="form-control" autocomplete="off">
-                             <p style="color: red" id="error_receiving_employee"></p>
-                         </div>
-                         <div class="form-group col-md-4">
-                             <label for="type" class="form-label fw-bold">Type<a
-                                     style="text-decoration: none;color:red">*</a></label>
-                             <select id="type" name="type" class="form-control" autocomplete="off">
-                                 <option value="">Select Option</option>
-                                 @foreach ($type as $key => $value)
-                                     <option value="{{ $key }}">{{ $value }}</option>
-                                 @endforeach 
-                             </select>
-                             <p style="color: red" id="error_type"></p>
-                         </div>
+                        <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i
+                                class="fas fa-close"></i></a>
+                        <h4 id='heading_name' style='color:white' align="center"><b>Update Material Issue/Return </b></h4>
+                    </div>
+                </div>
 
 
-                     </div>
+
+                <form class="form-row" enctype="multipart/form-data" style="display:block" id="form"
+                    onsubmit="handleSubmit()">
+                    <input type="hidden" id="method" value="ADD" />
+                    <input type="hidden" id="mir_no" name="mir_no" value="" /><br>
+
+                    {!! csrf_field() !!}
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="location" class="form-label fw-bold">Location<a
+                                    style="text-decoration: none;color:red">*</a></label>
+                            <input type="text" id="location" name="location" value="{{ old('location') }}"
+                                placeholder="Location" class="form-control" autocomplete="off">
+
+                            <p style="color: red" id="error_location"></p>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="issue_date" class="form-label fw-bold">Issue Date<a
+                                    style="text-decoration: none;color:red">*</a></label>
+                            <input type="date" id="issue_date" name="issue_date" value="{{ old('issue_date') }}"
+                                placeholder="dd-mm-yyyy" class="form-control" autocomplete="off">
+                            <p style="color: red" id="error_issue_date"></p>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="issue_ref_no" class="form-label fw-bold">Issue Ref No<a
+                                    style="text-decoration: none;color:red">*</a></label>
+                            <input type="text" id="issue_ref_no" name="issue_ref_no" value="{{ old('issue_ref_no') }}"
+                                placeholder="Issue Ref No" class="form-control" autocomplete="off">
+                            <p style="color: red" id="error_issue_ref_no"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="form-group col-md-4">
+                            <label for="project_name" class="form-label fw-bold">Project Name<a
+                                    style="text-decoration: none;color:red">*</a></label>
+                            <input type="text" id="project_name" name="project_name"
+                                value="{{ old('project_name') }}" placeholder="Project Name" class="form-control"
+                                autocomplete="off">
+                            <input type="text" id="project_no" hidden name="project_no"
+                                value="{{ old('project_no') }}" class="form-control" autocomplete="off">
+                            <p style="color: red" id="error_project_no"></p>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="receiving_employee" class="form-label fw-bold">Receiving Employee<a
+                                    style="text-decoration: none;color:red">*</a></label>
+                            <input type="text" id="firstname" name="firstname" value="{{ old('firstname') }}"
+                                placeholder="Receiving Employee" class="form-control" autocomplete="off">
+                            <input type="text" id="receiving_employee" hidden name="receiving_employee"
+                                value="{{ old('receiving_employee') }}" class="form-control" autocomplete="off">
+                            <p style="color: red" id="error_receiving_employee"></p>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="type" class="form-label fw-bold">Type<a
+                                    style="text-decoration: none;color:red">*</a></label>
+                            <select id="type" name="type" class="form-control" autocomplete="off">
+                                <option value="">Select Option</option>
+                                @foreach ($type as $key => $value)
+                                    <option value="{{ $key }}">{{ $value }}</option>
+                                @endforeach
+                            </select>
+                            <p style="color: red" id="error_type"></p>
+                        </div>
 
 
-                     <div class="row">
-                         <div class="form-group col-md-1">
-                             <label class="form-label fw-bold float-end">PULL MR NO</label>
-                         </div>
-                         <div class="form-group col-md-9">
-                             <input type="text" id="mr_voucher_no" name="mr_voucher_no"
-                                 value="{{ old('mr_voucher_no') }}" placeholder="MR VOUCHER NO" class="form-control"
-                                 autocomplete="off">
-                             <p style="color: red" id="error_mr_voucher_no"></p>
-                         </div>
-                         <div class="form-group col-md-2">
-                             <button class="btn btn-primary">Show</button>
-                         </div>
-                     </div>
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="form-group col-md-4">
+                            <label for="grn_code" class="form-label fw-bold">PULL MR No<a
+                                    style="text-decoration: none;color:red">*</a></label>
+                            <input type="text" id="mr_id" name="mr_no" value="{{ old('mr_no') }}"
+                                class="form-control" autocomplete="off" hidden>
+                            <input type="text" id="mr_reference_code" name="mr_reference_code"
+                                value="{{ old('mr_reference_code') }}" placeholder="MR Code" class="form-control"
+                                autocomplete="off">
+                            <p style="color: red" id="error_mr_reference_code"></p>
+                        </div>
+                    </div>
 
 
                      {{-- Add row table code --}}
@@ -185,7 +184,6 @@
                                          <th>S.No</th>
 
                                          <th>Item</th>
-                                         {{-- <th>Item Code</th> --}}
                                          <th>Store Room</th>
                                          <th>Item Quantity</th>
                                          <th>Remove</th>
@@ -224,52 +222,53 @@
                  <div class="card" id="show" style="display:none">
                      <div class="card-body" style="background-color:white;width:100%;height:20%;">
 
-                         <div class="row">
-                             <div class="col-md-6">
-                                 <label>Location</label>
-                                 <p id="show_location"></p>
-                             </div>
-                             <div class="col-md-6">
-                                 <label>Issue Date</label>
-                                 <p id="show_issue_date"></p>
-                             </div>
-                         </div>
-                         <div class="row">
-                             <div class="col-md-6">
-                                 <label>Remarks</label>
-                                 <p id="show_remarks"></p>
-                             </div>
-                             <div class="col-md-6">
-                                 <label>Issue Ref No</label>
-                                 <p id="show_issue_ref_no"></p>
-                             </div>
-                         </div>
-                         <div class="row">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Location</label>
+                                <p id="show_location"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Issue Date</label>
+                                <p id="show_issue_date"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Remarks</label>
+                                <p id="show_remarks"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Issue Ref No</label>
+                                <p id="show_issue_ref_no"></p>
+                            </div>
+                        </div>
+                        <div class="row">
 
-                             <div class="col-md-6">
-                                 <label>Project Name</label>
-                                 <p id="show_project_name"></p>
-                             </div>
-                             <div class="col-md-6">
-                                 <label>Project Code</label>
-                                 <p id="show_project_no"></p>
-                             </div>
-                         </div>
-                         <div class="row">
+                            <div class="col-md-6">
+                                <label>Project Name</label>
+                                <p id="show_project_name"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label>MIR Code</label>
+                                <p id="show_mir_code"></p>
+                            </div>
+                        </div>
+                        <div class="row">
 
-                             <div class="col-md-6">
-                                 <label>MIR Code</label>
-                                 <p id="show_mir_code"></p>
-                             </div>
-                             <div class="col-md-6">
-                                 <label>Type</label>
-                                 <p id="show_type"></p>
-                             </div>
-                         </div>
 
-                         <div id="item_details_show"></div>
-                     </div>
-                 </div>
+                            <div class="col-md-6">
+                                <label>Type</label>
+                                <p id="show_type"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Pull Mr Code</label>
+                                <p id="show_mr_reference_code"></p>
+                            </div>
+                        </div>
+
+                        <div id="item_details_show"></div>
+                    </div>
+                </div>
              </dialog>
 
              <script type="text/javascript">
@@ -686,6 +685,55 @@
                          });
                      }
                  });
+
+                  //mr no
+                $("#mr_reference_code").on('change', function() {
+                    var code = $(this).val();
+
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ route('getmrdata') }}",
+                        dataType: "json",
+                        data: {
+                            'mrcode': $('#mr_reference_code').val()
+                        },
+                        success: function(data) {
+                            console.log(data.mr_no);
+                            console.log(data.mr_items);
+                            // console.log(data.grn_data);
+                            result = [];
+                            var mr = data.mr_items.length;
+                            console.log(mr);
+                            $('#mr_id').val(data.mr_data[0].mr_id);
+                            var create_id = 1;
+
+
+
+                            if (mr == 1) {
+                                for (const item of data.mr_items) {
+
+                                    $('#item_name_' + create_id).val(item.item_name);
+                                    $('#item_no_' + create_id).val(item.item_no);
+                                    $('#item_quantity_' + create_id).val(item.quantity);
+
+                                }
+                            } else {
+                                for (const item of data.mr_items) {
+                                    console.log(item.item_name)
+                                    add_text();
+                                    $('#item_name_' + create_id).val(item.item_name);
+                                    $('#item_no_' + create_id).val(item.item_no);
+                                    $('#item_quantity_' + create_id).val(item.item_qty);
+                                    $('#store_room_' + create_id).val(item.store_room);
+                                    create_id++;
+                                }
+                            }
+                        },
+                        fail: function(xhr, textStatus, errorThrown) {
+                            alert(errorThrown);
+                        }
+                    });
+                });
              </script>
 
 

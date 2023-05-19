@@ -30,10 +30,8 @@
                                     <th>Item Name</th>
                                     <th>Item Category</th>
                                     <th>Item Subcategory</th>
-                                    <!-- <th>Supplier Name</th> -->
                                     <th>Item Type</th>
                                     <th>Item Quentity</th>
-                                    <!-- <th>Supplier Code</th> -->
                                     <th data-orderable="false" class="action notexport">Show</th>
                                     <th data-orderable="false" class="action notexport">Edit</th>
                                     <th data-orderable="false" class="action notexport">Delete</th>
@@ -42,15 +40,15 @@
                                 <tbody>
                                     @foreach ($items as $key => $item)
                                         <tr class="text-center">
-                                            <td>{{$key+=1}}</td> 
-                                            <!-- <td>{{$item->id}}</td> -->
+                                            <td>{{$key+=1}}</td>
+                                             {{-- <td>{{$item->id}}</td> --}}
                                             <td>{{$item->item_name}}<div id="blur-background" class="blur-background"></div></td>
                                             <td>{{$item->item_category}}</td>
                                             <td>{{$item->item_subcategory}}</td>
-                                            <!-- <td>{{$item->name}}</td> -->
-                                            <td>{{$item->item_type}}</td> 
-                                            <td>{{$item->total_quantity}}</td> 
-                                            <!-- <td>{{$item->code}}</td> -->
+
+                                            <td>{{$item->item_type}}</td>
+                                            <td>{{$item->total_quantity}}</td>
+
                                             <td>
                                                 <a  onclick="handleShowAndEdit('{{$item->id}}','show')"
                                                     class="btn btn-primary btn-circle btn-sm"   >
