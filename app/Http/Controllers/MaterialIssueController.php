@@ -131,6 +131,8 @@ class MaterialIssueController extends Controller
 public function show($mir_no)
 {
     try {
+        $material_issue_return =  DB::table('material_issue_return')->select('mr_no')->where('material_issue_return.mir_no', $mir_no)->value('mr_no');
+        if ($material_issue_return != '') {
         $material_issues = DB::table('material_issue_return')
             ->join('employee_masters', 'material_issue_return.receiving_employee', '=', 'employee_masters.id')
            ->join('project_masters', 'material_issue_return.project_no', '=', 'project_masters.project_no')
@@ -140,12 +142,24 @@ public function show($mir_no)
            DB::raw('DATE(material_issue_return.issue_date) as issue_date'))
            ->where('material_issue_return.mir_no',$mir_no)
            ->get();
+        }
+        else{
+            $material_issues = DB::table('material_issue_return')
+            ->join('employee_masters', 'material_issue_return.receiving_employee', '=', 'employee_masters.id')
+           ->join('project_masters', 'material_issue_return.project_no', '=', 'project_masters.project_no')
+           ->select( 'employee_masters.*','project_masters.*', 'material_issue_return.*',
+           DB::raw('DATE(material_issue_return.issue_date) as issue_date'))
+           ->where('material_issue_return.mir_no',$mir_no)
+           ->get();
+        }
            $material_issues_item = DB::table('material_issue_return_item')
            ->join('item_masters', 'material_issue_return_item.item_no', '=', 'item_masters.id')
            ->join('material_issue_return', 'material_issue_return_item.mir_no', '=', 'material_issue_return.mir_no')
             ->select('material_issue_return_item.*', 'item_masters.*','material_issue_return.*')
             ->where('material_issue_return_item.mir_no', $mir_no)
             ->get();
+        
+
 
         return response()->json([
             'material_issues' => $material_issues,

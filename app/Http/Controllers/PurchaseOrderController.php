@@ -166,11 +166,10 @@ class PurchaseOrderController extends Controller
 
      public function show($po_no)
      {
-         info($po_no);
-
+         
          try {
             $purchase_order =  DB::table('purchase_order')->select('mr_no')->where('purchase_order.po_no', $po_no)->value('mr_no');
-info($purchase_order);
+
              if ($purchase_order != '') {
                  $purchase_orders = DB::table('purchase_order')
                      ->join('supplier_masters', 'purchase_order.supplier_no', '=', 'supplier_masters.supplier_no')
