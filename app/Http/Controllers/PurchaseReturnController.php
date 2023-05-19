@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PurchaseReturnRequest;
 use App\Models\PurchaseReturn;
+use App\Models\PurchaseReturnItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+require_once(app_path('constants.php'));
 
 class PurchaseReturnController extends Controller
 {
@@ -14,7 +18,25 @@ class PurchaseReturnController extends Controller
      */
     public function index()
     {
-        return view('purchasereturn.index');
+        try{
+        $purchase_type = GRNPURCHASETYPE;
+        $currency = CURRENCY;
+        $pr = PurchaseReturn::join('project_masters', 'purchase_return.project_no', '=', 'project_masters.project_no')
+        ->join('supplier_masters', 'purchase_return.supplier_no', '=', 'supplier_masters.supplier_no')
+        ->select('purchase_return.*', 'project_masters.*', 'supplier_masters.*' ) 
+        ->where('deleted','0')
+        ->get();
+      
+        return view('purchasereturn.index')->with([
+            'purchase_type' => $purchase_type,
+            'currency' => $currency,
+            'prs' => $pr,
+        ]);
+    }
+    catch (Exception $e) {
+        info($e);
+        return response()->json('Error occured in the Purchase return index', 400);
+    }
     }
 
     /**
@@ -33,9 +55,30 @@ class PurchaseReturnController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PurchaseReturnRequest $request)
     {
-        //
+        try{
+        info($request);
+        PurchaseReturn::create($request->only(PurchaseReturn::REQUEST_INPUTS));
+        $pr= PurchaseReturn::max('pr_no');
+        $itemCount = count($request['item_no']);
+        for ($i = 0; $i < $itemCount; $i++)
+        {                 
+        PurchaseReturnItem::create([
+            'pr_no'=>$pr, 
+            'item_no' => $request['item_no'][$i],
+            'item_return_quantity' => $request['item_return_quantity'][$i],
+            'rate_per_qty'=>$request['rate_per_qty'][$i],
+            'item_return_total'=>$request['item_return_total'][$i],
+            'vat'=>$request['vat'][$i]
+            ]); 
+        }
+        return response()->json('Purchase return Created Successfully', 200);
+    }
+    catch (Exception $e) {
+        info($e);
+        return response()->json('Error occured in the Purchase return store', 400);
+    }
     }
 
     /**
@@ -44,9 +87,32 @@ class PurchaseReturnController extends Controller
      * @param  \App\Models\PurchaseReturn  $purchaseReturn
      * @return \Illuminate\Http\Response
      */
-    public function show(PurchaseReturn $purchaseReturn)
-    {
-        //
+    public function show($purchaseReturn)
+    { try{
+        DB::beginTransaction();
+        $pr = PurchaseReturn::join('project_masters', 'purchase_return.project_no', '=', 'project_masters.project_no')
+        ->join('supplier_masters', 'purchase_return.supplier_no', '=', 'supplier_masters.supplier_no')
+        ->select('purchase_return.*', 'project_masters.*', 'supplier_masters.*' ) 
+        ->where('purchase_return.pr_no', $purchaseReturn)
+        ->get();
+        $pr_item=PurchaseReturnItem::     
+        join('item_masters', 'purchase_return_item.item_no', '=', 'item_masters.id') 
+        ->select( 'purchase_return_item.*', 'item_masters.*')        
+        ->where('purchase_return_item.pr_no', $purchaseReturn)
+        ->get();  
+        
+        DB::commit();
+        return response()->json([
+            'pr' => $pr,
+            'pr_item'=>$pr_item
+            
+        ]);
+    }
+    catch (Exception $e) {
+        DB::rollBack();
+        info($e);
+        return response()->json('Error occured in the Purchase return show', 400);
+    }
     }
 
     /**
@@ -67,9 +133,33 @@ class PurchaseReturnController extends Controller
      * @param  \App\Models\PurchaseReturn  $purchaseReturn
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PurchaseReturn $purchaseReturn)
+    public function update(PurchaseReturnRequest $request,$pr_no)
     {
-        //
+        try{
+            DB::beginTransaction();
+        info($pr_no);
+        $pr = PurchaseReturn::where('pr_no', $pr_no)->first();
+        $pr->update($request->only(PurchaseReturn::REQUEST_INPUTS));
+        $itemCount = count($request['item_no']);      
+        $pr_delete=PurchaseReturnItem::where('pr_no',$pr_no)->delete();
+        for ($i = 0; $i < $itemCount; $i++) {                
+            PurchaseReturnItem::create([
+                'pr_no'=>$pr_no, 
+                'item_no' => $request['item_no'][$i],
+                'item_return_quantity' => $request['item_return_quantity'][$i],
+                'rate_per_qty'=>$request['rate_per_qty'][$i],
+                'item_return_total'=>$request['item_return_total'][$i],
+                'vat'=>$request['vat'][$i]
+     ]);
+    }
+    DB::commit();
+        return response()->json('Purchase Return updated successfully', 200);
+}
+        catch (Exception $e) {
+            DB::rollBack();
+            info($e);
+            return response()->json('Error occured in the purchase return update', 400);
+        }
     }
 
     /**
@@ -78,8 +168,17 @@ class PurchaseReturnController extends Controller
      * @param  \App\Models\PurchaseReturn  $purchaseReturn
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PurchaseReturn $purchaseReturn)
+    public function delete($pr_no)
+
     {
-        //
+       info($pr_no);
+       try {
+        $grn_item = PurchaseReturn::where('pr_no', $pr_no)->update(['deleted' => 1]);
+        $grn = PurchaseReturnItem::where('pr_no', $pr_no)->update(['deleted' => 1]);
+        return response()->json('GRN Deleted Successfully', 200);
+    } catch (Exception $e) {
+        info($e);
+        return response()->json('Error occured in the delete', 400);
+    }
     }
 }

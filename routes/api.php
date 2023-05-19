@@ -59,6 +59,7 @@ Route::get("/get_po_details", [App\Http\Controllers\AutoCompleteController::clas
 Route::get("/getsitelocationdata", [App\Http\Controllers\AutoCompleteController::class, 'getsitelocationdata'])->name('getsitelocationdata');
 Route::get("/getpopricedata", [App\Http\Controllers\AutoCompleteController::class, 'getpopricedata'])->name('getpopricedata');
 Route::get("/getmrdata", [App\Http\Controllers\PurchaseOrderController::class, 'getmrdata'])->name('getmrdata');
+Route::get("/purchase_return_data", [App\Http\Controllers\AutoCompleteController::class, 'purchase_return_data'])->name('purchase_return_data');
 // item master
 Route::post("/item", [App\Http\Controllers\ItemMasterController::class, 'store'])->name('store');
 Route::post("/item/{item}/update", [App\Http\Controllers\ItemMasterController::class, 'update'])->name('itemApi.update');
@@ -110,3 +111,8 @@ Route::post("/purchaseorder", [App\Http\Controllers\PurchaseOrderController::cla
 Route::post("/purchaseorder/{po_no}/update", [App\Http\Controllers\PurchaseOrderController::class, 'update'])->name('purchaseorderApi.update');
 Route::delete("/purchaseorder/{po_no}/delete", [App\Http\Controllers\PurchaseOrderController::class, 'destroy'])->name('purchaseorderApi.delete');
 Route::get("/purchaseorder/{po_no}/show", [App\Http\Controllers\PurchaseOrderController::class, 'show'])->name('purchaseorderApi.show');
+// purchaseReturn
+Route::post("/purchasereturn", [App\Http\Controllers\PurchaseReturnController::class, 'store'])->name('prApi.store');
+Route::get("/purchasereturn/{pr_no}/show", [App\Http\Controllers\PurchaseReturnController::class, 'show'])->name('prApi.show');
+Route::post("/purchasereturn/{pr_no}/update", [App\Http\Controllers\PurchaseReturnController::class, 'update'])->name('prApi.update');
+Route::delete("/purchasereturn/{pr_no}/delete", [App\Http\Controllers\PurchaseReturnController::class, 'delete'])->name('prApi.delete');

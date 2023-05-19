@@ -153,4 +153,27 @@ public function getpopricedata(){
   }
 
 }
+// item auto complete for purchase return
+public function purchase_return_data(){
+  try {
+      $itemname = $_GET['itemname'];
+      $supplier_id = $_GET['supplier_id'];
+      $data = ItemMaster::         
+          join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
+          ->select('item_masters.*', 'item_supplier.*')
+          ->where('item_masters.item_name', 'LIKE', $itemname.'%')
+          ->where('item_supplier.supplier_no', '=', $supplier_id)
+          ->get();
+
+      if (count($data) == 0) {
+          return response()->json('No data found', 404);
+      }
+
+      return $data;
+  } catch (Exception $e) {
+      info($e);
+      return response()->json('Error occurred in the loading page', 400);
+  }
+
+}
 }

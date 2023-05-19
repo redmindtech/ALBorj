@@ -356,7 +356,7 @@ return [
                 ],
                 [
                     'text' => 'Purchase Return',
-                    'url'  => 'account',
+                    'url'  => 'purchasereturn',
                     'icon' => 'far fa-circle nav-icon',
 
                 ],
