@@ -242,11 +242,11 @@ return [
             'url'  => '',
             'icon' => 'fas fa-fw fa-file-invoice-dollar',
             'submenu' => [
-                [
-                    'text' => 'Petty Cash',
-                    'url'  => 'account',
-                    'icon' => 'fas fa-sharp fa-regular fa-money-bill',
-                ],
+                // [
+                //     'text' => 'Petty Cash',
+                //     'url'  => 'account',
+                //     'icon' => 'fas fa-sharp fa-regular fa-money-bill',
+                // ],
                 [
                     'text' => 'Payment Receivables',
                     'url'  => 'account',
@@ -366,12 +366,12 @@ return [
                     'icon' => 'nav-icon far fa-circle text-warning',
 
                 ],
-                [
-                    'text' => 'Audit Inventory',
-                    'url'  => 'account',
-                    'icon' => 'nav-icon far fa-circle text-danger',
+                // [
+                //     'text' => 'Audit Inventory',
+                //     'url'  => 'account',
+                //     'icon' => 'nav-icon far fa-circle text-danger',
 
-                ],
+                // ],
             ],
         ],
         [

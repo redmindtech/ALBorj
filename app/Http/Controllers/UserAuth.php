@@ -34,7 +34,7 @@ class UserAuth extends Controller
 
     if(strlen($user)>3)
        {
-         return redirect("employeemaster");
+         return redirect("dashboard");
        }
        else{
 
