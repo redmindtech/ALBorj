@@ -121,7 +121,7 @@ class PurchaseReturnController extends Controller
         ->get();
         $pr_item=PurchaseReturnItem::     
         join('item_masters', 'purchase_return_item.item_no', '=', 'item_masters.id') 
-        ->select( 'purchase_return_item.', 'item_masters.')        
+        ->select( 'purchase_return_item.*', 'item_masters.*')        
         ->where('purchase_return_item.pr_no', $purchaseReturn)
         ->get();  
         
