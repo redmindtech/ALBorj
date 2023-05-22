@@ -69,6 +69,7 @@ class ItemMasterController extends Controller
 
             ItemMaster::create($request->only(ItemMaster::REQUEST_INPUTS));
             $request['item_no']=ItemMaster::max('id');
+            $request['quantity']=$request['total_quantity'];
             ItemSupplier::create($request->only(ItemSupplier::REQUEST_INPUTS));
             return response()->json('Item Master Created Successfully', 200);
 
@@ -92,11 +93,21 @@ class ItemMasterController extends Controller
             ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
             ->join('supplier_masters', 'item_supplier.supplier_no', '=', 'supplier_masters.supplier_no')
             ->select('item_masters.*', 'item_supplier.*', 'supplier_masters.*')
+            ->where('item_masters.id', $id)
             ->get();
 
 
-             return response()->json($items);
+        $itemsupplier = DB::table('item_supplier')
+        ->join('item_masters', 'item_masters.id', '=', 'item_supplier.item_no')
+            ->join('supplier_masters', 'item_supplier.supplier_no', '=', 'supplier_masters.supplier_no')
+            ->select('item_masters.*', 'item_supplier.*', 'supplier_masters.*')
+            ->where('item_masters.id', $id)
+            ->get();
 
+      return response()->json([
+        'items' => $items,
+        'itemsupplier' => $itemsupplier
+    ]);
         } catch (Exception $e) {
             info($e);
             return response()->json('Error occured in the show', 400);

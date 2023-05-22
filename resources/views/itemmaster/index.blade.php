@@ -42,7 +42,10 @@
                                         <tr class="text-center">
                                             <td>{{$key+=1}}</td>
                                              {{-- <td>{{$item->id}}</td> --}}
-                                            <td>{{$item->item_name}}<div id="blur-background" class="blur-background"></div></td>
+                                             <td>
+                                                <a href="#{{$item->id}}"  onclick="handleShowAndEdit('{{$item->id}}')" >{{$item->item_name}}</a>
+                                                <div id="blur-background" class="blur-background"></div>
+                                              </td>
                                             <td>{{$item->item_category}}</td>
                                             <td>{{$item->item_subcategory}}</td>
 
@@ -136,7 +139,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="name" class="form-label fw-bold">Item Quantity<a style="text-decoration: none;color:red">*</a></label>
-                                <input type="text" id="total_quantity	" name="total_quantity"  value="{{ old('total_quantity	') }}" placeholder="Item Quantity" class="form-control" autocomplete="off">
+                                <input type="text" id="total_quantity" name="total_quantity"  value="{{ old('total_quantity	') }}" placeholder="Item Quantity" class="form-control" autocomplete="off">
                                 <p style="color: red" id="error_total_quantity	"></p>
                             </div>
                         </div>
@@ -169,34 +172,43 @@
                                 <label>Item category</label>
                                 <p id="show_item_category"></p>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
                                 <label>Item Subcategory</label>
                                 <p id="show_item_subcategory"></p>
                             </div>
                             <div class="col-md-6">
-                                <label>Stock Type</label>
-                                <p id="show_stock_type"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
                                 <label>Item Type</label>
                                 <p id="show_item_type"></p>
                             </div>
-                                <div class="col-md-6">
-                                <label>Item Quantity</label>
+                            <div class="col-md-6">
+                                <label>Stock Type</label>
+                                <p id="show_stock_type"></p>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label id="supplier_name">Supplier Name</label>
+                                <p id="show_name"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label id="supplier_code">Supplier Code</label>
+                                <p id="show_code"></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label id="item_quantity">Item Quantity</label>
                                 <p id="show_total_quantity"></p>
                             </div>
-                        </div>
-                        <div class="row">
-                        <div class="col-md-6">
-                                <label>Supplier Code</label>
-                                <p id="show_supplier_no"></p>
-                            </div>
-                        </div>
+                            {{-- <div class="col-md-6">
+                                <label id="item_quantity">Item Quantity</label>
+                                <p id="show_quantity"></p>
+                            </div> --}}
+                            {{-- <div class="col-md-6">
+                                <label id="previous_rate">Previous Rate</label>
+                                <p id="show_price_per_qty"></p>
+                            </div> --}}
+
+
                     </div>
+                    <div id="item_details_show"></div>
                 </div>
             </dialog>
 <script type="text/javascript">
@@ -317,36 +329,74 @@
             processData: false,
             success: function (message)
             {
+                console.log(message.items);
+                console.log(message.itemsupplier);
+
                 if(action == 'edit')
                 {
                     $('#show').css('display','none');
                     $('#form').css('display','block');
                     $('#blur-background').css('display','block');
 
-                    $("#item_category").val(message[0].item_category).attr("selected","selected");
+                    $("#item_category").val(message.items[0].item_category).attr("selected","selected");
                     itemcategory_load();
-                    $("#item_subcategory").val(message[0].item_subcategory).attr("selected","selected");
-                    for (const [key, value] of Object.entries(message[0]))
+                    $("#item_subcategory").val(message.items[0].item_subcategory).attr("selected","selected");
+                    for (const [key, value] of Object.entries(message.items[0]))
                     {
                         $(`#${key}`).val(value);
 
                     }
 
 
+
                     $('#method').val('UPDATE');
                     $('#submit').text('UPDATE');
-                } else
-                {
-                    for (const [key, value] of Object.entries(message[0]))
+                } else if (action === 'show') {
+
+                    for (const [key, value] of Object.entries(message.items[0]))
                     {
                         $(`#show_${key}`).text(value);
+
                     }
                     $('#heading_name').text("View Item").css('font-weight', 'bold');
                     $('#show').css('display','block');
                     $('#form').css('display','none');
+
                     $('#blur-background').css('display','block');
 
                 }
+                else{
+
+                    for (const [key, value] of Object.entries(message.items[0])) {
+
+                        $(`#show_${key}`).text(value);
+                        }
+                        let script =
+                        '<table id="show_table" class="table table-striped"><thead><tr><th>Supplier Name</th><th>Quantity</th><th>Price</th></tr></thead><tbody>';
+                        for (const item of message.itemsupplier) {
+                        script += '<tr>';
+
+                        script += '<td>' + item.name + '</td>';
+                        script += '<td>' + item.quantity + '</td>';
+                        script += '<td>' + item.price_per_qty + '</td>';
+                        script += '</tr>';
+                        }
+                        script += '</tbody></table>';
+                        $('show_table').remove();
+                        $('#item_details_show').append(script);
+                        $('#heading_name').text("Audit Inventory").css('font-weight', 'bold');
+                        $('#show').css('display', 'block');
+                        $('#form').css('display', 'none');
+                        $('#supplier_name').hide();
+                        $('#show_name').hide();
+                        $('#supplier_code').hide();
+                        $('#show_code').hide();
+                        $('#item_quantity').hide();
+                        $('#show_total_quantity').hide();
+                        $('#blur-background').css('display','block');
+
+                }
+
                 document.getElementById("myDialog").open = true;
 
             },
