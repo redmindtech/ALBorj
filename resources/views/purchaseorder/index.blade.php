@@ -376,8 +376,10 @@ $.ajaxSetup({
     }
 });
 </script>
- {{-- Add row table script --}}
+
 <script>
+ {{-- Add row table script --}}
+
     //row wise amount calculation
 $(document).on('change', 'input[name="qty[]"], input[name="rate_per_qty[]"],input[name="discount[]"]', function () {
     var row = $(this).closest('tr');
@@ -443,13 +445,8 @@ $(document).ready(function() {
         $('.total').val(total);
       }
     });
-    </script>
+   
 
-
-
-
-
-<script>
       // delete attachment
       document.getElementById("deleteButton").addEventListener("click", function() {
                      if (confirm("Are you sure you want to delete this attachment?")) {
@@ -574,7 +571,7 @@ $(document).ready(function() {
         minLength: 1
     });
 });
-
+});
 $(document).on('change', '.item_name', function() {
     // alert('hi');
     var id = rowIdx - 1;
@@ -597,16 +594,15 @@ $(document).on('change', '.item_name', function() {
         }
     });
 });
-});
 
-</script>
-    <script>
+
+
         $(function () {
             $("#myTable").DataTable();
         });
-    </script>
+    
      <!--ADD DIALOG  -->
-          <script type="text/javascript">
+          
           function handleDialog()
           {
              document.getElementById("myDialog").open = true;
@@ -771,11 +767,9 @@ $(document).on('change', '.item_name', function() {
                     })
                 }
 
-        </script>
+        
 
 
-
-<script>
     $(".supplier_name").autocomplete({
 
         source: function(request, response) {
@@ -828,9 +822,9 @@ $(document).on('change', '.item_name', function() {
             }
         });
     });
-</script>
 
-<script>
+
+
     $("#project_name").autocomplete({
 
 source: function(request, response) {
