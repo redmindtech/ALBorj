@@ -17,14 +17,17 @@ class SupplierMasterController extends Controller
     // FOR MAIN PAGE
     public function index()
     {
-    try{
-        $supplier = SupplierMaster::all();
-        return view('suppliermaster.index')->with([
-            'suppliers' => $supplier
-        ]);}
-        catch (Exception $e) {
-            info($e);
-            return response()->json('Error occured in the loading page', 400);
+        try
+        {
+            $supplier = SupplierMaster::all();
+            return view('suppliermaster.index')->with([
+                'suppliers' => $supplier
+            ]);
+        }
+        catch (Exception $e) 
+        {
+                info($e);
+                return response()->json('Error occured in the loading page', 400);
         }
 
     }
@@ -40,12 +43,15 @@ class SupplierMasterController extends Controller
     // DATA SAVE IN ADD DIALOG
     public function store(SupplierRequest $request)
     {
-        try {
+        try 
+        {
 
             SupplierMaster::create($request->only(SupplierMaster::REQUEST_INPUTS));
             return response()->json('Supplier Master Created Successfully', 200);
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the store', 400);
         }
@@ -60,11 +66,14 @@ class SupplierMasterController extends Controller
     // DATA SHOW WHICH IS USED FOR EDIT AND SHOW
     public function show($id)
     {
-        try {
+        try 
+        {
             $supplier = SupplierMaster::findOrFail($id);
             return response()->json($supplier);
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the show', 400);
         }
@@ -90,12 +99,15 @@ class SupplierMasterController extends Controller
     // UPDATE SAVE FUNCTION
     public function update(SupplierRequest $request, $id)
     {
-        try {
+        try 
+        {
             $supplier = SupplierMaster::findOrFail($id);
             $supplier->update($request->only(SupplierMaster::REQUEST_INPUTS));
             return response()->json('Supplier Master Updated Successfully');
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the update', 400);
         }
@@ -111,16 +123,17 @@ class SupplierMasterController extends Controller
     // DELETE FUNCTION
     public function destroy($id)
     {
-        try {
+        try 
+        {
             $supplier = SupplierMaster::findOrFail($id);
             $supplier->delete();
             return response()->json('Supplier Master Deleted Successfully', 200);
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the edit', 400);
         }
     }
-
-
 }

@@ -27,11 +27,11 @@
                                         <tr class="text-center">
                                                 
                                                 <th>voucher No</th>
-                                                <th>Project Name</th>
-                                                <th>Supplier Name</th>
-                                                <th>Total Amount</th>
-                                                <th>Employee Name</th>
                                                 <th>Bill Date</th>
+                                                <th>Employee Name</th>
+                                                <th>Project Name</th>
+                                                <th>Total Amount</th>
+                                                <th>Supplier Name</th>
                                                 <th>Expense Category</th>
                                                 <th>Source</th>
                                                 <th>Bill Amount</th>
@@ -45,11 +45,11 @@
                                         @foreach ($expenses as $expense)
                                             <tr class="text-center">
                                                 <td>{{$expense->exp_code}}<div id="blur-background" class="blur-background"></div></td>
-                                                <td>{{$expense->project_name}}</td>
-                                                <td>{{$expense->name}}</td>
-                                                <td>{{$expense->total_amount}}</td>
-                                                <td>{{$expense->firstname}}</td>
                                                 <td>{{$expense->bill_date}}</td>
+                                                <td>{{$expense->firstname}}</td>
+                                                <td>{{$expense->project_name}}</td>
+                                                <td>{{$expense->total_amount}}</td>
+                                                <td>{{$expense->name}}</td>
                                                 <td>{{$expense->exp_category_no}}</td>
                                                 <td>{{$expense->source}}</td>
                                                 <td>{{$expense->bill_amount}}</td>
@@ -136,7 +136,7 @@
         <label for="supplier_name" class="form-label fw-bold">Supplier Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Supplier Name" class="form-control" autocomplete="off">
         <input type="text" id="supplier_no" hidden name="supplier_no" value="{{ old('supplier_no') }}"  class="form-control" autocomplete="off">
-        <p style="color: red" id="error_employee_nor"></p>
+        <p style="color: red" id="error_name"></p>
     </div>
 
 <div class="form-group col-md-6">
@@ -178,16 +178,16 @@
 <p style="color: red" id="error_vat"></p>
 </div>
 <div class="form-group col-md-6">
-<label for="total_amount" class="form-label fw-bold">Total Amount<a style="text-decoration: none;color:red">*</a></label>
-<input type="text" id="total_amount"  name="total_amount" value="{{ old('total_amount') }}" placeholder="Total Amount" class="form-control" autocomplete="off">
-<p style="color: red" id="error_total_amount"></p>
+<label for="total_amount" class="form-label fw-bold">Total Amount</a></label>
+<input type="text" id="total_amount"  name="total_amount" readonly value="{{ old('total_amount') }}" placeholder="Total Amount" class="form-control" autocomplete="off">
+<!-- <p style="color: red" id="error_total_amount"></p> -->
 </div>
 </div>
 <div class="row">
 <div class="form-group col-md-6">
 <label for="attachment" class="form-label fw-bold">Attachment</label>
 <input type="file" id="attachment"  name="attachment" value="{{ old('attachment') }}" placeholder="Attachment" class="form-control" autocomplete="off">
-<p style="color: red" id="error_attachment"></p>
+<!-- <p style="color: red" id="error_attachment"></p> -->
 </div>
 <!-- <div class="form-group col-md-6">
 <label for="type" class="form-label fw-bold">Type</label>
@@ -320,13 +320,14 @@ $(function () {
 
 
 // DIALOG CLOSE BUTTON
-          function handleClose(){
+function handleClose(){
             document.getElementById("myDialog").open = false;
-            // $("#myDialog").load(" #myDialog > *");
+            $("#myDialog").load(" #myDialog > *");
             //  rowIdx=1;
-            //  $('#blur-background').css('display','none');
-            window.location.reload();
+             $('#blur-background').css('display','none');
+            // window.location.reload();
           }
+
 
         
 // DIALOG SUBMIT FOR ADD AND EDIT
@@ -358,6 +359,7 @@ $(function () {
              window.location.reload();
             },error: function (message) {
                 var data = message.responseJSON;
+                $('p[id ^= "error_"]').html("");
                 $.each(data.errors, function (key, val) {
                     console.log(key,val);
                     $(`#error_${key}`).html(val[0]);
@@ -395,7 +397,7 @@ $(function () {
                         $('#attachment').val(message[0].attachment);
                         // Select the option with a value of '1'
                         $('#exp_category_no').val(message[0].exp_category_no);
-                        $('#exp_category_no').select2().trigger('change'); 
+                        $('#exp_category_no').select2({ tags: true }).trigger('change'); 
                     }
                     $('#method').val('UPDATE');
                     $('#submit').text('UPDATE');
@@ -418,6 +420,9 @@ $(function () {
     }
 
 // auto complete
+jQuery($ => {
+
+$(document).on('focus click', $("#city"), function() {
 $("#firstname").autocomplete(
       {
 
@@ -444,6 +449,8 @@ $("#firstname").autocomplete(
         } );
       },
       });
+    });
+});
        // EMPLOYEE CODE
        $("#firstname").on('change',function(){
    var code= $(this).val();
@@ -470,6 +477,9 @@ $("#firstname").autocomplete(
 });
 
 // Supplier name Autocomplete
+jQuery($ => {
+
+$(document).on('focus click', $("#city"), function() {
     $("#name").autocomplete(
     {
 
@@ -500,6 +510,8 @@ $("#firstname").autocomplete(
             });
         },
     });
+});
+});
     $("#name").on('change',function()
     {
         var code= $(this).val();
@@ -529,6 +541,9 @@ $("#firstname").autocomplete(
 
 // projectname
 // current location auto complete
+jQuery($ => {
+
+$(document).on('focus click', $("#city"), function() {
 $("#project_name").autocomplete(
       {
       source: function( request, response ) {
@@ -552,6 +567,8 @@ $("#project_name").autocomplete(
       });
       },
       });
+    });
+});
       $("#project_name").on('change',function()
     {
         var code= $(this).val();

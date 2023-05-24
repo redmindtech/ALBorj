@@ -32,7 +32,9 @@ class ExpensesRequest extends FormRequest
             'bill_amount'=>'required',
             'source'=>'required',
             'vat'=>'required',
-            'total_amount'=>'required',
+            // 'total_amount'=>'required',
+            'name'=>'required',
+
 
         ];
     }
@@ -43,6 +45,7 @@ class ExpensesRequest extends FormRequest
 
             'employee_no.required' => 'The Employee Name is required.',
             'project_no.required' => 'The Project Name is required.',
+            'name.required' => 'The Supplier Name is required.',
             'exp_category_no.required' => 'The Expenses Category is required.',
             'supplier_no.required' => 'The Supplier Name is required.',
             'bill_amount.required' => 'The Bill Amount is required.',

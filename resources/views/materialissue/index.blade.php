@@ -1,6 +1,6 @@
 <!-- STYLE INCLUDED IN LAYOUT PAGE -->
 @extends('layouts.app', [
-     'activeName' => 'material',
+     'activeName' => 'Material Issue/Return',
  ])
  @section('title', 'Material Issue/Return')
 
@@ -27,10 +27,10 @@
                          <table id="myTable" class="table table-bordered table-striped">
                              <thead>
                                  <tr class="text-center">
-                                     <th>S.NO</th>
+                                     <!-- <th>S.NO</th> -->
                                      <th>MIR Code</th>
                                      <th>Location</th>
-                                     <th>Issue Date</th>
+                                     <!-- <th>Issue Date</th> -->
                                      <th>Project Name</th>
                                      <th>Employee Name</th>
                                      <th>Type</th>
@@ -43,10 +43,10 @@
                              <tbody>
                                  @foreach ($material_issues as $key => $material_issue)
                                      <tr class="text-center">
-                                         <td>{{ $key += 1 }}</td>
+                                         <!-- <td>{{ $key += 1 }}</td> -->
                                          <td>{{ $material_issue->mir_code }}<div id="blur-background" class="blur-background"></div></td>
                                          <td>{{ $material_issue->location }}</td>
-                                         <td>{{ $material_issue->issue_date }}</td>
+                                         <!-- <td>{{ $material_issue->issue_date }}</td> -->
                                          <td>{{ $material_issue->project_name }}</td>
                                          <td>{{ $material_issue->firstname }}</td>
                                          <td>{{ $material_issue->type }}</td>
@@ -451,10 +451,13 @@
 
                  }
                  // DIALOG CLOSE BUTTON
-                 function handleClose() {
+                 function handleClose(){
                      document.getElementById("myDialog").open = false;
-                     window.location.reload();
-                 }
+                    $("#myDialog").load(" #myDialog > *");
+                    rowIdx=1;
+                    $('#blur-background').css('display','none');
+                    // window.location.reload();
+                }
                  // DIALOG SUBMIT FOR ADD AND EDIT
                  function handleSubmit() {
                      event.preventDefault();
@@ -507,6 +510,7 @@ $('.rowtr').each(function() {
                          },
                          error: function(message) {
                              var data = message.responseJSON;
+                             $('p[id ^= "error_"]').html("");
                              $.each(data.errors, function(key, val) {
                                  console.log(key, val);
                                  $(`#error_${key}`).html(val[0]);
@@ -592,6 +596,12 @@ $('.rowtr').each(function() {
                          },
                      })
                  }
+
+
+                jQuery($ => {
+
+                $(document).on('focus click', $("#city"), function() {
+          
                  $("#project_name").autocomplete({
                      source: function(request, response) {
                          $.ajax({
@@ -614,6 +624,8 @@ $('.rowtr').each(function() {
                          });
                      },
                  });
+                });
+            });
                  $("#project_name").on('change', function() {
                      var code = $(this).val();
 
@@ -637,7 +649,9 @@ $('.rowtr').each(function() {
                      });
                  });
 
+                jQuery($ => {
 
+                $(document).on('focus click', $("#city"), function() {
                  $("#firstname").autocomplete({
                      source: function(request, response) {
                          $.ajax({
@@ -660,6 +674,8 @@ $('.rowtr').each(function() {
                          });
                      },
                  });
+                });
+            });
                  $("#firstname").on('change', function() {
                      var code = $(this).val();
 
@@ -688,6 +704,9 @@ $('.rowtr').each(function() {
              {{-- Auto complete for location in sitemaster --}}
              <script>
                  // auto complete for sitename
+                jQuery($ => {
+
+                $(document).on('focus click', $("#city"), function() {
                  $("#location").autocomplete({
                      source: function(request, response) {
                          $.ajax({
@@ -711,7 +730,8 @@ $('.rowtr').each(function() {
                          });
                      }
                  });
-
+                });
+            });
                   //mr no
                 $("#mr_reference_code").on('change', function() {
                     var code = $(this).val();

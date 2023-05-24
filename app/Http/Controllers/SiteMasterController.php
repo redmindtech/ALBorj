@@ -21,7 +21,8 @@ class SiteMasterController extends Controller
     // INDEX FUNCTION
     public function index()
     {     
-        try{  
+        try
+        {  
             $site_status = SITESTATUS;    
             $sitemaster = DB::table('site_masters')
             ->join('employee_masters', 'site_masters.site_manager', '=', 'employee_masters.id')
@@ -31,8 +32,10 @@ class SiteMasterController extends Controller
             return view('sitemaster.index')->with([
                 'sitemasters' => $sitemaster,
             'site_status'=>$site_status
-        ]);}
-        catch (Exception $e) {
+            ]);
+        }
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the store', 400);
         }
@@ -49,14 +52,17 @@ class SiteMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     // STORE DATA
-     public function store(SiteRequest $request)
+    public function store(SiteRequest $request)
     {
-        try {
+        try 
+        {
 
             SiteMaster::create($request->only(SiteMaster::REQUEST_INPUTS));
             return response()->json('Site Master Created Successfully', 200);
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the store', 400);
         }
@@ -72,9 +78,8 @@ class SiteMasterController extends Controller
     // FOR EDIT AND SHOW DATA
     public function show($site_no)
     { 
-       
-        try {      
-           
+        try 
+        {      
             $site = DB::table('site_masters')
             ->join('employee_masters', 'site_masters.site_manager', '=', 'employee_masters.id')
             ->select('site_masters.*', 'employee_masters.firstname')
@@ -83,7 +88,9 @@ class SiteMasterController extends Controller
             
             return response()->json($site);
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the show', 400);
         }
@@ -107,12 +114,15 @@ class SiteMasterController extends Controller
     // UPDATE DATA
     public function update(SiteRequest $request, $site_no)
     {
-        try {
+        try 
+        {
             $supplier = SiteMaster::findOrFail($site_no);
             $supplier->update($request->only(SiteMaster::REQUEST_INPUTS));
             return response()->json('Site Master Updated Successfully');
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the update', 400);
         }
@@ -129,12 +139,15 @@ class SiteMasterController extends Controller
     public function destroy($site_no)
     { 
         
-        try {
+        try 
+        {
             $site = SiteMaster::findOrFail($site_no);
             $site->delete();
             return response()->json('SiteMaster Deleted Successfully', 200);
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the delete', 400);
         }

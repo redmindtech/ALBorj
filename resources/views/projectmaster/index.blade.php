@@ -1,8 +1,8 @@
 <!-- STYLE INCLUDED IN LAYOUT PAGE -->
 @extends('layouts.app',[
-    'activeName' => 'supplier'
+    'activeName' => 'Project Master'
 ])
-@section('title', 'Supplier Master')
+@section('title', 'Project Master')
 
 @section('content_header')
 @stop
@@ -28,17 +28,17 @@
                                             <!-- <th>S.No</th> -->
                                             <th>Project Code</th>
                                             <th>Project Name</th>
-                                            <th>Project Type</th>
-                                            <th>Site Name</th>
-                                            <th>Manager Name</th>
                                             <th>Client Name</th>
-                                            <th>Actual Start Date</th>
-                                            <th>Actual End Date</th>
                                             <th>Status</th>
                                             <th>Project Cost</th>
                                             <th>Advance Amount</th>
-                                            <th>Retention</th>
                                             <th>Balance Amount</th>
+                                            <th>Project Type</th>
+                                            <th>Site Name</th>
+                                            <th>Manager Name</th>
+                                            <th>Actual Start Date</th>
+                                            <th>Actual End Date</th>
+                                            <th>Retention</th>
                                             <th>Amount Return</th>
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
@@ -52,17 +52,17 @@
                                                 <!-- <td>{{$key+=1}}</td> -->
                                                 <td>{{$projectmaster->project_code}}<div id="blur-background" class="blur-background"></div></td>                                                
                                                 <td>{{$projectmaster->project_name}}</td>
-                                                <td>{{$projectmaster->project_type}}</td>
-                                                <td>{{$projectmaster->site_name}}</td>
-                                                <td>{{$projectmaster->firstname}}</td>
                                                 <td>{{$projectmaster->name}}</td>
-                                                <td>{{$projectmaster->start_date}}</td>
-                                                <td>{{$projectmaster->end_date}}</td>
                                                 <td>{{$projectmaster->status}}</td>
                                                 <td>{{$projectmaster->total_price_cost}}</td>
                                                 <td>{{$projectmaster->advanced_amount}}</td>
-                                                <td>{{$projectmaster->retention}}</td>
                                                 <td>{{$projectmaster->amount_to_be_received}}</td>
+                                                <td>{{$projectmaster->project_type}}</td>
+                                                <td>{{$projectmaster->site_name}}</td>
+                                                <td>{{$projectmaster->firstname}}</td>
+                                                <td>{{$projectmaster->start_date}}</td>
+                                                <td>{{$projectmaster->end_date}}</td>
+                                                <td>{{$projectmaster->retention}}</td>
                                                 <td>{{$projectmaster->amount_return}}</td>
 
                                                 <td>
@@ -78,10 +78,6 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    {{-- <form id="{{$projectmaster->project_no}}" action="{{route("sitemaster.destroy",$projectmaster->project_no)}}" method="post">
-                                                        @csrf
-                                                        @method("DELETE")
-                                                    </form> --}}
                                                     <button  type="submit" class="btn btn-sm btn-danger" onclick="handleDelete('{{$projectmaster->project_no}}')">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
@@ -95,14 +91,13 @@
                     </div>
 
                     <!-- ADD AND EDIT FORM -->
-          <dialog id="myDialog"  style="width:1000px;">
+        <dialog id="myDialog"  style="width:1000px;">
             <div class="row">
 
                 <div class="col-md-12">
-               
-                     <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
-                     <h4  id='heading_name' style='color:white' align="center"><b>Update ProjectMaster </b></h4>
-                    </div>
+                    <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
+                    <h4  id='heading_name' style='color:white' align="center"><b>Update ProjectMaster </b></h4>
+                </div>
             </div>
             
 
@@ -121,7 +116,7 @@
     </div>
 
     <div class="form-group col-md-6">
-        <label for="site_code" class="form-label fw-bold">Site No<a style="text-decoration: none;color:red">*</a></label>
+        <label for="site_code" class="form-label fw-bold">Site No</label>
         <input type="text" id="site_code" name="site_code" value="{{ old('site_code') }}" readonly placeholder="Site Code" class="form-control" autocomplete="off">
     </div>
 </div>
@@ -164,7 +159,7 @@
 </div>
 <div class="row">
     <div class="form-group col-md-6">
-        <label for="UAE_mobile_number" class="form-label fw-bold">Manager Contact Number<a style="text-decoration: none;color:red">*</a></label>
+        <label for="UAE_mobile_number" class="form-label fw-bold">Manager Contact Number</label>
         <input type="text" id="UAE_mobile_number" name="UAE_mobile_number"  readonly value="{{ old('UAE_mobile_number') }}" placeholder="Contact Number" class="form-control" autocomplete="off">
         <!-- <p style="color: red" id="error_site_manager"></p> -->
     </div>     
@@ -272,10 +267,10 @@
 </div>
 </form>
 <!-- SHOW DIALOG -->
-<div class="card" id="show" style="display:none">
-    <div class="card-body" style="background-color:white;width:100%;height:20%;" >
+            <div class="card" id="show" style="display:none">
+                <div class="card-body" style="background-color:white;width:100%;height:20%;" >
        
-                          <div class="row">
+                    <div class="row">
                         <div class="col-md-4">
                             <label>Site Name</label>
                             <p id="show_site_name"></p>
@@ -288,8 +283,8 @@
                             <label>Project code</label>
                             <p id="show_project_code"></p>
                         </div>
-                        </div>
-                        <div class="row">
+                    </div>
+                    <div class="row">
                           <div class="col-md-4">
                             <label>Project Name</label>
                             <p id="show_project_name"></p>
@@ -304,7 +299,7 @@
                         </div>
                     </div>
                     <div class="row">
-                          <div class="col-md-4">
+                        <div class="col-md-4">
                             <label>Manager Name</label>
                             <p id="show_firstname"></p>
                         </div>
@@ -312,13 +307,13 @@
                             <label>Manager Contact Number</label>
                             <p id="show_UAE_mobile_number"></p>
                         </div>           
-                     <div class="col-md-4">
+                        <div class="col-md-4">
                             <label>Client / Company Name</label>
                             <p id="show_company_name"></p>
                         </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-4">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
                             <label>Client Contact Number</label>
                             <p id="show_contact_number"></p>
                         </div>
@@ -330,23 +325,23 @@
                             <label>Project Start Date</label>
                             <p id="show_start_date"></p>
                         </div>
-                     </div>
-                     <div class="row">
-                          <div class="col-md-4">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
                             <label>Tentative Project End Date</label>
                             <p id="show_end_date"></p>
                         </div>
-                          <div class="col-md-4">
+                        <div class="col-md-4">
                             <label>Actual Project End Date</label>
                             <p id="show_actual_project_end_date"></p>
                         </div>           
-                     <div class="col-md-4">
+                        <div class="col-md-4">
                             <label>Project Status</label>
                             <p id="show_status"></p>
                         </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-4">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
                             <label>Total Project Cost</label>
                             <p id="show_total_price_cost"></p>
                         </div>
@@ -354,13 +349,13 @@
                             <label>Advance Amount</label>
                             <p id="show_advanced_amount"></p>
                         </div>           
-                     <div class="col-md-4">
+                        <div class="col-md-4">
                             <label>Retention</label>
                             <p id="show_retention"></p>
                         </div>
                     </div>
                     <div class="row">
-                          <div class="col-md-4">
+                        <div class="col-md-4">
                             <label>Balance Amount to be Received</label>
                             <p id="show_amount_to_be_received"></p>
                         </div>
@@ -372,35 +367,38 @@
                             <label>Amount Return Date</label>
                             <p id="show_amount_return_date"></p>
                         </div>
-                     </div>
-                     <div class="row">
-                          <div class="col-md-4">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
                             <label>Amount Return Comments</label>
                             <p id="show_amount_returns_comment"></p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </dialog>
 
-                    
 
-    </div>
-</div>
-          </dialog>
-          <script type="text/javascript">
-$.ajaxSetup({
-    headers: {
+<script type="text/javascript">
+    $.ajaxSetup(
+    {
+    headers: 
+    {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
-});
+    });
 </script>
 
-    <script>
-        $(function () {
+<script>
+        $(function () 
+        {
             $("#myTable").DataTable();
         });
-    </script>    
-     <!--ADD DIALOG  -->
-          <script type="text/javascript">
-          function handleDialog(){
+</script>    
+    <!--ADD DIALOG  -->
+<script type="text/javascript">
+        function handleDialog()
+        {
              document.getElementById("myDialog").open = true;
              $('#method').val("ADD");
              $('#submit').text("ADD");
@@ -411,271 +409,324 @@ $.ajaxSetup({
              $('#form').css('display','block');
              $('#blur-background').css('display','block');
 
-          }
-// DELETE FUNCTION
-          function handleDelete(id){
-             let url = '{{route('projectApi.delete',":project_no")}}';
+        }
+    // DELETE FUNCTION
+        function handleDelete(id)
+        {
+            let url = '{{route('projectApi.delete',":project_no")}}';
             url= url.replace(':project_no',id);
-            if (confirm("Are you sure you want to delete this Project master?")) {
-              $.ajax({
-            url: url,
-            type: 'DELETE',
-            success: function (message) {
-             alert(message);
-             window.location.reload();
-            },
-        })}
-        
-          }
-// DIALOG CLOSE BUTTON
-          function handleClose(){
-            document.getElementById("myDialog").open = false;
-            window.location.reload();
-          }
-// DIALOG SUBMIT FOR ADD AND EDIT
-          function handleSubmit(){
-            event.preventDefault();
-         let form_data = new FormData(document.getElementById('form'));
-         let method = $('#method').val();
-         let url;
-         let type;
-         if(method == 'ADD'){           
-             url = '{{route('projectApi.store')}}';
-             type  = 'POST';
-            
-         } else {
-            let id = $('#project_no').val();
-            url = '{{route('projectApi.update',":project_no")}}';
-            url= url.replace(':project_no',id);
-            type = 'POST';
-         }
-        $.ajax({
-            url: url,
-            type: type,
-            data: form_data,
-             contentType: false,
-            cache: false,
-            processData: false,
-            success: function (message) {
-             alert(message);
-             window.location.reload();
-            },error: function (message) {
-                var data = message.responseJSON;
-                $.each(data.errors, function (key, val) {
-                    
-                    $(`#error_${key}`).html(val[0]);
+            if (confirm("Are you sure you want to delete this Project master?")) 
+            {
+                $.ajax
+                ({
+                    url: url,
+                    type: 'DELETE',
+                    success: function (message) 
+                    {
+                    alert(message);
+                    window.location.reload();
+                    },
                 })
             }
-        })
-          }
+        }
+    // DIALOG CLOSE BUTTON
+        function handleClose()
+        {
+            document.getElementById("myDialog").open = false;
+            $("#myDialog").load(" #myDialog > *");
+            //  rowIdx=1;
+            $('#blur-background').css('display','none');
+            // window.location.reload();
+        }
+    // DIALOG SUBMIT FOR ADD AND EDIT
+          function handleSubmit()
+          {
+            event.preventDefault();
+            let form_data = new FormData(document.getElementById('form'));
+            let method = $('#method').val();
+            let url;
+            let type;
+            if(method == 'ADD')
+            {           
+                url = '{{route('projectApi.store')}}';
+                type  = 'POST';
+                
+            } 
+            else 
+            {
+                let id = $('#project_no').val();
+                url = '{{route('projectApi.update',":project_no")}}';
+                url= url.replace(':project_no',id);
+                type = 'POST';
+            }
+            $.ajax
+            ({
+                url: url,
+                type: type,
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (message) 
+                {
+                    alert(message);
+                    window.location.reload();
+                },
+                error: function (message) 
+                {
+                    var data = message.responseJSON;
+                    $('p[id ^= "error_"]').html("");
+                    $.each(data.errors, function (key, val) 
+                    {
+                            $(`#error_${key}`).html(val[0]);
+                    })
+                }
+            })
+        }
 
-        //DATA SHOW FOR EDIT AND SHOW 
-          function handleShowAndEdit(id,action){
-            // alert('')
+    //DATA SHOW FOR EDIT AND SHOW 
+        function handleShowAndEdit(id,action)
+        {
             let url = '{{route('projectApi.show',":project_no")}}';
             url = url.replace(':project_no',id);
             let type= "GET"
-            $.ajax({
-            url: url,
-            type: type,
-             contentType: false,
-            cache: false,
-            processData: false,
-            success: function (message) {
-               
-                if(action == 'edit'){
-                    $('#show').css('display','none');
-                     $('#form').css('display','block');
-                     $('#blur-background').css('display','block');
+            $.ajax
+            ({
+                url: url,
+                type: type,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (message) 
+                {
+                    if(action == 'edit')
+                    {
+                        $('#show').css('display','none');
+                        $('#form').css('display','block');
+                        $('#blur-background').css('display','block');
 
-                for (const [key, value] of Object.entries(message[0])) {
-
-  $(`#${key}`).val(value);
-
-                }
-                $('#method').val('UPDATE');
-                $('#submit').text('UPDATE');
-} else {
-    for (const [key, value] of Object.entries(message[0])) {
-         $(`#show_${key}`).text(value);
-    }
-    $('#heading_name').text("View ProjectMaster").css('font-weight', 'bold');
-     $('#show').css('display','block');
-    $('#form').css('display','none');
-    $('#blur-background').css('display','block');
-
-}
- document.getElementById("myDialog").open = true;
-          
-            },
-        })
-          }
-// auto complete for manager
-$("#firstname").autocomplete(
-      {
-
-      source: function( request, response ) {
-        $.ajax( {
-        type:"GET",
-          url: "{{ route('getemployeedata') }}",
-          dataType: "json",
-          data:{
-            'firstname':$("#firstname").val()
-          },
-          success: function( data ) {
-
-            result = [];
-            for(var i in data)
+                        for (const [key, value] of Object.entries(message[0])) 
+                        {
+                            $(`#${key}`).val(value);
+                        }
+                        $('#method').val('UPDATE');
+                        $('#submit').text('UPDATE');
+                    } 
+                    else 
+                    {
+                        for (const [key, value] of Object.entries(message[0])) 
+                        {
+                            $(`#show_${key}`).text(value);
+                        }
+                        $('#heading_name').text("View ProjectMaster").css('font-weight', 'bold');
+                        $('#show').css('display','block');
+                        $('#form').css('display','none');
+                        $('#blur-background').css('display','block');
+                    }
+                    document.getElementById("myDialog").open = true;
+                },
+            })
+        }
+    // auto complete for managername from employeemasters
+    jQuery($ => 
+    {
+        $(document).on('focus click', $("#city"), function() 
+        {
+            $("#firstname").autocomplete(
             {
-              result.push(data[i]["firstname"]);
-            }
-
-             response(result);
-          },fail: function(xhr, textStatus, errorThrown){
-       alert(errorThrown);
-    }
-        } );
-      },
-      });
+                source: function( request, response ) 
+                {
+                    $.ajax
+                    ({
+                        type:"GET",
+                        url: "{{ route('getemployeedata') }}",
+                        dataType: "json",
+                        data:
+                        {
+                            'firstname':$("#firstname").val()
+                        },
+                        success: function( data ) 
+                        {
+                            result = [];
+                            for(var i in data)
+                            {
+                                result.push(data[i]["firstname"]);
+                            }
+                            response(result);
+                        },
+                        fail: function(xhr, textStatus, errorThrown)
+                        {
+                            alert(errorThrown);
+                        }
+                    });
+                },
+            });
+        });
+    });
     // EMPLOYEE CODE
-      $("#firstname").on('change',function(){
-   var code= $(this).val();
+        $("#firstname").on('change',function()
+        {
+            var code= $(this).val();
+            $.ajax
+            ({
+                type:"GET",
+                url: "{{ route('getemployeedata') }}",
+                dataType: "json",
+                data:
+                {
+                    'firstname':$(this).val()
+                },
+                success: function( data ) 
+                {
+                     result = [];
+                    for(var i in data)
+                    {
+                        $('#employee_no').val(data[i]["id"]);
+                        $('#UAE_mobile_number').val(data[i]["UAE_mobile_number"]);
+                    }
+                },
+                fail: function(xhr, textStatus, errorThrown)
+                {
+                    alert(errorThrown);
+                }
+            });
+        });
 
-   $.ajax( {
-        type:"GET",
-          url: "{{ route('getemployeedata') }}",
-          dataType: "json",
-          data:{
-            'firstname':$(this).val()
-          },
-          success: function( data ) {
-           
-            result = [];
-            for(var i in data)
+    // auto complete for sitename from sitemaster
+    jQuery($ => 
+    {
+        $(document).on('focus click', $("#city"), function() 
+        {
+
+            $("#site_name").autocomplete(
             {
-              $('#employee_no').val(data[i]["id"]);
-              $('#UAE_mobile_number').val(data[i]["UAE_mobile_number"]);
-              
-            }
-            
-          },fail: function(xhr, textStatus, errorThrown){
-       alert(errorThrown);
-    }
-        } );
-});
+                source: function( request, response ) 
+                {
+                    $.ajax
+                    ({
+                        type:"GET",
+                        url: "{{ route('getsitedata') }}",
+                        dataType: "json",
+                        data:
+                        {
+                            'site_name':$("#site_name").val()
+                        },
+                        success: function( data ) 
+                        {
+                            result = [];
+                            for(var i in data)
+                            {
+                                result.push(data[i]["site_name"]);
+                            }
+                             response(result);
+                        },
+                        fail: function(xhr, textStatus, errorThrown)
+                        {
+                            alert(errorThrown);
+                        }
+                    });
+                },
+            });
+        });
+    });
+        // site code
+        $("#site_name").on('change',function()
+        {
+            var code= $(this).val();
+                $.ajax
+                ({
+                    type:"GET",
+                    url: "{{ route('getsitedata') }}",
+                    dataType: "json",
+                    data:
+                    {
+                        'site_name':$(this).val()
+                    },
+                    success: function( data ) 
+                    {
+                        result = [];
+                        for(var i in data)
+                        {
+                        $('#site_no').val(data[i]["site_no"]);
+                        $('#site_code').val(data[i]["site_code"]);
+                        }
+                    },
+                    fail: function(xhr, textStatus, errorThrown)
+                    {
+                        alert(errorThrown);
+                    }
+                });
+        });
 
-// auto complete for sitename
-$("#site_name").autocomplete(
-      {
-
-      source: function( request, response ) {
-        $.ajax( {
-        type:"GET",
-          url: "{{ route('getsitedata') }}",
-          dataType: "json",
-          data:{
-            'site_name':$("#site_name").val()
-          },
-          success: function( data ) {
-
-            result = [];
-            for(var i in data)
+        // auto complete for client from clientmaster
+    jQuery($ => 
+    {
+        $(document).on('focus click', $("#city"), function() 
+        {
+            $("#company_name").autocomplete(
             {
-              result.push(data[i]["site_name"]);
-            }
+                source: function( request, response ) 
+                {
+                    $.ajax
+                    ({
+                        type:"GET",
+                        url: "{{ route('getclientdata') }}",
+                        dataType: "json",
+                        data:
+                        {
+                            'company_name':$("#company_name").val()
+                        },
+                        success: function( data ) 
+                        {
+                            result = [];
+                            for(var i in data)
+                            {
+                            result.push(data[i]["company_name"]);
+                            }
 
-             response(result);
-          },fail: function(xhr, textStatus, errorThrown){
-       alert(errorThrown);
-    }
-        } );
-      },
-      });
-    // site code
-      $("#site_name").on('change',function(){
-   var code= $(this).val();
+                            response(result);
+                        },
+                        fail: function(xhr, textStatus, errorThrown)
+                        {
+                            alert(errorThrown);
+                        }
+                    });
+                },
+            });
+        });
+    });
 
-   $.ajax( {
-        type:"GET",
-          url: "{{ route('getsitedata') }}",
-          dataType: "json",
-          data:{
-            'site_name':$(this).val()
-          },
-          success: function( data ) {
-      
-            result = [];
-            for(var i in data)
+            // client code
+            $("#company_name").on('change',function()
             {
-              $('#site_no').val(data[i]["site_no"]);
-              $('#site_code').val(data[i]["site_code"]);
-             
-              
-            }
-         
-          },fail: function(xhr, textStatus, errorThrown){
-       alert(errorThrown);
-    }
-        } );
-});
+                var code= $(this).val();
+                $.ajax
+                ({
+                    type:"GET",
+                    url: "{{ route('getclientdata') }}",
+                    dataType: "json",
+                    data:
+                    {
+                        'company_name':$(this).val()
+                    },
+                    success: function( data ) 
+                    {
+                        result = [];
+                        for(var i in data)
+                        {
+                            $('#client_no').val(data[i]["client_no"]);
+                            $('#contact_number').val(data[i]["contact_number"]);
+                            $('#name').val(data[i]["name"]);  
+                        }
+                    },
+                    fail: function(xhr, textStatus, errorThrown)
+                    {
+                        alert(errorThrown);
+                    }
+                });
+            });
 
-// auto complete for client
-$("#company_name").autocomplete(
-      {
-
-      source: function( request, response ) {
-        $.ajax( {
-        type:"GET",
-          url: "{{ route('getclientdata') }}",
-          dataType: "json",
-          data:{
-            'company_name':$("#company_name").val()
-          },
-          success: function( data ) {
-
-            result = [];
-            for(var i in data)
-            {
-              result.push(data[i]["company_name"]);
-            }
-
-             response(result);
-          },fail: function(xhr, textStatus, errorThrown){
-       alert(errorThrown);
-    }
-        } );
-      },
-      });
-    // client code
-      $("#company_name").on('change',function(){
-   var code= $(this).val();
-
-   $.ajax( {
-        type:"GET",
-          url: "{{ route('getclientdata') }}",
-          dataType: "json",
-          data:{
-            'company_name':$(this).val()
-          },
-          success: function( data ) {
-         
-            result = [];
-            for(var i in data)
-            {
-              $('#client_no').val(data[i]["client_no"]);
-              $('#contact_number').val(data[i]["contact_number"]);
-              $('#name').val(data[i]["name"]);
-             
-              
-            }
-           
-          },fail: function(xhr, textStatus, errorThrown){
-       alert(errorThrown);
-    }
-        } );
-});
-
-        </script>
+</script>
     
     
 

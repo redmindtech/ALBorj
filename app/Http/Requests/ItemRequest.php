@@ -31,6 +31,7 @@ class ItemRequest extends FormRequest
             'item_type' => 'required',
             'item_qty'=>'nullable|regex:/^[0-9]*$/',           
             'name'=>'required|regex:/^[A-Za-z\s]*$/',
+            'total_quantity'=>'required|regex:/^[0-9]*$/',
 
         ];
     }
@@ -43,7 +44,9 @@ class ItemRequest extends FormRequest
             'item_type.required' => 'The Item Type is required.',            
             'name.required'=>'The Supplier Name is required',
             'name.regex'=>'The Supplier Name allows only alphabets',
-            'item_qty.regex' => 'The Item Quantity allows only numbers not decimal numbers.',            
+            'item_qty.regex' => 'The Item Quantity allows only numbers not decimal numbers.', 
+            'total_quantity.required' => 'The Item Quantity is required ',              
+            'total_quantity.regex' => 'The Item Quantity allows only numbers not decimal numbers.',            
 
 
 

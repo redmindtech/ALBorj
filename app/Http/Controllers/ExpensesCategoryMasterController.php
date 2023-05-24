@@ -42,11 +42,14 @@ class ExpensesCategoryMasterController extends Controller
     // DATA SAVE IN ADD DIALOG
     public function store(ExpensesCategoryRequest $request)
     {
-        try {
+        try 
+        {
             ExpensesCategoryMaster::create($request->only(ExpensesCategoryMaster::REQUEST_INPUTS));
             return response()->json('ExpensesCategory Master Created Successfully', 200);
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e)
+        {
             info($e);
             return response()->json('Error occured in the store', 400);
         }
@@ -61,11 +64,14 @@ class ExpensesCategoryMasterController extends Controller
     // DATA SHOW WHICH IS USED FOR EDIT AND SHOW
     public function show($id)
     {
-        try {
+        try 
+        {
             $expenses = ExpensesCategoryMaster::findOrFail($id);
             return response()->json($expenses);
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the show', 400);
         }
@@ -88,12 +94,15 @@ class ExpensesCategoryMasterController extends Controller
     // UPDATE SAVE FUNCTION
     public function update(ExpensesCategoryRequest $request, $id)
     {
-        try {
+        try 
+        {
             $expenses = ExpensesCategoryMaster::findOrFail($id);
             $expenses->update($request->only(ExpensesCategoryMaster::REQUEST_INPUTS));
             return response()->json('ExpensesCategory Master Updated Successfully');
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e)
+        {
             info($e);
             return response()->json('Error occured in the update', 400);
         }
@@ -107,12 +116,15 @@ class ExpensesCategoryMasterController extends Controller
      */
     public function destroy($id)
     {
-        try {
+        try 
+        {
             $expenses = ExpensesCategoryMaster::findOrFail($id);
             $expenses->delete();
             return response()->json('ExpensesCategory Master Deleted Successfully', 200);
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the edit', 400);
         }

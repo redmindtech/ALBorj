@@ -14,19 +14,18 @@ require_once(app_path('constants.php'));
 
 class ProjectMasterController extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-     public function index()
+    public function index()
     {     
-        try{  
+        try
+        {  
             $project_type = PROJECT_TYPE;  
              
-           $project_status= PROJECT_STATUS;
+            $project_status= PROJECT_STATUS;
             $projectmaster = DB::table('project_masters')
             ->join('site_masters', 'project_masters.site_no', '=', 'site_masters.site_no')
             ->join('employee_masters', 'project_masters.employee_no', '=', 'employee_masters.id')
@@ -42,8 +41,10 @@ class ProjectMasterController extends Controller
                 'projectmasters' => $projectmaster,
                 'project_type' => $project_type,
                 'project_status'=>$project_status 
-        ]);}
-        catch (Exception $e) {
+            ]);
+        }
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the store', 400);
         }
@@ -57,19 +58,19 @@ class ProjectMasterController extends Controller
      */
     public function store(ProjectMasterRequest $request)
     {
-         try {
+        try 
+        {
 
             ProjectMaster::create($request->only(ProjectMaster::REQUEST_INPUTS));
-    return response()->json('Project Master Created Successfully', 200);
+            return response()->json('Project Master Created Successfully', 200);
 
-} catch (Exception $e) {
-    info($e);
-    return response()->json('Error occured in the store', 400);
-}
+        } 
+        catch (Exception $e) 
+        {
+            info($e);
+            return response()->json('Error occured in the store', 400);
+        }
     }
-
-  
-
     /**
      * Display the specified resource.
      *
@@ -79,7 +80,8 @@ class ProjectMasterController extends Controller
     public function show($project_no)
     { 
        
-        try {      
+        try 
+        {      
            
             $data = DB::table('project_masters')
             ->join('site_masters', 'project_masters.site_no', '=', 'site_masters.site_no')
@@ -95,25 +97,26 @@ class ProjectMasterController extends Controller
                
              return response()->json($data);
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the show', 400);
         }
     }
 
-
-
-
-
     // UPDATE DATA
     public function update(ProjectMasterRequest $request, $project_no)
     {       
-        try {
+        try 
+        {
             $project = ProjectMaster::findOrFail($project_no);
             $project->update($request->only(ProjectMaster::REQUEST_INPUTS));
             return response()->json('Project Master Updated Successfully');
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the update', 400);
         }
@@ -126,22 +129,20 @@ class ProjectMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     // delete
-  public function destroy($project_no)
+    public function destroy($project_no)
     { 
         
-        try {
+        try 
+        {
             $site = ProjectMaster::findOrFail($project_no);
             $site->delete();
             return response()->json('ProjectMaster Deleted Successfully', 200);
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the delete', 400);
         }
     }
-
-
-
-
-
 }

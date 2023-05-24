@@ -28,13 +28,13 @@
                                         <tr class="text-center">
                                             <!-- <th>S.NO</th> -->
                                             <th>GRN Code</th>
-                                            <th>Project Name</th>
-                                            <!-- <th>Supplier Name</th> -->
-                                            <th>Purchase Type</th>
                                             <th>GRN Date</th>
+                                            <th>Project Name</th>
                                             <th>Discount</th>
                                             <th>Vat</th>
                                             <th>Purchase Amount</th>
+                                            <!-- <th>Supplier Name</th> -->
+                                            <th>Purchase Type</th>
                                             <th data-orderable="false" class="action notexport" >Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
@@ -45,13 +45,13 @@
                                             <tr class="text-center">
                                                 <!-- <td>{{$key+=1}}</td> -->
                                                 <td>{{$grn->grn_code}}<div id="blur-background" class="blur-background"></div></td>
-                                                <td>{{$grn->project_name}}</td>                                        
-                                                <!-- <td>{{$grn->name}}</td>   -->
-                                                <td>{{$grn->grn_purchase_type}}</td>
                                                 <td>{{$grn->grn_date}}</td>                                               
-                                                <td>{{$grn->discount_amount}}</td>                                               
+                                                <td>{{$grn->project_name}}</td>   
+                                                <td>{{$grn->discount_amount}}</td>  
                                                 <td>{{$grn->vat}}</td>    
-                                                <td>{{$grn->gross_amount}}</td>                                                                                             
+                                                <td>{{$grn->gross_amount}}</td>                                                                                    
+                                                <!-- <td>{{$grn->name}}</td>   -->
+                                                <td>{{$grn->grn_purchase_type}}</td>                                                                                           
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$grn->grn_no}}','{{$grn->po_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -547,8 +547,8 @@ function add_text()
  }
 // auto complete function for item name and item no
 jQuery($ => {
-  
-$(document).on('focus', '.item_name', function() {
+
+$(document).on('focus click', $("#city"), function() {
         
     $('#tbody1').find('.item_name').autocomplete({
             source: function( request, response )
@@ -609,6 +609,9 @@ $(document).on('focus', '.item_name', function() {
     });
         
     // project name auto complete
+    jQuery($ => {
+
+$(document).on('focus click', $("#city"), function() {
     $("#project_name").autocomplete(
       {
       source: function( request, response ) {
@@ -633,6 +636,8 @@ $(document).on('focus', '.item_name', function() {
       },
       
       });
+    });
+});
       $("#project_name").on('change',function()
     {
         var code= $(this).val();
@@ -717,13 +722,14 @@ $(document).on('focus', '.item_name', function() {
 
           }
 // dialogclose
-          function handleClose(){
+        function handleClose(){
             document.getElementById("myDialog").open = false;
-            // $("#myDialog").load(" #myDialog > *");
-            //  rowIdx=1;
-            //  $('#blur-background').css('display','none');
-            window.location.reload();
+            $("#myDialog").load(" #myDialog > *");
+             rowIdx=1;
+             $('#blur-background').css('display','none');
+            // window.location.reload();
           }
+
 
           // DELETE FUNCTION
     function handleDelete(id)
@@ -802,6 +808,7 @@ if (isNaN(receivingQty) ) {
                 },
                 error: function (message) {
                     var data = message.responseJSON;
+                    $('p[id ^= "error_"]').html("");
                     $.each(data.errors, function (key, val) {
                         $(`#error_${key}`).html(val[0]);
                     });

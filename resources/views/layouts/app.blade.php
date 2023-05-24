@@ -243,6 +243,10 @@ input[type=checkbox] {
         height: 500px;
     }
     /* chart css end */
+
+    .small-input {
+        width: 90px; /* Adjust the width value as needed */
+    }
     </style>
   
    

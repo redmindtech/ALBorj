@@ -61,6 +61,7 @@ class PurchaseReturnController extends Controller
     {
         try{
         info($request);
+        info($pr);
         PurchaseReturn::create($request->only(PurchaseReturn::REQUEST_INPUTS));
         $pr= PurchaseReturn::max('pr_no');
         $itemCount = count($request['item_no']);

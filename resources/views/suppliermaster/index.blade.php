@@ -1,6 +1,6 @@
 <!-- STYLE INCLUDED IN LAYOUT PAGE -->
 @extends('layouts.app',[
-    'activeName' => 'supplier'
+    'activeName' => 'Supplier Master'
 ])
 @section('title', 'Supplier Master')
 
@@ -32,7 +32,7 @@
                                             <th>Contact No</th>
                                             <th>Address</th>
                                             <th>Website</th>
-                                            <th>Mail Id</th>
+                                            <th>Email Id</th>
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
@@ -75,14 +75,14 @@
                     </div>
 
                     <!-- ADD AND EDIT FORM -->
-          <dialog id="myDialog"  style="width:1000px;">
+        <dialog id="myDialog"  style="width:1000px;">
             <div class="row">
 
                 <div class="col-md-12">
                
                      <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
                      <h4  id='heading_name' style='color:white' align="center"><b>Update Supplier </b></h4>
-                    </div>
+                </div>
             </div>
             
 
@@ -181,133 +181,154 @@
     </div>
 </div>
           </dialog>
-          <script type="text/javascript">
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+<script type="text/javascript">
+    $.ajaxSetup
+    ({
+        headers: 
+        {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 </script>
 
-    <script>
-        $(function () {
+<script>
+        $(function () 
+        {
             $("#myTable").DataTable();
         });
-    </script>    
+</script>    
      <!--ADD DIALOG  -->
-          <script type="text/javascript">
-          function handleDialog(){
-             document.getElementById("myDialog").open = true;
-             $('#method').val("ADD");
-             $('#submit').text("ADD");
-             $('#heading_name').text("Add Supplier").css('font-weight', 'bold');
-             $('#code').hide();
-             $('#code_lable').hide();
-             $('#show').css('display','none');
-             $('#form').css('display','block');
-             $('#blur-background').css('display','block');
+<script type="text/javascript">
+        function handleDialog()
+        {
+            document.getElementById("myDialog").open = true;
+            $('#method').val("ADD");
+            $('#submit').text("ADD");
+            $('#heading_name').text("Add Supplier").css('font-weight', 'bold');
+            $('#code').hide();
+            $('#code_lable').hide();
+            $('#show').css('display','none');
+            $('#form').css('display','block');
+            $('#blur-background').css('display','block');
 
-          }
-// DELETE FUNCTION
-          function handleDelete(id){
-             let url = '{{route('supplierApi.delete',":id")}}';
+        }
+    // DELETE FUNCTION
+        function handleDelete(id)
+        {
+            let url = '{{route('supplierApi.delete',":id")}}';
             url= url.replace(':id',id);
-            if (confirm("Are you sure you want to delete this supplier?")) {
-              $.ajax({
-            url: url,
-            type: 'DELETE',
-            success: function (message) {
-             alert(message);
-             window.location.reload();
-            },
-        })}
-        
-          }
-// DIALOG CLOSE BUTTON
-          function handleClose(){
-            document.getElementById("myDialog").open = false;
-            window.location.reload();
-          }
-// DIALOG SUBMIT FOR ADD AND EDIT
-          function handleSubmit(){
-            event.preventDefault();
-         let form_data = new FormData(document.getElementById('form'));
-         let method = $('#method').val();
-         let url;
-         let type;
-         if(method == 'ADD'){
-            
-             url = '{{route('supplierApi.store')}}';
-             type  = 'POST';
-            
-         } else {
-            let id = $('#supplier_no').val();
-            url = '{{route('supplierApi.update',":id")}}';
-            url= url.replace(':id',id);
-            type = 'POST';
-         }
-        $.ajax({
-            url: url,
-            type: type,
-            data: form_data,
-             contentType: false,
-            cache: false,
-            processData: false,
-            success: function (message) {
-             alert(message);
-             window.location.reload();
-            },error: function (message) {
-                var data = message.responseJSON;
-                $.each(data.errors, function (key, val) {
-                    console.log(key,val);
-                    $(`#error_${key}`).html(val[0]);
+            if (confirm("Are you sure you want to delete this supplier?"))
+            {
+                $.ajax
+                ({
+                    url: url,
+                    type: 'DELETE',
+                    success: function (message) 
+                    {
+                        alert(message);
+                        window.location.reload();
+                    },
                 })
             }
-        })
-          }
+        }
+    // DIALOG CLOSE BUTTON
+        function handleClose()
+        {
+            document.getElementById("myDialog").open = false;
+            $("#myDialog").load(" #myDialog > *");
+            //  rowIdx=1;
+             $('#blur-background').css('display','none');
+            // window.location.reload();
+        }
+    // DIALOG SUBMIT FOR ADD AND EDIT
+        function handleSubmit()
+        {
+            event.preventDefault();
+            let form_data = new FormData(document.getElementById('form'));
+            let method = $('#method').val();
+            let url;
+            let type;
+            if(method == 'ADD')
+            {
+                url = '{{route('supplierApi.store')}}';
+                type  = 'POST';
+            } 
+            else 
+            {
+                let id = $('#supplier_no').val();
+                url = '{{route('supplierApi.update',":id")}}';
+                url= url.replace(':id',id);
+                type = 'POST';
+            }
+                $.ajax  
+                ({
+                    url: url,
+                    type: type,
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (message) 
+                    {
+                        alert(message);
+                        window.location.reload();
+                    },
+                    error: function (message) 
+                    {
+                        var data = message.responseJSON;
+                        $('p[id ^= "error_"]').html("");
+                        $.each(data.errors, function (key, val)
+                        {
+                            $(`#error_${key}`).html(val[0]);
+                        })
+                    }
+                })
+        }
 
         //DATA SHOW FOR EDIT AND SHOW 
-          function handleShowAndEdit(id,action){
-            // alert('')
+        function handleShowAndEdit(id,action)
+        {
             let url = '{{route('supplierApi.show',":id")}}';
             url = url.replace(':id',id);
             let type= "GET"
-            $.ajax({
-            url: url,
-            type: type,
-             contentType: false,
-            cache: false,
-            processData: false,
-            success: function (message) {
-              
-                if(action == 'edit'){
-                    $('#show').css('display','none');
-                     $('#form').css('display','block');
-                for (const [key, value] of Object.entries(message)) {
-//                console.log(`${key}: ${value}`);
-                    $(`#${key}`).val(value);
-                }
-                $('#method').val('UPDATE');
-                $('#submit').text('UPDATE');
-                $('#blur-background').css('display','block');
+            $.ajax
+            ({
+                url: url,
+                type: type,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (message) 
+                {
+                    if(action == 'edit')
+                    {
+                        $('#show').css('display','none');
+                        $('#form').css('display','block');
+                        for (const [key, value] of Object.entries(message)) 
+                        {
+                             $(`#${key}`).val(value);
+                        }
+                        $('#method').val('UPDATE');
+                        $('#submit').text('UPDATE');
+                        $('#blur-background').css('display','block');
 
-            } else {
-                for (const [key, value] of Object.entries(message)) {
-                    $(`#show_${key}`).text(value);
-                }
-                $('#heading_name').text("View Supplier").css('font-weight', 'bold');
-                $('#show').css('display','block');
-                $('#form').css('display','none');
-                $('#blur-background').css('display','block');
+                    } 
+                    else 
+                    {
+                        for (const [key, value] of Object.entries(message))
+                        {
+                            $(`#show_${key}`).text(value);
+                        }
+                        $('#heading_name').text("View Supplier").css('font-weight', 'bold');
+                        $('#show').css('display','block');
+                        $('#form').css('display','none');
+                        $('#blur-background').css('display','block');
 
-            }
-            document.getElementById("myDialog").open = true;
+                    }
+                    document.getElementById("myDialog").open = true;
                     
-            },
-        })
-          }
-        </script>
-    
-    
-
+                },
+            })
+        }
+</script>
 @stop

@@ -18,7 +18,8 @@ class ItemMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     // FOR MAIN PAGE
-    public function  getempdata(){
+    public function  getempdata()
+    {
 
         $suppliername = $_GET['suppliername'];
         $data = SupplierMaster::where('name','LIKE',$suppliername.'%')->get();
@@ -29,7 +30,8 @@ class ItemMasterController extends Controller
 
     public function index()
     {
-        try{
+        try
+        {
             $item_type = ITEMTYPE;
             $item_category = ITEMCATEGORY;
             $item_subcategory = ITEMSUBCATEGORY;
@@ -37,7 +39,6 @@ class ItemMasterController extends Controller
             $items = DB::table('item_masters')
             ->get();
 
-                info($items);
                 return view('itemmaster.index')->with([
                     'items' => $items,
                     'item_type'=>$item_type,
@@ -45,12 +46,12 @@ class ItemMasterController extends Controller
                     item_subcategory'=>$item_subcategory,
                     'stock_type'=>$stock_type
                 ]);
-
-            }
-            catch (Exception $e) {
-                info($e);
-                return response()->json('Error occured in the loading page', 400);
-            }
+        }
+        catch (Exception $e)
+        {
+            info($e);
+            return response()->json('Error occured in the loading page', 400);
+        }
     }
 
 
@@ -65,15 +66,17 @@ class ItemMasterController extends Controller
     public function store(ItemRequest $request)
     {
 
-        try {
-
+        try 
+        {
             ItemMaster::create($request->only(ItemMaster::REQUEST_INPUTS));
             $request['item_no']=ItemMaster::max('id');
             $request['quantity']=$request['total_quantity'];
             ItemSupplier::create($request->only(ItemSupplier::REQUEST_INPUTS));
             return response()->json('Item Master Created Successfully', 200);
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e)
+        {
             info($e);
             return response()->json('Error occured in the store', 400);
         }
@@ -88,27 +91,30 @@ class ItemMasterController extends Controller
     // DATA SHOW WHICH IS USED FOR EDIT AND SHOW
     public function show($id)
     {
-        try {
+        try 
+        {
+            // ItemMaster
             $items = DB::table('item_masters')
             ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
             ->join('supplier_masters', 'item_supplier.supplier_no', '=', 'supplier_masters.supplier_no')
             ->select('item_masters.*', 'item_supplier.*', 'supplier_masters.*')
             ->where('item_masters.id', $id)
             ->get();
-
-
-        $itemsupplier = DB::table('item_supplier')
-        ->join('item_masters', 'item_masters.id', '=', 'item_supplier.item_no')
+            // Itemsupplier
+            $itemsupplier = DB::table('item_supplier')
+            ->join('item_masters', 'item_masters.id', '=', 'item_supplier.item_no')
             ->join('supplier_masters', 'item_supplier.supplier_no', '=', 'supplier_masters.supplier_no')
             ->select('item_masters.*', 'item_supplier.*', 'supplier_masters.*')
             ->where('item_masters.id', $id)
             ->get();
 
-      return response()->json([
-        'items' => $items,
-        'itemsupplier' => $itemsupplier
-    ]);
-        } catch (Exception $e) {
+            return response()->json([
+                'items' => $items,
+                'itemsupplier' => $itemsupplier
+            ]);
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the show', 400);
         }
@@ -126,7 +132,8 @@ class ItemMasterController extends Controller
     // UPDATE SAVE FUNCTION
     public function update(ItemRequest $request, $id)
     {
-        try {
+        try 
+        {
             $itemMaster = ItemMaster::find($id);
             $itemMaster->update($request->only(ItemMaster::REQUEST_INPUTS));
 
@@ -134,7 +141,9 @@ class ItemMasterController extends Controller
             $itemSupplier->update($request->only(ItemSupplier::REQUEST_INPUTS));
 
             return response()->json('Item Master Updated Successfully', 200);
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e)
+        {
             info($e);
             return response()->json('Error occurred in the update', 400);
         }
@@ -149,37 +158,40 @@ class ItemMasterController extends Controller
      */
     // DELETE FUNCTION
     public function destroy($id)
-{
-    try {
-        // Disable foreign key check
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+    {
+        try 
+        {
+            // Disable foreign key check
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        $itemMaster = ItemMaster::find($id);
+            $itemMaster = ItemMaster::find($id);
 
-        if ($itemMaster != null) {
-            $itemSupplier = ItemSupplier::where('item_no', $id)->first();
-            $itemSupplier->delete();
+            if ($itemMaster != null) 
+            {
+                $itemSupplier = ItemSupplier::where('item_no', $id)->first();
+                $itemSupplier->delete();
 
-            $itemMaster->delete();
+                $itemMaster->delete();
 
+                // Enable foreign key check
+                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+                return response()->json('Item Master Deleted Successfully', 200);
+            } 
+            else {
+                // Enable foreign key check
+                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+                return response()->json('Item not found', 404);
+            }
+        } 
+        catch (Exception $e) 
+        {
             // Enable foreign key check
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-            return response()->json('Item Master Deleted Successfully', 200);
-        } else {
-            // Enable foreign key check
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-            return response()->json('Item not found', 404);
+            info($e);
+            return response()->json('Error occurred in the delete', 400);
         }
-    } catch (Exception $e) {
-        // Enable foreign key check
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        info($e);
-        return response()->json('Error occurred in the delete', 400);
     }
-}
-
-
 }

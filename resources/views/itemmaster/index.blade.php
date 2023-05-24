@@ -1,6 +1,6 @@
 <!-- STYLE INCLUDED IN LAYOUT PAGE -->
 @extends('layouts.app',[
-    'activeName' => 'item'
+    'activeName' => 'Item Master'
 ])
 @section('title', 'Item Master')
 
@@ -29,9 +29,9 @@
                                     <!-- <th>Item ID</th> -->
                                     <th>Item Name</th>
                                     <th>Item Category</th>
-                                    <th>Item Subcategory</th>
                                     <th>Item Type</th>
                                     <th>Item Quentity</th>
+                                    <th>Item Subcategory</th>
                                     <th data-orderable="false" class="action notexport">Show</th>
                                     <th data-orderable="false" class="action notexport">Edit</th>
                                     <th data-orderable="false" class="action notexport">Delete</th>
@@ -41,17 +41,15 @@
                                     @foreach ($items as $key => $item)
                                         <tr class="text-center">
                                             <td>{{$key+=1}}</td>
-                                             {{-- <td>{{$item->id}}</td> --}}
+                                             <!-- {{-- <td>{{$item->id}}</td> --}} -->
                                              <td>
                                                 <a href="#{{$item->id}}"  onclick="handleShowAndEdit('{{$item->id}}')" >{{$item->item_name}}</a>
                                                 <div id="blur-background" class="blur-background"></div>
                                               </td>
                                             <td>{{$item->item_category}}</td>
-                                            <td>{{$item->item_subcategory}}</td>
-
                                             <td>{{$item->item_type}}</td>
                                             <td>{{$item->total_quantity}}</td>
-
+                                            <td>{{$item->item_subcategory}}</td>
                                             <td>
                                                 <a  onclick="handleShowAndEdit('{{$item->id}}','show')"
                                                     class="btn btn-primary btn-circle btn-sm"   >
@@ -140,7 +138,7 @@
                             <div class="form-group col-md-6">
                                 <label for="name" class="form-label fw-bold">Item Quantity<a style="text-decoration: none;color:red">*</a></label>
                                 <input type="text" id="total_quantity" name="total_quantity"  value="{{ old('total_quantity	') }}" placeholder="Item Quantity" class="form-control" autocomplete="off">
-                                <p style="color: red" id="error_total_quantity	"></p>
+                                <p style="color: red" id="error_total_quantity"></p>
                             </div>
                         </div>
                         <div class="row">
@@ -163,54 +161,53 @@
                         <!-- SHOW DIALOG -->
                     <div class="card" id="show" style="display:none">
                         <div class="card-body" style="background-color:white;width:100%;height:20%;" >
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Item Name</label>
-                                <p id="show_item_name"></p>
-                            </div>
-                            <div class="col-md-6">
-                                <label>Item category</label>
-                                <p id="show_item_category"></p>
-                            </div>
-                            <div class="col-md-6">
-                                <label>Item Subcategory</label>
-                                <p id="show_item_subcategory"></p>
-                            </div>
-                            <div class="col-md-6">
-                                <label>Item Type</label>
-                                <p id="show_item_type"></p>
-                            </div>
-                            <div class="col-md-6">
-                                <label>Stock Type</label>
-                                <p id="show_stock_type"></p>
-                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Item Name</label>
+                                    <p id="show_item_name"></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Item category</label>
+                                    <p id="show_item_category"></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Item Subcategory</label>
+                                    <p id="show_item_subcategory"></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Item Type</label>
+                                    <p id="show_item_type"></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Stock Type</label>
+                                    <p id="show_stock_type"></p>
+                                </div>
 
-                            <div class="col-md-6">
-                                <label id="supplier_name">Supplier Name</label>
-                                <p id="show_name"></p>
+                                <div class="col-md-6">
+                                    <label id="supplier_name">Supplier Name</label>
+                                    <p id="show_name"></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label id="supplier_code">Supplier Code</label>
+                                    <p id="show_code"></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label id="item_quantity">Item Quantity</label>
+                                    <p id="show_total_quantity"></p>
+                                </div>
+                                <!-- {{-- <div class="col-md-6">
+                                    <label id="item_quantity">Item Quantity</label>
+                                    <p id="show_quantity"></p>
+                                </div> --}}
+                                {{-- <div class="col-md-6">
+                                    <label id="previous_rate">Previous Rate</label>
+                                    <p id="show_price_per_qty"></p>
+                                </div> --}} -->
                             </div>
-                            <div class="col-md-6">
-                                <label id="supplier_code">Supplier Code</label>
-                                <p id="show_code"></p>
-                            </div>
-                            <div class="col-md-6">
-                                <label id="item_quantity">Item Quantity</label>
-                                <p id="show_total_quantity"></p>
-                            </div>
-                            {{-- <div class="col-md-6">
-                                <label id="item_quantity">Item Quantity</label>
-                                <p id="show_quantity"></p>
-                            </div> --}}
-                            {{-- <div class="col-md-6">
-                                <label id="previous_rate">Previous Rate</label>
-                                <p id="show_price_per_qty"></p>
-                            </div> --}}
-
-
+                            <div id="item_details_show"></div>
+                        </div>
                     </div>
-                    <div id="item_details_show"></div>
-                </div>
-            </dialog>
+                </dialog>
 <script type="text/javascript">
     $.ajaxSetup
     ({
@@ -222,10 +219,12 @@
 </script>
 
 <script>
-    $(function () {
-                    $("#myTable").DataTable();
-                });
+    $(function () 
+    {
+        $("#myTable").DataTable();
+    });
 </script>
+
      <!--ADD DIALOG  -->
 <script type="text/javascript">
     function handleDialog()
@@ -240,7 +239,7 @@
         $('#blur-background').css('display','block');
         $('#item_qty').val('0');
         itemcategory_load();
-          }
+    }
     // DELETE FUNCTION
     function handleDelete(id)
     {
@@ -265,10 +264,10 @@
     function handleClose()
     {
         document.getElementById("myDialog").open = false;
-        // $("#myDialog").load(" #myDialog > *");
-        //      rowIdx=1;
-        //      $('#blur-background').css('display','none');
-        window.location.reload();
+        $("#myDialog").load(" #myDialog > *");
+        //  rowIdx=1;
+        $('#blur-background').css('display','none');
+        // window.location.reload();
     }
     // DIALOG SUBMIT FOR ADD AND EDIT
     function handleSubmit()
@@ -305,6 +304,7 @@
             },error: function (message)
             {
                 var data = message.responseJSON;
+                $('p[id ^= "error_"]').html("");
                 $.each(data.errors, function (key, val)
                 {
                     $(`#error_${key}`).html(val[0]);
@@ -346,12 +346,11 @@
                         $(`#${key}`).val(value);
 
                     }
-
-
-
                     $('#method').val('UPDATE');
                     $('#submit').text('UPDATE');
-                } else if (action === 'show') {
+                } 
+                else if (action === 'show') 
+                {
 
                     for (const [key, value] of Object.entries(message.items[0]))
                     {
@@ -365,21 +364,23 @@
                     $('#blur-background').css('display','block');
 
                 }
-                else{
+                else
+                {
 
-                    for (const [key, value] of Object.entries(message.items[0])) {
-
+                    for (const [key, value] of Object.entries(message.items[0])) 
+                    {
                         $(`#show_${key}`).text(value);
-                        }
-                        let script =
-                        '<table id="show_table" class="table table-striped"><thead><tr><th>Supplier Name</th><th>Quantity</th><th>Price</th></tr></thead><tbody>';
-                        for (const item of message.itemsupplier) {
-                        script += '<tr>';
+                    }
+                    let script =
+                    '<table id="show_table" class="table table-striped"><thead><tr><th>Supplier Name</th><th>Quantity</th><th>Price</th></tr></thead><tbody>';
+                    for (const item of message.itemsupplier) 
+                        {
+                            script += '<tr>';
 
-                        script += '<td>' + item.name + '</td>';
-                        script += '<td>' + item.quantity + '</td>';
-                        script += '<td>' + item.price_per_qty + '</td>';
-                        script += '</tr>';
+                            script += '<td>' + item.name + '</td>';
+                            script += '<td>' + item.quantity + '</td>';
+                            script += '<td>' + item.price_per_qty + '</td>';
+                            script += '</tr>';
                         }
                         script += '</tbody></table>';
                         $('show_table').remove();
@@ -402,41 +403,45 @@
             },
         })
     }
-</script>
 
-{{--Autocomplete --}}
-<script>
-    $("#name").autocomplete(
+
+// {{--Autocomplete SupplierMaster--}}
+
+    jQuery($ => 
     {
-
-        source: function( request, response )
+        $(document).on('focus click', $("#city"), function() 
         {
-            $.ajax
-            ({
-                type:"GET",
-                url: "{{ route('getempdata') }}",
-                dataType: "json",
-                data:
+            $("#name").autocomplete(
+            {
+                source: function( request, response )
                 {
-                    'suppliername':$("#name").val()
+                    $.ajax
+                    ({
+                        type:"GET",
+                        url: "{{ route('getempdata') }}",
+                        dataType: "json",
+                        data:
+                        {
+                            'suppliername':$("#name").val()
+                        },
+                        success: function( data )
+                        {
+
+                            result = [];
+                            for(var i in data)
+                            {
+                                result.push(data[i]["name"]);
+                            }
+                            response(result);
+                        },fail: function(xhr, textStatus, errorThrown)
+                        {
+                            alert(errorThrown);
+                        }
+                    });
                 },
-                success: function( data )
-                {
-
-                    result = [];
-                    for(var i in data)
-                    {
-                        result.push(data[i]["name"]);
-                    }
-                    response(result);
-                },fail: function(xhr, textStatus, errorThrown)
-                {
-                    alert(errorThrown);
-                }
             });
-        },
+        });
     });
-
     $("#name").on('change',function()
     {
         var code= $(this).val();
@@ -464,27 +469,26 @@
         });
     });
 
-
+    // ItemCategory Depentent Dropdown:
     function itemcategory_load()
     {
         var selectedCategory = $('#item_category').val();
-        console.log($('#item_category').val());
+        // console.log($('#item_category').val());
         var subcategoryOptions = '';
         if (selectedCategory === 'Electrical Works')
         {
             @foreach(ITEMSUBCATEGORY['Electrical Items'] as $key => $value)
                 subcategoryOptions += '<option value="{{ $key }}">{{ $value }}</option>';
             @endforeach
-        } else if (selectedCategory === 'Plumbing Works')
+        } 
+        else if (selectedCategory === 'Plumbing Works')
         {
             @foreach(ITEMSUBCATEGORY['Plumbing Items'] as $key => $value)
                 subcategoryOptions += '<option value="{{ $key }}">{{ $value }}</option>';
             @endforeach
         }
-        $('#item_subcategory').html('<option value="" class="default-option">Select Option</option>'+ subcategoryOptions);
+            $('#item_subcategory').html('<option value="" class="default-option">Select Option</option>'+ subcategoryOptions);
     }
+
 </script>
-
-
-
 @stop

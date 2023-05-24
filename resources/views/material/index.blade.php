@@ -1,6 +1,6 @@
 <!-- STYLE INCLUDED IN LAYOUT PAGE -->
 @extends('layouts.app',[
-    'activeName' => 'Material'
+    'activeName' => 'Material Requisition'
 ])
 @section('title', 'Material Requisition')
 
@@ -25,12 +25,12 @@
                                 <table id="myTable" class="table table-bordered table-striped">
                                     <thead>
                                         <tr class="text-center">
-                                            <th>MR Code</th>
+                                            <th>MRno</th>
                                             <th>Date</th>
-                                            <th>Project Name</th>                                           
+                                            <th>Project Name</th>   
+                                            <th>Employee Name</th>                                        
                                             <th>Invoice No</th>
                                             <th>Purchase Type</th>
-                                            <th>Employee Name</th>
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
@@ -42,10 +42,10 @@
                                                 <td>{{$material->mr_reference_code}}<div id="blur-background" class="blur-background"></div></td>
                                                
                                                 <td>{{ date('d-m-Y', strtotime($material->date))}}</td>
-                                                <td>{{$material->project_name}}</td>                                        
+                                                <td>{{$material->project_name}}</td>  
+                                                <td>{{$material->firstname}}</td>                                      
                                                 <td>{{$material->voucher_no}}</td>
                                                 <td>{{$material->purchase_type}}</td>
-                                                <td>{{$material->firstname}}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$material->mr_id}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -276,10 +276,13 @@ $.ajaxSetup({
         
           }
 // DIALOG CLOSE BUTTON
-          function handleClose(){
-            document.getElementById("myDialog").open = false;
-            window.location.reload();
-          }
+function handleClose(){
+                     document.getElementById("myDialog").open = false;
+                    $("#myDialog").load(" #myDialog > *");
+                    rowIdx=1;
+                    $('#blur-background').css('display','none');
+                    // window.location.reload();
+                }
 // DIALOG SUBMIT FOR ADD AND EDIT
           function handleSubmit(){
             event.preventDefault();
@@ -334,6 +337,7 @@ $('.rowtr').each(function() {
              window.location.reload();
             },error: function (message) {
                 var data = message.responseJSON;
+                $('p[id ^= "error_"]').html("");
                 $.each(data.errors, function (key, val) {
                     console.log(key,val);
                     $(`#error_${key}`).html(val[0]);
@@ -383,12 +387,20 @@ $('.rowtr').each(function() {
 
                 for (let [key, value] of Object.entries(message.mi[0])) {
                     if (key === "date" || key === "reference_date") {
-                    var dateObj = new Date(value);
-                    var day = dateObj.getDate();
-                    var month = dateObj.getMonth() + 1;
-                    var year = dateObj.getFullYear();
-                    value= day + '-' + month + '-' + year
-                    }
+                        
+                        if( value == null){
+                            value="";
+                        }
+                        else{
+                            var dateObj = new Date(value);
+                            var day = dateObj.getDate();
+                            var month = dateObj.getMonth() + 1;
+                            var year = dateObj.getFullYear();
+                            value= day + '-' + month + '-' + year
+                        }
+                    
+                }
+                    
                     $(`#show_${key}`).text(value);
                 }
                 let script = '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Stock Quantity</th><th>Quantity</th></tr></thead><tbody>';
@@ -558,6 +570,10 @@ $(document).on('focus', '.item_name', function() {
                                  rowIdx--;
                              });
    // EMPLOYEE firstname
+   
+   jQuery($ => {
+
+$(document).on('focus click', $("#city"), function() {
 $("#firstname").autocomplete(
       {
 
@@ -584,6 +600,8 @@ $("#firstname").autocomplete(
         } );
       },
       });
+    });
+});
     // EMPLOYEE CODE
       $("#firstname").on('change',function(){
    var code= $(this).val();
@@ -608,6 +626,11 @@ $("#firstname").autocomplete(
     }
         } );
 });
+//project name autocomplete
+
+jQuery($ => {
+
+$(document).on('focus click', $("#city"), function() {
 $("#project_name").autocomplete(
       {
       source: function( request, response ) {
@@ -631,6 +654,8 @@ $("#project_name").autocomplete(
       });
       },
       });
+    });
+});
 
       $("#project_name").on('change',function(){
      var code= $(this).val();

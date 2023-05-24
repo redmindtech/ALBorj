@@ -1,6 +1,6 @@
 <!-- STYLE INCLUDED IN LAYOUT PAGE -->
 @extends('layouts.app',[
-    'activeName' => 'client'
+    'activeName' => 'Client Master'
 ])
 @section('title', 'Client Master')
 
@@ -27,7 +27,7 @@
                                         <tr class="text-center">
                                             <!-- <th>Client No</th> -->
                                             <th>Client Code</th>
-                                            <th>Name</th>
+                                            <th>Client Name</th>
                                             <th>Company Name</th>
                                             <th>Contact Number</th>
                                             <th>Address</th>
@@ -120,9 +120,9 @@
                                     <p style="color: red" id="error_website"></p>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="client_code" id="code_lable"class="form-label fw-bold">Client Code<a style="text-decoration: none;color:red">*</a></label>
+                                    <label for="client_code" id="code_lable"class="form-label fw-bold">Client Code</label>
                                     <input type="text" id="client_code" name="client_code" readonly value="{{ old('client_code') }}" placeholder="Client Code" class="form-control" autocomplete="off">
-                                    <p style="color: red" id="error_code"></p>
+                                    <!-- <p style="color: red" id="error_code"></p> -->
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
@@ -198,7 +198,7 @@
         {
             let url = '{{route('clientApi.delete',":id")}}';
             url= url.replace(':id',id);
-            if (confirm("Are you sure you want to delete this client?"))
+            if (confirm("Are you sure you want to delete this clientmaster?"))
             {
                 $.ajax
                 ({
@@ -216,102 +216,103 @@
         function handleClose()
         {
             document.getElementById("myDialog").open = false;
-            // $("#myDialog").load(" #myDialog > *");
+            $("#myDialog").load(" #myDialog > *");
             //  rowIdx=1;
-            //  $('#blur-background').css('display','none');
-            window.location.reload();
-          }
+             $('#blur-background').css('display','none');
+            // window.location.reload();
+        }
 // DIALOG SUBMIT FOR ADD AND EDIT
-    function handleSubmit()
-    {
-        event.preventDefault();
-        let form_data = new FormData(document.getElementById('form'));
-        let method = $('#method').val();
-        let url;
-        let type;
-        if(method == 'ADD')
+        function handleSubmit()
         {
-            //
-            url = '{{route('clientApi.store')}}';
-            type  = 'POST';
+            event.preventDefault();
+            let form_data = new FormData(document.getElementById('form'));
+            let method = $('#method').val();
+            let url;
+            let type;
+            if(method == 'ADD')
+            {
+                //
+                url = '{{route('clientApi.store')}}';
+                type  = 'POST';
 
-        }
-        else
-        {
-            let id = $('#client_no').val();
-            url = '{{route('clientApi.update',":id")}}';
-            url= url.replace(':id',id);
-            type = 'POST';
-        }
-        $.ajax
-        ({
-            url: url,
-            type: type,
-            data: form_data,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function (message)
-            {
-                alert(message);
-                window.location.reload();
-            },error: function (message)
-            {
-                var data = message.responseJSON;
-                $.each(data.errors, function (key, val)
-                {
-                    console.log(key,val);
-                    $(`#error_${key}`).html(val[0]);
-                })
             }
-        })
-    }
-//DATA SHOW FOR EDIT AND SHOW
-    function handleShowAndEdit(id,action)
-    {
-        // alert('')
-        let url = '{{route('clientApi.show',":id")}}';
-        url = url.replace(':id',id);
-        let type= "GET"
-        $.ajax
-        ({
-            url: url,
-            type: type,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function (message)
+            else
             {
-                console.log(message);
-                if(action == 'edit')
+                let id = $('#client_no').val();
+                url = '{{route('clientApi.update',":id")}}';
+                url= url.replace(':id',id);
+                type = 'POST';
+            }
+            $.ajax
+            ({
+                url: url,
+                type: type,
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (message)
                 {
-                    $('#show').css('display','none');
-                    $('#form').css('display','block');
-                    $('#blur-background').css('display','block');
-                    for (const [key, value] of Object.entries(message))
-                    {
-                        console.log(`${key}: ${value}`);
-                        $(`#${key}`).val(value);
-                    }
-                    $('#method').val('UPDATE');
-                    $('#submit').text('UPDATE');
-                }
-                else
+                    alert(message);
+                    window.location.reload();
+                },error: function (message)
                 {
-
-                    for (const [key, value] of Object.entries(message))
+                    var data = message.responseJSON;
+                    $('p[id ^= "error_"]').html("");
+                    $.each(data.errors, function (key, val)
                     {
-                        $(`#show_${key}`).text(value);
-                    }
-                    $('#heading_name').text("View Supplier").css('font-weight', 'bold');
-                    $('#show').css('display','block');
-                    $('#form').css('display','none');
-                    $('#blur-background').css('display','block');
+                        console.log(key,val);
+                        $(`#error_${key}`).html(val[0]);
+                    })
                 }
-                document.getElementById("myDialog").open = true;
+            })
+        }
+//DATA SHOW FOR EDIT AND SHOW
+        function handleShowAndEdit(id,action)
+        {
+            
+            let url = '{{route('clientApi.show',":id")}}';
+            url = url.replace(':id',id);
+            let type= "GET"
+            $.ajax
+            ({
+                url: url,
+                type: type,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (message)
+                {
+                    console.log(message);
+                    if(action == 'edit')
+                    {
+                        $('#show').css('display','none');
+                        $('#form').css('display','block');
+                        $('#blur-background').css('display','block');
+                        for (const [key, value] of Object.entries(message))
+                        {
+                            console.log(`${key}: ${value}`);
+                            $(`#${key}`).val(value);
+                        }
+                        $('#method').val('UPDATE');
+                        $('#submit').text('UPDATE');
+                    }
+                    else
+                    {
 
-            },
-        })
-    }
+                        for (const [key, value] of Object.entries(message))
+                        {
+                            $(`#show_${key}`).text(value);
+                        }
+                        $('#heading_name').text("View Supplier").css('font-weight', 'bold');
+                        $('#show').css('display','block');
+                        $('#form').css('display','none');
+                        $('#blur-background').css('display','block');
+                    }
+                    document.getElementById("myDialog").open = true;
+
+                },
+            })
+        }
 </script>
 @stop

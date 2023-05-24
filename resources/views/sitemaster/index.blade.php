@@ -1,8 +1,8 @@
 <!-- STYLE INCLUDED IN LAYOUT PAGE -->
 @extends('layouts.app',[
-    'activeName' => 'supplier'
+    'activeName' => 'Site Master'
 ])
-@section('title', 'Supplier Master')
+@section('title', 'Site Master')
 
 @section('content_header')
 @stop
@@ -26,12 +26,12 @@
                                     <thead>
                                         <tr class="text-center">
                                             <!-- <th>S.No</th> -->
-                                            <th>Site Code</th>
+                                            <th>Site ID</th>
                                             <th>Site Name</th>                                            
-                                            <th>Site location</th>
+                                            <th>Site location</th>                                          
                                             <th>Site Manager</th>  
+                                            <th>Status</th>  
                                             <th>Site Address</th>                                            
-                                            <th>Status</th>                                            
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" clclass="action notexport">Delete</th>
@@ -42,12 +42,12 @@
                                         @foreach ($sitemasters as $key => $sitemaster)
                                             <tr class="text-center">
                                                 <!-- <td>{{$key+=1}}</td> -->
-                                                <td>{{$sitemaster->site_code}}<div id="blur-background" class="blur-background"></div></td>
+                                                <td>{{$sitemaster->site_no}}<div id="blur-background" class="blur-background"></div></td>
                                                 <td>{{$sitemaster->site_name}}</td>                                        
                                                 <td>{{$sitemaster->site_location}}</td>
                                                 <td>{{$sitemaster->firstname}}</td>
-                                                <td>{{$sitemaster->site_address}}</td>
                                                 <td>{{$sitemaster->site_status}}</td>
+                                                <td>{{$sitemaster->site_address}}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$sitemaster->site_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -61,10 +61,6 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    {{-- <form id="{{$sitemaster->site_no}}" action="{{route("sitemaster.destroy",$sitemaster->site_no)}}" method="post">
-                                                        @csrf
-                                                        @method("DELETE")
-                                                    </form> --}}
                                                     <button  type="submit" class="btn btn-sm btn-danger" onclick="handleDelete('{{$sitemaster->site_no}}')">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
@@ -85,7 +81,7 @@
                
                      <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
                      <h4  id='heading_name' style='color:white' align="center"><b>Update SiteMaster </b></h4>
-                    </div>
+                </div>
             </div>
             
 
@@ -175,7 +171,7 @@
 <div class="card" id="show" style="display:none">
     <div class="card-body" style="background-color:white;width:100%;height:20%;" >
        
-                          <div class="row">
+                    <div class="row">
                         <div class="col-md-6">
                             <label>Site Name</label>
                             <p id="show_site_name"></p>
@@ -184,13 +180,13 @@
                             <label>Location</label>
                             <p id="show_site_location"></p>
                         </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-6">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
                             <label>Site Building</label>
                             <p id="show_site_building"></p>
                         </div>
-                          <div class="col-md-6">
+                        <div class="col-md-6">
                             <label>Site Floor</label>
                             <p id="show_site_floor"></p>
                         </div>
@@ -200,51 +196,55 @@
                             <label>Room Number</label>
                             <p id="show_room_number"></p>
                         </div>
-                            <div class="col-md-6">
+                        <div class="col-md-6">
                             <label>Site Address</label>
                             <p id="show_site_address"></p>
                         </div>
                     </div>
                     <div class="row">
-                          <div class="col-md-6">
+                        <div class="col-md-6">
                             <label>Site Status</label>
                             <p id="show_site_status"></p>
                         </div>
-                          <div class="col-md-6">
+                        <div class="col-md-6">
                             <label>Site Manager</label>
                             <p id="show_firstname"></p>
                         </div>
                     </div>
                     <div class="row">
-                          <div class="col-md-6">
+                        <div class="col-md-6">
                             <label>Description</label>
                             <p id="show_description"></p>
                         </div>
-                          <div class="col-md-6">
+                        <div class="col-md-6">
                             <label>Site Code</label>
                             <p id="show_site_code"></p>
                         </div>
                     </div>
     </div>
 </div>
-          </dialog>
+        </dialog>
    
-          <script type="text/javascript">
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+<script type="text/javascript">
+    $.ajaxSetup(
+    {
+        headers: 
+        {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 </script>
 
-    <script>
-        $(function () {
+<script>
+        $(function () 
+        {
             $("#myTable").DataTable();
         });
-    </script>    
+</script>    
      <!--ADD DIALOG  -->
-          <script type="text/javascript">
-          function handleDialog(){
+<script type="text/javascript">
+        function handleDialog()
+        {
              document.getElementById("myDialog").open = true;
              $('#method').val("ADD");
              $('#submit').text("ADD");
@@ -255,159 +255,196 @@ $.ajaxSetup({
              $('#form').css('display','block');
              $('#blur-background').css('display','block');
 
-          }
-// DELETE FUNCTION
-          function handleDelete(id){
-             let url = '{{route('siteApi.delete',":site_no")}}';
+        }
+    // DELETE FUNCTION
+        function handleDelete(id)
+        {
+            let url = '{{route('siteApi.delete',":site_no")}}';
             url= url.replace(':site_no',id);
-            if (confirm("Are you sure you want to delete this site master?")) {
-              $.ajax({
-            url: url,
-            type: 'DELETE',
-            success: function (message) {
-             alert(message);
-             window.location.reload();
-            },
-        })}
-        
-          }
-// DIALOG CLOSE BUTTON
-          function handleClose(){
-            document.getElementById("myDialog").open = false;
-            window.location.reload();
-          }
-// DIALOG SUBMIT FOR ADD AND EDIT
-          function handleSubmit(){
-            event.preventDefault();
-         let form_data = new FormData(document.getElementById('form'));
-         let method = $('#method').val();
-         let url;
-         let type;
-         if(method == 'ADD'){           
-             url = '{{route('siteApi.store')}}';
-             type  = 'POST';
-            
-         } else {
-            let id = $('#site_no').val();
-            url = '{{route('siteApi.update',":site_no")}}';
-            url= url.replace(':site_no',id);
-            type = 'POST';
-         }
-        $.ajax({
-            url: url,
-            type: type,
-            data: form_data,
-             contentType: false,
-            cache: false,
-            processData: false,
-            success: function (message) {
-             alert(message);
-             window.location.reload();
-            },error: function (message) {
-                var data = message.responseJSON;
-                $.each(data.errors, function (key, val) {
-                    console.log(key,val);
-                    $(`#error_${key}`).html(val[0]);
+            if (confirm("Are you sure you want to delete this site master?")) 
+            {
+                $.ajax(
+                {
+                    url: url,
+                    type: 'DELETE',
+                    success: function (message) 
+                    {
+                    alert(message);
+                    window.location.reload();
+                    },
                 })
             }
-        })
-          }
+        }
+    // DIALOG CLOSE BUTTON
+        function handleClose()
+        {
+            document.getElementById("myDialog").open = false;
+            $("#myDialog").load(" #myDialog > *");
+            //  rowIdx=1;
+            $('#blur-background').css('display','none');
+            // window.location.reload();
+        }
+    // DIALOG SUBMIT FOR ADD AND EDIT
+        function handleSubmit()
+        {
+            event.preventDefault();
+            let form_data = new FormData(document.getElementById('form'));
+            let method = $('#method').val();
+            let url;
+            let type;
+            if(method == 'ADD')
+            {           
+                url = '{{route('siteApi.store')}}';
+                type  = 'POST';
+                
+            } 
+            else 
+            {
+                let id = $('#site_no').val();
+                url = '{{route('siteApi.update',":site_no")}}';
+                url= url.replace(':site_no',id);
+                type = 'POST';
+            }
+            $.ajax
+            ({
+                url: url,
+                type: type,
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (message) 
+                {
+                    alert(message);
+                    window.location.reload();
+                },
+                error: function (message) 
+                {
+                    var data = message.responseJSON;
+                    $('p[id ^= "error_"]').html("");
+                    $.each(data.errors, function (key, val) 
+                    {
+                        console.log(key,val);
+                        $(`#error_${key}`).html(val[0]);
+                    })
+                }
+            })
+        }
 
         //DATA SHOW FOR EDIT AND SHOW 
-          function handleShowAndEdit(id,action){
-            // alert('')
+        function handleShowAndEdit(id,action)
+        {
             let url = '{{route('siteApi.show',":site_no")}}';
             url = url.replace(':site_no',id);
             let type= "GET"
-            $.ajax({
-            url: url,
-            type: type,
-             contentType: false,
-            cache: false,
-            processData: false,
-            success: function (message) {
-                console.log(message);
-                if(action == 'edit'){
-                    $('#show').css('display','none');
-                     $('#form').css('display','block');
-                     $('#blur-background').css('display','block');
+            $.ajax
+            ({
+                url: url,
+                type: type,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (message) 
+                {
+                    console.log(message);
+                    if(action == 'edit')
+                    {
+                        $('#show').css('display','none');
+                        $('#form').css('display','block');
+                        $('#blur-background').css('display','block');
+                        for (const [key, value] of Object.entries(message[0])) 
+                        {
+                            $(`#${key}`).val(value);
+                            console.log( $(`#${key}`).val(value));
+                        }
+                        $('#method').val('UPDATE');
+                        $('#submit').text('UPDATE');
+                    } 
+                    else 
+                    {
+                        for (const [key, value] of Object.entries(message[0])) 
+                        {
+                            $(`#show_${key}`).text(value);
+                        }
+                            $('#heading_name').text("View SiteMaster").css('font-weight', 'bold');
+                            $('#show').css('display','block');
+                            $('#form').css('display','none');
+                            $('#blur-background').css('display','block');
 
-                for (const [key, value] of Object.entries(message[0])) {
-//   console.log(`${key}: ${value}`);
-  $(`#${key}`).val(value);
-  console.log( $(`#${key}`).val(value));
-                }
-                $('#method').val('UPDATE');
-                $('#submit').text('UPDATE');
-} else {
-    for (const [key, value] of Object.entries(message[0])) {
-         $(`#show_${key}`).text(value);
-    }
-    $('#heading_name').text("View SiteMaster").css('font-weight', 'bold');
-     $('#show').css('display','block');
-    $('#form').css('display','none');
-    $('#blur-background').css('display','block');
-
-}
- document.getElementById("myDialog").open = true;
+                    }
+                    document.getElementById("myDialog").open = true;
           
-            },
-        })
-          }
+                },
+            })
+        }
   
-// auto complete
-$("#firstname").autocomplete(
-      {
+    // auto complete from employeemaster
+    jQuery($ => 
+    {
 
-      source: function( request, response ) {
-        $.ajax( {
-        type:"GET",
-          url: "{{ route('getemployeedata') }}",
-          dataType: "json",
-          data:{
-            'firstname':$("#firstname").val()
-          },
-          success: function( data ) {
-console.log(data);
-            result = [];
-            for(var i in data)
+        $(document).on('focus click', $("#city"), function() 
+        {
+            $("#firstname").autocomplete(
             {
-              result.push(data[i]["firstname"]);
-            }
 
-             response(result);
-          },fail: function(xhr, textStatus, errorThrown){
-       alert(errorThrown);
-    }
-        } );
-      },
-      });
-    // EMPLOYEE CODE
-      $("#firstname").on('change',function(){
-   var code= $(this).val();
-
-   $.ajax( {
-        type:"GET",
-          url: "{{ route('getemployeedata') }}",
-          dataType: "json",
-          data:{
-            'firstname':$(this).val()
-          },
-          success: function( data ) {
-            console.log(data);
-            result = [];
-            for(var i in data)
+                source: function( request, response ) 
+                {
+                    $.ajax
+                    ({
+                        type:"GET",
+                        url: "{{ route('getemployeedata') }}",
+                        dataType: "json",
+                        data:
+                        {
+                            'firstname':$("#firstname").val()
+                        },
+                        success: function( data ) 
+                        {
+                            // console.log(data);
+                            result = [];
+                            for(var i in data)
+                            {
+                                result.push(data[i]["firstname"]);
+                            }
+                        response(result);
+                        },
+                        fail: function(xhr, textStatus, errorThrown)
+                        {
+                            alert(errorThrown);
+                        }
+                    });
+                },
+            });
+        });
+    });
+            // EMPLOYEE CODE
+            $("#firstname").on('change',function()
             {
-              $('#site_manager').val(data[i]["id"]);
-            }
-             console.log(result);
-          },fail: function(xhr, textStatus, errorThrown){
-       alert(errorThrown);
-    }
-        } );
-});
-        </script>
-    
-    
+                var code= $(this).val();
 
+                $.ajax
+                ({
+                    type:"GET",
+                    url: "{{ route('getemployeedata') }}",
+                    dataType: "json",
+                    data:
+                    {
+                        'firstname':$(this).val()
+                    },
+                    success: function( data ) 
+                    {
+                        console.log(data);
+                        result = [];
+                        for(var i in data)
+                        {
+                            $('#site_manager').val(data[i]["id"]);
+                        }
+                    },
+                    fail: function(xhr, textStatus, errorThrown)
+                    {
+                        alert(errorThrown);
+                    }
+                });
+            });
+</script>
 @stop

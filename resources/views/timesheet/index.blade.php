@@ -1,6 +1,8 @@
 <!-- STYLE INCLUDED IN LAYOUT PAGE -->
-@extends('layouts.app')
-@section('title', 'TimeSheet')
+@extends('layouts.app',[
+    'activeName' => 'Employee TimeSheet'
+])
+@section('title', 'Employee TimeSheet')
 
 @section('content_header')
 @stop
@@ -393,10 +395,13 @@ $(function () {
 
     }
 // DIALOG CLOSE BUTTON
-          function handleClose(){
+function handleClose(){
             document.getElementById("myDialog").open = false;
-            window.location.reload();
-          } 
+            $("#myDialog").load(" #myDialog > *");
+             rowIdx=1;
+             $('#blur-background').css('display','none');
+            // window.location.reload();
+          }
 
  // DIALOG SUBMIT FOR ADD AND EDIT
  function handleSubmit()
@@ -434,6 +439,7 @@ $(function () {
             },error: function (message)
             {
                 var data = message.responseJSON;
+                $('p[id ^= "error_"]').html("");
                 $.each(data.errors, function (key, val)
                 {
                     $(`#error_${key}`).html(val[0]);

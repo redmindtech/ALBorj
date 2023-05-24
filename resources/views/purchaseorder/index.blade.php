@@ -1,6 +1,6 @@
 <!-- STYLE INCLUDED IN LAYOUT PAGE -->
 @extends('layouts.app',[
-    'activeName' => 'purchase'
+    'activeName' => 'Purchase Order'
 ])
 @section('title', 'Purchase Order')
 
@@ -25,16 +25,16 @@
                         <table id="myTable" class="table table-bordered table-striped">
                             <thead>
                                 <tr class="text-center">
-                                    <th>S.NO</th>
+                                    <!-- <th>S.NO</th> -->
                                     <th>PO Code</th>
                                     <th>PO Type</th>
                                     <!-- <th>PO Date</th> -->
                                     <th>Supplier Name</th>
+                                    <th>Vat</th>
+                                    <th>Grand Total</th>
                                     <th>Delivery Location</th>
                                     <th>Delivery Terms</th>
                                     <th>PO Prepared By</th>
-                                    <th>Vat</th>
-                                    <th>Grand Total</th>
                                     <th data-orderable="false" class="action notexport">Show</th>
                                     <th data-orderable="false" class="action notexport">Edit</th>
                                     <th data-orderable="false" class="action notexport">Delete</th>
@@ -43,16 +43,16 @@
                             <tbody>
                                 @foreach ($purchase_orders as $key => $purchase_order)
                                     <tr class="text-center">
-                                        <td>{{$key+=1}}</td>
+                                        <!-- <td>{{$key+=1}}</td> -->
                                         <td>{{$purchase_order->po_code}}<div id="blur-background" class="blur-background"></div></td>
                                         <td>{{$purchase_order->po_type}}</td>
                                         <!-- <td>{{$purchase_order->po_date}}</td> -->
                                         <td>{{$purchase_order->name}}</td>
+                                        <td>{{$purchase_order->vat}}</td>
+                                        <td>{{$purchase_order->gross_amount}}</td>
                                         <td>{{$purchase_order->delivery_location}}</td>
                                         <td>{{$purchase_order->delivery_terms}}</td>
                                         <td>{{$purchase_order->po_prepared}}</td>
-                                        <td>{{$purchase_order->vat}}</td>
-                                        <td>{{$purchase_order->gross_amount}}</td>
                                         <td>
                                             <a  onclick="handleShowAndEdit('{{$purchase_order->po_no}}','show')"
                                                 class="btn btn-primary btn-circle btn-sm"   >
@@ -635,10 +635,13 @@ $(document).on('change', '.item_name', function() {
 
           }
 // DIALOG CLOSE BUTTON
-          function handleClose(){
-            document.getElementById("myDialog").open = false;
-            window.location.reload();
-          }
+function handleClose(){
+                     document.getElementById("myDialog").open = false;
+                    $("#myDialog").load(" #myDialog > *");
+                    rowIdx=1;
+                    $('#blur-background').css('display','none');
+                    // window.location.reload();
+                }
 // DIALOG SUBMIT FOR ADD AND EDIT
           function handleSubmit(){
             event.preventDefault();
@@ -668,6 +671,7 @@ $(document).on('change', '.item_name', function() {
              window.location.reload();
             },error: function (message) {
                 var data = message.responseJSON;
+                $('p[id ^= "error_"]').html("");
                 $.each(data.errors, function (key, val) {
                     console.log(key,val);
                     $(`#error_${key}`).html(val[0]);
@@ -768,7 +772,9 @@ $(document).on('change', '.item_name', function() {
                 }
 
         
+jQuery($ => {
 
+$(document).on('focus click', $("#city"), function() {
 
     $(".supplier_name").autocomplete({
 
@@ -795,6 +801,8 @@ $(document).on('change', '.item_name', function() {
             });
         },
     });
+});
+});
 
     $(".supplier_name").on('change', function() {
         var code = $(this).val();
@@ -824,7 +832,9 @@ $(document).on('change', '.item_name', function() {
     });
 
 
+jQuery($ => {
 
+$(document).on('focus click', $("#city"), function() {
     $("#project_name").autocomplete({
 
 source: function(request, response) {
@@ -849,6 +859,8 @@ source: function(request, response) {
         }
     });
 },
+});
+});
 });
 $("#project_name").on('change', function() {
 var code = $(this).val();
@@ -875,7 +887,9 @@ $.ajax({
 });
 });
     //po prepared
+jQuery($ => {
 
+$(document).on('focus click', $("#city"), function() {
     $("#firstname").autocomplete({
 
 source: function(request, response) {
@@ -900,6 +914,8 @@ source: function(request, response) {
         }
     });
 },
+});
+});
 });
 $("#firstname").on('change', function() {
 var code = $(this).val();
