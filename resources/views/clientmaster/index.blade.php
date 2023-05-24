@@ -115,7 +115,7 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label for="website" class="form-label fw-bold">Website<a style="text-decoration: none;color:red">*</a></label>
+                                    <label for="website" class="form-label fw-bold">Website</label>
                                     <input type="url" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control" autocomplete="off">
                                     <p style="color: red" id="error_website"></p>
                                 </div>

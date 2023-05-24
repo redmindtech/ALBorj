@@ -26,7 +26,7 @@
                                     <thead>
                                         <tr class="text-center">
                                             <!-- <th>S.No</th> -->
-                                            <th>Site ID</th>
+                                            <th>Site Code</th>
                                             <th>Site Name</th>                                            
                                             <th>Site location</th>                                          
                                             <th>Site Manager</th>  
@@ -42,7 +42,7 @@
                                         @foreach ($sitemasters as $key => $sitemaster)
                                             <tr class="text-center">
                                                 <!-- <td>{{$key+=1}}</td> -->
-                                                <td>{{$sitemaster->site_no}}<div id="blur-background" class="blur-background"></div></td>
+                                                <td>{{$sitemaster->site_code}}<div id="blur-background" class="blur-background"></div></td>
                                                 <td>{{$sitemaster->site_name}}</td>                                        
                                                 <td>{{$sitemaster->site_location}}</td>
                                                 <td>{{$sitemaster->firstname}}</td>
@@ -138,7 +138,7 @@
     </div> 
     <div class="form-group col-md-6">
         
-        <label for="site_status" class="form-label fw-bold">Site Status</label>
+        <label for="site_status" class="form-label fw-bold">Site Status<a style="text-decoration: none;color:red">*</a></label>
         <select id="site_status" name="site_status" class="form-control" autocomplete="off">
         <option value="">Select Option</option>
             @foreach($site_status as $key => $value)

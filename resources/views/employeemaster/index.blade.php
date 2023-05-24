@@ -26,7 +26,7 @@
                                     <thead>
                                         <tr class="text-center">
                                             <!-- <th>S.No</th> -->
-                                            <th>Employee ID</th>
+                                            <th>Employee Code</th>
                                             <th>First Name</th>
                                             <th>Last Name</th>
                                             <th>Category</th>
@@ -47,7 +47,7 @@
                                         @foreach ($employes as $key => $employe)
                                             <tr class="text-center">
                                                 <!-- <td>{{$key+=1}}</td> -->
-                                                <td>{{$employe->id}}<div id="blur-background" class="blur-background"></div></td>
+                                                <td>{{$employe->employee_no}}<div id="blur-background" class="blur-background"></div></td>
                                                 <td>{{$employe->firstname}}</td>
                                                 <td>{{$employe->lastname}}</td>
                                                 <td>{{$employe->category}}</td>
@@ -136,7 +136,7 @@
         <p style="color: red" id="error_join_date"></p>
     </div>
     <div class="form-group col-md-6">
-        <label for="end_date" class="form-label fw-bold">End Date<a style="text-decoration: none;color:red">*</a></label>
+        <label for="end_date" class="form-label fw-bold">End Date</label>
         <input type="date" id="end_date" name="end_date" value="{{ old('end_date') }}" placeholder="end_date" class="form-control" autocomplete="off">
         <p style="color: red" id="error_end_date"></p>
     </div>
@@ -153,7 +153,7 @@
         <p style="color: red" id="error_category"></p>
     </div>
     <div class="form-group col-md-6">
-        <label for="sponser" class="form-label fw-bold">Sponsor As<a style="text-decoration: none;color:red">*</a></label>
+        <label for="sponser" class="form-label fw-bold">Sponsor<a style="text-decoration: none;color:red">*</a></label>
         <select id="sponser" name="sponser" class="form-control" autocomplete="off" style="width:100%">
         <option value="">Select Option</option>
             @foreach($sponsor as $key => $value)

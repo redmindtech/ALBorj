@@ -29,7 +29,7 @@ class ClientRequest extends FormRequest
             'company_name' => 'required',
             'contact_number' => 'required|regex:/^[6-9][0-9]{8}$/',
             'address' => 'required',
-            'website'=>'required|url'
+            'website'=>'nullable|url'
 
         ];
     }
@@ -43,7 +43,6 @@ class ClientRequest extends FormRequest
             'contact_number.required' => 'The Contact Number is required.',
             'contact_number.regex' => 'Please enter vaild contact number.',
             'address.required' => 'The Address is required.',
-            'website.required'=>'The website is required',
             'website.url'=>'Please enter valid url'
         ];
     }
