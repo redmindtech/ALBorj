@@ -232,7 +232,7 @@
         <label for="phone" class="form-label fw-bold">Home Country Contact Number<a style="text-decoration: none;color:red">*</a></label><br>
         <!-- <input type="phone_number" name="phone" id="phone" value="{{ old('phone') }}" placeholder="Phone No" class="input form-control" autocomplete="off"> -->
         <input type="hidden" id="country_code" name="country_code"  value="{{ old('country_code') }}"/>
-    <input type="tel" id="phone" name="phone"  value="{{ old('phone') }}" class="input form-control" size="60">
+        <input type="tel" id="phone" name="phone"  value="{{ old('phone') }}" class="input form-control" size="60">
 
         <!-- <input type="tel" id="phone" name="phone"  value="{{ old('phone') }}" placeholder=" phone" class="form-control phone_number" autocomplete="off"> -->
         <p style="color: red" id="error_phone"></p>
@@ -343,7 +343,7 @@
 </div>
 <div class="row">
 <label>
-    Over Time:
+    Over Time:<br>
     <input type="checkbox" id="over_time" name="over_time" value="1" {{ old('over_time') ? 'checked' : '' }}>       
         
 </label>
@@ -622,9 +622,9 @@
                             $('#over_time').prop('checked', true);
                             for (const [key, value] of Object.entries(message[0])) 
                             {
-                                    // console.log( $(`#${key}`).val(value));
+                                    console.log( $(`#${key}`).val(value));
                                     $(`#${key}`).val(value);     
-                                    console.log(message[0].country_code);         
+                                    // console.log(message[0].country_code);         
                                 if (message[0].over_time == '1') 
                                 {                 
                                     $('#over_time').is(":checked");               
@@ -679,6 +679,9 @@
     var input = $('#phone');
     var country = $('#country');
     var iti = intlTelInput(input.get(0))
+
+    // Set the initial country code value
+    $('#country_code').val(iti.getSelectedCountryData().iso2);
 
     // listen to the telephone input for changes
     input.on('countrychange', function(e) 

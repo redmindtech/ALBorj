@@ -217,7 +217,7 @@
                             <p id="show_firstname"></p>
                         </div>
                         <div class="col-md-3">
-                            <label>Voucher No</label>
+                            <label>Invoice Voucher No</label>
                             <p id="show_voucher_no"></p>
                         </div>
                     </div>
@@ -264,7 +264,7 @@ $.ajaxSetup({
           function handleDelete(id){
              let url = '{{route('material.delete',":id")}}';
             url= url.replace(':id',id);
-            if (confirm("Are you sure you want to delete this material?")) {
+            if (confirm("Are you sure you want to delete this material requisition?")) {
               $.ajax({
             url: url,
             type: 'DELETE',
@@ -403,7 +403,7 @@ $('.rowtr').each(function() {
                     
                     $(`#show_${key}`).text(value);
                 }
-                let script = '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Stock Quantity</th><th>Quantity</th></tr></thead><tbody>';
+                let script = '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Item Stock</th><th>Quantity</th></tr></thead><tbody>';
                     for (const item of message.mi_item) {
                    script += '<tr>';
                    script += '<td>' + item.item_name + '</td>';

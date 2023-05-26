@@ -28,7 +28,7 @@ class TimeSheetRequest extends FormRequest
             'project_name' => 'required',
             'site_name' => 'required',
             'from_date' => 'required|date',
-            'to_date' => 'required|date|after_or_equal:from_date',
+            'to_date' => [ 'required','after:from_date'],
         ];
     }
     public function messages()

@@ -73,7 +73,7 @@
                 <div class="col-md-12">
 
                      <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
-                     <h4  id='heading_name' style='color:white' align="center"><b>Update Purchase Orders </b></h4>
+                     <h4  id='heading_name' style='color:white' align="center"><b>Update Purchase Return </b></h4>
                     </div>
             </div>
 
@@ -156,9 +156,9 @@
                 <th>S.No</th>               
                 <th>Item Name</th>
                 <th hidden>item_id</th>
-                <th >stock Qty</th>
-                <th>Return Qty</th>                
-                <th>Rate Per Qty</th>
+                <th >stock Quantity</th>
+                <th>Return Quantity</th>                
+                <th>Rate Per Quantity</th>
                 <th>VAT(%)</th>
                 <th hidden>vat_per_qty</th>
                 <th>Total</th>
@@ -203,43 +203,43 @@
     <div class="card-body" style="background-color:white;width:100%;height:20%;" >
 
                           <div class="row">
-                          <div class="col-md-3">
+                          <div class="col-md-4">
                             <label>Purchase Return Code</label>
                             <p id="show_pr_code"></p>  
                         </div>         
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label>Supplier Name</label>
                             <p id="show_name"></p> 
                         </div>                                              
-                          <div class="col-md-3">
+                          <div class="col-md-4">
                             <label>Currency</label>
                             <p id="show_currency"></p>
                         </div>
-                        <div class="col-md-3">
-                            <label>Invoice No.</label>
-                            <p id="show_invoice_no"></p>
-                        </div>
                         </div>
                         <div class="row">
-                          <div class="col-md-3">
-                            <label>Project type</label>
+                        <div class="col-md-4">
+                            <label>Invoice No</label>
+                            <p id="show_invoice_no"></p>
+                        </div>
+                          <div class="col-md-4">
+                            <label>Purchase type</label>
                             <p id="show_pr_purchase_type"></p>
                         </div>
-                        <div class="col-md-3">
-                            <label>Purchase Name</label>
+                        <div class="col-md-4">
+                            <label>Project Name</label>
                             <p id="show_project_name"></p>
-                        </div>                   
-                          <div class="col-md-3">
+                        </div> 
+                </div>
+                <div class="row">                  
+                          <div class="col-md-4">
                             <label>Project Code</label>
                             <p id="show_project_code"></p>
                         </div>
-                          <div class="col-md-3">
-                            <label>Total Vat</label>
+                          <div class="col-md-4">
+                            <label>Vat Amount</label>
                             <p id="show_vat_amount"></p>
                         </div>
-                        </div>
-                    <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label>Total Return Amount</label>
                             <p id="show_return_amount"></p>
                         </div>                
@@ -765,7 +765,7 @@ function handleSubmit() {
                      script += '</tbody></table>';
                     $('show_table').remove();
                      $('#item_detail_show').append(script);
-                    $('#heading_name').text("View Purchase Order").css('font-weight', 'bold');
+                    $('#heading_name').text("View Purchase Return").css('font-weight', 'bold');
                     $('#show').css('display', 'block');
                     $('#form').css('display', 'none');
                     $('#blur-background').css('display','block');

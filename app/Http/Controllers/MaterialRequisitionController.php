@@ -22,8 +22,7 @@ class MaterialRequisitionController extends Controller
                     'materials.*',
                     'project_masters.*',
                     'employee_masters.*',
-                    DB::raw('DATE(materials.date) as date'),
-                    DB::raw('DATE(materials.reference_date) as reference_date')
+                    DB::raw('DATE(materials.date) as date')
                 )
                 ->where('materials.deleted', '0')
                 ->get();
@@ -152,7 +151,7 @@ class MaterialRequisitionController extends Controller
         try {
             $mi_item = MaterialRequisitionItem::where('mr_no', $id)->update(['deleted' => 1]);
             $mi = MaterialRequisition::where('mr_id', $id)->update(['deleted' => 1]);
-            return response()->json('Material Deleted Successfully', 200);
+            return response()->json('Material Requisition Deleted Successfully', 200);
 
         } catch (Exception $e) {
             info($e);

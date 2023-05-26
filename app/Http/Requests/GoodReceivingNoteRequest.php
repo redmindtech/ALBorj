@@ -40,8 +40,8 @@ class GoodReceivingNoteRequest extends FormRequest
             'name.regex' => 'The Supplier Name allows only alphabets.',
             'grn_date.required'=>'The GRN Invoice / Receive date is required',
             'project_name.required'=>'The Project Name is required',
-            'grn_purchase_type.required'=>'The Project Type is required',
-            'po_no.required'=>'The project code is required',
+            'grn_purchase_type.required'=>'The Purchase Type is required',
+            'po_no.required'=>'The Ref LPO is required',
             'po_date.required'=>'The project date is required',
 
             

@@ -27,7 +27,6 @@ class PurchaseOrderRequest extends FormRequest
             'po_type' => 'required',
             'supplier_no' => 'required',
             'po_date' => 'required',
-            'quote_ref' => 'required',
             'quote_date'=>'required',
             'currency'=>'required',
             'credit_period'=>'required',
@@ -36,16 +35,16 @@ class PurchaseOrderRequest extends FormRequest
             'delivery_terms'=>'required',
             'total_amount'=>'required',
             'gross_amount'=>'required',
+            'po_prepared'=>'required',
             
 
     ];
  }
  public function messages(){
     return [
-        'po_type.required' => 'The Po Type is required.',
-        'supplier_no.required' => 'The Supplier Name Date is required.',
-        'po_date.required' => 'The Po Date is required.',
-        'quote_ref.required' => 'The Quote Ref is required.',
+        'po_type.required' => 'The Purchase Type is required.',
+        'supplier_no.required' => 'The Supplier Name is required.',
+        'po_date.required' => 'The  Date is required.',
         'quote_date.required'=>'The Quote Date is required',
         'currency.required'=>'The Currency is required',
         'credit_period.required'=>'The Credit Period is required',
@@ -54,6 +53,7 @@ class PurchaseOrderRequest extends FormRequest
         'delivery_terms.required'=>'The Delivery Terms is required',
         'total_amount.required'=>'The Total Amount is required',
         'gross_amount.required'=>'The Gross Amount is required',
+        'po_prepared.required'=>'The Prepared By is required',
 
 
 

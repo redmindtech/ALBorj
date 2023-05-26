@@ -27,7 +27,7 @@
                                 <tr class="text-center">
                                     <!-- <th>S.NO</th> -->
                                     <th>PO Code</th>
-                                    <th>PO Type</th>
+                                    <th>Purchase Type</th>
                                     <!-- <th>PO Date</th> -->
                                     <th>Supplier Name</th>
                                     <th>Vat</th>
@@ -98,7 +98,7 @@
             {!! csrf_field() !!}
             <div class="row g-3">
                 <div class="form-group col-md-4">
-                    <label for="po_type" class="form-label fw-bold">Type<a style="text-decoration: none;color:red">*</a></label>
+                    <label for="po_type" class="form-label fw-bold">Purchase Type<a style="text-decoration: none;color:red">*</a></label>
                     <select id="po_type" name="po_type" class="form-control" autocomplete="off">
                     <option value="">Select Option</option>
                     @foreach($po_type as $key => $value)
@@ -138,7 +138,8 @@
                     <label for="currency" class="form-label fw-bold">Currency<a style="text-decoration: none;color:red">*</a></label>
                     <select id="currency" name="currency" class="form-control" autocomplete="off">
                         @foreach ($currency as $key => $value)
-                            <option value="{{ $key }}">{{ $value }}</option>
+                            <option value="{{ $key }}"{{ $key == 'AED' ? ' selected' : '' }}>{{ $value }}</option>
+                            <!-- <option value="{{ $key }}">{{ $value }}</option> -->
                         @endforeach
                     </select>
                     <p style="color: red" id="error_currency"></p>
@@ -190,8 +191,7 @@
                     <p style="color: red" id="error_delivery_terms"></p>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="po_prepared" class="form-label fw-bold">Prepared By<a
-                            style="text-decoration: none;color:red">*</a></label>
+                    <label for="po_prepared" class="form-label fw-bold">Prepared By<a style="text-decoration: none;color:red">*</a></label>
                     <input type="text" id="firstname" name="firstname"
                         value="{{ old('firstname') }}" placeholder="Po Prepared By"
                         class="form-control" autocomplete="off">
@@ -221,12 +221,11 @@
             <tr>
                 <th>S.No</th>
                 <th>Item Name</th>
-                <th>Qty</th>
-                <th>Rate</th>
+                <th>Quantity</th>
+                <th>Rate Per Quantity</th>
                 <th>Discount</th>
-                <th>Amount</th>
+                <th>Item Amount</th>
                 <th>Previous Rate</th>
-                {{-- <th id="th_qty">Pending Qty</th> --}}
                 <th>Remove</th>
             </tr>
             </thead>
@@ -251,14 +250,14 @@
     <div class="col-md-2">
         <label for="" class="float-end mt-2">Total Amount</label><br>
         <label for="" class="float-end mt-2">Total Discount</label><br>
-        <label for="" class="float-end my-2">VAT Amount</label>
+        <label for="" class="float-end my-2">VAT Amount<a style="text-decoration: none;color:red">*</a></label>
         <label for=""class="float-end my-2" >Grand Total</label>
     </div>
     <div class="col-md-4">
-        <input type="text" name="total_amount" id="total_amount" class="form-control mb-2">
-        <input type="text" name="total_discount" id="total_discount" class="form-control mb-2">
-        <input type="text" name="vat" id="vat" class="form-control mb-2">
-        <input type="text" name="gross_amount" id="gross_amount" class="form-control mb-2 total">
+        <input type="text" name="total_amount" id="total_amount" class="form-control mb-2" autocomplete="off">
+        <input type="text" name="total_discount" id="total_discount" class="form-control mb-2" autocomplete="off">
+        <input type="text" name="vat" id="vat" class="form-control mb-2" autocomplete="off">
+        <input type="text" name="gross_amount" id="gross_amount" class="form-control mb-2 total" autocomplete="off">
     </div>
 </div>
 <div class="row mt-5">
@@ -286,79 +285,79 @@
     <div class="card-body" style="background-color:white;width:100%;height:20%;">
 
         <div class="row">
-            <div class="col-md-6">
-                <label>Type</label>
+            <div class="col-md-3">
+                <label>Purchase Type</label>
                 <p id="show_po_type"></p>
             </div>
-            <div class="col-md-6">
-                <label>Code</label>
+            <div class="col-md-3">
+                <label>Po Code</label>
                 <p id="show_po_code"></p>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label>Date</label>
                 <p id="show_po_date"></p>
             </div>
-            <div class="col-md-6">
-                <label>Quote Referance</label>
+            <div class="col-md-3">
+                <label>Quote Reference</label>
                 <p id="show_quote_ref"></p>
             </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-6">
+            </div>
+            <div class="row">
+            <div class="col-md-3">
                 <label>Currency</label>
                 <p id="show_currency"></p>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label>Email</label>
                 <p id="show_mail_id"></p>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label>Contact Person</label>
                 <p id="show_name"></p>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label>Mobile Number</label>
                 <p id="show_contact_number"></p>
             </div>
-        </div>
-        <div class="row">
-
-            <div class="col-md-6">
+            </div>
+            <div class="row">
+            <div class="col-md-3">
                 <label>Website</label>
                 <p id="show_website"></p>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label>Credit period</label>
                 <p id="show_credit_period"></p>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label>Payment Terms</label>
                 <p id="show_payment_terms"></p>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label>Delivery Location</label>
                 <p id="show_project_name"></p>
             </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-6">
+            </div>
+            <div class="row">
+            <div class="col-md-3">
                 <label>Quote Date</label>
                 <p id="show_quote_date"></p>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label>Delivery Terms</label>
                 <p id="show_delivery_terms"></p>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label>Prepared By</label>
                 <p id="show_firstname"></p>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label>Pull Mr Code</label>
                 <p id="show_mr_reference_code"></p>
             </div>
+            </div>
+        <div class="row">
+
             <div class="col-md-3">
                 <label>Attachments</label>
                 <p id="show_filename"></p>
@@ -383,9 +382,9 @@ $.ajaxSetup({
     //row wise amount calculation
 $(document).on('change', 'input[name="qty[]"], input[name="rate_per_qty[]"],input[name="discount[]"]', function () {
     var row = $(this).closest('tr');
-    var qty = parseInt(row.find('input[name="qty[]"]').val());
-    var rate = parseFloat(row.find('input[name="rate_per_qty[]"]').val());
-    var discount = parseFloat(row.find('input[name="discount[]"]').val());
+    var qty = parseInt(row.find('input[name="qty[]"]').val()) ||0;
+    var rate = parseFloat(row.find('input[name="rate_per_qty[]"]').val()) ||0;
+    var discount = parseFloat(row.find('input[name="discount[]"]').val()) ||0;
     if (isNaN(qty) || isNaN(rate)) {
         return;
     }

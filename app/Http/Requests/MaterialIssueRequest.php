@@ -35,7 +35,7 @@ class MaterialIssueRequest extends FormRequest
     public function messages(){
         return [
             'location.required' => 'The Location is required.',
-            'issue_date.required' => 'The Item Issue Date is required.',
+            'issue_date.required' => 'The Issue Date is required.',
             'issue_ref_no.required' => 'The Issue Ref No is required.',
             'firstname.required' => 'The Receiving Employee is required.',
             'project_name.required'=>'The Project Name is required',

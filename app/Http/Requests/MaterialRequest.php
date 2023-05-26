@@ -41,8 +41,8 @@ class MaterialRequest extends FormRequest
             'purchase_type.required' => 'The Purchase Type is required.',
             'project_id.required' => 'Please Enter Valid Project Name ',
             'project_name.required' => 'The Project Name is required.',
-            'user_id.required'=>'The Employee Name is required.'
-       
+            'user_id.required'=>'The Employee Name is required.',
+            'firstname.required'=>'The Employee Name is required',       
         ];
     }
 }

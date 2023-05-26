@@ -1,8 +1,8 @@
 <!-- STYLE INCLUDED IN LAYOUT PAGE -->
 @extends('layouts.app',[
-    'activeName' => 'GOODS RECEVING NOTES'
+    'activeName' => 'GOODS RECEIVING NOTES'
 ])
-@section('title', 'GOODS RECEVING NOTES')
+@section('title', 'GOODS RECEIVING NOTES')
 
 @section('content_header')
 @stop
@@ -15,7 +15,7 @@
                     <div class="card shadow">
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
-                                <h4 class="font-weight-bold text-dark py">GOODS RECEVING NOTES</h4>
+                                <h4 class="font-weight-bold text-dark py">GOODS RECEIVING NOTES</h4>
                                 <div style="width:120px">
                                     <button type="button" class="btn btn-block btn-primary" onclick="handleDialog()">Add</button>
                                 </div>
@@ -45,7 +45,7 @@
                                             <tr class="text-center">
                                                 <!-- <td>{{$key+=1}}</td> -->
                                                 <td>{{$grn->grn_code}}<div id="blur-background" class="blur-background"></div></td>
-                                                <td>{{$grn->grn_date}}</td>                                               
+                                                <td>{{date('d-m-Y',  strtotime($grn->grn_date))}}</td>                                               
                                                 <td>{{$grn->project_name}}</td>   
                                                 <td>{{$grn->discount_amount}}</td>  
                                                 <td>{{$grn->vat}}</td>    
@@ -113,7 +113,7 @@
         <p style="color: red" id="error_grn_date"></p>
     </div>
     <div class="form-group col-md-4">
-         <label for="name" class="form-label fw-bold">Supplier Name<a style="text-decoration: none;color:red">*</a></label>
+         <label for="name" class="form-label fw-bold">Supplier Name</label>
         <input type="text" id="name" name="name" readonly value="{{ old('name') }}" placeholder="Supplier Name" class="form-control" autocomplete="off">
         <input type="text" id="supplier_no" hidden name="supplier_no"  value="{{ old('supplier_no') }}"  class="form-control" autocomplete="off">
         
@@ -127,7 +127,7 @@
     </div>
 
     <div class="form-group col-md-4">
-        <label for="project_code" class="form-label fw-bold">Project Code<a style="text-decoration: none;color:red">*</a></label>
+        <label for="project_code" class="form-label fw-bold">Project Code</label>
         <input type="text" id="project_code" name="project_code" value="{{ old('project_code') }}" readonly placeholder="Project Code" class="form-control" autocomplete="off">
         
     </div>
@@ -166,9 +166,9 @@
                 <th hidden>item_id</th>
                 <th>Pack Specification</th>
                 <th>Quantity</th>
-                <th>Pending Qty</th>
-                <th>Receiving Qty</th>
-                <th>Rate per Qty</th>
+                <th>Pending Quantity</th>
+                <th>Receiving Quantity</th>
+                <th>Rate per Quantity</th>
                 <th>Total</th>
                 <th hidden>Delete</th>
             </tr>
@@ -736,7 +736,7 @@ $(document).on('focus click', $("#city"), function() {
     {
         let url = '{{route('gdelete',":id")}}';
         url= url.replace(':id',id);
-        if (confirm("Are you sure you want to delete this item?"))
+        if (confirm("Are you sure you want to delete this  Goods Receiving Note?"))
         {
             $.ajax
             ({
@@ -880,7 +880,7 @@ function handleShowAndEdit(id,po_no,action)
                     for (let [key, value] of Object.entries(message.grn)) {
                         // date formate
                     
-                      if (key === "grn_date" || key === "po_date") {
+                      if (key === "grn_date" || key === "po_date" || key === "due_Date") {
                     var dateObj = new Date(value);
                     var day = dateObj.getDate();
                     var month = dateObj.getMonth() + 1;
@@ -890,7 +890,7 @@ function handleShowAndEdit(id,po_no,action)
                     $(`#show_${key}`).text(value);
 
                     }                   
-                    let script = '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Pack Specification</th><th>Quantity</th><th>Pendind Qty</th><th>Rate per Qty</th><th>Total Amount</th></tr></thead><tbody>';
+                    let script = '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Pack Specification</th><th>Quantity</th><th>Pendind Quantity</th><th>Rate per Quantity</th><th>Total</th></tr></thead><tbody>';
                     for (const item of message.grn_item) {
                    script += '<tr>';
                    script += '<td>' + item.item_name + '</td>';

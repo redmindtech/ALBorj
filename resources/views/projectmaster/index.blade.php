@@ -60,8 +60,8 @@
                                                 <td>{{$projectmaster->project_type}}</td>
                                                 <td>{{$projectmaster->site_name}}</td>
                                                 <td>{{$projectmaster->firstname}}</td>
-                                                <td>{{$projectmaster->start_date}}</td>
-                                                <td>{{$projectmaster->end_date}}</td>
+                                                <td>{{date('d-m-Y', strtotime($projectmaster->start_date))}}</td>
+                                                <td>{{date('d-m-Y', strtotime($projectmaster->actual_project_end_date))}}</td>
                                                 <td>{{$projectmaster->retention}}</td>
                                                 <td>{{$projectmaster->amount_return}}</td>
 
@@ -167,7 +167,7 @@
         <label for="company_name" class="form-label fw-bold">Client / Company Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" placeholder="Client / Company Name" class="form-control" autocomplete="off">
         <input type="text" id="client_no"   name="client_no" hidden value="{{ old('client_no') }}"  class="form-control" autocomplete="off">
-        <p style="color: red" id="error_company_name"></p>
+        <p style="color: red" id="error_client_no"></p>
     </div>
 </div>
 <div class="row">
@@ -514,8 +514,16 @@
                     } 
                     else 
                     {
-                        for (const [key, value] of Object.entries(message[0])) 
+                        for (let [key, value] of Object.entries(message[0])) 
                         {
+                            if (key === "start_date" || key === "end_date" || key === "actual_project_end_date" || key === "amount_return_date") 
+                            {
+                                var dateObj = new Date(value);
+                                var day = dateObj.getDate();
+                                var month = dateObj.getMonth() + 1;
+                                var year = dateObj.getFullYear();
+                                value= day + '-' + month + '-' + year
+                            }
                             $(`#show_${key}`).text(value);
                         }
                         $('#heading_name').text("View ProjectMaster").css('font-weight', 'bold');

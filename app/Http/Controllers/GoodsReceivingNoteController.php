@@ -20,16 +20,15 @@ class GoodsReceivingNoteController extends Controller
      */
     public function index()
     {
-        try {
+        try 
+        {
             $purchase_type=GRNPURCHASETYPE;
-             $grn = GoodsReceivingNote::join('project_masters', 'goods_received_note.project_no', '=', 'project_masters.project_no')
-             ->join('supplier_masters', 'goods_received_note.supplier_no', '=', 'supplier_masters.supplier_no')                 
-             ->select('goods_received_note.*', 'project_masters.*', 'supplier_masters.*',
-             DB::raw('DATE(goods_received_note.grn_date) as grn_date'),
-             DB::raw('DATE(goods_received_note.po_date) as po_date'),
-             DB::raw('DATE(goods_received_note.due_Date) as due_Date'))  
-             ->where('goods_received_note.deleted','0')          
-             ->get();
+            $grn = GoodsReceivingNote::join('project_masters', 'goods_received_note.project_no', '=', 'project_masters.project_no')
+            ->join('supplier_masters', 'goods_received_note.supplier_no', '=', 'supplier_masters.supplier_no')                 
+            ->select('goods_received_note.*', 'project_masters.*', 'supplier_masters.*',
+            DB::raw('DATE(goods_received_note.grn_date) as grn_date'))  
+            ->where('goods_received_note.deleted','0')          
+            ->get();
             return view('goodsreceivingnote.index')
             ->with([
                 'purchase_type' => $purchase_type,
@@ -273,7 +272,7 @@ class GoodsReceivingNoteController extends Controller
          try {
             $grn_item = GoodsReceivedNoteItem::where('grn_no', $grn_no)->update(['deleted' => 1]);
             $grn = GoodsReceivingNote::where('grn_no', $grn_no)->update(['deleted' => 1]);
-            return response()->json('GRN Deleted Successfully', 200);
+            return response()->json('Goods Receiving Note Deleted Successfully', 200);
         } catch (Exception $e) {
             info($e);
             return response()->json('Error occured in the delete', 400);

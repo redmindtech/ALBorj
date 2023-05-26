@@ -22,22 +22,21 @@ class TimeSheetController extends Controller
      */
     public function index()
     {
-        try{  
-           
+        try
+        {     
             $times = DB::table('emp_timesheets')
             ->join('site_masters', 'emp_timesheets.site_no', '=', 'site_masters.site_no')
             ->join('employee_masters', 'emp_timesheets.emp_no', '=', 'employee_masters.id')
             ->join('project_masters', 'emp_timesheets.project_no', '=', 'project_masters.project_no')
-            ->select('site_masters.*', 'employee_masters.*','project_masters.*','emp_timesheets.*',
-            DB::raw('DATE(emp_timesheets.from_date) as from_date'),  
-            DB::raw('DATE(emp_timesheets.to_date) as to_date'))
+            ->select('site_masters.*', 'employee_masters.*','project_masters.*','emp_timesheets.*')
             ->get();
             return view('timesheet.index')->with([
                 'times' => $times
             ]);
             
         }
-        catch (Exception $e) {
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the index', 400);
         }
@@ -52,36 +51,37 @@ class TimeSheetController extends Controller
     public function store(TimeSheetRequest $request)
     {
        
-        try {
-           
-        
-            
+        try 
+        {
             $timesheet = TimeSheet::create($request->only(TimeSheet::REQUEST_INPUTS));
             $time= TimeSheet::max('id');
             
             $Count = count($request['date']);
             
-            if (!empty($request['date'])) {
-            for ($i = 0; $i < $Count; $i++) {
-
-            EmployeeAttendanceSheet::create([
-            'timesheet_id'=>$time, 
-            'date' => $request['date'][$i],
-            'start_time' => $request['start_time'][$i],
-            'end_time' => $request['end_time'][$i],
-            'total_time' => $request['total_time'][$i],
-            'ot_start_time' => $request['ot_start_time'][$i],
-            'ot_end_time' => $request['ot_end_time'][$i],
-            'ot_total_time' => $request['ot_total_time'][$i],
-            'holiday' => isset($request['holiday'][$i]) ? 1 : 0,
-            'leave' => isset($request['leave'][$i]) ? 1 : 0,
-            'leave_type' => $request['leave_type'][$i]
-            ]);
-        }
-    }  
+            if (!empty($request['date'])) 
+            {
+                for ($i = 0; $i < $Count; $i++) 
+                {
+                    EmployeeAttendanceSheet::create([
+                        'timesheet_id'=>$time, 
+                        'date' => $request['date'][$i],
+                        'start_time' => $request['start_time'][$i],
+                        'end_time' => $request['end_time'][$i],
+                        'total_time' => $request['total_time'][$i],
+                        'ot_start_time' => $request['ot_start_time'][$i],
+                        'ot_end_time' => $request['ot_end_time'][$i],
+                        'ot_total_time' => $request['ot_total_time'][$i],
+                        'holiday' => $request['holiday_ref'][$i],
+                        'leave' => $request['leave_ref'][$i],
+                        'leave_type' => $request['leave_type'][$i]
+                    ]);
+                }
+            }  
             return response()->json('TimeSheet Created Successfully', 200);
         
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occurred in the store', 400);
         }
@@ -98,30 +98,31 @@ class TimeSheetController extends Controller
     
     public function show($id)
     {
-        try {      
-           
-          $time = DB::table('emp_timesheets')
-        ->join('site_masters', 'emp_timesheets.site_no', '=', 'site_masters.site_no')
-        ->join('employee_masters', 'emp_timesheets.emp_no', '=', 'employee_masters.id')
-        ->join('project_masters', 'emp_timesheets.project_no', '=', 'project_masters.project_no')
-        ->select('site_masters.*', 'employee_masters.*', 'project_masters.*', 'emp_timesheets.*',
-        DB::raw('DATE(emp_timesheets.from_date) as from_date'),  
-        DB::raw('DATE(emp_timesheets.to_date) as to_date'))
-        ->where('emp_timesheets.id', $id)
-        ->get();    
+        try 
+        {      
+            $time = DB::table('emp_timesheets')
+            ->join('site_masters', 'emp_timesheets.site_no', '=', 'site_masters.site_no')
+            ->join('employee_masters', 'emp_timesheets.emp_no', '=', 'employee_masters.id')
+            ->join('project_masters', 'emp_timesheets.project_no', '=', 'project_masters.project_no')
+            ->select('site_masters.*', 'employee_masters.*', 'project_masters.*', 'emp_timesheets.*',
+            DB::raw('DATE(emp_timesheets.from_date) as from_date'),
+            DB::raw('DATE(emp_timesheets.to_date) as to_date'))
+            ->where('emp_timesheets.id', $id)
+            ->get();    
+            
+            $time_sheet = DB::table('employee_attendance_sheets')
+            ->select('employee_attendance_sheets.*')
+            ->where('employee_attendance_sheets.timesheet_id', $id)
+            ->get();  
         
-        $time_sheet = DB::table('employee_attendance_sheets')
-        ->select('employee_attendance_sheets.*',
-        DB::raw('DATE(employee_attendance_sheets.date) as date'))
-        ->where('employee_attendance_sheets.timesheet_id', $id)
-        ->get();  
-      
-        return response()->json([
-        'time' => $time,
-        'time_sheet' => $time_sheet
-    ]);
+            return response()->json([
+            'time' => $time,
+            'time_sheet' => $time_sheet
+            ]);
    
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the show', 400);
         }
@@ -182,12 +183,15 @@ class TimeSheetController extends Controller
     public function destroy($id)
     {
         
-        try {
+        try 
+        {
             $items = TimeSheet::findOrFail($id);
             $items->delete();
             return response()->json('Employee Timesheets Deleted Successfully', 200);
 
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             info($e);
             return response()->json('Error occured in the delete', 400);
         }

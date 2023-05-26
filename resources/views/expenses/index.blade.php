@@ -45,7 +45,7 @@
                                         @foreach ($expenses as $expense)
                                             <tr class="text-center">
                                                 <td>{{$expense->exp_code}}<div id="blur-background" class="blur-background"></div></td>
-                                                <td>{{$expense->bill_date}}</td>
+                                                <td>{{date('d-m-Y', strtotime($expense->bill_date))}}</td>
                                                 <td>{{$expense->firstname}}</td>
                                                 <td>{{$expense->project_name}}</td>
                                                 <td>{{$expense->total_amount}}</td>
@@ -403,8 +403,16 @@ function handleClose(){
                     $('#submit').text('UPDATE');
                 } else
                 {
-                    for (const [key, value] of Object.entries(message[0]))
+                    for (let [key, value] of Object.entries(message[0]))
                     {
+                        if (key === "bill_date") 
+                        {
+                            var dateObj = new Date(value);
+                            var day = dateObj.getDate();
+                            var month = dateObj.getMonth() + 1;
+                            var year = dateObj.getFullYear();
+                            value= day + '-' + month + '-' + year
+                        }
                         $(`#show_${key}`).text(value);
                     }
                     $('#heading_name').text("View Item").css('font-weight', 'bold');

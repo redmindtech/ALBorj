@@ -44,14 +44,11 @@ class EmployeeMasterController extends Controller
             $v_des = EmployeeMaster::distinct()->pluck('desigination')->toArray();
             $array = array_combine($v_des,$v_des);
             $merged = array_unique(array_merge( $desigination,$array));
+
             $employes = EmployeeMaster::join('visa_details', 'employee_masters.id', '=', 'visa_details.employee_id')
             ->join('salary_details', 'employee_masters.id', '=', 'salary_details.employee_id')
             ->select('employee_masters.*', 'visa_details.*', 'salary_details.*',
-            DB::raw('DATE(employee_masters.join_date) as join_date'),
-            DB::raw('DATE(employee_masters.end_date) as end_date'),
-            DB::raw('DATE(employee_masters.passport_expiry_date) as passport_expiry_date'),
-            DB::raw('DATE(employee_masters.emirates_id_from_date) as emirates_id_from_date'),
-            DB::raw('DATE(employee_masters.	emirates_id_to_date) as emirates_id_to_date'))
+            DB::raw('DATE(employee_masters.join_date) as join_date'))
             ->where('employee_masters.deleted','0')
             ->get();
      
@@ -129,7 +126,6 @@ class EmployeeMasterController extends Controller
             DB::raw('DATE(employee_masters.	emirates_id_to_date) as emirates_id_to_date'))
             ->where('employee_masters.id', $id)
             ->get();
-            // info($employees);
              return response()->json($employees);
 
         } catch (Exception $e) {

@@ -59,8 +59,7 @@ class MaterialIssueController extends Controller
         $material_issues = DB::table('material_issue_return')
              ->join('employee_masters', 'material_issue_return.receiving_employee', '=', 'employee_masters.id')
             ->join('project_masters', 'material_issue_return.project_no', '=', 'project_masters.project_no')
-            ->select( 'employee_masters.*','project_masters.*', 'material_issue_return.*',
-            DB::raw('DATE(material_issue_return.issue_date) as issue_date'))
+            ->select('employee_masters.*','project_masters.*', 'material_issue_return.*')
             ->get();
         return view('materialissue.index')->with([
             'material_issues' => $material_issues,
@@ -192,7 +191,7 @@ public function show($mir_no)
      * @return \Illuminate\Http\Response
      */
 
-       public function update(Request $request, $mir_no)
+       public function update(MaterialIssueRequest $request, $mir_no)
     {
 
         try {

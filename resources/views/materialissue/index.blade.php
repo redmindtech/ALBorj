@@ -182,7 +182,7 @@
                                      <tr>
                                          <th>S.No</th>
 
-                                         <th>Item</th>
+                                         <th>Item Name</th>
                                          <th>Store Room</th>
                                          <th>Item Quantity</th>
                                          <th>Remove</th>

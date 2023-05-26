@@ -73,7 +73,7 @@ const NATIONALITY = [
     'Indian' => 'Indian',
     'Pakistani' => 'Pakistani',
     'Bangladeshi' => 'Bangladeshi',
-    'Emirati ' => 'Emirati',
+    'Emirati' => 'Emirati',
     'African' => 'African',
     'Sri lankan' => 'Sri lankan',
 

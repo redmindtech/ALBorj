@@ -50,17 +50,13 @@ class EmployeeMasterRequest extends FormRequest
             'accomodation' => 'required',
             'passport_expiry_date' => 'required',
             'emirates_id_from_date' => 'required',
-            'emirates_id_to_date' => 'required',
+            'emirates_id_to_date' =>[ 'required','after:emirates_id_from_date'],
             'visa_status' => 'required',
             'expiry_date' => 'required',
             'total_salary' => 'required|numeric',
             'hra' => 'required|numeric',
             'passport_no' => 'required|regex:/^[a-zA-Z0-9]+$/',
-            'emirates_id_no' => 'required|regex:/^[0-9]{1,7}$/'
-
-
-
-        ];
+            'emirates_id_no' => 'required|numeric|digits:7',        ];
     }
     public function messages()
     {

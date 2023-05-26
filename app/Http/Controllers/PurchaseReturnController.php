@@ -60,8 +60,6 @@ class PurchaseReturnController extends Controller
     public function store(PurchaseReturnRequest $request)
     {
         try{
-        info($request);
-        info($pr);
         PurchaseReturn::create($request->only(PurchaseReturn::REQUEST_INPUTS));
         $pr= PurchaseReturn::max('pr_no');
         $itemCount = count($request['item_no']);
@@ -97,6 +95,20 @@ class PurchaseReturnController extends Controller
             'item_return_total'=>$request['item_return_total'][$i],
             'vat'=>$request['vat'][$i]
             ]); 
+            // update closing bal in accounts_payables
+            $closing_bal_check=DB::table('accounts_payables')
+            ->where('supplier_no', $supplier_no)
+            ->max('ap_no');
+            if($closing_bal_check !="")
+            {
+               $closing_bal_add=DB::table('accounts_payables')
+               ->where('ap_no',  $closing_bal_check)
+               ->value('closing_balance');
+               $closing_bal=$closing_bal_add-$request['return_amount'];
+               DB::table('accounts_payables')
+               ->where('ap_no',  $closing_bal_check)
+               ->update(['closing_balance' => $closing_bal]);
+           }
         }
         return response()->json('Purchase return Created Successfully', 200);
     }

@@ -31,7 +31,7 @@ class Expenses extends Model
             $results = DB::selectOne("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'expenses'")->AUTO_INCREMENT;
             $currentYear = substr(date('Y'), -2);
             $voucher_no = str_pad($results, 3, '0', STR_PAD_LEFT);
-            $expense->exp_code = 'AB' .  $currentYear.'V'. $voucher_no;
+            $expense->exp_code = 'AB' .  $currentYear.'AP'. $voucher_no;
         });
     }
 
