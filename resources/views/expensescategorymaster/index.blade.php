@@ -144,7 +144,7 @@
     {
         let url = '{{route('expensescategoryApi.delete',":id")}}';
         url= url.replace(':id',id);
-        if (confirm("Are you sure you want to delete this item?"))
+        if (confirm("Are you sure you want to delete this ExpensesCategory Master?"))
         {
             $.ajax
             ({
@@ -162,11 +162,14 @@
     // DIALOG CLOSE BUTTON
     function handleClose()
     {
-            document.getElementById("myDialog").open = false;
-            $("#myDialog").load(" #myDialog > *");
-            //  rowIdx=1;
-             $('#blur-background').css('display','none');
-            // window.location.reload();
+        document.getElementById("myDialog").open = false;
+        // Clear the form fields
+        $('#form')[0].reset();
+        // Hide any error messages
+        $('p[id^="error_"]').html('');
+        // Hide the dialog background
+        $('#blur-background').css('display','none');
+        
     }
     // DIALOG SUBMIT FOR ADD AND EDIT
     function handleSubmit()
@@ -229,6 +232,7 @@
             {
                 if(action == 'edit')
                 {
+                    $('#heading_name').text("Update ExpensesCategory").css('font-weight', 'bold');
                     $('#show').css('display','none');
                     $('#form').css('display','block');
                     $('#blur-background').css('display','block');

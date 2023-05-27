@@ -166,7 +166,7 @@
 <div class="form-group col-md-6">
         <label for="company_name" class="form-label fw-bold">Client / Company Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" placeholder="Client / Company Name" class="form-control" autocomplete="off">
-        <input type="text" id="client_no"   name="client_no" hidden value="{{ old('client_no') }}"  class="form-control" autocomplete="off">
+        <input type="text" id="client_no"   name="client_no" hidden  value="{{ old('client_no') }}"  class="form-control" autocomplete="off">
         <p style="color: red" id="error_company_name"></p>
     </div>
 </div>
@@ -399,15 +399,15 @@
 <script type="text/javascript">
         function handleDialog()
         {
-             document.getElementById("myDialog").open = true;
-             $('#method').val("ADD");
-             $('#submit').text("ADD");
-             $('#heading_name').text("Add ProjectMaster").css('font-weight', 'bold');
-              $('#project_code').hide();
-             $('#code_lable').hide();
-             $('#show').css('display','none');
-             $('#form').css('display','block');
-             $('#blur-background').css('display','block');
+            document.getElementById("myDialog").open = true;
+            $('#method').val("ADD");
+            $('#submit').text("ADD");
+            $('#heading_name').text("Add ProjectMaster").css('font-weight', 'bold');
+            $('#project_code').hide();
+            $('#code_lable').hide();
+            $('#show').css('display','none');
+            $('#form').css('display','block');
+            $('#blur-background').css('display','block');
 
         }
     // DELETE FUNCTION
@@ -415,7 +415,7 @@
         {
             let url = '{{route('projectApi.delete',":project_no")}}';
             url= url.replace(':project_no',id);
-            if (confirm("Are you sure you want to delete this Project master?")) 
+            if (confirm("Are you sure you want to delete this Project Master?")) 
             {
                 $.ajax
                 ({
@@ -433,10 +433,12 @@
         function handleClose()
         {
             document.getElementById("myDialog").open = false;
-            $("#myDialog").load(" #myDialog > *");
-            //  rowIdx=1;
+            // Clear the form fields
+            $('#form')[0].reset();
+            // Hide any error messages
+            $('p[id^="error_"]').html('');
+            // Hide the dialog background
             $('#blur-background').css('display','none');
-            // window.location.reload();
         }
     // DIALOG SUBMIT FOR ADD AND EDIT
           function handleSubmit()
@@ -501,6 +503,7 @@
                 {
                     if(action == 'edit')
                     {
+                        $('#heading_name').text("Update ProjectMaster").css('font-weight', 'bold');
                         $('#show').css('display','none');
                         $('#form').css('display','block');
                         $('#blur-background').css('display','block');

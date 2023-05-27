@@ -133,7 +133,7 @@
     <div class="form-group col-md-6">
         <label for="site_manager" class="form-label fw-bold">Site Manager<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="firstname" name="firstname" value="{{ old('firstname') }}" placeholder="Site Manager" class="form-control" autocomplete="off">
-        <input type="text" id="site_manager"  hidden name="site_manager" value="{{ old('site_manager') }}"  class="form-control" autocomplete="off">
+        <input type="text" id="site_manager" hidden  name="site_manager" value="{{ old('site_manager') }}"  class="form-control" autocomplete="off">
         <p style="color: red" id="error_firstname"></p>
     </div> 
     <div class="form-group col-md-6">
@@ -261,7 +261,7 @@
         {
             let url = '{{route('siteApi.delete',":site_no")}}';
             url= url.replace(':site_no',id);
-            if (confirm("Are you sure you want to delete this site master?")) 
+            if (confirm("Are you sure you want to delete this Site Master?")) 
             {
                 $.ajax(
                 {
@@ -279,10 +279,12 @@
         function handleClose()
         {
             document.getElementById("myDialog").open = false;
-            $("#myDialog").load(" #myDialog > *");
-            //  rowIdx=1;
+            // Clear the form fields
+            $('#form')[0].reset();
+            // Hide any error messages
+            $('p[id^="error_"]').html('');
+            // Hide the dialog background
             $('#blur-background').css('display','none');
-            // window.location.reload();
         }
     // DIALOG SUBMIT FOR ADD AND EDIT
         function handleSubmit()

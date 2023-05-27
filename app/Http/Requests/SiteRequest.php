@@ -31,7 +31,17 @@ class SiteRequest extends FormRequest
                 'room_number' => 'required|regex:/^[0-9]*$/',
                 'site_address' => 'required',
                 'site_status'=>'required',
-                'firstname'=>'required|regex:/^[A-Z a-z]+$/',
+                // 'firstname'=>'required|regex:/^[A-Z a-z]+$/',
+                'firstname' => [
+                    function ($attribute, $value, $fail) {
+                        $employeeNo = $this->input('site_manager');
+                        if (empty($employeeNo) && empty($value)) {
+                            $fail('Please enter a valid Manager Name.');
+                        }
+                    },
+                    'required',
+                    'regex:/^[A-Za-z\s]+$/',
+                ],
         ]; 
     }
     public function messages(){

@@ -185,7 +185,7 @@
             document.getElementById("myDialog").open = true;
             $('#method').val("ADD");
             $('#submit').text("ADD");
-            $('#heading_name').text("Add Client").css('font-weight', 'bold');
+            $('#heading_name').text("Add Client Master").css('font-weight', 'bold');
             $('#client_code').hide();
             $('#code_lable').hide();
             $('#show').css('display','none');
@@ -198,7 +198,7 @@
         {
             let url = '{{route('clientApi.delete',":id")}}';
             url= url.replace(':id',id);
-            if (confirm("Are you sure you want to delete this clientmaster?"))
+            if (confirm("Are you sure you want to delete this Client Master?"))
             {
                 $.ajax
                 ({
@@ -216,10 +216,12 @@
         function handleClose()
         {
             document.getElementById("myDialog").open = false;
-            $("#myDialog").load(" #myDialog > *");
-            //  rowIdx=1;
+             // Clear the form fields
+             $('#form')[0].reset();
+             // Hide any error messages
+             $('p[id^="error_"]').html('');
+             // Hide the dialog background
              $('#blur-background').css('display','none');
-            // window.location.reload();
         }
 // DIALOG SUBMIT FOR ADD AND EDIT
         function handleSubmit()
@@ -286,7 +288,7 @@
                     console.log(message);
                     if(action == 'edit')
                     {
-                        $('#heading_name').text("Update Client").css('font-weight', 'bold');
+                        $('#heading_name').text("Update Client Master").css('font-weight', 'bold');
                         $('#show').css('display','none');
                         $('#form').css('display','block');
                         $('#blur-background').css('display','block');
@@ -305,7 +307,7 @@
                         {
                             $(`#show_${key}`).text(value);
                         }
-                        $('#heading_name').text("View Client").css('font-weight', 'bold');
+                        $('#heading_name').text("View Client Master").css('font-weight', 'bold');
                         $('#show').css('display','block');
                         $('#form').css('display','none');
                         $('#blur-background').css('display','block');

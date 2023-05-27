@@ -24,11 +24,11 @@ class ProjectMasterRequest extends FormRequest
     public function rules()
     {
         return [
-                'site_name' => 'required|regex:/^[A-Z a-z]+$/',
+                // 'site_name' => 'required|regex:/^[A-Z a-z]+$/',
                 'project_name' => 'required|regex:/^[A-Z a-z]+$/',
                 'project_type' => 'required',
-                'firstname' => 'required|regex:/^[A-Z a-z]+$/',
-                'company_name' => 'required|regex:/^[A-Z a-z]+$/',
+                // 'firstname' => 'required|regex:/^[A-Z a-z]+$/',
+                // 'company_name' => 'required|regex:/^[A-Z a-z]+$/',
                 'consultant_name' =>'nullable|regex:/^[A-Za-z\s]*$/',           
                 'start_date'=>'required',
                 'end_date'=>[ 'required','after:start_date'],
@@ -38,7 +38,49 @@ class ProjectMasterRequest extends FormRequest
                 'advanced_amount'=>'required|numeric',
                 'retention'=>'nullable|numeric',
                 'amount_to_be_received'=>'required|numeric',
-                'amount_return'=>'nullable|numeric'
+                'amount_return'=>'nullable|numeric',
+                'firstname' =>
+                [  
+                    function ($attribute, $value, $fail) 
+                    {
+                        $employeeNo = $this->input('employee_no');
+                        if (empty($employeeNo) && $employeeNo !== $value) 
+                        {
+                            $fail('Please enter a valid Manager Name.');
+                        }
+                    },
+                        'required',
+                        'regex:/^[A-Za-z\s]+$/',
+                  
+                ],
+                'site_name' =>
+                [  
+                    function ($attribute, $value, $fail) 
+                    {
+                        $siteNo = $this->input('site_no');
+                        if (empty($siteNo) && $siteNo !== $value) 
+                        {
+                            $fail('Please enter a valid Site Name.');
+                        }
+                    },
+                        'required',
+                        'regex:/^[A-Za-z\s]+$/',
+                  
+                ],
+                'company_name' => 
+                [  
+                    function ($attribute, $value, $fail) 
+                    {
+                        $clientNo = $this->input('client_no');
+                        if (empty($clientNo) && $clientNo !== $value) 
+                        {
+                            $fail('Please enter a valid Client / Company Name.');
+                        }
+                    },
+                        'required',
+                        'regex:/^[A-Za-z\s]+$/',
+                  
+                ],
             ]; 
     }
     public function messages(){

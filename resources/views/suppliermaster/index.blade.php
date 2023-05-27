@@ -204,7 +204,7 @@
             document.getElementById("myDialog").open = true;
             $('#method').val("ADD");
             $('#submit').text("ADD");
-            $('#heading_name').text("Add Supplier").css('font-weight', 'bold');
+            $('#heading_name').text("Add Supplier Master").css('font-weight', 'bold');
             $('#code').hide();
             $('#code_lable').hide();
             $('#show').css('display','none');
@@ -217,7 +217,7 @@
         {
             let url = '{{route('supplierApi.delete',":id")}}';
             url= url.replace(':id',id);
-            if (confirm("Are you sure you want to delete this supplier?"))
+            if (confirm("Are you sure you want to delete this Supplier Master?"))
             {
                 $.ajax
                 ({
@@ -235,10 +235,12 @@
         function handleClose()
         {
             document.getElementById("myDialog").open = false;
-            $("#myDialog").load(" #myDialog > *");
-            //  rowIdx=1;
-             $('#blur-background').css('display','none');
-            // window.location.reload();
+            // Clear the form fields
+            $('#form')[0].reset();
+            // Hide any error messages
+            $('p[id^="error_"]').html('');
+            // Hide the dialog background
+            $('#blur-background').css('display','none');
         }
     // DIALOG SUBMIT FOR ADD AND EDIT
         function handleSubmit()
@@ -302,6 +304,7 @@
                 {
                     if(action == 'edit')
                     {
+                        $('#heading_name').text("Update Supplier Master").css('font-weight', 'bold');
                         $('#show').css('display','none');
                         $('#form').css('display','block');
                         for (const [key, value] of Object.entries(message)) 
@@ -319,7 +322,7 @@
                         {
                             $(`#show_${key}`).text(value);
                         }
-                        $('#heading_name').text("View Supplier").css('font-weight', 'bold');
+                        $('#heading_name').text("View Supplier Master").css('font-weight', 'bold');
                         $('#show').css('display','block');
                         $('#form').css('display','none');
                         $('#blur-background').css('display','block');

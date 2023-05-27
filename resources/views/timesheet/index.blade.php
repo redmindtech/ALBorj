@@ -417,7 +417,7 @@
         document.getElementById("myDialog").open = true;
         $('#method').val("ADD");
         $('#submit').text("ADD");
-        $('#heading_name').text("Add Timesheet").css('font-weight', 'bold');
+        $('#heading_name').text("Add Employee Timesheet").css('font-weight', 'bold');
         $('#show').css('display','none');
         $('#form').css('display','block');
         $('#blur-background').css('display','block');
@@ -608,7 +608,7 @@
                         script+= '</tbody></table>';
                         $('#show_table').remove();
                         $('#item_details_show').append(script); 
-                        $('#heading_name').text("View Timesheet").css('font-weight', 'bold');
+                        $('#heading_name').text("View Employee Timesheet").css('font-weight', 'bold');
                         $('#show').css('display','block');
                         $('#form').css('display','none');
                         $('#blur-background').css('display','block');

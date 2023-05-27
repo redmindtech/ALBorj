@@ -515,7 +515,7 @@
                 document.getElementById("myDialog").open = true;
                 $('#method').val("ADD");
                 $('#submit').text("ADD");
-                $('#heading_name').text("Add Employee").css('font-weight', 'bold');
+                $('#heading_name').text("Add Employee Master").css('font-weight', 'bold');
                 $('#employee_no').hide();
                 $('#code_lable').hide();
                 $('#show').css('display','none');
@@ -628,7 +628,7 @@
                         console.log(message);
                         if(action == 'edit')
                         {
-                            $('#heading_name').text("Update Employee").css('font-weight', 'bold');
+                            $('#heading_name').text("Update Employee Master").css('font-weight', 'bold');
                             $('#show').css('display','none');
                             $('#form').css('display','block');
                             $('#blur-background').css('display','block');
@@ -678,7 +678,7 @@
                                 }
                                     $(`#show_${key}`).text(value);
                             }
-                            $('#heading_name').text("View Employee").css('font-weight', 'bold');
+                            $('#heading_name').text("View Employee Master").css('font-weight', 'bold');
                             $('#show').css('display','block');
                             $('#form').css('display','none');
                             $('#blur-background').css('display','block');

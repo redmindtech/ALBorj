@@ -293,7 +293,7 @@ $(function () {
              document.getElementById("myDialog").open = true;
              $('#method').val("ADD");
              $('#submit').text("ADD");
-             $('#heading_name').text("Add Expenses").css('font-weight', 'bold');
+             $('#heading_name').text("Add Expenses Master").css('font-weight', 'bold');
              $('#exp_code').hide();
              $('#code_lable').hide();
              $('#show').css('display','none');
@@ -306,7 +306,7 @@ $(function () {
         function handleDelete(id){
              let url = '{{route('expenseApi.delete',":exp_no")}}';
             url= url.replace(':exp_no',id);
-            if (confirm("Are you sure you want to delete this Expenses?")) {
+            if (confirm("Are you sure you want to delete this Expenses Master?")) {
               $.ajax({
             url: url,
             type: 'DELETE',
@@ -391,7 +391,7 @@ function handleClose()
             {
                 if(action == 'edit')
                 {
-                    $('#heading_name').text("Update Expenses").css('font-weight', 'bold');
+                    $('#heading_name').text("Update Expenses Master").css('font-weight', 'bold');
                     $('#show').css('display','none');
                     $('#form').css('display','block');
                     $('#blur-background').css('display','block');
@@ -421,7 +421,7 @@ function handleClose()
                         }
                         $(`#show_${key}`).text(value);
                     }
-                    $('#heading_name').text("View Item").css('font-weight', 'bold');
+                    $('#heading_name').text("View Expenses Master").css('font-weight', 'bold');
                     $('#show').css('display','block');
                     $('#form').css('display','none');
                     $('#blur-background').css('display','block');

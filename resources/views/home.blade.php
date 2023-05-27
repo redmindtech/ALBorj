@@ -15,7 +15,7 @@
 <script src="https://cdn.amcharts.com/lib/5/radar.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
-     <!-- <div class="row">
+    <!-- {{-- <div class="row">
         <div class="col-md-4">
             <div class="small-box bg-info">
                 <div class="inner">
@@ -59,7 +59,7 @@
                     More info <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
-        </div>  -->
+        </div> --}} -->
 
     </div>
 
@@ -88,11 +88,11 @@
                   <h3 class="card-title text-bold">Profit and Loss</h3>
                 </div>
                 <div class="card-body">
-                  <p style="font-size: 15px; padding: 0%;">Net income in the month of January: AED 10,000.00</p>
+                  <p style="font-size: 15px; padding: 0%;">Net income in the month of January: <b>AED 10,000.00</b></p>
                   <canvas id="donutChart" style="min-height: 100px; height: 100px; max-height: 100px; max-width: 100%;"></canvas>
                 </div>
                 <div class="card-body">
-                  <p style="font-size: 15px; padding: 0%;">Net income in the year 2023: AED 10,000.00</p>
+                  <p style="font-size: 15px; padding: 0%;">Net income in the year 2023: <b>AED 10,000.00</b></p>
                   <canvas id="horizondalChart" style="min-height: 100px; height: 100px; max-height: 100px; max-width: 100%;"></canvas>
                 </div>
               </div>
@@ -152,8 +152,8 @@
                         <ul>
                             <h6 class="text-bold">PROJECTS:</h6>
                               <ul>
-                                <li>Ongoing projects: 05</li>
-                                <li>Completed projects : 08</li>
+                                <li>Ongoing projects: 5</li>
+                                <li>Completed projects : 8</li>
                                 <li>Overall invoice pending amount: AED 10,000.00</li>
                               </ul>
                               <h6 class="text-bold">EMPLOYEES:</h6>
@@ -258,118 +258,107 @@ var areaChartData = {
     // //-------------
 
 
-var piechartData = {!! json_encode(array_values($ApipiechartData)) !!};
-var piechartDataLabels = {!! json_encode(array_keys($ApipiechartData)) !!};
+    var horizontalBarChartCanvas = $('#donutChart').get(0).getContext('2d');
 
-var barChartCanvas = $('#donutChart').get(0).getContext('2d');
-var barChartData = {
+var incomeValue = 10000;
+var expenseValue = 4500;
+
+var horizontalBarChartData = {
   labels: ['Income', 'Expense'],
   datasets: [
     {
-      label: 'Income',
-      data: [piechartData[0], 0],
-      backgroundColor: ['#f56954', '#00a65a'],
-    },
-    {
-      label: 'Expense',
-      data: [0, piechartData[1]],
-      backgroundColor: ['#f39c12', '#00c0ef'],
-    },
-  ],
-};
-var barChartOptions = {
-  maintainAspectRatio: false,
-  responsive: true,
-  scales: {
-    xAxes: [{
-      display: false, // Hide the x-axis labels
-    }],
-    yAxes: [{
-      display: true,
-      ticks: {
-        beginAtZero: true,
-      },
-    }],
-  },
+      label: 'Amount',
+      backgroundColor: ['rgba(54, 162, 235, 0.8)', 'rgba(255, 99, 132, 0.8)'],
+      borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+      borderWidth: 1,
+      data: [incomeValue, expenseValue]
+    }
+  ]
 };
 
-// Create horizontal bar chart
-new Chart(barChartCanvas, {
+var horizontalBarChartOptions = {
+  scales: {
+    xAxes: [{
+      ticks: {
+        beginAtZero: true
+      }
+    }]
+  }
+};
+
+new Chart(horizontalBarChartCanvas, {
   type: 'horizontalBar',
-  data: barChartData,
-  options: barChartOptions,
+  data: horizontalBarChartData,
+  options: horizontalBarChartOptions
 });
 
 
-    //horizondalchart
-    var piechartData = {!! json_encode(array_values($ApipiechartData)) !!};
-var piechartDataLabels = {!! json_encode(array_keys($ApipiechartData)) !!};
 
-var barChartCanvas = $('#horizondalChart').get(0).getContext('2d');
-var barChartData = {
+    //horizondalchart
+    var horizontalBarChartCanvas = $('#horizondalChart').get(0).getContext('2d');
+
+var incomeValue = 10000;
+var expenseValue = 4500;
+
+var horizontalBarChartData = {
   labels: ['Income', 'Expense'],
   datasets: [
     {
-      label: 'Income',
-      data: [piechartData[0], 0],
-      backgroundColor: ['#f56954', '#00a65a'],
-    },
-    {
-      label: 'Expense',
-      data: [0, piechartData[1]],
-      backgroundColor: ['#f39c12', '#00c0ef'],
-    },
-  ],
-};
-var barChartOptions = {
-  maintainAspectRatio: false,
-  responsive: true,
-  scales: {
-    xAxes: [{
-      display: false, // Hide the x-axis labels
-    }],
-    yAxes: [{
-      display: true,
-      ticks: {
-        beginAtZero: true,
-      },
-    }],
-  },
+      label: 'Amount',
+      backgroundColor: ['rgba(54, 162, 235, 0.8)', 'rgba(255, 99, 132, 0.8)'],
+      borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+      borderWidth: 1,
+      data: [incomeValue, expenseValue]
+    }
+  ]
 };
 
-// Create horizontal bar chart
-new Chart(barChartCanvas, {
+var horizontalBarChartOptions = {
+  scales: {
+    xAxes: [{
+      ticks: {
+        beginAtZero: true
+      }
+    }]
+  }
+};
+
+new Chart(horizontalBarChartCanvas, {
   type: 'horizontalBar',
-  data: barChartData,
-  options: barChartOptions,
+  data: horizontalBarChartData,
+  options: horizontalBarChartOptions
 });
 
 //invoice
 
 var horizontalBarChartCanvas = $('#horizontalBarChart').get(0).getContext('2d');
 
-var receivedValue = 75;
-var yetReceivedValue = 25;
+var receivedValueMonth = 7500;
+var yetReceivedValueMonth = 2500;
+var receivedValueThisMonth = 6000;
+var yetReceivedValueThisMonth = 2000;
+
 
 var horizontalBarChartData = {
-  labels: ['Received', 'Yet Received'],
+  labels: ['This Month', '3Months(PDC)'],
   datasets: [
     {
-      label: 'Month',
+      label: 'Received',
       backgroundColor: 'rgba(54, 162, 235, 0.8)',
       borderColor: 'rgba(54, 162, 235, 1)',
       borderWidth: 1,
-      data: [receivedValue, yetReceivedValue]
+      data: [receivedValueMonth, receivedValueThisMonth]
     },
     {
-      label: 'Year',
+      label: 'Yet Received',
       backgroundColor: 'rgba(255, 99, 132, 0.8)',
       borderColor: 'rgba(255, 99, 132, 1)',
       borderWidth: 1,
-      data: [receivedValue, yetReceivedValue]
+      data: [yetReceivedValueMonth, yetReceivedValueThisMonth]
     }
   ]
 };
+
 
 var horizontalBarChartOptions = {
   scales: {
@@ -398,7 +387,7 @@ var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
 var expenseData = {
   labels: ['office','site','project','employee','other'],
   datasets: [{
-    data: [500, 300, 200, 150, 100],
+    data: [15000, 10000, 12000, 10150, 10100],
     backgroundColor: ['rgba(255, 99, 132, 0.8)', 'rgba(54, 162, 235, 0.8)', 'rgba(255, 206, 86, 0.8)', 'rgba(75, 192, 192, 0.8)', 'rgba(153, 102, 255, 0.8)'],
     borderColor: '#fff',
     borderWidth: 1
@@ -432,21 +421,21 @@ var salesData = {
   datasets: [
     {
       label: '2021',
-      data: [700, 600, 800, 750, 900, 1000],
+      data: [70000, 60000, 80000, 75000, 90000, 100000],
       borderColor: 'rgba(255, 99, 132, 1)',
       backgroundColor: 'rgba(255, 99, 132, 0.2)',
       borderWidth: 2
     },
     {
       label: '2022',
-      data: [400, 550, 700, 650, 800, 950],
+      data: [40000, 55000, 70000, 60050, 80000, 95000],
       borderColor: 'rgba(255, 206, 86, 1)',
       backgroundColor: 'rgba(255, 206, 86, 0.2)',
       borderWidth: 2
     },
     {
       label: '2023',
-      data: [600, 700, 900, 850, 1000, 1100],
+      data: [60000, 70050, 90000, 85000, 100590, 110000],
       borderColor: 'rgba(75, 192, 192, 1)',
       backgroundColor: 'rgba(75, 192, 192, 0.2)',
       borderWidth: 2
