@@ -24,11 +24,11 @@ class ProjectMasterRequest extends FormRequest
     public function rules()
     {
         return [
-                'site_name' => 'required',
-                'project_name' => 'required',
+                'site_name' => 'required|regex:/^[A-Z a-z]+$/',
+                'project_name' => 'required|regex:/^[A-Z a-z]+$/',
                 'project_type' => 'required',
-                'firstname' => 'required',
-                'company_name' => 'required',
+                'firstname' => 'required|regex:/^[A-Z a-z]+$/',
+                'company_name' => 'required|regex:/^[A-Z a-z]+$/',
                 'consultant_name' =>'nullable|regex:/^[A-Za-z\s]*$/',           
                 'start_date'=>'required',
                 'end_date'=>[ 'required','after:start_date'],
@@ -44,17 +44,21 @@ class ProjectMasterRequest extends FormRequest
     public function messages(){
         return [
                 'site_name.required' => 'The Site Name is required.',
+                'site_name.regex' => 'The Site Name allows only alphabets',
                 'project_name.required' => 'The Project Name is required.',
+                'project_name.regex' => 'The Project Name allows only alphabets',
                 'project_type.required' => 'The Project Type is required.',
                 'firstname.required' => 'The Manager Name is required.',
+                'firstname.regex' => 'The Manager allows only alphabets',
                 'company_name.required' => 'The Client / Company Name is required.',
+                'company_name.regex' => 'The Client / Company allows only alphabets',
                 'consultant_name.regex:/^[A-Za-z\s]*$/' => 'Please enter valid consultant_name.',            
                 'start_date.required'=>'The Project Start Date is required',
                 'end_date.required'=>'The Tentative Project End Date is required',
                 'actual_project_end_date.required'=>'The Actual Project End Date is required',
                 'status.required'=>'The Project Status is required',
                 'total_price_cost.required'=>'The Total Project Cost is required',
-                'total_price_cost.numeric'=>'The Total Project Cost is allow only numbers',
+                'total_price_cost.numeric'=>'The Total Project Cost allows only numbers',
                 'advanced_amount.required'=>'The Advance Amount is required',
                 'advanced_amount.numeric'=>'The Advance Amount is allow only numbers',            
                 'retention.numeric'=>'The Advance Amount is allow only numbers',

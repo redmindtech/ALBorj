@@ -542,13 +542,17 @@
                 }
             }
     // DIALOG CLOSE BUTTON
-            function handleClose()
+    function handleClose()
             {
                 document.getElementById("myDialog").open = false;
-                $("#myDialog").load(" #myDialog > *");
-                //  rowIdx=1;
-                $('#blur-background').css('display','none');
-                // window.location.reload();
+                // Clear the form fields
+                $('#form')[0].reset();
+                // Reset Select2 dropdowns
+                $('#desigination, #sponser, #working_as').val(null).trigger('change');
+                // Hide any error messages
+                $('p[id^="error_"]').html('');
+                // Hide the dialog background
+                $('#blur-background').css('display', 'none');
             }
     // DIALOG SUBMIT FOR ADD AND EDIT
             function handleSubmit()
@@ -572,6 +576,14 @@
                     url = '{{route('employeeApi.update',":id")}}';
                     url= url.replace(':id',id);
                     type = 'POST';
+                    if ($('#over_time').is(':checked')) 
+                    {
+                        form_data.append('over_time', '1');
+                    } 
+                    else 
+                    {
+                        form_data.append('over_time', '0');
+                    }
                 }
                 $.ajax
                 ({
@@ -616,6 +628,7 @@
                         console.log(message);
                         if(action == 'edit')
                         {
+                            $('#heading_name').text("Update Employee").css('font-weight', 'bold');
                             $('#show').css('display','none');
                             $('#form').css('display','block');
                             $('#blur-background').css('display','block');
@@ -625,14 +638,14 @@
                                     console.log( $(`#${key}`).val(value));
                                     $(`#${key}`).val(value);     
                                     // console.log(message[0].country_code);         
-                                if (message[0].over_time == '1') 
-                                {                 
-                                    $('#over_time').is(":checked");               
-                                } 
-                                else 
-                                {
-                                    $('#over_time').prop('checked', false);
-                                }
+                                    if (message[0].over_time == '1') 
+                                    {
+                                        $('#over_time').prop('checked', true);
+                                    } 
+                                    else 
+                                    {
+                                        $('#over_time').prop('checked', false);
+                                    }
                                     iti.getSelectedCountryData().iso2=message[0].country_code;
                                     $('#country_code').val(iti.getSelectedCountryData().iso2);
                                     iti.setCountry(message[0].country_code);

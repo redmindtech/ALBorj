@@ -640,7 +640,7 @@
         // Employee master autocomplete
     jQuery($ => 
     {
-        $(document).on('focus click', $("#city"), function()
+        $(document).on('focus click', $("#firstname"), function()
         { 
             $("#firstname").autocomplete(
             {
@@ -716,7 +716,7 @@
     // auto complete for sitename from sitemaster
     jQuery($ => 
     {
-        $(document).on('focus click', $("#city"), function() 
+        $(document).on('focus click', $("#site_name"), function() 
         {
             $("#site_name").autocomplete(
             {
@@ -782,7 +782,7 @@
     //project name autocomplete from projectermaster
     jQuery($ => 
     {
-        $(document).on('focus click', $("#city"), function() 
+        $(document).on('focus click', $("#project_name"), function() 
         {
             $("#project_name").autocomplete(
             {

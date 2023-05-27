@@ -320,13 +320,18 @@ $(function () {
 
 
 // DIALOG CLOSE BUTTON
-function handleClose(){
-            document.getElementById("myDialog").open = false;
-            $("#myDialog").load(" #myDialog > *");
-            //  rowIdx=1;
-             $('#blur-background').css('display','none');
-            // window.location.reload();
-          }
+function handleClose()
+{
+                document.getElementById("myDialog").open = false;
+                // Clear the form fields
+                $('#form')[0].reset();
+                // Reset Select2 dropdowns
+                $('#exp_category_no').val(null).trigger('change');
+                // Hide any error messages
+                $('p[id^="error_"]').html('');
+                // Hide the dialog background
+                $('#blur-background').css('display', 'none');
+            }
 
 
         
@@ -386,6 +391,7 @@ function handleClose(){
             {
                 if(action == 'edit')
                 {
+                    $('#heading_name').text("Update Expenses").css('font-weight', 'bold');
                     $('#show').css('display','none');
                     $('#form').css('display','block');
                     $('#blur-background').css('display','block');
@@ -430,7 +436,7 @@ function handleClose(){
 // auto complete
 jQuery($ => {
 
-$(document).on('focus click', $("#city"), function() {
+$(document).on('focus click', $("#firstname"), function() {
 $("#firstname").autocomplete(
       {
 
@@ -487,7 +493,7 @@ $("#firstname").autocomplete(
 // Supplier name Autocomplete
 jQuery($ => {
 
-$(document).on('focus click', $("#city"), function() {
+$(document).on('focus click', $("#name"), function() {
     $("#name").autocomplete(
     {
 
@@ -551,7 +557,7 @@ $(document).on('focus click', $("#city"), function() {
 // current location auto complete
 jQuery($ => {
 
-$(document).on('focus click', $("#city"), function() {
+$(document).on('focus click', $("#project_name"), function() {
 $("#project_name").autocomplete(
       {
       source: function( request, response ) {

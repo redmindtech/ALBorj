@@ -286,6 +286,7 @@
                     console.log(message);
                     if(action == 'edit')
                     {
+                        $('#heading_name').text("Update Client").css('font-weight', 'bold');
                         $('#show').css('display','none');
                         $('#form').css('display','block');
                         $('#blur-background').css('display','block');
@@ -304,7 +305,7 @@
                         {
                             $(`#show_${key}`).text(value);
                         }
-                        $('#heading_name').text("View Supplier").css('font-weight', 'bold');
+                        $('#heading_name').text("View Client").css('font-weight', 'bold');
                         $('#show').css('display','block');
                         $('#form').css('display','none');
                         $('#blur-background').css('display','block');

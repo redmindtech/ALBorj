@@ -548,7 +548,7 @@ function add_text()
 // auto complete function for item name and item no
 jQuery($ => {
 
-$(document).on('focus click', $("#city"), function() {
+$(document).on('focus click', $("#tbody1"), function() {
         
     $('#tbody1').find('.item_name').autocomplete({
             source: function( request, response )
@@ -611,7 +611,7 @@ $(document).on('focus click', $("#city"), function() {
     // project name auto complete
     jQuery($ => {
 
-$(document).on('focus click', $("#city"), function() {
+$(document).on('focus click', $("#project_name"), function() {
     $("#project_name").autocomplete(
       {
       source: function( request, response ) {

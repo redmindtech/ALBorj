@@ -132,9 +132,9 @@
 
     <div class="form-group col-md-6">
         <label for="site_manager" class="form-label fw-bold">Site Manager<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="firstname" name="emp_id" value="{{ old('firstname') }}" placeholder="Site Manager" class="form-control" autocomplete="off">
+        <input type="text" id="firstname" name="firstname" value="{{ old('firstname') }}" placeholder="Site Manager" class="form-control" autocomplete="off">
         <input type="text" id="site_manager"  hidden name="site_manager" value="{{ old('site_manager') }}"  class="form-control" autocomplete="off">
-        <p style="color: red" id="error_site_manager"></p>
+        <p style="color: red" id="error_firstname"></p>
     </div> 
     <div class="form-group col-md-6">
         
@@ -349,6 +349,7 @@
                     console.log(message);
                     if(action == 'edit')
                     {
+                        $('#heading_name').text("Update SiteMaster").css('font-weight', 'bold');
                         $('#show').css('display','none');
                         $('#form').css('display','block');
                         $('#blur-background').css('display','block');
@@ -382,7 +383,7 @@
     jQuery($ => 
     {
 
-        $(document).on('focus click', $("#city"), function() 
+        $(document).on('focus click', $("#firstname"), function() 
         {
             $("#firstname").autocomplete(
             {

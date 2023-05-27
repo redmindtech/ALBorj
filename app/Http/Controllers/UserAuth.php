@@ -23,25 +23,24 @@ class UserAuth extends Controller
     }
     function checklogin(Request $request)
     {
-     $request->validate( [
-      'email'   => 'required|email|max:30',
-      'password'  => 'required|min:5'
-     ]);
-     $data=$request->input();
-     $request->session()->put('user',$data['email']);
-     $user = User::where('email',$request->input('email'))->
-                    where('password',$request->input('password'))->get();
+        $request->validate([
+            'email' => 'required|email|max:30',
+            'password' => 'required|min:5'
+        ]);
 
-    if(strlen($user)>3)
-       {
-         return redirect("dashboard");
-       }
-       else{
+        $data = $request->input();
+        $request->session()->put('user', $data['email']);
 
-        return back()->with ('error','Invalid Login Details');
-       }
+        $user = User::where('email', $request->input('email'))
+                    ->where('password', $request->input('password'))
+                    ->get();
 
-     }
+        if ($user->count() > 0) {
+            return redirect("dashboard");
+        } else {
+            return back()->withErrors(['loginError' => 'Invalid Login Details']);
+        }
+    }
 
 
       function successlogin()

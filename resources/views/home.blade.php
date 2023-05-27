@@ -15,7 +15,7 @@
 <script src="https://cdn.amcharts.com/lib/5/radar.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
-    <div class="row">
+     <!-- <div class="row">
         <div class="col-md-4">
             <div class="small-box bg-info">
                 <div class="inner">
@@ -35,7 +35,7 @@
                 <div class="inner">
                     <h3>{{\App\Models\ProjectMaster::count()}}</h3>
                     <p>Live Projects</p>
-                    
+
                 </div>
                 <div class="icon">
                     <i class="fas fa-building"></i>
@@ -50,7 +50,7 @@
                 <div class="inner">
                     <h3>{{\App\Models\SiteMaster::count()}}</h3>
                     <p>Sites</p>
-                    
+
                 </div>
                 <div class="icon">
                     <i class="fas fa-city"></i>
@@ -59,118 +59,137 @@
                     More info <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
-        </div>
-        
+        </div>  -->
+
     </div>
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
+        <div class="container-fluid">
           <div class="row">
+            <div class="col-md-8">
+              <!-- BAR CHART -->
+              <div class="card h-100">
+                <div class="card-header">
+                  <h3 class="card-title text-bold text-center">Accounts</h3>
+                </div>
+                <div class="card-body">
+                  <div class="chart">
+                    <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <!-- DONUT CHART -->
+              <div class="card h-100">
+                <div class="card-header">
+                  <h3 class="card-title text-bold">Profit and Loss</h3>
+                </div>
+                <div class="card-body">
+                  <p style="font-size: 15px; padding: 0%;">Net income in the month of January: AED 10,000.00</p>
+                  <canvas id="donutChart" style="min-height: 100px; height: 100px; max-height: 100px; max-width: 100%;"></canvas>
+                </div>
+                <div class="card-body">
+                  <p style="font-size: 15px; padding: 0%;">Net income in the year 2023: AED 10,000.00</p>
+                  <canvas id="horizondalChart" style="min-height: 100px; height: 100px; max-height: 100px; max-width: 100%;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
             <div class="col-md-6">
-            <!-- DONUT CHART -->
-            <div class="card card-danger">
-              <div class="card-header">
-                <h3 class="card-title">Project status</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                  </button>
+              <!-- BAR CHART -->
+              <div class="card" style="height:200px">
+                <div class="card-header">
+                  <h3 class="card-title text-bold text-center">Invoice</h3>
+                </div>
+                <div class="card-body">
+                  <div class="chart">
+                    <canvas id="horizontalBarChart" style="min-height: 150px; height: 150px; max-height: 150px; max-width: 100%;"></canvas>
+                  </div>
                 </div>
               </div>
-              <div class="card-body">
-                <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-              </div>
-              <!-- /.card-body -->
             </div>
-            <!-- /.card -->
-            </div>
-
             <div class="col-md-6">
-            <!-- BAR CHART -->
-            <div class="card card-success">
-              <div class="card-header">
-                <h3 class="card-title">Receivables Vs Payables in 1000 AEDs</h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                  </button>
+                <!-- BAR CHART -->
+                <div class="card" style="height:200px">
+                  <div class="card-header">
+                    <h3 class="card-title text-bold text-center">Expense</h3>
+                  </div>
+                  <div class="card-body">
+                    <div class="chart">
+                      <canvas id="pieChart" style="min-height: 150px; height: 150px; max-height: 150px; max-width: 100%;"></canvas>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="card-body">
-                <div class="chart">
-                  <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+
+          </div>
+          <div class="row mt-4">
+            <div class="col-md-8">
+                <!-- BAR CHART -->
+                <div class="card" style="height:400px">
+                  <div class="card-header">
+                    <h3 class="card-title text-bold text-center">Sales Order</h3>
+                  </div>
+                  <div class="card-body">
+                    <div class="chart">
+                      <canvas id="salesorderChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-            </div>
+              <div class="col-md-4">
+                <!-- DONUT CHART -->
+                <div class="card h-100">
+                  <div class="card-header">
+                    <h3 class="card-title text-bold">Projects</h3>
+                  </div>
+                  <div class="card-body">
+                        <ul>
+                            <h6 class="text-bold">PROJECTS:</h6>
+                              <ul>
+                                <li>Ongoing projects: 05</li>
+                                <li>Completed projects : 08</li>
+                                <li>Overall invoice pending amount: AED 10,000.00</li>
+                              </ul>
+                              <h6 class="text-bold">EMPLOYEES:</h6>
+                              <ul>
+                                <li>Active employees: 51</li>
+                                <li>Inactive employees: 3</li>
+                                <li>Document expire: 4</li>
+                              </ul>
+                              <h6 class="text-bold">PURCHASE:</h6>
+                              <ul>
+                                <li>Open purchase order: 9</li>
+                                <li>Delivery pending: 3</li>
+                                <li>Payment pending : 6</li>
+                              </ul>
+                              <h6 class="text-bold">ACCOUNTS:</h6>
+                              <ul>
+                                <li>Payable pending amount: AED 19,000.00 (2 Bills)</li>
+                                <li>Receivable pending amount: AED 125,000.00 (5 Bills)</li>
+                                <li>Advance paid: AED 95,000.00 (3 Bills)</li>
+                                <li>Petty cash outward: AED 5,000.00</li>
+                                <li>Vat balance as on today: AED 22,000.00</li>
+                                <li>Business tax: AED 21,000.00</li>
+                              </ul>
+                          </ul>
 
-
-            <div class="col-md-6">
-            <!-- Sales Bar Chart -->
-            <div class="card">
-              <div class="card-header border-0">
-                <div class="d-flex justify-content-between">
-                  <h3 class="card-title">Sales</h3>
-                  <a href="javascript:void(0);">View Report</a>
+                  </div>
                 </div>
               </div>
-              <div class="card-body">
-                <div class="d-flex">
-                  <p class="d-flex flex-column">
-                    <span class="text-bold text-lg">$18,230.00</span>
-                    <span>Sales Over Time</span>
-                  </p>
-                  <p class="ml-auto d-flex flex-column text-right">
-                    <span class="text-success">
-                      <i class="fas fa-arrow-up"></i> 33.1%
-                    </span>
-                    <span class="text-muted">Since last month</span>
-                  </p>
-                </div>
-                <!-- /.d-flex -->
-
-                <div class="position-relative mb-4">
-                  <canvas id="sales-chart" height="200"></canvas>
-                </div>
-
-                <div class="d-flex flex-row justify-content-end">
-                  <span class="mr-2">
-                    <i class="fas fa-square text-primary"></i> This year
-                  </span>
-
-                  <span>
-                    <i class="fas fa-square text-gray"></i> Last year
-                  </span>
-                </div>
+          </div>
               </div>
-            </div>
-            <!-- /.card -->
-            </div>
-          </div>
-          <div class="col">
-            <div class="card">
-            <div id="chartdiv"></div>
-            </div>
           </div>
 
-          <div class="col">
-          <div class="card">
-          <div id="circle-chartdiv"></div>
-          </div>
-          </div>
-      </div>
-    </section>
+        </div>
+
+      </section>
+
 
 
 
@@ -182,75 +201,277 @@
      * Here we will create a few charts using ChartJS
      */
 
-
-
-  
-
-    var areaChartData = {
+var areaChartData = {
       labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       datasets: [
         {
-          label               : 'Receivables',
-          backgroundColor     : 'rgba(60,141,188,0.9)',
-          borderColor         : 'rgba(60,141,188,0.8)',
-          pointRadius          : false,
-          pointColor          : '#3b8bba',
-          pointStrokeColor    : 'rgba(60,141,188,1)',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(60,141,188,1)',
-          data                : [45, 52, 53, 60, 45, 75, 78]
-        },
-        {
-          label               : 'Payables',
-          backgroundColor     : 'rgba(210, 214, 222, 1)',
-          borderColor         : 'rgba(210, 214, 222, 1)',
-          pointRadius         : false,
-          pointColor          : 'rgba(210, 214, 222, 1)',
-          pointStrokeColor    : '#c1c7d1',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(220,220,220,1)',
-          data                : [35, 50, 43, 55, 43, 55, 70]
-        },
+  label               : 'Invoice',
+  backgroundColor     : 'rgba(255, 99, 132, 0.8)',
+  borderColor         : 'rgba(255, 99, 132, 1)',
+  pointRadius         : false,
+  pointColor          : '#FFFF00',
+  pointStrokeColor    : 'rgba(255, 99, 132, 1)',
+  pointHighlightFill  : '#0000FF',
+  pointHighlightStroke: 'rgba(255, 99, 132, 1)',
+  data                : [45, 52, 53, 60, 45, 75, 78]
+},
+{
+  label               : 'Payment',
+  backgroundColor     : 'rgba(255, 206, 86, 0.8)',
+  borderColor         : 'rgba(255, 206, 86, 1)',
+  pointRadius         : false,
+  pointColor          : 'rgba(255, 206, 86, 1)',
+  pointStrokeColor    : 'rgba(255, 206, 86, 1)',
+  pointHighlightFill  : '#0000FF',
+  pointHighlightStroke: 'rgba(255, 206, 86, 1)',
+  data                : [35, 50, 43, 55, 43, 55, 70]
+},
+{
+  label               : 'Expense',
+  backgroundColor     : 'rgba(54, 162, 235, 0.8)',
+  borderColor         : 'rgba(54, 162, 235, 1)',
+  pointRadius         : false,
+  pointColor          : 'rgba(54, 162, 235, 1)',
+  pointStrokeColor    : 'rgba(54, 162, 235, 1)',
+  pointHighlightFill  : '#0000FF',
+  pointHighlightStroke: 'rgba(54, 162, 235, 1)',
+  data                : [35, 50, 43, 55, 43, 55, 70]
+},
+{
+  label               : 'Vat',
+  backgroundColor     : 'rgba(75, 192, 192, 0.8)',
+  borderColor         : 'rgba(75, 192, 192, 1)',
+  pointRadius         : false,
+  pointColor          : 'rgba(75, 192, 192, 1)',
+  pointStrokeColor    : 'rgba(75, 192, 192, 1)',
+  pointHighlightFill  : '#0000FF',
+  pointHighlightStroke: 'rgba(75, 192, 192, 1)',
+  data                : [35, 50, 43, 55, 43, 55, 70]
+}
+
+
       ]
     }
 
-    
-
-    //-------------
-    //- DONUT CHART -
-    //-------------
+ //-------------
+    // //- DONUT CHART -
+    // //-------------
 
 
+var piechartData = {!! json_encode(array_values($ApipiechartData)) !!};
+var piechartDataLabels = {!! json_encode(array_keys($ApipiechartData)) !!};
+
+var barChartCanvas = $('#donutChart').get(0).getContext('2d');
+var barChartData = {
+  labels: ['Income', 'Expense'],
+  datasets: [
+    {
+      label: 'Income',
+      data: [piechartData[0], 0],
+      backgroundColor: ['#f56954', '#00a65a'],
+    },
+    {
+      label: 'Expense',
+      data: [0, piechartData[1]],
+      backgroundColor: ['#f39c12', '#00c0ef'],
+    },
+  ],
+};
+var barChartOptions = {
+  maintainAspectRatio: false,
+  responsive: true,
+  scales: {
+    xAxes: [{
+      display: false, // Hide the x-axis labels
+    }],
+    yAxes: [{
+      display: true,
+      ticks: {
+        beginAtZero: true,
+      },
+    }],
+  },
+};
+
+// Create horizontal bar chart
+new Chart(barChartCanvas, {
+  type: 'horizontalBar',
+  data: barChartData,
+  options: barChartOptions,
+});
+
+
+    //horizondalchart
     var piechartData = {!! json_encode(array_values($ApipiechartData)) !!};
-    //console.log(piechartData);
-    var piechartDataLabels = {!! json_encode(array_keys($ApipiechartData)) !!};
+var piechartDataLabels = {!! json_encode(array_keys($ApipiechartData)) !!};
 
-    // Get context with jQuery - using jQuery's .get() method.
-    var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-    var donutData        = {
-      labels: piechartDataLabels,
-      datasets: [
-        {
-          data: piechartData,
-          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
-        }
-      ]
+var barChartCanvas = $('#horizondalChart').get(0).getContext('2d');
+var barChartData = {
+  labels: ['Income', 'Expense'],
+  datasets: [
+    {
+      label: 'Income',
+      data: [piechartData[0], 0],
+      backgroundColor: ['#f56954', '#00a65a'],
+    },
+    {
+      label: 'Expense',
+      data: [0, piechartData[1]],
+      backgroundColor: ['#f39c12', '#00c0ef'],
+    },
+  ],
+};
+var barChartOptions = {
+  maintainAspectRatio: false,
+  responsive: true,
+  scales: {
+    xAxes: [{
+      display: false, // Hide the x-axis labels
+    }],
+    yAxes: [{
+      display: true,
+      ticks: {
+        beginAtZero: true,
+      },
+    }],
+  },
+};
+
+// Create horizontal bar chart
+new Chart(barChartCanvas, {
+  type: 'horizontalBar',
+  data: barChartData,
+  options: barChartOptions,
+});
+
+//invoice
+
+var horizontalBarChartCanvas = $('#horizontalBarChart').get(0).getContext('2d');
+
+var receivedValue = 75;
+var yetReceivedValue = 25;
+
+var horizontalBarChartData = {
+  labels: ['Received', 'Yet Received'],
+  datasets: [
+    {
+      label: 'Month',
+      backgroundColor: 'rgba(54, 162, 235, 0.8)',
+      borderColor: 'rgba(54, 162, 235, 1)',
+      borderWidth: 1,
+      data: [receivedValue, yetReceivedValue]
+    },
+    {
+      label: 'Year',
+      backgroundColor: 'rgba(255, 99, 132, 0.8)',
+      borderColor: 'rgba(255, 99, 132, 1)',
+      borderWidth: 1,
+      data: [receivedValue, yetReceivedValue]
     }
-    var donutOptions     = {
-      maintainAspectRatio : false,
-      responsive : true,
+  ]
+};
+
+var horizontalBarChartOptions = {
+  scales: {
+    xAxes: [{
+      stacked: true,
+      ticks: {
+        beginAtZero: true
+      }
+    }],
+    yAxes: [{
+      stacked: true
+    }]
+  }
+};
+
+new Chart(horizontalBarChartCanvas, {
+  type: 'horizontalBar',
+  data: horizontalBarChartData,
+  options: horizontalBarChartOptions
+});
+
+
+//pie chart
+var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
+
+var expenseData = {
+  labels: ['office','site','project','employee','other'],
+  datasets: [{
+    data: [500, 300, 200, 150, 100],
+    backgroundColor: ['rgba(255, 99, 132, 0.8)', 'rgba(54, 162, 235, 0.8)', 'rgba(255, 206, 86, 0.8)', 'rgba(75, 192, 192, 0.8)', 'rgba(153, 102, 255, 0.8)'],
+    borderColor: '#fff',
+    borderWidth: 1
+  }]
+};
+
+var pieChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  legend: {
+    position: 'bottom',
+    labels: {
+      fontColor: '#333',
+      fontSize: 12,
+      padding: 10
     }
-    //Create pie or douhnut chart
-    // You can switch between pie and douhnut using the method below.
-    new Chart(donutChartCanvas, {
-      type: 'doughnut',
-      data: donutData,
-      options: donutOptions
-    })
+  }
+};
 
-    
+new Chart(pieChartCanvas, {
+  type: 'pie',
+  data: expenseData,
+  options: pieChartOptions
+});
 
-    //-------------
+//sales
+var salesChartCanvas = $('#salesorderChart').get(0).getContext('2d');
+
+var salesData = {
+  labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+  datasets: [
+    {
+      label: '2021',
+      data: [700, 600, 800, 750, 900, 1000],
+      borderColor: 'rgba(255, 99, 132, 1)',
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      borderWidth: 2
+    },
+    {
+      label: '2022',
+      data: [400, 550, 700, 650, 800, 950],
+      borderColor: 'rgba(255, 206, 86, 1)',
+      backgroundColor: 'rgba(255, 206, 86, 0.2)',
+      borderWidth: 2
+    },
+    {
+      label: '2023',
+      data: [600, 700, 900, 850, 1000, 1100],
+      borderColor: 'rgba(75, 192, 192, 1)',
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+      borderWidth: 2
+    }
+  ]
+};
+
+var salesOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    y: {
+      beginAtZero: true
+    }
+  }
+};
+
+new Chart(salesChartCanvas, {
+  type: 'line',
+  data: salesData,
+  options: salesOptions
+});
+
+
+//-------------
     //- BAR CHART -
     //-------------
     var barChartCanvas = $('#barChart').get(0).getContext('2d')
@@ -660,5 +881,10 @@
   width: 100%;
   height: 500px;
 }
+.card-body{
+    padding: 0.25rem;
+
+}
+
 </style>
 @stop

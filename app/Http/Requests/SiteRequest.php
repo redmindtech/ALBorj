@@ -24,26 +24,30 @@ class SiteRequest extends FormRequest
     public function rules()
     {
         return [
-                'site_name' => 'required',
-                'site_location' => 'required',
+                'site_name' => 'required|regex:/^[A-Z a-z]+$/',
+                'site_location' => 'required|regex:/^[A-Z a-z]+$/',
                 'site_building' => 'required',
                 'site_floor' => 'required',
-                'room_number' => 'required',
+                'room_number' => 'required|regex:/^[0-9]*$/',
                 'site_address' => 'required',
                 'site_status'=>'required',
-                'site_manager'=>'required'
+                'firstname'=>'required|regex:/^[A-Z a-z]+$/',
         ]; 
     }
     public function messages(){
         return [
                 'site_name.required' => 'The Site Name is required.',
+                'site_name.regex' => 'The Site Name allows only alphabets',
                 'site_location.required' => 'The Site Location is required.',
+                'site_location.regex' => 'The Site Location allows only alphabets.',
                 'site_building.required' => 'The Site Building is required.',
                 'site_floor.required' => 'The site Floor is required.',
                 'room_number.required' => 'The Room Number is required.',
+                'room_number.regex' => 'The Room Number allows only number.',
                 'site_address.required' => 'The Site Address is required.',
                 'site_status.required'=>'The Site Status is required',
-                'site_manager.url'=>'The Site Manager is required'
+                'firstname.required'=>'The Site Manager is required',
+                'firstname.regex'=>'The Site Manager allows only alphabets'
         ];
     }
 }

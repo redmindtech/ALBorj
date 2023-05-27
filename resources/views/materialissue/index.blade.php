@@ -600,7 +600,7 @@ $('.rowtr').each(function() {
 
                 jQuery($ => {
 
-                $(document).on('focus click', $("#city"), function() {
+                $(document).on('focus click', $("#project_name"), function() {
           
                  $("#project_name").autocomplete({
                      source: function(request, response) {
@@ -651,7 +651,7 @@ $('.rowtr').each(function() {
 
                 jQuery($ => {
 
-                $(document).on('focus click', $("#city"), function() {
+                $(document).on('focus click', $("#firstname"), function() {
                  $("#firstname").autocomplete({
                      source: function(request, response) {
                          $.ajax({
@@ -706,7 +706,7 @@ $('.rowtr').each(function() {
                  // auto complete for sitename
                 jQuery($ => {
 
-                $(document).on('focus click', $("#city"), function() {
+                $(document).on('focus click', $("#location"), function() {
                  $("#location").autocomplete({
                      source: function(request, response) {
                          $.ajax({

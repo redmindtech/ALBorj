@@ -25,10 +25,10 @@ class SupplierRequest extends FormRequest
     {
         return [
             'name' => 'required|regex:/^[A-Za-z\s]*$/',
-            'company_name' => 'required',
+            'company_name' => 'required|regex:/^[A-Za-z\s]*$/',
             'address' => 'required',
-            'contact_number' => 'required|regex:/^[6-9][0-9]{8}$/',
-            'mail_id' => 'required|email',
+            'contact_number' => 'required|numeric|digits:9|regex:/^[5-9][0-9]{8}$/',
+            'mail_id' => 'required|email|ends_with:.com',
             'website.url'=>'nullable|url'
         ]; 
     }
@@ -37,11 +37,12 @@ class SupplierRequest extends FormRequest
             'name.required' => 'The Supplier Name is required.',
             'name.regex'=>'The supplier name allows only alphabets.',
             'company_name.required' => 'The Contact Name is required.',
+            'company_name.regex' => 'The Company Name allows only alphabets',
             'address.required' => 'The Address is required.',
             'contact_number.required' => 'The Contact Number is required.',
-            'contact_number.regex'=>'Please enter valid contact number.',
             'mail_id.required' => 'The Email id is required.',
             'mail_id.email' => 'Please Enter valid email-id.',
+            'mail_id.ends_with' => 'Please Enter valid email-id.',
             'website.url'=>'Please enter valid url'
         ];
     }

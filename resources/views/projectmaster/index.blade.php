@@ -167,7 +167,7 @@
         <label for="company_name" class="form-label fw-bold">Client / Company Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" placeholder="Client / Company Name" class="form-control" autocomplete="off">
         <input type="text" id="client_no"   name="client_no" hidden value="{{ old('client_no') }}"  class="form-control" autocomplete="off">
-        <p style="color: red" id="error_client_no"></p>
+        <p style="color: red" id="error_company_name"></p>
     </div>
 </div>
 <div class="row">
@@ -538,7 +538,7 @@
     // auto complete for managername from employeemasters
     jQuery($ => 
     {
-        $(document).on('focus click', $("#city"), function() 
+        $(document).on('focus click', $("#firstname"), function() 
         {
             $("#firstname").autocomplete(
             {
@@ -603,7 +603,7 @@
     // auto complete for sitename from sitemaster
     jQuery($ => 
     {
-        $(document).on('focus click', $("#city"), function() 
+        $(document).on('focus click', $("#site_name"), function() 
         {
 
             $("#site_name").autocomplete(
@@ -669,7 +669,7 @@
         // auto complete for client from clientmaster
     jQuery($ => 
     {
-        $(document).on('focus click', $("#city"), function() 
+        $(document).on('focus click', $("#company_name"), function() 
         {
             $("#company_name").autocomplete(
             {

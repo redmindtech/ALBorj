@@ -573,7 +573,7 @@ $(document).on('focus', '.item_name', function() {
    
    jQuery($ => {
 
-$(document).on('focus click', $("#city"), function() {
+$(document).on('focus click', $("#firstname"), function() {
 $("#firstname").autocomplete(
       {
 
@@ -630,7 +630,7 @@ $("#firstname").autocomplete(
 
 jQuery($ => {
 
-$(document).on('focus click', $("#city"), function() {
+$(document).on('focus click', $("#project_name"), function() {
 $("#project_name").autocomplete(
       {
       source: function( request, response ) {
