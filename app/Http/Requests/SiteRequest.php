@@ -32,15 +32,19 @@ class SiteRequest extends FormRequest
                 'site_address' => 'required',
                 'site_status'=>'required',
                 // 'firstname'=>'required|regex:/^[A-Z a-z]+$/',
-                'firstname' => [
-                    function ($attribute, $value, $fail) {
+                'firstname' =>
+                [  
+                    function ($attribute, $value, $fail) 
+                    {
                         $employeeNo = $this->input('site_manager');
-                        if (empty($employeeNo) && empty($value)) {
+                        if (empty($employeeNo) && $employeeNo !== $value) 
+                        {
                             $fail('Please enter a valid Manager Name.');
                         }
                     },
-                    'required',
-                    'regex:/^[A-Za-z\s]+$/',
+                        'required',
+                        'regex:/^[A-Za-z\s]+$/',
+                  
                 ],
         ]; 
     }
