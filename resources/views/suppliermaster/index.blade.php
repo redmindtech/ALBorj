@@ -129,7 +129,7 @@
     </div>
     <div class="form-group col-md-6">
         <label for="mail_id" class="form-label fw-bold">Email Id<a style="text-decoration: none;color:red">*</a></label>
-        <input type="email" id="mail_id" name="mail_id" value="{{ old('mail_id') }}" placeholder="Email Id" class="form-control" autocomplete="off">
+        <input type="text" id="mail_id" name="mail_id" value="{{ old('mail_id') }}" placeholder="Email Id" class="form-control" autocomplete="off">
         <p style="color: red" id="error_mail_id"></p>
     </div>
 </div>

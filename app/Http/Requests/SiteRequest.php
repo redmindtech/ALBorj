@@ -39,7 +39,7 @@ class SiteRequest extends FormRequest
                         $employeeNo = $this->input('site_manager');
                         if (empty($employeeNo) && $employeeNo !== $value) 
                         {
-                            $fail('Please enter a valid Manager Name.');
+                            $fail('Please Enter Valid SiteManager Name.');
                         }
                     },
                         'required',

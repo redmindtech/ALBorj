@@ -40,9 +40,12 @@ class SupplierRequest extends FormRequest
             'company_name.regex' => 'The Company Name allows only alphabets',
             'address.required' => 'The Address is required.',
             'contact_number.required' => 'The Contact Number is required.',
+            'contact_number.numeric' => 'The Contact Number allows only Numbers ',
+            'contact_number.digits' => 'The Contact Number must be 9 Numbers ',
+            'contact_number.regex' => 'The Contact Number must start with 5, 6, 7, 8, or 9.',
             'mail_id.required' => 'The Email id is required.',
             'mail_id.email' => 'Please Enter valid email-id.',
-            'mail_id.ends_with' => 'Please Enter valid email-id.',
+            'mail_id.ends_with' => 'The mail ID must end with ".com".',
             'website.url'=>'Please enter valid url'
         ];
     }

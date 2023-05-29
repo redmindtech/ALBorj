@@ -94,19 +94,20 @@ class ProjectMasterRequest extends FormRequest
                 'firstname.regex' => 'The Manager allows only alphabets',
                 'company_name.required' => 'The Client / Company Name is required.',
                 'company_name.regex' => 'The Client / Company allows only alphabets',
-                'consultant_name.regex:/^[A-Za-z\s]*$/' => 'Please enter valid consultant_name.',            
+                'consultant_name.regex:/^[A-Za-z\s]*$/' => 'The Consultant name allows only alphabets',            
                 'start_date.required'=>'The Project Start Date is required',
-                'end_date.required'=>'The Tentative Project End Date is required',
+                'end_date.required'=>'Tentative Project End Date is required',
+                'end_date.after'=>'Tentative Project End Date  must be a date after start date.',
                 'actual_project_end_date.required'=>'The Actual Project End Date is required',
                 'status.required'=>'The Project Status is required',
                 'total_price_cost.required'=>'The Total Project Cost is required',
                 'total_price_cost.numeric'=>'The Total Project Cost allows only numbers',
                 'advanced_amount.required'=>'The Advance Amount is required',
                 'advanced_amount.numeric'=>'The Advance Amount is allow only numbers',            
-                'retention.numeric'=>'The Advance Amount is allow only numbers',
+                'retention.numeric'=>'The Retention allows only numbers',
                 'amount_to_be_received.required'=>'The Balance Amount To Be Received is required',
-                'amount_to_be_received.numeric'=>'The Balance Amount To Be Received is allow only numbers',            
-                'amount_return.numeric'=>'The Amount Return is allow only numbers'
+                'amount_to_be_received.numeric'=>'The Balance Amount To Be Received allows only numbers',            
+                'amount_return.numeric'=>'The Amount Return allows only numbers'
 
             ];
     }

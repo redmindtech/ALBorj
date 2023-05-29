@@ -247,6 +247,9 @@ input[type=checkbox] {
     .small-input {
         width: 90px; /* Adjust the width value as needed */
     }
+    .main-header{
+        z-index:0 !important;
+    }
     </style>
   
    

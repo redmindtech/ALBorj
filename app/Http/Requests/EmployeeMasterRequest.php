@@ -45,7 +45,7 @@ class EmployeeMasterRequest extends FormRequest
             'nationality' => 'required',
             'city' => 'required|regex:/^[a-zA-Z\s]+$/',
             'phone' => 'required|numeric|digits:10|regex:/^[6-9][0-9]{9}$/',
-            'UAE_mobile_number' => 'required|regex:/^[5-9][0-9]{8}$/',
+            'UAE_mobile_number' => 'required|numeric|digits:9|regex:/^[5-9][0-9]{8}$/',
             'pay_group' => 'required',
             'accomodation' => 'required',
             'passport_expiry_date' => 'required',
@@ -56,7 +56,8 @@ class EmployeeMasterRequest extends FormRequest
             'total_salary' => 'required|numeric',
             'hra' => 'required|numeric',
             'passport_no' => 'required|regex:/^[a-zA-Z0-9]+$/',
-            'emirates_id_no' => 'required|numeric|digits:7',        ];
+            'emirates_id_no' => 'required|numeric|digits:7',       
+         ];
     }
     public function messages()
     {
@@ -85,8 +86,13 @@ class EmployeeMasterRequest extends FormRequest
             'city.required' => 'The city is required.',
             'city.regex' => 'The current location allows only alphabets',
             'phone.required' => 'The home country contact number is required.',
+            'phone.numeric' => 'The home country contact number must be a number',
+            'phone.digits' => 'The home country contact number must be 10 digits.',
+            'phone.regex' => 'The phone number must start with 6, 7, 8, or 9 .',
             'UAE_mobile_number.required' => 'The UAE mobile number is required.',
-            'UAE_mobile_number.regex' => 'Please enter valid number',
+            'UAE_mobile_number.numeric' => 'The UAE mobile number allows only numbers',
+            'UAE_mobile_number.digits' => 'The UAE mobile number must be 9 digits.',
+            'UAE_mobile_number.regex' => 'The phone number must start with 5, 6, 7, 8, or 9.',
             'pay_group.required' => 'The pay group is required.',
             'accomodation.required' => 'The accomodation is required.',
             'passport_expiry_date.required' => 'The passport expiry date is required.',
@@ -102,7 +108,6 @@ class EmployeeMasterRequest extends FormRequest
             'passport_no.regex' => 'The passport no does not allow special characters.',
             'emirates_id_no.required' => 'The emirates id no is required.',
             'emirates_id_no.regex' => 'The emirates id no allow only numbers up to 7 digits.',
-            'phone.regex' => 'The phone number must start with 6, 7, 8, or 9 and have 10 digits.',
 
         ];
     }
