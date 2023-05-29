@@ -235,28 +235,24 @@ input[type=checkbox] {
             position:relative;
             z-index: 0;
         }
+        .main-header{
+        z-index:0 !important;
+        }
         /* end background blur style */
         
         /* chart css */
         #chartdiv{
         width: 100%;
         height: 500px;
-    }
+        }
     /* chart css end */
 
     /* table text box size reduce */
-    .small-input {
-        width: 90px; /* Adjust the width value as needed */
-    }
-    .main-header{
-        z-index:0 !important;
-    }
-    .menu-icon {
-    margin-right: 5px !important; /* Adjust the spacing as needed */
-    }
-    .menu-icon-space {
-    padding-right: 10px !important; /* Adjust the spacing as needed */
-    }
+        .small-input {
+            width: 90px; /* Adjust the width value as needed */
+        }
+   
+   
     </style>
   
    

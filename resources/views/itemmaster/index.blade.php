@@ -214,15 +214,7 @@
                                 <p id="show_code"></p>
                             </div>
 
-                            {{-- <div class="col-md-6">
-                                <label id="item_quantity">Item Quantity</label>
-                                <p id="show_quantity"></p>
-                            </div> --}}
-                            {{-- <div class="col-md-6">
-                                <label id="previous_rate">Previous Rate</label>
-                                <p id="show_price_per_qty"></p>
-                            </div> --}}
-
+                           
 
                         </div>
                         <div id="item_details_show"></div>
@@ -277,8 +269,8 @@
                         document.getElementById("myDialog").open = false;
                         // Clear the form fields
                         $('#form')[0].reset();
-                        // Reset Select2 dropdowns
-                        $('#desigination, #sponser, #working_as').val(null).trigger('change');
+                        // Remove the show_table element
+                        $('#show_table').remove();
                         // Hide any error messages
                         $('p[id^="error_"]').html('');
                         // Hide the dialog background
