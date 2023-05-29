@@ -14,6 +14,6 @@ class EmployeeAttendanceSheet extends Model
     
     protected $fillable =  ['date','timesheet_id','start_time','end_time','total_time','ot_start_time','ot_end_time','ot_total_time','leave','leave_type','holiday'];
 
-    protected $primaryKey='attendance_id ';
+    protected $primaryKey='attendance_id';
 
 }

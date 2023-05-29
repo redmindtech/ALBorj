@@ -244,11 +244,18 @@ input[type=checkbox] {
     }
     /* chart css end */
 
+    /* table text box size reduce */
     .small-input {
         width: 90px; /* Adjust the width value as needed */
     }
     .main-header{
         z-index:0 !important;
+    }
+    .menu-icon {
+    margin-right: 5px !important; /* Adjust the spacing as needed */
+    }
+    .menu-icon-space {
+    padding-right: 10px !important; /* Adjust the spacing as needed */
     }
     </style>
   

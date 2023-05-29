@@ -227,9 +227,9 @@ return [
     'menu' => [
         // Navbar items:
         [
-            'text' => 'DASHBOARD',
+            'text' => 'Dashboard',
             'url'  => 'dashboard',
-            'icon' => 'fas fa-users',
+            'icon' => 'nav-icon fas fa-fw fa-home',
         ],
         [
             'type'         => 'fullscreen-widget',
@@ -238,10 +238,16 @@ return [
 
         // Sidebar items:
         [
-            'text' => 'ACCOUNTS',
+            'text' => 'Accounts',
             'url'  => '',
-            'icon' => 'fas fa-fw fa-file-invoice-dollar',
+            'icon' =>'nav-icon fas fa-fw fa-calculator',
             'submenu' => [
+                [
+                    'text' => 'Client Master',
+                    'url'  => 'clientmaster',
+                    'icon' => 'nav-icon fas fa-fw fa-users'
+
+                ],
                 // [
                 //     'text' => 'Petty Cash',
                 //     'url'  => 'account',
@@ -250,120 +256,113 @@ return [
                 [
                     'text' => 'Payment Receivables',
                     'url'  => 'account',
-                    'icon' => 'fas fa-solid fa-receipt',
+                    'icon' => 'nav-icon fas fa-fw fa-receipt',
                 ],
                 [
                     'text' => 'Payment Payables',
                     'url'  => 'account',
-                    'icon' => 'fas fa-solid fa-wallet',
+                    'icon' => 'nav-icon fas fa-fw fa-wallet',
+                ],
+                [
+                    'text' => 'Expenses Category Master',
+                    'url'  => 'expensescategorymaster',
+                    'icon' => 'nav-icon fas fa-fw fa-tag',
                 ],
                 [
                     'text' => 'Daily Expenses-Payment Voucher',
                     'url'  => 'expenses',
-                    'icon' => 'fas fa fa-credit-card',
+                    'icon' => 'nav-icon fas fa-fw fa-shopping-bag',
                 ],
             ],
         ],
         [
             'text' => 'HR',
             'url'  => '',
-            'icon' => 'fas fa-user-tie',
+            'icon' => 'nav-icon fas fa-user-tie',
             'submenu' => [
                 [
                     'text' => 'Employee Master',
                     'url'  => 'employeemaster',
-                    'icon' => 'fas fa-fw fa-users',
+                    'icon' => 'nav-icon fas fa-fw fa-user-circle',
 
                 ],
                 [
                     'text' => 'Timesheet-Sitewise',
                     'url'  => 'timesheet',
-                    'icon' => 'fas fa-solid fa-calendar',
+                    'icon' => 'nav-icon fas fa-fw fa-clock',
 
                 ],
                 [
                     'text' => 'Payroll Option-Salary Employee Wise',
                     'url'  => 'account',
-                    'icon' => 'fas fa-money-check',
+                    'icon' => 'nav-icon fas fa-money-bill',
 
                 ],
             ],
         ],
         [
-            'text' => 'PROJECT MANAGEMENT',
+            'text' => 'Project Management ',
             'url'  => '',
-            'icon' => 'fas fa-project-diagram',
+            'icon' => 'nav-icon fas fa-fw fa-tasks',
             'submenu' => [
                 [
-                    'text' => 'Client Master',
-                    'url'  => 'clientmaster',
-                    'icon' => 'fas fa-solid fa-universal-access',
+                    'text' => 'Site Master',
+                    'url'  => 'sitemaster',
+                    'icon' => 'nav-icon fas fa-fw fa-building',
+                ],
+                [
+                    'text' => 'Project Master',
+                    'url'  => 'projectmaster',
+                    'icon' => 'nav-icon fas fa-fw fa-project-diagram fa-sm',
 
                 ],
                 [
                     'text' => 'Item Master',
                     'url'  => 'itemmaster',
-                    'icon' => 'fas fa-fw fa-box',
+                    'icon' => 'nav-icon fas fa-shopping-basket',
 
-                ],
-                [
-                    'text' => 'Project Master',
-                    'url'  => 'projectmaster',
-                    'icon' => 'fas fa-solid fa-paperclip',
-
-                ],
-                [
-                    'text' => 'Site Master',
-                    'url'  => 'sitemaster',
-                    'icon' => 'fa fa-sitemap',
-
-                ],
-                [
-                    'text' => 'Supplier Master',
-                    'url'  => 'suppliermaster',
-                    'icon' => 'fas fa-truck-loading',
-
-                ],
-                [
-                    'text' => 'Expenses Category Master',
-                    'url'  => 'expensescategorymaster',
-                    'icon' => 'fas fa-fw fa-box',
                 ],
             ],
         ],
         [
-            'text' => 'PURCHASE',
+            'text' => 'Purchase',
             'url'  => '',
-            'icon' => 'fas fa-shopping-cart ',
+            'icon' => 'nav-icon fas fa-fw fa-shopping-cart ',
             'submenu' => [
+                [
+                    'text' => 'Supplier Master',
+                    'url'  => 'suppliermaster',
+                    'icon' => 'nav-icon fas fa-fw fa-truck',
+
+                ],
                 [
                     'text' => 'Material Requisition',
                     'url'  => 'materialrequisition',
-                    'icon' => 'nav-icon far fa-circle text-success',
+                    'icon' => 'nav-icon fas fa-dolly',
 
                 ],
                 [
                     'text' => 'Purchase Order',
                     'url'  => 'purchaseorder',
-                    'icon' => 'nav-icon far fa-circle text-primary',
+                    'icon' => 'nav-icon fas fa-cart-arrow-down',
 
                 ],
                 [
                     'text' => 'Goods Receiving Note',
                     'url'  => 'goodsreceivingnote',
-                    'icon' => 'nav-icon far fa-circle text-info',
+                    'icon' => 'nav-icon fas fa-warehouse',
 
                 ],
                 [
                     'text' => 'Purchase Return',
                     'url'  => 'purchasereturn',
-                    'icon' => 'far fa-circle nav-icon',
+                    'icon' => 'nav-icon fas fa-retweet',
 
                 ],
                 [
-                    'text' => 'Material Issue',
+                    'text' => 'Material Issue/Return',
                     'url'  => 'MaterialIssue',
-                    'icon' => 'nav-icon far fa-circle text-warning',
+                    'icon' => 'nav-icon fas fa-exclamation-triangle',
 
                 ],
                 // [
@@ -375,32 +374,32 @@ return [
             ],
         ],
         [
-            'text' => 'REPORTS',
+            'text' => 'Reports',
             'url'  => '',
-            'icon' => 'fas fa-file',
+            'icon' =>  'nav-icon fas fa-fw fa-book',
             'submenu' => [
                 [
                     'text' => 'Project Reports',
                     'url'  => 'account',
-                    'icon' => 'fas fa-fw fa-regular fa-star text-warning',
+                    'icon' => 'nav-icon fas fa-fw fa-regular fa-star text-warning',
 
                 ],
                 [
                     'text' => 'Inventory Reports',
                     'url'  => 'account',
-                    'icon' => 'fas fa-fw fa-regular fa-star text-danger',
+                    'icon' => 'nav-icon fas fa-fw fa-regular fa-star text-danger',
 
                 ],
                 [
                     'text' => 'Accounting Balance Reports',
                     'url'  => 'account',
-                    'icon' => 'fas fa-fw fa-regular fa-star text-primary',
+                    'icon' => 'nav-icon fas fa-fw fa-regular fa-star text-primary',
 
                 ],
                 [
                     'text' => 'User Defined Reports',
                     'url'  => 'account',
-                    'icon' => 'fas fa-fw fa-regular fa-star text-success',
+                    'icon' => 'nav-icon fas fa-fw fa-regular fa-star text-success',
 
                 ],
 
@@ -409,9 +408,9 @@ return [
         [
             'text' => 'Logout',
             'url'  => '',
-            'icon' => 'fas fa-light fa-arrow-right-from-bracket',
+            'icon' => 'nav-icon fas fa-fw fa-sign-out-alt',
 
-        ],
+        ]
 
 
     ],

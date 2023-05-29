@@ -136,8 +136,8 @@ class TimeSheetController extends Controller
      * @param  \App\Models\TimeSheet  $timeSheet
      * @return \Illuminate\Http\Response
      */
-    public function update(TimeSheetRequest $request, $id)
-    {
+    // public function update(TimeSheetRequest $request, $id)
+    // {
        
 //        try
 //        {
@@ -171,8 +171,49 @@ class TimeSheetController extends Controller
 //         info($e);
 //         return response()->json('Error occurred in the store', 400);
 //     }
+
         
+    // }
+    public function update(TimeSheetRequest $request, $id)
+    {
+        info($request);
+    try {
+        $timesheet = TimeSheet::findOrFail($id);
+        $timesheet->update($request->only(TimeSheet::REQUEST_INPUTS));
+        
+        $Count = count($request['date']);
+        
+        if (!empty($request['date'])) {
+            for ($i = 0; $i < $Count; $i++) {
+                $attendanceData = [
+                    'timesheet_id' => $id,
+                    'date' => $request['date'][$i],
+                    'start_time' => $request['start_time'][$i],
+                    'end_time' => $request['end_time'][$i],
+                    'total_time' => $request['total_time'][$i],
+                    'ot_start_time' => $request['ot_start_time'][$i],
+                    'ot_end_time' => $request['ot_end_time'][$i],
+                    'ot_total_time' => $request['ot_total_time'][$i],
+                    'holiday' => $request['holiday_ref'][$i],
+                    'leave' => $request['leave_ref'][$i],
+                    'leave_type' => $request['leave_type'][$i]
+                ];
+                
+                EmployeeAttendanceSheet::updateOrCreate(
+                    ['timesheet_id' => $id, 'date' => $request['date'][$i]],
+                    $attendanceData
+                );
+            }
+        }  
+
+        return response()->json('TimeSheet Updated Successfully', 200);
+    } 
+    catch (Exception $e) {
+        info($e);
+        return response()->json('Error occurred during the update', 400);
     }
+}
+
 
     /**
      * Remove the specified resource from storage.

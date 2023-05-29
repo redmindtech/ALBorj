@@ -59,10 +59,6 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    {{-- <form id="{{$material->mr_id}}" action="{{route("material.destroy",$material->mr_id)}}" method="post">
-                                                        @csrf
-                                                        @method("DELETE")
-                                                    </form> --}}
                                                     <button  type="submit" class="btn btn-sm btn-danger" onclick="handleDelete('{{$material->mr_id}}')">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
@@ -149,12 +145,12 @@
                         <table class="table table-bordered" id="register">
                             <thead>
                                 <tr>
-                                    <th>S.No</th>
-                                    <th>Item Name</th>
+                                    <th class="text-center">S.No</th>
+                                    <th class="text-center">Item Name</th>
                                     <th hidden>item_id</th>
-                                    <th>Item Stock</th>
-                                    <th>Quantity</th>
-                                    <th>Delete</th>
+                                    <th class="text-center">Item Stock</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-center">Delete</th>
 
                                 </tr>
                             </thead>
@@ -276,38 +272,53 @@ $.ajaxSetup({
         
           }
 // DIALOG CLOSE BUTTON
-function handleClose(){
-                     document.getElementById("myDialog").open = false;
-                    $("#myDialog").load(" #myDialog > *");
-                    rowIdx=1;
-                    $('#blur-background').css('display','none');
-                    // window.location.reload();
-                }
+function handleClose()
+        {
+            document.getElementById("myDialog").open = false;
+            // Clear the form fields
+            $('#form')[0].reset();
+            $("#tbodyMI").empty();
+            // Hide any error messages
+            rowIdx=1;
+            $('p[id^="error_"]').html('');
+            // Hide the dialog background
+            $('#blur-background').css('display','none');
+        }
 // DIALOG SUBMIT FOR ADD AND EDIT
-          function handleSubmit(){
-            event.preventDefault();
-            var hasError = false;
+function handleSubmit(){
+                    event.preventDefault();
+                    var hasError = true;
+                    let itemNames = []; // Array to store encountered item names
+                    $('.rowtr').each(function() {
+                    let rowId = $(this).attr('id');
+                    let itemName = $('#' + rowId + ' .item_name').val();
+                    let quantity= $('#' + rowId + ' .quantity').val();
 
-$('.rowtr').each(function() {
-  var rowIdx = $(this).attr('id').replace('row', '');
+                    if (itemName === '') {
+                    alert('Please enter an item name in ' + rowId);
+                    hasError = false;
+                    return false; // Exit the loop
+                    }
 
-  var itemname = $('#item_name_' + rowIdx).val();
-  var quantity = $('#quantity_' + rowIdx).val();
-
-  if (itemname === '') {
-    alert('Please enter an item name for row ' + rowIdx);
-    hasError = true;
-    return false;
-  }
-
-  if (quantity === '') {
-    alert('Please enter a quantity for row ' + rowIdx);
-    hasError = true;
-    return false;
-  }
-});
-
-        if(!hasError) {
+                    if (itemNames.includes(itemName)) {
+                        alert('Item name "' + itemName + '" is repeated. Please enter a unique item name in ' + rowId);
+                        hasError = false;
+                        return false; // Exit the loop
+                    }
+                    itemNames.push(itemName);
+                    if (quantity === '' ) {
+                    alert('Please enter quantity in ' + rowId);
+                    hasError = false;
+                    return false; // Exit the loop
+                    }
+                    if (quantity === '0' ) {
+                    alert('Please enter quantity in ' + rowId + 'otherthan 0');
+                    hasError = false;
+                    return false; // Exit the loop
+                    }
+                });
+             
+        if(hasError) {
          let form_data = new FormData(document.getElementById('form'));
          let method = $('#method').val();
          let url;
@@ -362,6 +373,7 @@ $('.rowtr').each(function() {
             success: function (message) {
                  console.log(message);
                 if(action == 'edit'){
+                    $('#heading_name').text("Update Material Requisition").css('font-weight', 'bold');
                     $('#show').css('display','none');
                      $('#form').css('display','block');  
                      $('#blur-background').css('display','block');
@@ -447,11 +459,11 @@ function add_text()
 {
             var html = '';
 		html +='<tr id="row'+rowIdx+'" class="rowtr">';
-        html += '<td>'+rowIdx+'</td>';
-		html += '<td><div class="col-xs-12"><input type="text" id="item_name_'+rowIdx+'"  name="item_name[]" class="item_name" placeholder="Start Typing Item name..."></div></td>';
+        html += '<td><center>'+rowIdx+'</center></td>';
+		html += '<td><div class="col-xs-12"><input type="text" id="item_name_'+rowIdx+'"  name="item_name[]" class="item_name form-control" placeholder="Start Typing Item name..."></div></td>';
         html += '<td hidden ><div class="col-xs-12"><input type="text"  id="item_no_'+rowIdx+'"  name="item_no[]" class="item_no_'+rowIdx+'"></div></td>';
         html += '<td><center><div class="col-xs-12" id="total_quantity_'+ rowIdx + '" ></div></center></td>';
-        html += '<td><div class="col-xs-12"><input type="text" id="quantity_'+rowIdx+'"  name="quantity[]" class="quantity"></div></td>';
+        html += '<td><div class="col-xs-12"><input type="number" id="quantity_'+rowIdx+'"  min ="1" name="quantity[]" class="quantity form-control"></div></td>';
                html +='<td><button class="btn btn-danger remove" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';     
         html+='</tr>';
         

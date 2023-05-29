@@ -221,7 +221,7 @@
     </div>
     <div class="form-group col-md-6">
         <label for="city" class="form-label fw-bold">Current Location<a style="text-decoration: none;color:red">*</a></label>
-       <input type="text" id="city" name="city"  value="{{ old('city') }}" placeholder=" city" class="form-control" autocomplete="off">
+       <input type="text" id="city" name="city"  value="{{ old('city') }}" placeholder="Project Name" class="form-control" autocomplete="off">
 
         <p style="color: red" id="error_city"></p>
     </div>

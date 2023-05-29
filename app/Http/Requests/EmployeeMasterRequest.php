@@ -55,7 +55,7 @@ class EmployeeMasterRequest extends FormRequest
             'expiry_date' => 'required',
             'total_salary' => 'required|numeric',
             'hra' => 'required|numeric',
-            'passport_no' => 'required|regex:/^[a-zA-Z0-9]+$/',
+            'passport_no' => 'required|alpha_num',
             'emirates_id_no' => 'required|numeric|digits:7',       
          ];
     }
@@ -104,8 +104,8 @@ class EmployeeMasterRequest extends FormRequest
             'total_salary.numeric' => 'The total salary allows only numbers.',
             'hra.required' => 'The HRA is required.',
             'hra.numeric' => 'The HRA allows only numbers.',
-            'passport_no.required' => 'The passport no is required.',
-            'passport_no.regex' => 'The passport no does not allow special characters.',
+            'passport_no.required' => 'The passport number is required.',
+            'passport_no.alpha_num' => 'Please enter numerical values for the passport number.',
             'emirates_id_no.required' => 'The emirates id no is required.',
             'emirates_id_no.regex' => 'The emirates id no allow only numbers up to 7 digits.',
 
