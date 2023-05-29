@@ -23,6 +23,8 @@ AL BORJ ERP| Login
                         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
                         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active" data-bs-interval="2000">
@@ -46,6 +48,20 @@ AL BORJ ERP| Login
                             <p>Some representative placeholder content for the third slide.</p> --}}
                         </div>
                         </div>
+                        <div class="carousel-item" data-bs-interval="2000">
+                            <img src="https://redmindtechnologies.com/alborj_new_desgins/login_template-ranjit/Civil-Engineering-Consultancy2.jpg" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                               {{-- <h5>Fourth slide label</h5>
+                                <p>Some representative placeholder content for the third slide.</p>--}}
+                            </div>
+                            </div>
+                            <div class="carousel-item" data-bs-interval="2000">
+                            <img src="https://redmindtechnologies.com/alborj_new_desgins/login_template-ranjit/Working Group Meeting banner image_1.jpg" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                               {{-- <h5>Fourth slide label</h5>
+                                <p>Some representative placeholder content for the third slide.</p>--}}
+                            </div>
+                            </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>

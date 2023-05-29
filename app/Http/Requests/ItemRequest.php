@@ -24,28 +24,25 @@ class ItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'item_name' => 'required',
+            'item_name' => 'required|alpha_num',
             'item_category' => 'required',
             'item_subcategory' => 'required',
             'stock_type' => 'required',
             'item_type' => 'required',
             'item_qty'=>'nullable|regex:/^[0-9]*$/',           
-            'name'=>'required|regex:/^[A-Za-z\s]*$/',
-            'total_quantity'=>'required|regex:/^[0-9]*$/',
+            'total_quantity'=>'nullable|regex:/^[0-9]*$/',
 
         ];
     }
     public function messages(){
         return [
-            'item_name.required' => 'The Item Name is required.',       
+            'item_name.required' => 'The Item Name is required.',  
+            'item_name.alpha_num' => 'Please enter numerical values for the Item Name',     
             'item_category.required' => 'The Item Category is required.',
             'item_subcategory.required' => 'The Item SubCategory is required.',
             'stock_type.required' => 'The Stock Type is required.',
-            'item_type.required' => 'The Item Type is required.',            
-            'name.required'=>'The Supplier Name is required',
-            'name.regex'=>'The Supplier Name allows only alphabets',
-            'item_qty.regex' => 'The Item Quantity allows only numbers not decimal numbers.', 
-            'total_quantity.required' => 'The Item Quantity is required ',              
+            'item_type.required' => 'The Item Type is required.',           
+            'item_qty.regex' => 'The Item Quantity allows only numbers not decimal numbers.',             
             'total_quantity.regex' => 'The Item Quantity allows only numbers not decimal numbers.',            
 
 

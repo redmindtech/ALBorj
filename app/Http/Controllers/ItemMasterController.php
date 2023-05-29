@@ -30,8 +30,7 @@ class ItemMasterController extends Controller
 
     public function index()
     {
-        try
-        {
+        try{
             $item_type = ITEMTYPE;
             $item_category = ITEMCATEGORY;
             $item_subcategory = ITEMSUBCATEGORY;
@@ -39,6 +38,7 @@ class ItemMasterController extends Controller
             $items = DB::table('item_masters')
             ->get();
 
+                // info($items);
                 return view('itemmaster.index')->with([
                     'items' => $items,
                     'item_type'=>$item_type,
@@ -46,14 +46,13 @@ class ItemMasterController extends Controller
                     item_subcategory'=>$item_subcategory,
                     'stock_type'=>$stock_type
                 ]);
-        }
-        catch (Exception $e)
-        {
-            info($e);
-            return response()->json('Error occured in the loading page', 400);
-        }
-    }
 
+            }
+            catch (Exception $e) {
+                info($e);
+                return response()->json('Error occured in the loading page', 400);
+            }
+    }
 
 
     /**
@@ -65,23 +64,26 @@ class ItemMasterController extends Controller
     // DATA SAVE IN ADD DIALOG
     public function store(ItemRequest $request)
     {
+        try {
+            // Create the item master
+            $itemMaster = ItemMaster::create($request->only(ItemMaster::REQUEST_INPUTS));
 
-        try 
-        {
-            ItemMaster::create($request->only(ItemMaster::REQUEST_INPUTS));
-            $request['item_no']=ItemMaster::max('id');
-            $request['quantity']=$request['total_quantity'];
-            ItemSupplier::create($request->only(ItemSupplier::REQUEST_INPUTS));
-            return response()->json('Item Master Created Successfully', 200);
+            // Check if supplier_no is provided
+            $supplierNo = $request->input('supplier_no');
+            $quantity = $request->input('total_quantity');
+            if ($supplierNo != null && $quantity != null ) {
+                // Create the item supplier if supplier_no is not null
+                $request['item_no'] = $itemMaster->id;
+                $request['quantity'] = $request['total_quantity'];
+                ItemSupplier::create($request->only(ItemSupplier::REQUEST_INPUTS));
+            }
 
-        } 
-        catch (Exception $e)
-        {
+            return response()->json('Item Details Added Successfully', 200);
+        } catch (Exception $e) {
             info($e);
-            return response()->json('Error occured in the store', 400);
+            return response()->json('Error occurred in the store', 400);
         }
     }
-
     /**
      * Display the specified resource.
      *
@@ -91,35 +93,40 @@ class ItemMasterController extends Controller
     // DATA SHOW WHICH IS USED FOR EDIT AND SHOW
     public function show($id)
     {
-        try 
-        {
-            // ItemMaster
-            $items = DB::table('item_masters')
+
+     try {
+         $item =  DB::table('item_supplier')->select('supplier_no')->where('item_supplier.item_no', $id)->value('supplier_no');
+           info($item);
+          $items = DB::table('item_masters')
             ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
             ->join('supplier_masters', 'item_supplier.supplier_no', '=', 'supplier_masters.supplier_no')
-            ->select('item_masters.*', 'item_supplier.*', 'supplier_masters.*')
-            ->where('item_masters.id', $id)
-            ->get();
-            // Itemsupplier
-            $itemsupplier = DB::table('item_supplier')
-            ->join('item_masters', 'item_masters.id', '=', 'item_supplier.item_no')
-            ->join('supplier_masters', 'item_supplier.supplier_no', '=', 'supplier_masters.supplier_no')
-            ->select('item_masters.*', 'item_supplier.*', 'supplier_masters.*')
+            ->select('item_masters.*', 'item_supplier.*','supplier_masters.*')
             ->where('item_masters.id', $id)
             ->get();
 
-            return response()->json([
-                'items' => $items,
-                'itemsupplier' => $itemsupplier
-            ]);
-        } 
-        catch (Exception $e) 
-        {
+    if ($item != "" ){
+        $itemsupplier = ItemMaster::join('item_supplier', 'item_supplier.item_no', '=', 'item_masters.id')
+        ->join('supplier_masters', 'item_supplier.supplier_no', '=', 'supplier_masters.supplier_no')
+        ->select('item_masters.*', 'item_supplier.*', 'supplier_masters.*')
+        ->where('item_masters.id', $id)
+        ->get();
+
+        }else {
+
+            $itemsupplier = ItemMaster::where('id', $id)
+            ->get();
+        }
+      return response()->json([
+        'items' => $items,
+        'itemsupplier' => $itemsupplier
+    ]);
+    info($items);
+    info($itemsupplier);
+        } catch (Exception $e) {
             info($e);
             return response()->json('Error occured in the show', 400);
         }
     }
-
 
 
     /**
@@ -131,23 +138,29 @@ class ItemMasterController extends Controller
      */
     // UPDATE SAVE FUNCTION
     public function update(ItemRequest $request, $id)
-    {
-        try 
-        {
-            $itemMaster = ItemMaster::find($id);
-            $itemMaster->update($request->only(ItemMaster::REQUEST_INPUTS));
+{
+    try {
+        // Update the item master
+        $itemMaster = ItemMaster::findOrFail($id);
+        $itemMaster->update($request->only(ItemMaster::REQUEST_INPUTS));
 
-            $itemSupplier = ItemSupplier::where('item_no', $id)->first();
-            $itemSupplier->update($request->only(ItemSupplier::REQUEST_INPUTS));
+        // Update or create the item supplier if supplier_no and total_quantity are provided
+        $supplierNo = $request->input('supplier_no');
+        $quantity = $request->input('total_quantity');
+        if ($supplierNo !== null && $quantity !== null) {
+            $itemSupplierData = $request->only(ItemSupplier::REQUEST_INPUTS);
+            $request['quantity'] = $request['total_quantity'];
+            $itemSupplierData['item_no'] = $id;
 
-            return response()->json('Item Master Updated Successfully', 200);
-        } 
-        catch (Exception $e)
-        {
-            info($e);
-            return response()->json('Error occurred in the update', 400);
+            ItemSupplier::updateOrCreate(['item_no' => $id], $itemSupplierData);
         }
+
+        return response()->json('Item Details Updated Successfully', 200);
+    } catch (Exception $e) {
+        info($e);
+        return response()->json('Error occurred in the update', 400);
     }
+}
 
 
     /**
@@ -158,40 +171,24 @@ class ItemMasterController extends Controller
      */
     // DELETE FUNCTION
     public function destroy($id)
-    {
-        try 
-        {
-            // Disable foreign key check
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+{
+    try {
+        // Find the item master
+        $itemMaster = ItemMaster::findOrFail($id);
 
-            $itemMaster = ItemMaster::find($id);
+        // Delete the item master
+        $itemMaster->delete();
 
-            if ($itemMaster != null) 
-            {
-                $itemSupplier = ItemSupplier::where('item_no', $id)->first();
-                $itemSupplier->delete();
-
-                $itemMaster->delete();
-
-                // Enable foreign key check
-                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-                return response()->json('Item Master Deleted Successfully', 200);
-            } 
-            else {
-                // Enable foreign key check
-                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-                return response()->json('Item not found', 404);
-            }
-        } 
-        catch (Exception $e) 
-        {
-            // Enable foreign key check
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-            info($e);
-            return response()->json('Error occurred in the delete', 400);
+        // Delete the item supplier if it exists
+        $itemSupplier = ItemSupplier::where('item_no', $id)->first();
+        if ($itemSupplier !== null) {
+            $itemSupplier->delete();
         }
+
+        return response()->json('Item Details Deleted Successfully', 200);
+    } catch (Exception $e) {
+        info($e);
+        return response()->json('Error occurred in the delete', 400);
     }
+}
 }

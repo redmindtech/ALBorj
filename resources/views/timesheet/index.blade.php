@@ -74,7 +74,7 @@
     <div class="row">
         <div class="col-md-12">
             <a class="btn btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
-            <h4  id='heading_name' style='color:white' align="center"><b>Update</b></h4>
+            <h4  id='heading_name' style='color:white' align="center"><b>Update Employee TimeSheet</b></h4>
         </div>
     </div>
     <form  class="form-row"  enctype="multipart/form-data" style="display:block" id="form" onsubmit="handleSubmit()">
@@ -446,10 +446,12 @@
     function handleClose()
     {
         document.getElementById("myDialog").open = false;
-        $("#myDialog").load(" #myDialog > *");
-        i=1;
+        // Clear the form fields
+        $('#form')[0].reset();
+        // Hide any error messages
+        $('p[id^="error_"]').html('');
+        // Hide the dialog background
         $('#blur-background').css('display','none');
-        // window.location.reload();
     }
 
     // DIALOG SUBMIT FOR ADD AND EDIT
@@ -513,6 +515,7 @@
             {
                 if(action == 'edit')
                 {
+                    $('#heading_name').text("Update Employee Timesheet").css('font-weight', 'bold');
                     $('#show').css('display','none');
                     $('#form').css('display','block');
                     $('#blur-background').css('display','block');
@@ -552,7 +555,6 @@
                     }
                         $('#method').val('UPDATE');
                         $('#submit').text('UPDATE');
-                        $('#heading_name').text('Edit Timesheet Entry').css('font-weight', 'bold');
         
                 } 
                 else
