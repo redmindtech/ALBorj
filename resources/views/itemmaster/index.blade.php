@@ -25,7 +25,7 @@
                         <table id="myTable" class="table table-bordered table-striped">
                             <thead>
                                 <tr class="text-center">
-                                    <th>S.No</th>
+                                    <!-- <th>S.No</th> -->
                                     <!-- <th>Item ID</th> -->
                                     <th>Item Name</th>
                                     <th>Item Category</th>
@@ -40,7 +40,7 @@
                             <tbody>
                                 @foreach ($items as $key => $item)
                                     <tr class="text-center">
-                                        <td>{{ $key += 1 }}</td>
+                                        <!-- <td>{{ $key += 1 }}</td> -->
                                         {{-- <td>{{$item->id}}</td> --}}
                                         <td>
                                             <a href="#{{ $item->id }}"
@@ -251,7 +251,7 @@
                 function handleDelete(id) {
                     let url = '{{ route('itemApi.delete', ':id') }}';
                     url = url.replace(':id', id);
-                    if (confirm("Are you sure you want to delete this item?")) {
+                    if (confirm("Are you sure you want to delete this item Details?")) {
                         $.ajax({
                             url: url,
                             type: 'DELETE',
@@ -382,7 +382,7 @@
                                     for (const item of message.items) {
                                         script += '<tr>';
                                         script += '<td>' + item.name + '</td>';
-                                        script += '<td>' + item.total_quantity + '</td>';
+                                        script += '<td>' + item.quantity + '</td>';
                                         script += '<td>' + item.price_per_qty + '</td>';
                                         script += '</tr>';
                                     }

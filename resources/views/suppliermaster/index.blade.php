@@ -25,7 +25,6 @@
                                 <table id="myTable" class="table table-bordered table-striped">
                                     <thead>
                                         <tr class="text-center">
-                                            <!-- <th>S.No</th> -->
                                             <th>Supplier Code</th>
                                             <th>Supplier Name</th>
                                             <th>Company Name</th>                                          
@@ -41,7 +40,6 @@
                                     <tbody>
                                         @foreach ($suppliers as $key => $supplier)
                                             <tr class="text-center">
-                                                <!-- <td>{{$key+=1}}</td> -->
                                                 <td>{{$supplier->code}}<div id="blur-background" class="blur-background"></div></td>
                                                 <td>{{$supplier->name}}</td>
                                                 <td>{{$supplier->company_name}}</td>
@@ -217,7 +215,7 @@
         {
             let url = '{{route('supplierApi.delete',":id")}}';
             url= url.replace(':id',id);
-            if (confirm("Are you sure you want to delete this Supplier Master?"))
+            if (confirm("Are you sure you want to delete this Supplier Details?"))
             {
                 $.ajax
                 ({

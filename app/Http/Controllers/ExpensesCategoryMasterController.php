@@ -45,7 +45,7 @@ class ExpensesCategoryMasterController extends Controller
         try 
         {
             ExpensesCategoryMaster::create($request->only(ExpensesCategoryMaster::REQUEST_INPUTS));
-            return response()->json('ExpensesCategory Master Created Successfully', 200);
+            return response()->json('ExpensesCategory Details Added Successfully', 200);
 
         } 
         catch (Exception $e)
@@ -98,7 +98,7 @@ class ExpensesCategoryMasterController extends Controller
         {
             $expenses = ExpensesCategoryMaster::findOrFail($id);
             $expenses->update($request->only(ExpensesCategoryMaster::REQUEST_INPUTS));
-            return response()->json('ExpensesCategory Master Updated Successfully');
+            return response()->json('ExpensesCategory Details Updated Successfully');
 
         } 
         catch (Exception $e)
@@ -120,7 +120,7 @@ class ExpensesCategoryMasterController extends Controller
         {
             $expenses = ExpensesCategoryMaster::findOrFail($id);
             $expenses->delete();
-            return response()->json('ExpensesCategory Master Deleted Successfully', 200);
+            return response()->json('ExpensesCategory Details Deleted Successfully', 200);
 
         } 
         catch (Exception $e) 

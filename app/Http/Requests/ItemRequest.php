@@ -37,7 +37,7 @@ class ItemRequest extends FormRequest
     public function messages(){
         return [
             'item_name.required' => 'The Item Name is required.',  
-            'item_name.alpha_num' => 'Please enter numerical values for the Item Name',     
+            'item_name.alpha_num' => 'Please enter alphanumerical values for the Item Name',     
             'item_category.required' => 'The Item Category is required.',
             'item_subcategory.required' => 'The Item SubCategory is required.',
             'stock_type.required' => 'The Stock Type is required.',

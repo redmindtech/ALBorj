@@ -171,24 +171,25 @@ class ItemMasterController extends Controller
      */
     // DELETE FUNCTION
     public function destroy($id)
-{
-    try {
-        // Find the item master
-        $itemMaster = ItemMaster::findOrFail($id);
-
-        // Delete the item master
-        $itemMaster->delete();
-
-        // Delete the item supplier if it exists
-        $itemSupplier = ItemSupplier::where('item_no', $id)->first();
-        if ($itemSupplier !== null) {
-            $itemSupplier->delete();
+    {
+        try {
+            // Find the item master
+            $itemMaster = ItemMaster::findOrFail($id);
+    
+            // Find and delete the associated item supplier, if it exists
+            $itemSupplier = ItemSupplier::where('item_no', $id)->first();
+            if ($itemSupplier !== null) {
+                $itemSupplier->delete();
+            }
+    
+            // Delete the item master
+            $itemMaster->delete();
+    
+            return response()->json('Item Details Deleted Successfully', 200);
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occurred during delete', 400);
         }
-
-        return response()->json('Item Details Deleted Successfully', 200);
-    } catch (Exception $e) {
-        info($e);
-        return response()->json('Error occurred in the delete', 400);
     }
-}
+    
 }

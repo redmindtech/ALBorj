@@ -25,7 +25,6 @@
                                 <table id="myTable" class="table table-bordered table-striped">
                                     <thead>
                                         <tr class="text-center">
-                                            <!-- <th>S.No</th> -->
                                             <th>Project Code</th>
                                             <th>Project Name</th>
                                             <th>Client Name</th>
@@ -49,7 +48,6 @@
                                     <tbody>
                                         @foreach ($projectmasters as $key => $projectmaster)
                                             <tr class="text-center">
-                                                <!-- <td>{{$key+=1}}</td> -->
                                                 <td>{{$projectmaster->project_code}}<div id="blur-background" class="blur-background"></div></td>                                                
                                                 <td>{{$projectmaster->project_name}}</td>
                                                 <td>{{$projectmaster->name}}</td>
@@ -111,7 +109,7 @@
   <div class="form-group col-md-6">
         <label for="site_name" class="form-label fw-bold">Site Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="site_name"  name="site_name" value="{{ old('site_name') }}" placeholder="Site Name" class="form-control" autocomplete="off">
-        <input type="text" id="site_no"  name="site_no" hidden value="{{ old('site_no') }}"  class="form-control" autocomplete="off">
+        <input type="text" id="site_no" hidden name="site_no" value="{{ old('site_no') }}"  class="form-control" autocomplete="off">
         <p style="color: red" id="error_site_name"></p>
     </div>
 
@@ -166,7 +164,7 @@
 <div class="form-group col-md-6">
         <label for="company_name" class="form-label fw-bold">Client / Company Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" placeholder="Client / Company Name" class="form-control" autocomplete="off">
-        <input type="text" id="client_no"   name="client_no" hidden  value="{{ old('client_no') }}"  class="form-control" autocomplete="off">
+        <input type="text" id="client_no" hidden   name="client_no"   value="{{ old('client_no') }}"  class="form-control" autocomplete="off">
         <p style="color: red" id="error_company_name"></p>
     </div>
 </div>
@@ -415,7 +413,7 @@
         {
             let url = '{{route('projectApi.delete',":project_no")}}';
             url= url.replace(':project_no',id);
-            if (confirm("Are you sure you want to delete this Project Master?")) 
+            if (confirm("Are you sure you want to delete this Project Details?")) 
             {
                 $.ajax
                 ({
@@ -543,6 +541,7 @@
     {
         $(document).on('focus click', $("#firstname"), function() 
         {
+
             $("#firstname").autocomplete(
             {
                 source: function( request, response ) 
@@ -573,10 +572,12 @@
                 },
             });
         });
-    });
+    
     // EMPLOYEE CODE
-        $("#firstname").on('change',function()
+        $("#firstname").on('focus change',function()
         {
+            $('#employee_no').val('');
+            $('#UAE_mobile_number').val('');
             var code= $(this).val();
             $.ajax
             ({
@@ -602,13 +603,13 @@
                 }
             });
         });
+    });    
 
     // auto complete for sitename from sitemaster
     jQuery($ => 
     {
         $(document).on('focus click', $("#site_name"), function() 
         {
-
             $("#site_name").autocomplete(
             {
                 source: function( request, response ) 
@@ -639,10 +640,12 @@
                 },
             });
         });
-    });
+    
         // site code
-        $("#site_name").on('change',function()
+        $("#site_name").on('focus change',function()
         {
+            $('#site_no').val('');
+            $('#site_code').val('');
             var code= $(this).val();
                 $.ajax
                 ({
@@ -655,12 +658,10 @@
                     },
                     success: function( data ) 
                     {
-                        result = [];
-                        for(var i in data)
-                        {
-                        $('#site_no').val(data[i]["site_no"]);
-                        $('#site_code').val(data[i]["site_code"]);
-                        }
+                   
+                        $('#site_no').val(data[0]["site_no"]);
+                        $('#site_code').val(data[0]["site_code"]);
+                    
                     },
                     fail: function(xhr, textStatus, errorThrown)
                     {
@@ -668,6 +669,8 @@
                     }
                 });
         });
+
+    });
 
         // auto complete for client from clientmaster
     jQuery($ => 
@@ -705,37 +708,41 @@
                 },
             });
         });
-    });
+    
 
-            // client code
-            $("#company_name").on('change',function()
-            {
-                var code= $(this).val();
-                $.ajax
-                ({
-                    type:"GET",
-                    url: "{{ route('getclientdata') }}",
-                    dataType: "json",
-                    data:
+        // client code
+        $("#company_name").on('focus change',function()
+        {
+            $('#client_no').val('');
+            $('#contact_number').val('');
+            $('#name').val(''); 
+            var code= $(this).val();
+            $.ajax
+            ({
+                type:"GET",
+                url: "{{ route('getclientdata') }}",
+                dataType: "json",
+                data:
+                {
+                    'company_name':$(this).val()
+                },
+                success: function( data ) 
+                {
+                    result = [];
+                    for(var i in data)
                     {
-                        'company_name':$(this).val()
-                    },
-                    success: function( data ) 
-                    {
-                        result = [];
-                        for(var i in data)
-                        {
-                            $('#client_no').val(data[i]["client_no"]);
-                            $('#contact_number').val(data[i]["contact_number"]);
-                            $('#name').val(data[i]["name"]);  
-                        }
-                    },
-                    fail: function(xhr, textStatus, errorThrown)
-                    {
-                        alert(errorThrown);
+                        $('#client_no').val(data[i]["client_no"]);
+                        $('#contact_number').val(data[i]["contact_number"]);
+                        $('#name').val(data[i]["name"]);  
                     }
-                });
+                },
+                fail: function(xhr, textStatus, errorThrown)
+                {
+                    alert(errorThrown);
+                }
             });
+        });
+    });
 
 </script>
     

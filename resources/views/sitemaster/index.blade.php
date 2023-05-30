@@ -25,7 +25,6 @@
                                 <table id="myTable" class="table table-bordered table-striped">
                                     <thead>
                                         <tr class="text-center">
-                                            <!-- <th>S.No</th> -->
                                             <th>Site Code</th>
                                             <th>Site Name</th>                                            
                                             <th>Site location</th>                                          
@@ -41,7 +40,6 @@
                                     <tbody>
                                         @foreach ($sitemasters as $key => $sitemaster)
                                             <tr class="text-center">
-                                                <!-- <td>{{$key+=1}}</td> -->
                                                 <td>{{$sitemaster->site_code}}<div id="blur-background" class="blur-background"></div></td>
                                                 <td>{{$sitemaster->site_name}}</td>                                        
                                                 <td>{{$sitemaster->site_location}}</td>
@@ -261,7 +259,7 @@
         {
             let url = '{{route('siteApi.delete',":site_no")}}';
             url= url.replace(':site_no',id);
-            if (confirm("Are you sure you want to delete this Site Master?")) 
+            if (confirm("Are you sure you want to delete this Site Details?")) 
             {
                 $.ajax(
                 {
@@ -421,8 +419,9 @@
         });
     });
             // EMPLOYEE CODE
-            $("#firstname").on('change',function()
+            $("#firstname").on('focus change',function()
             {
+                $('#site_manager').val(null);
                 var code= $(this).val();
 
                 $.ajax

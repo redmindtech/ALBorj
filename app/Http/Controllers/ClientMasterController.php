@@ -44,7 +44,7 @@ class ClientMasterController extends Controller
         try {
 
             ClientMaster::create($request->only(ClientMaster::REQUEST_INPUTS));
-            return response()->json('Client Master Created Successfully', 200);
+            return response()->json('Client Details Added Successfully', 200);
 
         } catch (Exception $e) {
             info($e);
@@ -94,7 +94,7 @@ public function update(ClientRequest $request, $client_no)
     try {
         $clients = ClientMaster::findOrFail($client_no);
         $clients->update($request->only(ClientMaster::REQUEST_INPUTS));
-        return response()->json('client Master Updated Successfully');
+        return response()->json('Client Details Updated Successfully');
 
     } catch (Exception $e) {
         info($e);
@@ -115,7 +115,7 @@ public function update(ClientRequest $request, $client_no)
         try {
             $clients = ClientMaster::findOrFail($client_no);
             $clients->delete();
-            return response()->json('Client Deleted Successfully', 200);
+            return response()->json('Client Details Deleted Successfully', 200);
 
         } catch (Exception $e) {
             info($e);

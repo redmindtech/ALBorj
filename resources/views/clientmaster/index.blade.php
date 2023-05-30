@@ -40,7 +40,6 @@
                                     <tbody>
                                         @foreach ($clients as $key => $client)
                                             <tr class="text-center">
-                                                {{-- <td>{{$key+=1}}</td> --}}
                                                 <!-- <td>{{$client->client_no}}</td> -->
                                                 <td>{{$client->client_code}} <div id="blur-background" class="blur-background"></div></td>
                                                 <td>{{$client->name}}</td>
@@ -198,7 +197,7 @@
         {
             let url = '{{route('clientApi.delete',":id")}}';
             url= url.replace(':id',id);
-            if (confirm("Are you sure you want to delete this Client Master?"))
+            if (confirm("Are you sure you want to delete this Client Details?"))
             {
                 $.ajax
                 ({

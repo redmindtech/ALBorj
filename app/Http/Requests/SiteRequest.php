@@ -24,11 +24,11 @@ class SiteRequest extends FormRequest
     public function rules()
     {
         return [
-                'site_name' => 'required|alpha_num',
+                'site_name' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
                 'site_location' => 'required|regex:/^[A-Z a-z]+$/',
-                'site_building' => 'required|alpha_num',
-                'site_floor' => 'required|alpha_num',
-                'room_number' => 'required|alpha_num',
+                'site_building' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
+                'site_floor' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
+                'room_number' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
                 'site_address' => 'required',
                 'site_status'=>'required',
                 // 'firstname'=>'required|regex:/^[A-Z a-z]+$/',
@@ -51,15 +51,15 @@ class SiteRequest extends FormRequest
     public function messages(){
         return [
                 'site_name.required' => 'The Site Name is required.',
-                'site_name.alpha_num' => 'Please enter numerical values for the Site Name',
+                'site_name.regex' => 'Please enter numerical values for the Site Name',
                 'site_location.required' => 'The Site Location is required.',
                 'site_location.regex' => 'The Site Location allows only alphabets.',
                 'site_building.required' => 'The Site Building is required.',
-                'site_building.alpha_num' => 'Please enter numerical values for the Site Building',
+                'site_building.regex' => 'Please enter numerical values for the Site Building',
                 'site_floor.required' => 'The site Floor is required.',
-                'site_floor.alpha_num' => 'Please enter numerical values for the Site Floor',
+                'site_floor.regex' => 'Please enter numerical values for the Site Floor',
                 'room_number.required' => 'The Room Number is required.',
-                'room_number.alpha_num' => 'Please enter numerical values for the Room Number',
+                'room_number.regex' => 'Please enter numerical values for the Room Number',
                 'site_address.required' => 'The Site Address is required.',
                 'site_status.required'=>'The Site Status is required',
                 'firstname.required'=>'The Site Manager is required',

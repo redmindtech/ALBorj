@@ -59,7 +59,7 @@ class ProjectMasterController extends Controller
         {
 
             ProjectMaster::create($request->only(ProjectMaster::REQUEST_INPUTS));
-            return response()->json('Project Master Created Successfully', 200);
+            return response()->json('Project Details Added Successfully', 200);
 
         } 
         catch (Exception $e) 
@@ -109,7 +109,7 @@ class ProjectMasterController extends Controller
         {
             $project = ProjectMaster::findOrFail($project_no);
             $project->update($request->only(ProjectMaster::REQUEST_INPUTS));
-            return response()->json('Project Master Updated Successfully');
+            return response()->json('Project Details Updated Successfully');
 
         } 
         catch (Exception $e) 
@@ -133,7 +133,7 @@ class ProjectMasterController extends Controller
         {
             $site = ProjectMaster::findOrFail($project_no);
             $site->delete();
-            return response()->json('ProjectMaster Deleted Successfully', 200);
+            return response()->json('Project Details Deleted Successfully', 200);
 
         } 
         catch (Exception $e) 

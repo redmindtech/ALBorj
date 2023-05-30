@@ -25,7 +25,8 @@
                                 <table id="myTable" class="table table-bordered table-striped">
                                     <thead>
                                         <tr class="text-center">
-                                            <th>ID</th>
+                                            <!-- <th>ID</th> -->
+                                             <th>S.No</th>
                                             <th>Category Name</th>
                                             <th>Description</th>
                                             <th data-orderable="false" class="action notexport">Show</th>
@@ -36,8 +37,9 @@
                                     <tbody>
                                         @foreach ($expenses as $key => $expense)
                                             <tr class="text-center">
-                                                <td>{{$expense->id}}<div id="blur-background" class="blur-background"></div></td>
-                                                <td>{{$expense->category_name}}</td>
+                                                <!-- <td>{{$expense->id}}</td> -->
+                                                <td>{{ $key += 1 }}</td>
+                                                <td>{{$expense->category_name}}<div id="blur-background" class="blur-background"></div></td>
                                                 <td>{{$expense->category_description}}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$expense->id}}','show')"
@@ -144,7 +146,7 @@
     {
         let url = '{{route('expensescategoryApi.delete',":id")}}';
         url= url.replace(':id',id);
-        if (confirm("Are you sure you want to delete this ExpensesCategory Master?"))
+        if (confirm("Are you sure you want to delete this ExpensesCategory Details?"))
         {
             $.ajax
             ({

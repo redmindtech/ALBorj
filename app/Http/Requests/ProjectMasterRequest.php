@@ -55,6 +55,8 @@ class ProjectMasterRequest extends FormRequest
                 ],
                 'site_name' =>
                 [  
+                    'required',
+                    'regex:/^[a-zA-Z0-9\s]+$/',
                     function ($attribute, $value, $fail) 
                     {
                         $siteNo = $this->input('site_no');
@@ -63,8 +65,6 @@ class ProjectMasterRequest extends FormRequest
                             $fail('Please enter a valid Site Name.');
                         }
                     },
-                        'required',
-                        'regex:/^[A-Za-z\s]+$/',
                   
                 ],
                 'company_name' => 
@@ -78,7 +78,7 @@ class ProjectMasterRequest extends FormRequest
                         }
                     },
                         'required',
-                        'regex:/^[A-Za-z\s]+$/',
+                        'regex:/^[a-zA-Z0-9\s]+$/',
                   
                 ],
             ]; 
@@ -86,14 +86,14 @@ class ProjectMasterRequest extends FormRequest
     public function messages(){
         return [
                 'site_name.required' => 'The Site Name is required.',
-                'site_name.regex' => 'The Site Name allows only alphabets',
+                'site_name.regex' => 'The Site Name allows only alpha numerical',
                 'project_name.required' => 'The Project Name is required.',
                 'project_name.regex' => 'The Project Name allows only alphabets',
                 'project_type.required' => 'The Project Type is required.',
                 'firstname.required' => 'The Manager Name is required.',
                 'firstname.regex' => 'The Manager allows only alphabets',
                 'company_name.required' => 'The Client / Company Name is required.',
-                'company_name.regex' => 'The Client / Company allows only alphabets',
+                'company_name.regex' => 'The Client / Company allows only alphanumerical',
                 'consultant_name.regex:/^[A-Za-z\s]*$/' => 'The Consultant name allows only alphabets',            
                 'start_date.required'=>'The Project Start Date is required',
                 'end_date.required'=>'Tentative Project End Date is required',

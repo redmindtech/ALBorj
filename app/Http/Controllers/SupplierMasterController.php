@@ -47,7 +47,7 @@ class SupplierMasterController extends Controller
         {
 
             SupplierMaster::create($request->only(SupplierMaster::REQUEST_INPUTS));
-            return response()->json('Supplier Master Created Successfully', 200);
+            return response()->json('Supplier Details Added Successfully', 200);
 
         } 
         catch (Exception $e) 
@@ -103,7 +103,7 @@ class SupplierMasterController extends Controller
         {
             $supplier = SupplierMaster::findOrFail($id);
             $supplier->update($request->only(SupplierMaster::REQUEST_INPUTS));
-            return response()->json('Supplier Master Updated Successfully');
+            return response()->json('Supplier Details Updated Successfully');
 
         } 
         catch (Exception $e) 
@@ -127,7 +127,7 @@ class SupplierMasterController extends Controller
         {
             $supplier = SupplierMaster::findOrFail($id);
             $supplier->delete();
-            return response()->json('Supplier Master Deleted Successfully', 200);
+            return response()->json('Supplier Details Deleted Successfully', 200);
 
         } 
         catch (Exception $e) 

@@ -97,7 +97,7 @@ class EmployeeMasterController extends Controller
             SalaryDetails::create($request->only(SalaryDetails::REQUEST_INPUTS));
             VisaDetails::create($request->only(VisaDetails::REQUEST_INPUTS));        
 
-            return response()->json('Employee Master Created Successfully', 200);      
+            return response()->json('Employee Details Added Successfully', 200);      
 
         }catch (Exception $e) {
                 info($e);
@@ -168,7 +168,7 @@ class EmployeeMasterController extends Controller
             $visa = VisaDetails::where('employee_id', $employee_no)->firstOrFail();
             $visa->update($request->only(VisaDetails::REQUEST_INPUTS));
 
-            return response()->json('Employee Updated Successfully');
+            return response()->json('Employee Details Updated Successfully');
 
         
         }catch(Exeception $e){
@@ -195,7 +195,7 @@ class EmployeeMasterController extends Controller
             $salary->update(['deleted' => 1]);
             $visa = VisaDetails::where('employee_id', $employee_no)->firstOrFail();
             $visa->update(['deleted' => 1]);
-            return response()->json('EmployeeMaster Deleted Successfully', 200);       
+            return response()->json('Employee Details Deleted Successfully', 200);       
     
         } 
         catch (Exception $e) {

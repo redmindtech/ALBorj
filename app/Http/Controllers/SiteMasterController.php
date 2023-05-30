@@ -58,7 +58,7 @@ class SiteMasterController extends Controller
         {
 
             SiteMaster::create($request->only(SiteMaster::REQUEST_INPUTS));
-            return response()->json('Site Master Created Successfully', 200);
+            return response()->json('Site Details Added Successfully', 200);
 
         } 
         catch (Exception $e) 
@@ -118,7 +118,7 @@ class SiteMasterController extends Controller
         {
             $supplier = SiteMaster::findOrFail($site_no);
             $supplier->update($request->only(SiteMaster::REQUEST_INPUTS));
-            return response()->json('Site Master Updated Successfully');
+            return response()->json('Site Details Updated Successfully');
 
         } 
         catch (Exception $e) 

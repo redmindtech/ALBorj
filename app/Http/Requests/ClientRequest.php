@@ -26,7 +26,7 @@ class ClientRequest extends FormRequest
         return
         [
             'name' => 'required|regex:/^[A-Z a-z]+$/',
-            'company_name' => 'required|regex:/^[A-Za-z\s]*$/',
+            'company_name' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
             'contact_number' => 'required|numeric|digits:9|regex:/^[5-9][0-9]{8}$/',
             'address' => 'required',
             'website'=>'nullable|url'
@@ -38,7 +38,7 @@ class ClientRequest extends FormRequest
         return
         [
             'name.required' => 'The Client Name is required.',
-            'name.regex' => 'The Client Name allows only alphabets.',
+            'name.regex' => 'The Client Name allows only alphanumericals',
             'company_name.required' => 'The Company Name is required.',
             'company_name.regex' => 'The Company Name  allows only alphabets',
             'contact_number.required' => 'The Contact Number is required.',
