@@ -329,12 +329,17 @@
     </div>
 </div>
 <div class="row">
-     <div class="form-group col-md-6">
+<div class="form-group col-md-4">
+        <label for="basic" class="form-label fw-bold">Basic<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="basic" name="basic"  value="{{ old('basic') }}" placeholder="Basic" class="form-control" autocomplete="off">
+        <p style="color: red" id="error_basic"></p>
+    </div>
+     <div class="form-group col-md-4">
         <label for="total_salary" class="form-label fw-bold">Total Salary<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="total_salary" name="total_salary"  value="{{ old('total_salary') }}" placeholder="Total Salary" class="form-control" autocomplete="off">
         <p style="color: red" id="error_total_salary"></p>
     </div>
-<div class="form-group col-md-6">
+    <div class="form-group col-md-4">
         <label for="hra" class="form-label fw-bold">HRA<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="hra" name="hra"  value="{{ old('hra') }}" placeholder="HRA" class="form-control" autocomplete="off">
         <p style="color: red" id="error_hra"></p>

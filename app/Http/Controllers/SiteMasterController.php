@@ -23,7 +23,8 @@ class SiteMasterController extends Controller
     {     
         try
         {  
-            $site_status = SITESTATUS;    
+            $site_status = SITESTATUS;
+            $site_location=SITELOCATION;    
             $sitemaster = DB::table('site_masters')
             ->join('employee_masters', 'site_masters.site_manager', '=', 'employee_masters.id')
             ->select('site_masters.*', 'employee_masters.firstname')            
@@ -31,7 +32,9 @@ class SiteMasterController extends Controller
            
             return view('sitemaster.index')->with([
                 'sitemasters' => $sitemaster,
-            'site_status'=>$site_status
+            'site_status'=>$site_status,
+            'site_location'=>$site_location,
+
             ]);
         }
         catch (Exception $e) 

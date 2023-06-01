@@ -110,7 +110,7 @@ class PurchaseReturnController extends Controller
                ->update(['closing_balance' => $closing_bal]);
            }
         }
-        return response()->json('Purchase return Details Created Successfully', 200);
+        return response()->json('Purchase return Created Successfully', 200);
     }
     catch (Exception $e) {
         info($e);
@@ -190,7 +190,7 @@ class PurchaseReturnController extends Controller
      ]);
     }
     DB::commit();
-        return response()->json('Purchase Return Details updated successfully', 200);
+        return response()->json('Purchase Return updated successfully', 200);
 }
         catch (Exception $e) {
             DB::rollBack();
@@ -212,7 +212,7 @@ class PurchaseReturnController extends Controller
        try {
         $grn_item = PurchaseReturn::where('pr_no', $pr_no)->update(['deleted' => 1]);
         $grn = PurchaseReturnItem::where('pr_no', $pr_no)->update(['deleted' => 1]);
-        return response()->json('Purchase Return Details Deleted Successfully', 200);
+        return response()->json('Purchase Return Deleted Successfully', 200);
     } catch (Exception $e) {
         info($e);
         return response()->json('Error occured in the delete', 400);

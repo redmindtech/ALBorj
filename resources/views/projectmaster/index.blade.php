@@ -217,27 +217,53 @@
         <p style="color: red" id="error_status"></p>
     </div>   
     <div class="form-group col-md-6">
-        <label for="total_price_cost" class="form-label fw-bold">Total Project Cost<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="total_price_cost" name="total_price_cost" value="{{ old('total_price_cost') }}" placeholder="Total Project Cost" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_total_price_cost"></p>
-    </div>
+                            <label for="total_price_cost" class="form-label fw-bold">Total Project Cost<a
+                                    style="text-decoration: none;color:red">*</a></label>
+                            <div class="input-group">
+                                <input type="text" id="total_price_cost" name="total_price_cost"
+                                    value="{{ old('total_price_cost') }}" placeholder="Total Project Cost"
+                                    class="form-control" autocomplete="off">
+                                <div class="input-group-append">
+                                    <select class="form-select input-group" id="currency" name="currency">
+                                        @foreach ($currency as $key => $value)
+                                            <option value="{{ $key }}">{{ $value }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <p style="color: red" id="error_total_price_cost"></p>
+                        </div>
 </div>
 <div class="row">
-<div class="form-group col-md-6">
-        <label for="advanced_amount" class="form-label fw-bold">Advance Amount<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="advanced_amount" name="advanced_amount" value="{{ old('advanced_amount') }}" placeholder="Advance Amount" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_advanced_amount"></p>
-    </div>
-    <div class="form-group col-md-6">
-        <label for="retention" class="form-label fw-bold">Retention</a></label>
-        <input type="text" id="retention" name="retention" value="{{ old('retention') }}" placeholder="Retention" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_retention"></p>
-    </div>
+<div class="form-group col-md-5 mr-2">
+                            <label for="advanced_amount" class="form-label fw-bold">Advance Amount<a
+                                    style="text-decoration: none;color:red">*</a></label>
+                            <div class="input-group">
+                                <input type="text" id="advanced_amount" name="advanced_amount"
+                                    value="{{ old('advanced_amount') }}" placeholder="Advance Amount"
+                                    class="form-control" autocomplete="off" onchange="calculateAmount()">
+                                <div class="input-group-append">
+                                    <div class="toggle focus">
+                                        <input type="checkbox" class="st amount" name="amount_type" id="amount_type"
+                                        value="1" {{ old('amount_type') ? 'checked' : '' }}>
+                                        <span class="slider"></span>
+                                        <span class="label">AED</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="color: red" id="error_advanced_amount"></p>
+                        </div>
+                        <div class="form-group col-md-5 ml-5">
+                            <label for="retention" class="form-label fw-bold">Retention</label>
+                            <input type="text" id="retention" name="retention" value="{{ old('retention') }}"
+                                placeholder="Retention" class="form-control" autocomplete="off">
+                            <p style="color: red" id="error_retention"></p>
+                        </div>
 </div>
 <div class="row">
 <div class="form-group col-md-6">
         <label for="amount_to_be_received" class="form-label fw-bold">Balance Amount To Be Received<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="amount_to_be_received" name="amount_to_be_received" value="{{ old('amount_to_be_received') }}" placeholder="Balance Amount To Be Received" class="form-control" autocomplete="off">
+        <input type="text" id="amount_to_be_received" name="amount_to_be_received" value="{{ old('amount_to_be_received') }}" placeholder="Balance Amount To Be Received" class="form-control" autocomplete="off" readonly>
         <p style="color: red" id="error_amount_to_be_received"></p>
     </div>
     <div class="form-group col-md-6">
@@ -265,6 +291,55 @@
     </div>
 </div>
 </form>
+<script>
+    $(document).ready(function() {
+  // Calculate the amount based on the initial values
+  calculateAmount();
+
+  $('.toggle input[type="checkbox"]').click(function() {
+    $(this).parent().toggleClass('on');
+
+    if ($(this).parent().hasClass('on')) {
+      $('#amount_type').val('0');
+      calculateAmount();
+      $(this).parent().children('.label').text('%');
+    } else {
+      $('#amount_type').val('1');
+      calculateAmount();
+      $(this).parent().children('.label').text('AED');
+    }
+  });
+
+  // Trigger calculation when the input values change
+  $('#total_price_cost, #advanced_amount').on('input', calculateAmount);
+});
+
+function calculateAmount() {
+  if ($('#amount_type').val() == '0') {
+    // Percentage calculation
+    var totalCost = parseFloat($('#total_price_cost').val()) || 0;
+    var vatPercentage = parseFloat($('#advanced_amount').val()) || 0;
+
+    var advanced_amount = (vatPercentage / 100) * totalCost;
+    var balance_amount = totalCost - advanced_amount;
+    $('#amount_to_be_received').val(balance_amount.toFixed(2));
+
+    // Calculate the amount to be received in AED
+    var amountToBeReceivedInAED = balance_amount * 3.6735;
+    $('#amount_to_be_received_in_aed').val(amountToBeReceivedInAED.toFixed(2));
+  } else {
+    // AED calculation
+    var totalCost = parseFloat($('#total_price_cost').val()) || 0;
+    var vatPercentage = parseFloat($('#advanced_amount').val()) || 0;
+
+    var balance_amount = totalCost - vatPercentage;
+    $('#amount_to_be_received').val(balance_amount.toFixed(2));
+
+    // Clear the amount to be received in AED field
+    $('#amount_to_be_received_in_aed').val('');
+  }
+}
+</script>
 <!-- SHOW DIALOG -->
             <div class="card" id="show" style="display:none">
                 <div class="card-body" style="background-color:white;width:100%;height:20%;" >
@@ -512,6 +587,19 @@
                         {
                             $(`#${key}`).val(value);
                         }
+                        $('#amount_type').prop('checked', true);
+                          console.log(message[0].amount_type);
+                        if (message[0].amount_type == '0') {
+                        $('#amount_type').val('0');
+                        $('#amount_type').prop('checked', false);
+                        $('.toggle').addClass('on').addClass('checked');
+                        $('.toggle .label').text('%');
+                    } else if (message[0].amount_type =='1'){
+                        $('#amount_type').val('1');
+                        $('#amount_type').prop('checked', true);
+                        $('.toggle').removeClass('on').removeClass('checked');
+                        $('.toggle .label').text('AED');
+                    }
                         $('#method').val('UPDATE');
                         $('#submit').text('UPDATE');
                     } 
@@ -521,11 +609,17 @@
                         {
                             if (key === "start_date" || key === "end_date" || key === "actual_project_end_date" || key === "amount_return_date") 
                             {
-                                var dateObj = new Date(value);
-                                var day = dateObj.getDate();
-                                var month = dateObj.getMonth() + 1;
-                                var year = dateObj.getFullYear();
-                                value= day + '-' + month + '-' + year
+                                if( value == null){
+                                    value="";
+                                }
+                                else
+                                {
+                                    var dateObj = new Date(value);
+                                    var day = dateObj.getDate();
+                                    var month = dateObj.getMonth() + 1;
+                                    var year = dateObj.getFullYear();
+                                    value= day + '-' + month + '-' + year
+                                }
                             }
                             $(`#show_${key}`).text(value);
                         }

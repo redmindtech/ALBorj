@@ -9,6 +9,15 @@ const SITESTATUS= [
 'Testing & Commissioning'   => 'Testing & Commissioning',
 'Closed'    =>  'Closed'
 ];
+const SITELOCATION= [
+    'Abu Dhabi' => 'Abu Dhabi',
+    'Ajman' => 'Ajman',
+    'Dubai' => 'Dubai',
+    'Fujairah' => 'Fujairah',
+    'Ras Al Khaimah' => 'Ras Al Khaimah',
+    'Sharjah' => 'Sharjah',
+    'Umm Al Quwain' => 'Umm Al Quwain',
+];
 //  PROJECT MASTER DROPDOWM
 const PROJECT_TYPE=[
 'Project'=>'Project',
@@ -30,8 +39,21 @@ const CATEGORY= [
     'Labour' => 'Labour'
 ];
 const WORKING_AS= [
-    'Staff' => 'Staff',
-    'Labour' => 'Labour'
+    'operation manager' => 'operation manager',
+    'a/c mechanic assistant' => 'a/c mechanic assistant',
+    'pipe fitter' => 'pipe fitter',
+    'air conditioning assistant' => 'air conditioning assistant',
+    'purchaser' => 'purchaser',
+    'plumber' => 'plumber',
+    'electrical foremen' => 'electrical foremen',
+    'projects engineer' => 'projects engineer',
+    'construction worker' => 'construction worker',
+    'welder' => 'welder',
+    'painter' => 'painter',
+    'office' => 'office',
+    'messenger' => 'messenger',
+    'archive clerk' => 'archive clerk',
+    'light vehicle deriver' => 'light vehicle deriver',
 ];
 
 const SPONSOR=[
@@ -41,11 +63,18 @@ const SPONSOR=[
 ];
 
 const DEPARTMENT=[
-    'General Staff' => 'General Staff',
-    'Electrical Department' => 'Electrical Department',
-    'HVAC Department' => 'HVAC Department',
-    'Plumbing Department' => 'Plumbing Department',
-    'Maintenance Department' => 'Maintenance Department',
+    'General'=>'General',
+    'General staff' => 'General staff',
+    'Electrical department' => 'Electrical department',
+    'hvac department' => 'hvac department',
+    'Buildmax' => 'Buildmax',
+    'Foreman - hvac' => 'Foreman - hvac',
+    'hvac technician' => 'hvac technician',
+    'Ultra' => 'Ultra',
+    'al nuaimi' => 'al nuaimi',
+    'rk gulf' => 'rk gulf',
+    'welder' => 'welder',
+    'painter' => 'painter',
 ];
 
 const STATUS=[
@@ -89,18 +118,19 @@ const VISA_STATUS =[
 ];
 const PAY_GROUP=[
     'Staff group' => 'Staff group',
-    'Labor group' => 'Labor group',
+    'Hourly Salary' => 'Hourly Salary',
+    'Fixed Salary + OT' => 'Fixed Salary + OT',
 ];
 const  ACCOMODATION =[
     'Sharjah Camp' => 'Sharjah Camp',
     'Ras Al Khaimah Camp' => 'Ras Al Khaimah Camp',
-    'Dubai Camp' => 'Dubai Camp',
+    'Abu Dubai Camp' => 'Dubai Camp',
+    'Buildmax Camp' => 'Buildmax Camp',
 ];
 const DESIGNATION=[
-    'Site Manager' => 'Site Manager',
-    'CEO' => 'CEO',
-    'Site Incharge' => 'Site Incharge',
-
+    'Investor' => 'Investor',
+    'Administration Manager' => 'Administration Manager',
+    'General Manager' => 'General Manager',
 ];
 
 // item Master

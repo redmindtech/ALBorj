@@ -67,7 +67,7 @@ class MaterialRequisitionController extends Controller
                 }
             }
 
-            return response()->json('Material Requisition Details created Successfully');
+            return response()->json('Material Requisition created Successfully');
 
         } catch (Exception $e) {
             info($e);
@@ -132,7 +132,7 @@ class MaterialRequisitionController extends Controller
 
                 ]);
             }
-            return response()->json('Material Requisition Details updated successfully', 200);
+            return response()->json('Material Requisition updated successfully', 200);
         } catch (Exception $e) {
             info($e);
             return response()->json('Error occurred while updating material Requisition', 400);
@@ -151,7 +151,7 @@ class MaterialRequisitionController extends Controller
         try {
             $mi_item = MaterialRequisitionItem::where('mr_no', $id)->update(['deleted' => 1]);
             $mi = MaterialRequisition::where('mr_id', $id)->update(['deleted' => 1]);
-            return response()->json('Material Requisition Details Deleted Successfully', 200);
+            return response()->json('Material Requisition Deleted Successfully', 200);
 
         } catch (Exception $e) {
             info($e);

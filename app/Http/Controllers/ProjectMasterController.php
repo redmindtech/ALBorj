@@ -24,7 +24,7 @@ class ProjectMasterController extends Controller
         try
         {  
             $project_type = PROJECT_TYPE;  
-             
+            $currency = CURRENCY;
             $project_status= PROJECT_STATUS;
             $projectmaster = DB::table('project_masters')
             ->join('site_masters', 'project_masters.site_no', '=', 'site_masters.site_no')
@@ -37,7 +37,8 @@ class ProjectMasterController extends Controller
             return view('projectmaster.index')->with([
                 'projectmasters' => $projectmaster,
                 'project_type' => $project_type,
-                'project_status'=>$project_status 
+                'project_status'=>$project_status,
+                'currency'=>$currency 
             ]);
         }
         catch (Exception $e) 
@@ -55,6 +56,14 @@ class ProjectMasterController extends Controller
      */
     public function store(ProjectMasterRequest $request)
     {
+        if($request['amount_type']=="")
+        {
+            $request['amount_type']='1' ;
+        }
+        if($request['advanced_amount'] == "")
+        {
+            $request['amount_type']=null ;
+        }
         try 
         {
 
@@ -103,21 +112,20 @@ class ProjectMasterController extends Controller
     }
 
     // UPDATE DATA
-    public function update(ProjectMasterRequest $request, $project_no)
-    {       
-        try 
-        {
-            $project = ProjectMaster::findOrFail($project_no);
+    public function update(ProjectMasterRequest $request, $id)
+    {
+    
+        try {
+            if($request['amount_type']==''){
+                $request['amount_type']='0';
+             }
+            $project = ProjectMaster::findOrFail($id);
             $project->update($request->only(ProjectMaster::REQUEST_INPUTS));
-            return response()->json('Project Details Updated Successfully');
-
-        } 
-        catch (Exception $e) 
-        {
+            return response()->json('Project Details Updated Successfully', 200);
+        } catch (Exception $e) {
             info($e);
-            return response()->json('Error occured in the update', 400);
+            return response()->json('Error occurred in the update', 400);
         }
-
     }
     /**
      * Remove the specified resource from storage.

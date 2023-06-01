@@ -9,14 +9,14 @@ class SalaryDetails extends Model
 {
     use HasFactory;
     const REQUEST_INPUTS = [
-        "employee_id","total_salary","hra","deleted"
+        "employee_id","total_salary","hra","basic","deleted"
     ];
 
     protected $table ='salary_details';
     protected $primaryKey='sno';
     protected $fillable =
     [
-         "employee_id","total_salary","hra","deleted"
+         "employee_id","total_salary","hra","basic","deleted"
     ];
     public function employemaster()
     {

@@ -182,9 +182,11 @@ input[type=checkbox] {
         }
         .checkbox .checked-icon, .radio .rad-icon { transition: opacity 0.3s ease-out; }
         .toggle {
+            margin-top:10%;
+            margin-left:10%;
             position: relative;
-            width: 60px;
-            height: 34px;
+            width: 55px;
+            height: 28px;
             display: inline-block;
         }
         .toggle .slider {
@@ -199,8 +201,8 @@ input[type=checkbox] {
         .toggle .slider:before {
             position: absolute;
             content: "";
-            height: 26px;
-            width: 26px;
+            height: 20px;
+            width: 20px;
             left: 4px;
             bottom: 4px;
             background-color: white;
@@ -211,7 +213,7 @@ input[type=checkbox] {
         .toggle .slider { background-color: #e3eefa; }
         .toggle.on .slider { background-color: #4287f5; }
         .toggle.on .slider:before { transform: translateX(26px); box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2); }
-        .toggle .label { position: absolute; left: 70px; top: 4px; vertical-align: middle; }
+        .toggle .label { position: absolute; left: 60px; top: 4px; vertical-align: middle; }
         .st { height: 100%; width: 100%; opacity: 0; position: absolute; z-index: 100; cursor: pointer; vertical-align: middle;}
         .toggle.focus .slider, .checkbox.focus   { box-shadow: 0px 0px 0px 2px #bababa; transition: all 0.4s; }
      /* style for percentage and ruper to toggle  ends*/ 

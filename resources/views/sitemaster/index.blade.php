@@ -99,7 +99,12 @@
 
     <div class="form-group col-md-6">
         <label for="site_location" class="form-label fw-bold">Location<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="site_location" name="site_location" value="{{ old('site_location') }}" placeholder="Location" class="form-control" autocomplete="off">
+        <select id="site_location" name="site_location" class="form-control form-select" autocomplete="off">
+            <option value="">Select Option</option>
+                @foreach($site_location as $key => $value)
+                    <option value="{{ $key }}">{{ $value }}</option>
+                @endforeach
+            </select>
         <p style="color: red" id="error_site_location"></p>
     </div>
 </div>
