@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\ClientMaster;
-use App\Http\Requests\ClientRequest;
 use Illuminate\Http\Request;
 
 class ClientMasterController extends Controller
@@ -17,19 +16,21 @@ class ClientMasterController extends Controller
     // FOR MAIN PAGE
     public function index()
     {
-        try 
-        {
+        try {
             $clients = ClientMaster::all();
-            return view('clientmaster.index')->with(
-            [
-                'clients' => $clients
+            $clientNames = $clients->pluck('name')->map(function ($name) {
+                return strtolower(str_replace(' ', '', $name));
+            });
+            $contact_number= $clients->pluck('contact_number');
+            return view('clientmaster.index')->with([
+                'clients' => $clients,
+                'clientNames'=> $clientNames,
+                'contact_number'=> $contact_number
             ]);
         }
-        catch (Exception $e) 
-        {
+        catch (Exception $e) {
             info($e);
-            return redirect()->route("clientmaster.index")->with(
-            [
+            return redirect()->route("clientmaster.index")->with([
                 "error" => "An error occurred: " . $e
             ]);
         }
@@ -42,7 +43,7 @@ class ClientMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     // DATA SAVE IN ADD DIALOG
-    public function store(ClientRequest $request)
+    public function store(Request $request)
     {
         try {
 
@@ -92,7 +93,7 @@ class ClientMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-public function update(ClientRequest $request, $client_no)
+public function update(Request $request, $client_no)
 {
     try {
         $clients = ClientMaster::findOrFail($client_no);

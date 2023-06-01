@@ -95,25 +95,25 @@
   <div class="form-group col-md-6">
         <label for="name" class="form-label fw-bold">Supplier Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="name"  name="name" value="{{ old('name') }}" placeholder="Supplier Name" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_name"></p>
+        
     </div>
 
     <div class="form-group col-md-6">
         <label for="company_name" class="form-label fw-bold">Company Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" placeholder="Company Name" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_company_name"></p>
+        
     </div>
 </div>
 <div class="row">
     <div class="form-group col-md-6">
         <label for="website" class="form-label fw-bold">Website</label>
         <input type="url" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_website"></p>
+        
     </div>
     <div class="form-group col-md-6">
         <label for="address" class="form-label fw-bold">Address<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="address" name="address" value="{{ old('address') }}" placeholder="Address" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_address"></p>
+        
     </div>
 </div>
 <div class="row">
@@ -124,19 +124,19 @@
             <!-- </div> -->
             <input type="text" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" maxlength="10" placeholder="Contact Number" class="form-control" autocomplete="off">
         </div>
-        <p style="color: red" id="error_contact_number"></p>
+        
     </div>
     <div class="form-group col-md-6">
         <label for="mail_id" class="form-label fw-bold">Email Id<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="mail_id" name="mail_id" value="{{ old('mail_id') }}" placeholder="Email Id" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_mail_id"></p>
+        
     </div>
 </div>
 <div class="row">
 <div class="form-group col-md-6">
         <label for="code" id="code_lable"class="form-label fw-bold">Supplier Code<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="code" name="code" readonly value="{{ old('code') }}" placeholder="Supplier Code" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_code"></p>
+        
     </div>
 </div>
     <div class="form-group col-md-12">
@@ -238,56 +238,64 @@
             // Clear the form fields
             $('#form')[0].reset();
             // Hide any error messages
-            $('p[id^="error_"]').html('');
+            $('.error-msg').removeClass('error-msg');
+            $('.has-error').removeClass('has-error');
+            // Hide any error messages
+             $('error').html('');
             // Hide the dialog background
             $('#blur-background').css('display','none');
         }
     // DIALOG SUBMIT FOR ADD AND EDIT
         function handleSubmit()
         {
-            event.preventDefault();
-            let form_data = new FormData(document.getElementById('form'));
-            let method = $('#method').val();
-            let url;
-            let type;
-            if(method == 'ADD')
+            var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
+            //  alert(hiddenErrorElements);
+            if(hiddenErrorElements === 0)
             {
-                url = '{{route('supplierApi.store')}}';
-                type  = 'POST';
-            } 
-            else 
-            {
-                let id = $('#supplier_no').val();
-                url = '{{route('supplierApi.update',":id")}}';
-                url= url.replace(':id',id);
-                type = 'POST';
-            }
-                $.ajax  
-                ({
-                    url: url,
-                    type: type,
-                    data: form_data,
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function (message) 
-                    {
-                        alert(message);
-                        window.location.reload();
-                    },
-                    error: function (message) 
-                    {
-                        var data = message.responseJSON;
-                        $('p[id ^= "error_"]').html("");
-                        $.each(data.errors, function (key, val)
+                let form_data = new FormData(document.getElementById('form'));
+                let method = $('#method').val();
+                let url;
+                let type;
+                if(method == 'ADD')
+                {
+                    url = '{{route('supplierApi.store')}}';
+                    type  = 'POST';
+                } 
+                else 
+                {
+                    let id = $('#supplier_no').val();
+                    url = '{{route('supplierApi.update',":id")}}';
+                    url= url.replace(':id',id);
+                    type = 'POST';
+                }
+                    $.ajax  
+                    ({
+                        url: url,
+                        type: type,
+                        data: form_data,
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function (message) 
                         {
-                            $(`#error_${key}`).html(val[0]);
-                        })
-                    }
-                })
-        }
+                            alert(message);
+                            window.location.reload();
+                        },
+                        error: function (message) 
+                        {
+                            var data = message.responseJSON;
+                        }
+                    })
+                }
+                else
+                {
+                    event.preventDefault();
+                }
+            }
+            
 
         //DATA SHOW FOR EDIT AND SHOW 
+        var current_contact_number;
         function handleShowAndEdit(id,action)
         {
             let url = '{{route('supplierApi.show',":id")}}';
@@ -314,7 +322,7 @@
                         $('#method').val('UPDATE');
                         $('#submit').text('UPDATE');
                         $('#blur-background').css('display','block');
-
+                        current_contact_number=message.contact_number;
                     } 
                     else 
                     {
@@ -334,5 +342,93 @@
                 },
             })
         }
+
+        // validation
+
+       var contact_number=@json($contact_number);
+$.validator.addMethod("uniqueContactNumber", function(value, element) {
+  if ($("#method").val() !== "ADD" && value === current_contact_number) {
+    return true;
+  }
+  return !contact_number.includes(value);
+});
+
+
+$.validator.addMethod("alphanumeric", function(value, element) {
+  return this.optional(element) || /^[A-Za-z ]+$/i.test(value);
+});
+
+$.validator.addMethod("email", function(value, element) {
+  return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i.test(value);
+});
+
+  // Initialize form validation
+  var formValidationConfig = {
+    rules: {
+        name: {
+    required: true,
+     alphanumeric:true,
+    
+  },
+     company_name: "required",
+      contact_number: {
+        required: true,
+        digits: true,
+        minlength: 9,
+        maxlength: 9,
+        uniqueContactNumber:true
+      },
+      address: "required",
+      website: {
+        url: true
+      },
+      mail_id:
+      {
+        required:true,
+        email:true,
+
+      }
+
+    },
+    messages: {
+        name: {
+    required: "Please enter the supplier name",
+     alphanumeric: "Supplier name allows only alphabets",
+     
+  },
+       company_name: "Please enter the company name",
+      contact_number: {
+        required: "Please enter the contact number",
+        digits: "Please enter only numbers",
+        minlength: "Contact number must be exactly 9 numbers",
+        maxlength: "Contact number must be exactly 9 numbers",
+        uniqueContactNumber:"This Contact Number is already exist.Please enter new number"
+      },
+      address: "Please enter the address",
+      website:{ 
+        url:"Please enter a valid URL",
+      },
+      mail_id:
+      {
+        required:"Please enter the email id",
+        email:"Please enter valid email id",
+
+      }
+    },
+    errorElement: "error",
+      errorClass: "error-msg",
+      highlight: function(element, errorClass, validClass) {
+        $(element).addClass(errorClass).removeClass(validClass);
+        $(element).closest('.form-group').addClass('has-error');
+       
+      },
+      unhighlight: function(element, errorClass, validClass) {
+        $(element).removeClass(errorClass).addClass(validClass);
+        $(element).closest('.form-group').removeClass('has-error');
+        
+      },
+     
+  };
+  $("#form").validate(formValidationConfig);
 </script>
 @stop

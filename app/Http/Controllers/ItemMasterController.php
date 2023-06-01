@@ -6,7 +6,6 @@ use App\Models\ItemMaster;
 use App\Models\SupplierMaster;
 use App\Models\ItemSupplier;
 use Exception;
-use App\Http\Requests\ItemRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 require_once(app_path('constants.php'));
@@ -35,16 +34,21 @@ class ItemMasterController extends Controller
             $item_category = ITEMCATEGORY;
             $item_subcategory = ITEMSUBCATEGORY;
             $stock_type = STOCKTYPE;
+            $items=ItemMaster::all();
+            $itemName = $items->pluck('item_name')->map(function ($name) {
+                return strtolower(str_replace(' ', '', $name));
+            });
             $items = DB::table('item_masters')
             ->get();
 
-                
+                // info($items);
                 return view('itemmaster.index')->with([
                     'items' => $items,
                     'item_type'=>$item_type,
                     'item_category'=>$item_category,'
                     item_subcategory'=>$item_subcategory,
-                    'stock_type'=>$stock_type
+                    'stock_type'=>$stock_type,
+                    'itemName'=>$itemName
                 ]);
 
             }
@@ -62,7 +66,7 @@ class ItemMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     // DATA SAVE IN ADD DIALOG
-    public function store(ItemRequest $request)
+    public function store(Request $request)
     {
         try {
             // Create the item master
@@ -139,7 +143,7 @@ class ItemMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     // UPDATE SAVE FUNCTION
-    public function update(ItemRequest $request, $id)
+    public function update(Request $request, $id)
 {
     try {
         // Update the item master

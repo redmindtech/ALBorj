@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\SiteMaster;
 use App\Models\EmployeeMaster;
 use Exception;
-use App\Http\Requests\SiteRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; 
 
@@ -23,18 +22,27 @@ class SiteMasterController extends Controller
     {     
         try
         {  
-            $site_status = SITESTATUS;
-            $site_location=SITELOCATION;    
+            $site = SiteMaster::all();
+            $site_location =SITELOCATION;
+            $employee=EmployeeMaster::all();
+            $employee_name=$employee->pluck('firstname');
+         
+            $siteNames = $site->pluck('site_name')->map(function ($name) {
+                return strtolower(str_replace(' ', '', $name));
+            });
+            $site_status = SITESTATUS;    
             $sitemaster = DB::table('site_masters')
             ->join('employee_masters', 'site_masters.site_manager', '=', 'employee_masters.id')
             ->select('site_masters.*', 'employee_masters.firstname')            
             ->get();    
            
             return view('sitemaster.index')->with([
-                'sitemasters' => $sitemaster,
+            'sitemasters' => $sitemaster,
             'site_status'=>$site_status,
+            'siteNames'=>$siteNames,
             'site_location'=>$site_location,
-
+            'employee_name'=>$employee_name
+           
             ]);
         }
         catch (Exception $e) 
@@ -45,7 +53,6 @@ class SiteMasterController extends Controller
 
     }
 
-
 //     }
 
     /**
@@ -55,7 +62,7 @@ class SiteMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     // STORE DATA
-    public function store(SiteRequest $request)
+    public function store(Request $request)
     {
         try 
         {
@@ -115,7 +122,7 @@ class SiteMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     // UPDATE DATA
-    public function update(SiteRequest $request, $site_no)
+    public function update(Request $request, $site_no)
     {
         try 
         {

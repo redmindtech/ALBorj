@@ -85,12 +85,10 @@
                                 <div class="form-group col-md-6">
                                     <label for="category_name" class="form-label fw-bold">Category Name<a style="text-decoration: none;color:red">*</a></label>
                                     <input type="text" id="category_name"  name="category_name" value="{{ old('category_name') }}" placeholder="Category Name" class="form-control" autocomplete="off">
-                                    <p style="color: red" id="error_category_name"></p>
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label for="category_description" class="form-label fw-bold">Description</label>
                                     <textarea id="category_description" name="category_description" value="{{ old('category_description') }}" placeholder="Category Description" class="form-control" autocomplete="off"></textarea>
-                                    <p style="color: red" id="error_category_description"></p>
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
@@ -169,8 +167,10 @@
         document.getElementById("myDialog").open = false;
         // Clear the form fields
         $('#form')[0].reset();
+        $('.error-msg').removeClass('error-msg');
+        $('.has-error').removeClass('has-error');
         // Hide any error messages
-        $('p[id^="error_"]').html('');
+        $('error').html('');
         // Hide the dialog background
         $('#blur-background').css('display','none');
         
@@ -178,47 +178,52 @@
     // DIALOG SUBMIT FOR ADD AND EDIT
     function handleSubmit()
     {
-        event.preventDefault();
-        let form_data = new FormData(document.getElementById('form'));
-        let method = $('#method').val();
-        let url;
-        let type;
-        if(method == 'ADD')
+        var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
+            //  alert(hiddenErrorElements);
+        if(hiddenErrorElements === 0)
         {
-            url = '{{route('expensescategoryApi.store')}}';
-            type  = 'POST';
+            let form_data = new FormData(document.getElementById('form'));
+            let method = $('#method').val();
+            let url;
+            let type;
+            if(method == 'ADD')
+            {
+                url = '{{route('expensescategoryApi.store')}}';
+                type  = 'POST';
+            }
+            else
+            {
+                let id = $('#id').val();
+                url = '{{route('expensescategoryApi.update',":id")}}';
+                url= url.replace(':id',id);
+                type = 'POST';
+            }
+            $.ajax
+            ({
+                url: url,
+                type: type,
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (message)
+                {
+                    alert(message);
+                    window.location.reload();
+                },error: function (message)
+                {
+                    var data = message.responseJSON;
+                }
+            })
         }
         else
         {
-            let id = $('#id').val();
-            url = '{{route('expensescategoryApi.update',":id")}}';
-            url= url.replace(':id',id);
-            type = 'POST';
+            event.preventDefault();
         }
-        $.ajax
-        ({
-            url: url,
-            type: type,
-            data: form_data,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function (message)
-            {
-                alert(message);
-                window.location.reload();
-            },error: function (message)
-            {
-                var data = message.responseJSON;
-                $('p[id ^= "error_"]').html("");
-                $.each(data.errors, function (key, val)
-                {
-                    $(`#error_${key}`).html(val[0]);
-                })
-            }
-        })
+
     }
     //DATA SHOW FOR EDIT AND SHOW
+    var currentCategoryName;
     function handleShowAndEdit(id,action)
     {
         let url = '{{route('expensescategoryApi.show',":id")}}';
@@ -250,6 +255,7 @@
                     }
                     $('#method').val('UPDATE');
                     $('#submit').text('UPDATE');
+                    currentCategoryName = message.category_name.toLowerCase().replace(/ /g, '');
                 } else
                 {
                     for (const [key, value] of Object.entries(message))
@@ -267,5 +273,58 @@
             },
         })
     }
+
+    // Initialize form validation
+
+    var category_Name = @json($categoryNames);
+
+    $.validator.addMethod("uniqueCategoryName", function(value, element)
+    {
+        var lowercaseValue = value.toLowerCase().replace(/\s/g, '');
+        if ($("#method").val() !== "ADD" && lowercaseValue === currentCategoryName)
+        {
+            return true;
+        }
+        var lowercaseValu = value.toLowerCase().replace(/\s/g, '');
+        return !category_Name.includes(lowercaseValu);
+    });
+
+    
+    var formValidationConfig ={
+        rules:
+        {
+            category_name:
+            {
+                required:true,
+                uniqueCategoryName:true
+            }
+        },
+        messages:
+        {
+            category_name:
+            {
+                required:"Please enter the category name",
+                uniqueCategoryName:"This category name is already exist.Please enter category name"
+            }
+
+        },
+        errorElement: "error",
+        errorClass: "error-msg",
+        highlight: function(element, errorClass, validClass)
+        {
+            $(element).addClass(errorClass).removeClass(validClass);
+            $(element).closest('.form-group').addClass('has-error');
+            flag='1';
+        },
+        unhighlight: function(element, errorClass, validClass)
+        {
+            $(element).removeClass(errorClass).addClass(validClass);
+            $(element).closest('.form-group').removeClass('has-error');
+            flag='0';
+        }
+    };
+
+
+    $("#form").validate(formValidationConfig);
 </script>
 @stop

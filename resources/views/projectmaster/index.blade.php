@@ -107,32 +107,32 @@
                
 {!! csrf_field() !!}
 <div class="row">
-  <div class="form-group col-md-6">
+  <div class="form-group col-md-4">
         <label for="site_name" class="form-label fw-bold">Site Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="site_name"  name="site_name" value="{{ old('site_name') }}" placeholder="Site Name" class="form-control" autocomplete="off">
         <input type="text" id="site_no" hidden name="site_no" value="{{ old('site_no') }}"  class="form-control" autocomplete="off">
-        <p style="color: red" id="error_site_name"></p>
+       
     </div>
 
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-4">
         <label for="site_code" class="form-label fw-bold">Site No</label>
         <input type="text" id="site_code" name="site_code" value="{{ old('site_code') }}" readonly placeholder="Site Code" class="form-control" autocomplete="off">
     </div>
+    <div class="form-group col-md-4">
+        <label for="consultant_name" class="form-label fw-bold">Consultant Name</label>
+        <input type="text" id="consultant_name" name="consultant_name" value="{{ old('consultant_name') }}" placeholder="Consultant Name" class="form-control" autocomplete="off">
+       
+    </div> 
+    
 </div>
+
 <div class="row">
-<div class="form-group col-md-12">
-        <label for="project_code " id='code_lable' class="form-label fw-bold">Project Code</label>
-        <input type="text" id="project_code" name="project_code"  readonly value="{{ old('project_code ') }}"  class="form-control" autocomplete="off">
-        <!-- <p style="color: red" id="error_amount_returns_comment"></p> -->
-    </div>
-</div>
-<div class="row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-4">
         <label for="project_name" class="form-label fw-bold">Project Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="project_name" name="project_name" value="{{ old('project_name') }}" placeholder="Project Name" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_project_name"></p>
+        
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-4">
     <label for="project_type" class="form-label fw-bold">Project Type<a style="text-decoration: none;color:red">*</a></label>
         <select id="project_type" name="project_type" class="form-control form-select" autocomplete="off">
         <option value="">Select Option</option>
@@ -140,73 +140,16 @@
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
         </select>
-        <p style="color: red" id="error_project_type"></p>
+        
     </div>
-</div>
-<div class="row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-4">
         <label for="project_comments" class="form-label fw-bold">Comments</label>
         <input type="text" id="project_comments" name="project_comments" value="{{ old('project_comments') }}"  placeholder="Comments" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_project_comments"></p>
-    </div>
-    <div class="form-group col-md-6">
-        <label for="manager_name" class="form-label fw-bold">Manager Name<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="firstname" name="firstname" value="{{ old('firstname') }}" placeholder="Manager Name" class="form-control" autocomplete="off">
-        <input type="text" id="employee_no" name="employee_no" hidden value="{{ old('employee_no') }}" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_firstname"></p>
+        
     </div>
 </div>
 <div class="row">
-    <div class="form-group col-md-6">
-        <label for="UAE_mobile_number" class="form-label fw-bold">Manager Contact Number</label>
-        <input type="text" id="UAE_mobile_number" name="UAE_mobile_number"  readonly value="{{ old('UAE_mobile_number') }}" placeholder="Contact Number" class="form-control" autocomplete="off">
-        <!-- <p style="color: red" id="error_site_manager"></p> -->
-    </div>     
-<div class="form-group col-md-6">
-        <label for="company_name" class="form-label fw-bold">Client / Company Name<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" placeholder="Client / Company Name" class="form-control" autocomplete="off">
-        <input type="text" id="client_no" hidden   name="client_no"   value="{{ old('client_no') }}"  class="form-control" autocomplete="off">
-        <p style="color: red" id="error_company_name"></p>
-    </div>
-</div>
-<div class="row">
-    <div class="form-group col-md-6">
-        <label for="name"  class="form-label fw-bold">Client Contact Name</label>
-        <input type="text" id="name" name="name" value="{{ old('name') }}" readonly placeholder="Client Contact Name" class="form-control" autocomplete="off">
-        <!-- <p style="color: red" id="error_site_code"></p> -->
-    </div>
-    <div class="form-group col-md-6">
-        <label for="contact_number" class="form-label fw-bold">Client Contact Number</label>
-        <input type="text" id="contact_number" name="contact_number" readonly value="{{ old('contact_number') }}"  placeholder="Client Contact Number" class="form-control" autocomplete="off">
-        <!-- <p style="color: red" id="error_comments"></p> -->
-    </div>
-</div>
-<div class="row">
-    <div class="form-group col-md-6">
-        <label for="consultant_name" class="form-label fw-bold">Consultant Name</label>
-        <input type="text" id="consultant_name" name="consultant_name" value="{{ old('consultant_name') }}" placeholder="Consultant Name" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_consultant_name"></p>
-    </div>     
-<div class="form-group col-md-6">
-        <label for="start_date" class="form-label fw-bold">Project Start Date<a style="text-decoration: none;color:red">*</a></label>
-        <input type="date" name="start_date" id="start_date"  value="{{old('start_date')}}"  class="form-control" autocomplete="off">
-        <p style="color: red" id="error_start_date"></p>
-    </div>
-</div>
-<div class="row">
-    <div class="form-group col-md-6">
-        <label for="end_date" class="form-label fw-bold">Tentative Project End Date<a style="text-decoration: none;color:red">*</a></label>
-        <input type="date" name="end_date" id="end_date"  value="{{old('end_date')}}"  class="form-control" autocomplete="off">
-        <p style="color: red" id="error_end_date"></p>
-    </div>     
-<div class="form-group col-md-6">
-        <label for="actual_project_end_date" class="form-label fw-bold">Actual Project End Date<a style="text-decoration: none;color:red">*</a></label>
-        <input type="date" name="actual_project_end_date" id="actual_project_end_date"  value="{{old("actual_project_end_date")}}"  class="form-control" autocomplete="off">
-        <p style="color: red" id="error_actual_project_end_date"></p>
-    </div>
-</div>
-<div class="row">
-<div class="form-group col-md-6">
+    <div class="form-group col-md-4">
     <label for="status" class="form-label fw-bold">Project Status<a style="text-decoration: none;color:red">*</a></label>
         <select id="status" name="status" class="form-control form-select" autocomplete="off">
         <option value="">Select Option</option>
@@ -214,9 +157,59 @@
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
         </select>
-        <p style="color: red" id="error_status"></p>
+        
     </div>   
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-4">
+        <label for="manager_name" class="form-label fw-bold">Manager Name<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="firstname" name="firstname" value="{{ old('firstname') }}" placeholder="Manager Name" class="form-control" autocomplete="off">
+        <input type="text" id="employee_no" name="employee_no" hidden value="{{ old('employee_no') }}" class="form-control" autocomplete="off">
+        
+    </div>
+    <div class="form-group col-md-4">
+        <label for="UAE_mobile_number" class="form-label fw-bold">Manager Contact Number</label>
+        <input type="text" id="UAE_mobile_number" name="UAE_mobile_number"  readonly value="{{ old('UAE_mobile_number') }}" placeholder="Contact Number" class="form-control" autocomplete="off">
+        
+    </div>
+    
+</div>
+<div class="row">
+    <div class="form-group col-md-4">
+        <label for="company_name" class="form-label fw-bold">Client / Company Name<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" placeholder="Client / Company Name" class="form-control" autocomplete="off">
+        <input type="text" id="client_no" hidden   name="client_no"   value="{{ old('client_no') }}"  class="form-control" autocomplete="off">
+        
+    </div>
+    <div class="form-group col-md-4">
+        <label for="name"  class="form-label fw-bold">Client Contact Name</label>
+        <input type="text" id="name" name="name" value="{{ old('name') }}" readonly placeholder="Client Contact Name" class="form-control" autocomplete="off">
+       
+    </div>
+    <div class="form-group col-md-4">
+        <label for="contact_number" class="form-label fw-bold">Client Contact Number</label>
+        <input type="text" id="contact_number" name="contact_number" readonly value="{{ old('contact_number') }}"  placeholder="Client Contact Number" class="form-control" autocomplete="off">
+       
+    </div>
+</div>
+<div class="row">
+        
+<div class="form-group col-md-4">
+        <label for="start_date" class="form-label fw-bold">Project Start Date<a style="text-decoration: none;color:red">*</a></label>
+        <input type="date" name="start_date" id="start_date"  value="{{old('start_date')}}"  class="form-control" autocomplete="off">
+        
+    </div>
+    <div class="form-group col-md-4">
+        <label for="end_date" class="form-label fw-bold">Tentative Project End Date<a style="text-decoration: none;color:red">*</a></label>
+        <input type="date" name="end_date" id="end_date"  value="{{old('end_date')}}"  class="form-control" autocomplete="off">
+        
+    </div>     
+    <div class="form-group col-md-4">
+        <label for="actual_project_end_date" class="form-label fw-bold">Actual Project End Date<a style="text-decoration: none;color:red">*</a></label>
+        <input type="date" name="actual_project_end_date" id="actual_project_end_date"  value="{{old("actual_project_end_date")}}"  class="form-control" autocomplete="off">
+       
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-md-4">
                             <label for="total_price_cost" class="form-label fw-bold">Total Project Cost<a
                                     style="text-decoration: none;color:red">*</a></label>
                             <div class="input-group">
@@ -231,11 +224,11 @@
                                     </select>
                                 </div>
                             </div>
-                            <p style="color: red" id="error_total_price_cost"></p>
+                            
                         </div>
-</div>
-<div class="row">
-<div class="form-group col-md-5 mr-2">
+
+
+                <div class="form-group col-md-3 mr-5">
                             <label for="advanced_amount" class="form-label fw-bold">Advance Amount<a
                                     style="text-decoration: none;color:red">*</a></label>
                             <div class="input-group">
@@ -243,7 +236,7 @@
                                     value="{{ old('advanced_amount') }}" placeholder="Advance Amount"
                                     class="form-control" autocomplete="off" onchange="calculateAmount()">
                                 <div class="input-group-append">
-                                    <div class="toggle focus">
+                                    <div class="toggle focus" >
                                         <input type="checkbox" class="st amount" name="amount_type" id="amount_type"
                                         value="1" {{ old('amount_type') ? 'checked' : '' }}>
                                         <span class="slider"></span>
@@ -251,40 +244,46 @@
                                     </div>
                                 </div>
                             </div>
-                            <p style="color: red" id="error_advanced_amount"></p>
+                            
                         </div>
-                        <div class="form-group col-md-5 ml-5">
+                        <div class="form-group col-md-4">
                             <label for="retention" class="form-label fw-bold">Retention</label>
                             <input type="text" id="retention" name="retention" value="{{ old('retention') }}"
                                 placeholder="Retention" class="form-control" autocomplete="off">
-                            <p style="color: red" id="error_retention"></p>
+                            
                         </div>
+                        
 </div>
 <div class="row">
-<div class="form-group col-md-6">
+
+<div class="form-group col-md-4">
         <label for="amount_to_be_received" class="form-label fw-bold">Balance Amount To Be Received<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="amount_to_be_received" name="amount_to_be_received" value="{{ old('amount_to_be_received') }}" placeholder="Balance Amount To Be Received" class="form-control" autocomplete="off" readonly>
-        <p style="color: red" id="error_amount_to_be_received"></p>
+        
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-4">
         <label for="amount_return" class="form-label fw-bold">Amount Return</label>
         <input type="text" id="amount_return" name="amount_return" value="{{ old('amount_return') }}" placeholder="Amount Return" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_amount_return"></p>
+        
+    </div>
+    <div class="form-group col-md-4">
+        <label for="amount_return_date" class="form-label fw-bold">Amount Return Date</label>
+        <input type="date" name="amount_return_date" id="amount_return_date"  value="{{old("amount_return_date")}}"  class="form-control" autocomplete="off">
+        
     </div>
 </div>
 <div class="row">
-<div class="form-group col-md-6">
-        <label for="amount_return_date" class="form-label fw-bold">Amount Return Date</label>
-        <input type="date" name="amount_return_date" id="amount_return_date"  value="{{old("amount_return_date")}}"  class="form-control" autocomplete="off">
-        <p style="color: red" id="error_amount_return_date"></p>
-    </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-4">
         <label for="amount_returns_comment" class="form-label fw-bold">Amount Return Comments</label>
         <input type="text" id="amount_returns_comment" name="amount_returns_comment" value="{{ old('amount_returns_comment') }}" placeholder="Amount Return" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_amount_returns_comment"></p>
+        
+    </div>
+    <div class="form-group col-md-4">
+        <label for="project_code " id='code_lable' class="form-label fw-bold">Project Code</label>
+        <input type="text" id="project_code" name="project_code"  readonly value="{{ old('project_code ') }}"  class="form-control" autocomplete="off">
+        
     </div>
 </div>
-
     <div class="row">  
     <div class="form-group col-md-12">
         <button type="submit" id="submit"  class="btn btn-primary float-end ">ADD</button>
@@ -511,57 +510,64 @@ function calculateAmount() {
             // Clear the form fields
             $('#form')[0].reset();
             // Hide any error messages
-            $('p[id^="error_"]').html('');
+            $('.error-msg').removeClass('error-msg');
+            $('.has-error').removeClass('has-error');
+            // Hide any error messages
+            $('error').html('');
             // Hide the dialog background
             $('#blur-background').css('display','none');
         }
     // DIALOG SUBMIT FOR ADD AND EDIT
           function handleSubmit()
           {
-            event.preventDefault();
-            let form_data = new FormData(document.getElementById('form'));
-            let method = $('#method').val();
-            let url;
-            let type;
-            if(method == 'ADD')
-            {           
-                url = '{{route('projectApi.store')}}';
-                type  = 'POST';
-                
-            } 
-            else 
+            var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
+            //  alert(hiddenErrorElements);
+            if(hiddenErrorElements === 0)
             {
-                let id = $('#project_no').val();
-                url = '{{route('projectApi.update',":project_no")}}';
-                url= url.replace(':project_no',id);
-                type = 'POST';
-            }
-            $.ajax
-            ({
-                url: url,
-                type: type,
-                data: form_data,
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function (message) 
+                let form_data = new FormData(document.getElementById('form'));
+                let method = $('#method').val();
+                let url;
+                let type;
+                if(method == 'ADD')
+                {           
+                    url = '{{route('projectApi.store')}}';
+                    type  = 'POST';
+                    
+                } 
+                else 
                 {
-                    alert(message);
-                    window.location.reload();
-                },
-                error: function (message) 
-                {
-                    var data = message.responseJSON;
-                    $('p[id ^= "error_"]').html("");
-                    $.each(data.errors, function (key, val) 
-                    {
-                            $(`#error_${key}`).html(val[0]);
-                    })
+                    let id = $('#project_no').val();
+                    url = '{{route('projectApi.update',":project_no")}}';
+                    url= url.replace(':project_no',id);
+                    type = 'POST';
                 }
-            })
+                $.ajax
+                ({
+                    url: url,
+                    type: type,
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (message) 
+                    {
+                        alert(message);
+                        window.location.reload();
+                    },
+                    error: function (message) 
+                    {
+                        var data = message.responseJSON;
+                    }
+                })
+            }
+            else
+            {
+                event.preventDefault();
+            }
         }
 
     //DATA SHOW FOR EDIT AND SHOW 
+    var currentProjectName;
         function handleShowAndEdit(id,action)
         {
             let url = '{{route('projectApi.show',":project_no")}}';
@@ -600,6 +606,7 @@ function calculateAmount() {
                         $('.toggle').removeClass('on').removeClass('checked');
                         $('.toggle .label').text('AED');
                     }
+                    currentProjectName = message[0].project_name.toLowerCase().replace(/ /g, '');
                         $('#method').val('UPDATE');
                         $('#submit').text('UPDATE');
                     } 
@@ -836,7 +843,163 @@ function calculateAmount() {
                 }
             });
         });
-        
+   // / Initialize form validation
+
+var project_Name = @json($projectName);
+var sitename=@json($siteNames);
+var employee_name=@json($employee_name);
+var client_company=@json($client_company);
+
+$.validator.addMethod("uniqueProjectName", function(value, element)
+{
+
+    var lowercaseValue = value.toLowerCase().replace(/\s/g, '');
+
+    if ($("#method").val() !== "ADD" && lowercaseValue === currentProjectName)
+    {
+        return true;
+    }
+    var lowercaseValu = value.toLowerCase().replace(/\s/g, '');
+    return !project_Name.includes(lowercaseValu);
+});
+
+$.validator.addMethod("siteNameCheck", function(value, element) {
+  return sitename.includes(value);
+});
+
+$.validator.addMethod("employeeNameCheck", function(value, element) {
+  return employee_name.includes(value);
+});
+$.validator.addMethod("clientcompanyNameCheck", function(value, element) {
+  return client_company.includes(value);
+});
+$.validator.addMethod("greaterThan", function (value, element, param) {
+        var startDate = $(param).val();
+        if (!value || !startDate) {
+            return true; // Skip validation if either date is missing
+        }
+
+        return new Date(value) > new Date(startDate);
+    }, "Invalid date");
+
+var formValidationConfig ={
+    rules:
+    {
+        project_name:
+        {
+            required:true,
+            uniqueProjectName:true
+        },
+        site_name:{
+            required:true,
+            siteNameCheck:true
+        },
+        project_type:"required",
+        firstname:{
+            required:true,
+            employeeNameCheck:true
+        },
+        company_name:{
+        clientcompanyNameCheck:true,
+        required:true
+        },
+        start_date:"required",
+      end_date: {
+                required: true,
+                date: true,
+                greaterThan: "#start_date"
+            },
+    
+        actual_project_end_date:
+        {
+            required: true,
+                date: true,
+                greaterThan: "#start_date"
+        },
+        status:"required",
+        total_price_cost:
+        {
+            required: true,
+            number: true
+        },
+        advanced_amount:
+        {
+            required: true,
+            number: true
+        },
+        amount_to_be_received:
+        {
+            required: true,
+            number: true
+        }
+    },
+    messages:
+    {
+        project_name:
+        {
+            required:"Please enter the project name",
+            uniqueProjectName:"This project name is already exist.Please enter the project name"
+        },
+        site_name:{
+            required:"Please enter the site name",
+            siteNameCheck:"Please enter valid site name"
+        },
+        project_type:"Please select the project type",
+        firstname:{
+            required:"Please enter the Manager Name",
+            employeeNameCheck:"Please enter valid  Manager Name"
+        },
+       
+        company_name:{
+        clientcompanyNameCheck:"Please enter valid client/company Name ",
+        required:"Please enter the client/company Name "
+        },
+        start_date:"Please select the project start date",
+        end_date: {
+                required: "Please select the tentative project end date",
+                date: "Please enter a valid date",
+                greaterThan: "Tentative project end date must be after the start date"
+            },
+        actual_project_end_date:
+        {
+            required: "Please enter the actual project end date",
+                date: "Please enter a valid date",
+                greaterThan: "Actual project end date must be after the start date"
+        },
+        status:"Please select the project status",
+        total_price_cost:
+        {
+            required: "Please enter the total project cost",
+            number: "The total project cost must be a number"
+        },
+        advanced_amount:
+        {
+            required:"Please enter the advanced amount",
+            number:"The advanced amount must be a number"
+        },
+        amount_to_be_received:
+        {
+            required:"Please enter the balance amount to be received",
+            number:"The balance amount to be received must be a number"
+        }
+    },
+    errorElement: "error",
+    errorClass: "error-msg",
+    highlight: function(element, errorClass, validClass)
+    {
+        $(element).addClass(errorClass).removeClass(validClass);
+        $(element).closest('.form-group').addClass('has-error');
+        flag='1';
+    },
+    unhighlight: function(element, errorClass, validClass)
+    {
+        $(element).removeClass(errorClass).addClass(validClass);
+        $(element).closest('.form-group').removeClass('has-error');
+        flag='0';
+    }
+};
+
+$("#form").validate(formValidationConfig);     
 
 </script>
     

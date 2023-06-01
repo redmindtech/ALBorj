@@ -21,6 +21,9 @@
      <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -29,19 +32,32 @@
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- sudhachanges -->
 <!-- phone number -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/css/intlTelInput.min.css" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"></script> 
 
 <!-- autocomplete -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> </link>
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+
 
 <!-- timecalculation -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
+<!-- sudha validation -->
+
+
+<link href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script>href="https://code.jquery.com/jquery-migrate-3.0.0.min.js"</script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.3/jquery.validate.min.js"></script>
+<script>scr="http://ajax.microsoft.com/ajax/jquery.validate/1.19.3/additional-methods.js"</script>
+
+
+
 
 
  <!-- DATA TABLE FILTERS -->
@@ -115,10 +131,10 @@
 <!-- Styles -->
     <style>
         .main-sidebar{
-        z-index: 4 !important;
+        z-index: 0 !important;
     }
         dialog{
-            
+            width: 1000px;
     position: absolute;
     top: 10px;
     border: none;
@@ -182,11 +198,9 @@ input[type=checkbox] {
         }
         .checkbox .checked-icon, .radio .rad-icon { transition: opacity 0.3s ease-out; }
         .toggle {
-            margin-top:10%;
-            margin-left:10%;
             position: relative;
-            width: 55px;
-            height: 28px;
+            width: 60px;
+            height: 34px;
             display: inline-block;
         }
         .toggle .slider {
@@ -201,8 +215,8 @@ input[type=checkbox] {
         .toggle .slider:before {
             position: absolute;
             content: "";
-            height: 20px;
-            width: 20px;
+            height: 26px;
+            width: 26px;
             left: 4px;
             bottom: 4px;
             background-color: white;
@@ -213,7 +227,7 @@ input[type=checkbox] {
         .toggle .slider { background-color: #e3eefa; }
         .toggle.on .slider { background-color: #4287f5; }
         .toggle.on .slider:before { transform: translateX(26px); box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2); }
-        .toggle .label { position: absolute; left: 60px; top: 4px; vertical-align: middle; }
+        .toggle .label { position: absolute; left: 70px; top: 4px; vertical-align: middle; }
         .st { height: 100%; width: 100%; opacity: 0; position: absolute; z-index: 100; cursor: pointer; vertical-align: middle;}
         .toggle.focus .slider, .checkbox.focus   { box-shadow: 0px 0px 0px 2px #bababa; transition: all 0.4s; }
      /* style for percentage and ruper to toggle  ends*/ 
@@ -225,13 +239,13 @@ input[type=checkbox] {
             width: 100%;
             height: 100%;
             backdrop-filter: blur(8px);
-            z-index:8;
+            z-index:1;
             display: none; /* Initially hidden */
             background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background color */
         }
 
         dialog {
-            z-index:9;
+            z-index:2;
         }
          #myTable_paginate, #myTable_info  {
             position:relative;
@@ -253,25 +267,34 @@ input[type=checkbox] {
         .small-input {
             width: 90px; /* Adjust the width value as needed */
         }
+   /* css for error */
+   .error-msg {
    
-    /*table overflow */
-    #myTable{
-            width:100% !important;
-        }
-        #myTable_wrapper .row:nth-child(2) {
-            overflow-x:auto;
-        }
+  color: red;
+  }
+  .has-error .form-control {
+    border-color: red;
+  }
+  .valid-msg {
+    color: green;
+  }
+/* phone number */
+   .input-group-prepend {
+    position: relative;
+    }
 
-    /*sidebar for mobile view */
-    #sidebar-overlay{
-        z-index:1 !important;
-    }
-    @media only screen and (min-width: 1024px) {
-      dialog {
-        width: 1000px !important;
-      }
-    }
-   
+  #contact_number-error, #UAE_mobile_number-error{
+    position: absolute;
+    top: 100%;
+    left: 0;
+}
+    #working_as-error, #desigination-error, #sponser-error {
+    position: absolute;
+    top: 65%;
+    left: 1%;
+}
+/* end phone number */
+/* css end for error */
     </style>
   
    
@@ -281,4 +304,3 @@ input[type=checkbox] {
     
 </body>
 </html>
-

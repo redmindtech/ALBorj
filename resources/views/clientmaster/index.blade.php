@@ -90,12 +90,10 @@
                                 <div class="form-group col-md-6">
                                     <label for="name" class="form-label fw-bold">Client Name<a style="text-decoration: none;color:red">*</a></label>
                                     <input type="text" id="name"  name="name" value="{{ old('name') }}" placeholder="Client Name" class="form-control" autocomplete="off">
-                                    <p style="color: red" id="error_name"></p>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="company_name" class="form-label fw-bold">Company Name<a style="text-decoration: none;color:red">*</a></label>
                                     <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" placeholder="Company Name" class="form-control" autocomplete="off">
-                                    <p style="color: red" id="error_company_name"></p>
                                 </div>
                             </div>
                             <div class="row">
@@ -104,25 +102,21 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">{{+971}}</span>
                                         <!-- </div> -->
-                                        <input type="text" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" maxlength="10" placeholder="Contact Number" class="form-control" autocomplete="off">
+                                        <input type="number" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" placeholder="Contact Number" class="form-control" autocomplete="off">
                                     </div>
-                                    <p style="color: red" id="error_contact_number"></p>
                                 </div>                                <div class="form-group col-md-6">
                                     <label for="address" class="form-label fw-bold">Address<a style="text-decoration: none;color:red">*</a></label>
                                     <input type="text" id="address" name="address" value="{{ old('address') }}" placeholder="Address" class="form-control" autocomplete="off">
-                                    <p style="color: red" id="error_address"></p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="website" class="form-label fw-bold">Website</label>
                                     <input type="url" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control" autocomplete="off">
-                                    <p style="color: red" id="error_website"></p>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="client_code" id="code_lable"class="form-label fw-bold">Client Code</label>
                                     <input type="text" id="client_code" name="client_code" readonly value="{{ old('client_code') }}" placeholder="Client Code" class="form-control" autocomplete="off">
-                                    <!-- <p style="color: red" id="error_code"></p> -->
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
@@ -219,58 +213,64 @@
             document.getElementById("myDialog").open = false;
              // Clear the form fields
              $('#form')[0].reset();
+             $('.error-msg').removeClass('error-msg');
+             $('.has-error').removeClass('has-error');       
              // Hide any error messages
-             $('p[id^="error_"]').html('');
+             $('error').html('');
              // Hide the dialog background
              $('#blur-background').css('display','none');
         }
 // DIALOG SUBMIT FOR ADD AND EDIT
         function handleSubmit()
         {
-            event.preventDefault();
-            let form_data = new FormData(document.getElementById('form'));
-            let method = $('#method').val();
-            let url;
-            let type;
-            if(method == 'ADD')
+            var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
+            // alert(hiddenErrorElements);
+            if(hiddenErrorElements === 0)
             {
-                //
-                url = '{{route('clientApi.store')}}';
-                type  = 'POST';
+                let form_data = new FormData(document.getElementById('form'));
+                let method = $('#method').val();
+                let url;
+                let type;
+                if(method == 'ADD')
+                {
+                    //
+                    url = '{{route('clientApi.store')}}';
+                    type  = 'POST';
 
+                }
+                else
+                {
+                    let id = $('#client_no').val();
+                    url = '{{route('clientApi.update',":id")}}';
+                    url= url.replace(':id',id);
+                    type = 'POST';
+                }
+                $.ajax
+                ({
+                    url: url,
+                    type: type,
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (message)
+                    {
+                        alert(message);
+                        window.location.reload();
+                    },error: function (message)
+                    {
+                        var data = message.responseJSON;
+                    }
+                })
             }
             else
             {
-                let id = $('#client_no').val();
-                url = '{{route('clientApi.update',":id")}}';
-                url= url.replace(':id',id);
-                type = 'POST';
+                event.preventDefault();
             }
-            $.ajax
-            ({
-                url: url,
-                type: type,
-                data: form_data,
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function (message)
-                {
-                    alert(message);
-                    window.location.reload();
-                },error: function (message)
-                {
-                    var data = message.responseJSON;
-                    $('p[id ^= "error_"]').html("");
-                    $.each(data.errors, function (key, val)
-                    {
-                        console.log(key,val);
-                        $(`#error_${key}`).html(val[0]);
-                    })
-                }
-            })
         }
 //DATA SHOW FOR EDIT AND SHOW
+var currentClientName;
+var current_contact_number;
         function handleShowAndEdit(id,action)
         {
             
@@ -300,6 +300,9 @@
                         }
                         $('#method').val('UPDATE');
                         $('#submit').text('UPDATE');
+                        var currentClientName = message.name.toLowerCase().replace(/ /g, '');
+
+                        current_contact_number=message.contact_number;
                     }
                     else
                     {
@@ -319,5 +322,74 @@
                 },
             })
         }
+
+        // inline validation
+        var clientNames = @json($clientNames);
+       var contact_number=@json($contact_number);
+
+$.validator.addMethod("uniqueContactNumber", function(value, element) {
+  if ($("#method").val() !== "ADD" && value === current_contact_number) {
+    return true;
+  }
+  return !contact_number.includes(value);
+});
+
+$.validator.addMethod("alphanumeric", function(value, element) {
+  return this.optional(element) || /^[A-Za-z ]+$/i.test(value);
+});
+  // Initialize form validation
+  var formValidationConfig = {
+    rules: {
+        name: {
+    required: true,
+     alphanumeric:true,
+
+  },
+     company_name: "required",
+      contact_number: {
+        required: true,
+        digits: true,
+        minlength: 9,
+        maxlength: 9,
+        uniqueContactNumber:true
+      },
+      address: "required",
+      website: {
+        url: true
+      }
+    },
+    messages: {
+        name: {
+    required: "Please enter the client name",
+     alphanumeric: "Client name allows only alphabets",
+      },
+       company_name: "Please enter the company name",
+      contact_number: {
+        required: "Please enter the contact number",
+        digits: "Please enter only numbers",
+        minlength: "Contact number must be exactly 9 numbers",
+        maxlength: "Contact number must be exactly 9 numbers",
+        uniqueContactNumber:"This Contact Number is already exist.Please enter new number"
+      },
+      address: "Please enter the address",
+      website: "Please enter a valid URL"
+    },
+    errorElement: "error",
+      errorClass: "error-msg",
+      highlight: function(element, errorClass, validClass) {
+        $(element).addClass(errorClass).removeClass(validClass);
+        $(element).closest('.form-group').addClass('has-error');
+     
+      },
+      unhighlight: function(element, errorClass, validClass) {
+        $(element).removeClass(errorClass).addClass(validClass);
+        $(element).closest('.form-group').removeClass('has-error');
+        
+        
+      }
+  };
+     
+
+  $("#form").validate(formValidationConfig);
 </script>
 @stop

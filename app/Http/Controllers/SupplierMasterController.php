@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\SupplierMaster;
 use Exception;
-use App\Http\Requests\SupplierRequest;
 use Illuminate\Http\Request;
 
 class SupplierMasterController extends Controller
@@ -20,8 +19,11 @@ class SupplierMasterController extends Controller
         try
         {
             $supplier = SupplierMaster::all();
+            $contact_number= $supplier->pluck('contact_number');
             return view('suppliermaster.index')->with([
-                'suppliers' => $supplier
+                'suppliers' => $supplier,
+                'contact_number'=>$contact_number
+
             ]);
         }
         catch (Exception $e) 
@@ -41,7 +43,7 @@ class SupplierMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     // DATA SAVE IN ADD DIALOG
-    public function store(SupplierRequest $request)
+    public function store(Request $request)
     {
         try 
         {
@@ -97,7 +99,7 @@ class SupplierMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     // UPDATE SAVE FUNCTION
-    public function update(SupplierRequest $request, $id)
+    public function update(Request $request, $id)
     {
         try 
         {

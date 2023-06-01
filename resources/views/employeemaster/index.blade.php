@@ -98,46 +98,46 @@
 {!! csrf_field() !!}
 <div class="row">
 <div class="form-group col-md-12">
-        <label for="code" id="code_lable"class="form-label fw-bold">Employee Code<a style="text-decoration: none;color:red">*</a></label>
+        <label for="code" id="code_lable"class="form-label fw-bold">Employee Code</label>
         <input type="text" id="employee_no" name="employee_no" readonly value="{{ old('employee_no') }}" placeholder="Employee Code" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_code"></p>
+        
     </div>
 </div>
 <div class="row">
 <div class="form-group col-md-6">
         <label for="firstname" class="form-label fw-bold">First Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="firstname"  name="firstname" value="{{ old('firstname') }}" placeholder="First Name" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_firstname"></p>
+       
     </div>
 
     <div class="form-group col-md-6">
         <label for="lastname" class="form-label fw-bold">Last Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="lastname" name="lastname" value="{{ old('lastname') }}" placeholder="Last Name" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_lastname"></p>
+    
     </div>
 </div>
 <div class="row">
     <div class="form-group col-md-6">
         <label for="fathername" class="form-label fw-bold">Father Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="fathername" name="fathername" value="{{ old('fathername') }}" placeholder="Father Name" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_fathername"></p>
+       
     </div>
     <div class="form-group col-md-6">
         <label for="mothername" class="form-label fw-bold">Mother Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="mothername" name="mothername" value="{{ old('mothername') }}" placeholder="Mother Name" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_mothername"></p>
+ 
     </div>
 </div>
 <div class="row">
     <div class="form-group col-md-6">
         <label for="join_date" class="form-label fw-bold">Date of joining<a style="text-decoration: none;color:red">*</a></label>
         <input type="date" id="join_date" name="join_date" value="{{ old('join_date') }}" placeholder="join_date" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_join_date"></p>
+     
     </div>
     <div class="form-group col-md-6">
         <label for="end_date" class="form-label fw-bold">End Date</label>
         <input type="date" id="end_date" name="end_date" value="{{ old('end_date') }}" placeholder="end_date" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_end_date"></p>
+     
     </div>
 </div>
 <div class="row">
@@ -149,7 +149,7 @@
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
         </select>
-        <p style="color: red" id="error_category"></p>
+      
     </div>
     <div class="form-group col-md-6">
         <label for="sponser" class="form-label fw-bold">Sponsor<a style="text-decoration: none;color:red">*</a></label>
@@ -159,7 +159,7 @@
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
         </select>
-        <p style="color: red" id="error_sponser"></p>
+      
     </div>
 </div>
 <div class="row">
@@ -171,7 +171,7 @@
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
         </select>
-        <p style="color: red" id="error_working_as"></p>
+  
     </div>
     <div class="form-group col-md-6">
         <label for="depart" class="form-label fw-bold">Department<a style="text-decoration: none;color:red">*</a></label>
@@ -181,7 +181,7 @@
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
         </select>
-        <p style="color: red" id="error_depart"></p>
+     
     </div>
 </div>
 <div class="row">
@@ -193,7 +193,7 @@
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
         </select>
-        <p style="color: red" id="error_status"></p>
+       
     </div>
     <div class="form-group col-md-6">
         <label for="religion" class="form-label fw-bold">Religion<a style="text-decoration: none;color:red">*</a></label>
@@ -203,7 +203,7 @@
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
         </select>
-        <p style="color: red" id="error_religion"></p>
+       
     </div>
 </div>
 <div class="row">
@@ -216,13 +216,13 @@
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
         </select>
-        <p style="color: red" id="error_nationality"></p>
+     
     </div>
     <div class="form-group col-md-6">
         <label for="city" class="form-label fw-bold">Current Location<a style="text-decoration: none;color:red">*</a></label>
        <input type="text" id="city" name="city"  value="{{ old('city') }}" placeholder="Project Name" class="form-control" autocomplete="off">
 
-        <p style="color: red" id="error_city"></p>
+     
     </div>
 
 </div>
@@ -234,7 +234,7 @@
         <input type="tel" id="phone" name="phone"  value="{{ old('phone') }}" class="input form-control" size="60">
 
         <!-- <input type="tel" id="phone" name="phone"  value="{{ old('phone') }}" placeholder=" phone" class="form-control phone_number" autocomplete="off"> -->
-        <p style="color: red" id="error_phone"></p>
+     
     </div>
     <div class="form-group col-md-6">
         <label for="UAE_mobile_number" class="form-label fw-bold">UAE Mobile Number<a style="text-decoration: none;color:red">*</a></label>
@@ -242,7 +242,7 @@
                 <span class="input-group-text" id="basic-addon1">{{+971}}</span>
             <!-- </div> -->
         <input type="text" id="UAE_mobile_number" name="UAE_mobile_number"  value="{{old('UAE_mobile_number') }}" placeholder=" UAE_mobile_number" class="form-control" autocomplete="off"></div>
-        <p style="color: red" id="error_UAE_mobile_number"></p>
+       
     </div>
 </div>
 <div class="row">
@@ -254,7 +254,7 @@
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
         </select>
-        <p style="color: red" id="error_pay_group"></p>
+       
     </div>
     <div class="form-group col-md-6">
         <label for="accomodation" class="form-label fw-bold">Accomodation<a style="text-decoration: none;color:red">*</a></label>
@@ -264,46 +264,46 @@
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
         </select>
-        <p style="color: red" id="error_accomodation"></p>
+      
     </div>
 </div>
 <div class="row">
     <div class="form-group col-md-6">
         <label for="passport_no" class="form-label fw-bold">Passport Number<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="passport_no" name="passport_no"  value="{{ old('passport_no') }}" placeholder=" Passport no" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_passport_no"></p>
+    
     </div>
     <div class="form-group col-md-6">
         <label for="passport_expiry_date" class="form-label fw-bold">Passport Expiry Date<a style="text-decoration: none;color:red">*</a></label>
         <input type="date" id="passport_expiry_date" name="passport_expiry_date"  value="{{ old('passport_expiry_date') }}" placeholder="passport_expiry_date" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_passport_expiry_date"></p>
+      
     </div>
 </div>
 <div class="row">
     <div class="form-group col-md-6">
         <label for="emirates_id_no" class="form-label fw-bold">Emirates Id No<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="emirates_id_no" name="emirates_id_no"  value="{{ old('emirates_id_no') }}" placeholder="Emirates id no" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_emirates_id_no"></p>
+    
     </div>
 
      <div class="form-group col-md-6">
         <label for="emirates_id_from_date" class="form-label fw-bold">Emirates Id From Date<a style="text-decoration: none;color:red">*</a></label>
         <input type="date" id="emirates_id_from_date" name="emirates_id_from_date"  value="{{ old('emirates_id_from_date') }}" placeholder=" emirates_id_from_date" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_emirates_id_from_date"></p>
+      
     </div>
 </div>
 <div class="row">
      <div class="form-group col-md-6">
         <label for="emirates_id_to_date" class="form-label fw-bold">Emirates Id To Date<a style="text-decoration: none;color:red">*</a></label>
         <input type="date" id="emirates_id_to_date" name="emirates_id_to_date"  value="{{ old('emirates_id_to_date') }}" placeholder=" emirates_id_to_date" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_emirates_id_to_date"></p>
+        
     </div>
 
 
 <div class="form-group col-md-6">
         <label for="expiry_date" class="form-label fw-bold">Visa End Date<a style="text-decoration: none;color:red">*</a></label>
         <input type="date" id="expiry_date" name="expiry_date"  value="{{ old('expiry_date') }}" placeholder=" expiry_date" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_expiry_date"></p>
+    
     </div>
 </div>
 <div class="row">
@@ -315,7 +315,7 @@
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
         </select>
-        <p style="color: red" id="error_visa_status"></p>
+       
     </div>
     <div class="form-group col-md-6">
         <label for="desigination" class="form-label fw-bold">Visa Designation<a style="text-decoration: none;color:red">*</a></label>
@@ -325,24 +325,24 @@
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
         </select>
-        <p style="color: red" id="error_desigination"></p>
+    
     </div>
 </div>
 <div class="row">
 <div class="form-group col-md-4">
         <label for="basic" class="form-label fw-bold">Basic<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="basic" name="basic"  value="{{ old('basic') }}" placeholder="Basic" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_basic"></p>
+        <input type="number" id="basic" name="basic"  value="{{ old('basic') }}" placeholder="Basic" class="form-control" autocomplete="off">
+       
     </div>
      <div class="form-group col-md-4">
         <label for="total_salary" class="form-label fw-bold">Total Salary<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="total_salary" name="total_salary"  value="{{ old('total_salary') }}" placeholder="Total Salary" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_total_salary"></p>
+        <input type="number" id="total_salary" name="total_salary"  value="{{ old('total_salary') }}" placeholder="Total Salary" class="form-control" autocomplete="off">
+       
     </div>
     <div class="form-group col-md-4">
         <label for="hra" class="form-label fw-bold">HRA<a style="text-decoration: none;color:red">*</a></label>
-        <input type="text" id="hra" name="hra"  value="{{ old('hra') }}" placeholder="HRA" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_hra"></p>
+        <input type="number" id="hra" name="hra"  value="{{ old('hra') }}" placeholder="HRA" class="form-control" autocomplete="off">
+        
     </div>
 </div>
 <div class="row">
@@ -554,68 +554,74 @@
                 $('#form')[0].reset();
                 // Reset Select2 dropdowns
                 $('#desigination, #sponser, #working_as').val(null).trigger('change');
+                $('.error-msg').removeClass('error-msg');
+                $('.has-error').removeClass('has-error');       
                 // Hide any error messages
-                $('p[id^="error_"]').html('');
+                $('error').html('');
                 // Hide the dialog background
                 $('#blur-background').css('display', 'none');
             }
     // DIALOG SUBMIT FOR ADD AND EDIT
             function handleSubmit()
             {
-                event.preventDefault();
-                let form_data = new FormData(document.getElementById('form'));
-                let method = $('#method').val();
-                let url;
-                let type
-                // alert("submit");
-                if(method == 'ADD')
+                var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
+                // alert(hiddenErrorElements);
+                if(hiddenErrorElements === 0)
                 {
-                    // employee.store
-                    // alert('{{route('employeeApi.store')}}');
-                    url = '{{route('employeeApi.store')}}';
-                    type  = 'POST';
-                }
-                else 
-                {
-                    let id = $('#id').val();
-                    url = '{{route('employeeApi.update',":id")}}';
-                    url= url.replace(':id',id);
-                    type = 'POST';
-                    if ($('#over_time').is(':checked')) 
+                    let form_data = new FormData(document.getElementById('form'));
+                    let method = $('#method').val();
+                    let url;
+                    let type
+                    // alert("submit");
+                    if(method == 'ADD')
                     {
-                        form_data.append('over_time', '1');
-                    } 
+                        // employee.store
+                        // alert('{{route('employeeApi.store')}}');
+                        url = '{{route('employeeApi.store')}}';
+                        type  = 'POST';
+                    }
                     else 
                     {
-                        form_data.append('over_time', '0');
-                    }
-                }
-                $.ajax
-                ({
-                    url: url,
-                    type: type,
-                    data: form_data,
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    success: function (message) 
-                    {
-                        alert(message);
-                        window.location.reload();
-                    },error: function (message) 
-                    {
-                        var data = message.responseJSON;
-                        $('p[id ^= "error_"]').html("");
-                        $.each(data.errors, function (key, val) 
+                        let id = $('#id').val();
+                        url = '{{route('employeeApi.update',":id")}}';
+                        url= url.replace(':id',id);
+                        type = 'POST';
+                        if ($('#over_time').is(':checked')) 
                         {
-                            console.log(key,val);
-                            $(`#error_${key}`).html(val[0]);
-                        })
+                            form_data.append('over_time', '1');
+                        } 
+                        else 
+                        {
+                            form_data.append('over_time', '0');
+                        }
                     }
-                })
+                    $.ajax
+                    ({
+                        url: url,
+                        type: type,
+                        data: form_data,
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        success: function (message) 
+                        {
+                            alert(message);
+                            window.location.reload();
+                        },
+                        error: function (message) 
+                        {
+                            var data = message.responseJSON;
+                        }
+                    })
+                }
+                else
+                {
+                    event.preventDefault();
+                }
             }
 
     //DATA SHOW FOR EDIT AND SHOW 
+    var currentMobileNumber;
             function handleShowAndEdit(id,action)
             {
                 let url = '{{route('employeeApi.show',":id")}}';
@@ -666,6 +672,7 @@
                                     $('#working_as').val(message[0].working_as);
                                     $('#working_as').select2({ tags: true }).trigger('change');          
                             }
+                            currentMobileNumber=message[0].UAE_mobile_number;
                             $('#method').val('UPDATE');
                             $('#submit').text('UPDATE');
                         } 
@@ -785,6 +792,258 @@
                  tags:true
             });
         });
+    
+    // Initialize form validation
+ var employee_uae=@json($employee_uae);
+ 
+ $.validator.addMethod("uniqueContactNumber", function(value, element) {
+  if ($("#method").val() !== "ADD" && value === currentMobileNumber) {
+    return true;
+  }
+  return !employee_uae.includes(value);
+});
+$.validator.addMethod("alphanumeric", function(value, element) {
+  return this.optional(element) || /^[A-Za-z ]+$/i.test(value);
+});
+$.validator.addMethod("greaterThan", function (value, element, param) {
+    var startDate = $(param).val();
+    if (!value || !startDate) {
+        return true; // Skip validation if either date is missing
+    }
 
+    return new Date(value) > new Date(startDate);
+});
+
+ var formValidationConfig = {
+    rules:
+    {
+        firstname:
+        {
+            required: true,
+            alphanumeric: true
+        },
+        lastname:
+        {
+            required: true,
+            alphanumeric: true
+        },
+        fathername:
+        {
+            required: true,
+            alphanumeric: true
+        },
+        mothername:
+        {
+            required: true,
+            alphanumeric: true
+        },
+        join_date:
+        {
+            required: true,
+        },
+        end_date:
+        {
+            date: true,
+            greaterThan: "#join_date"
+        },
+        category:"required",
+        sponser:
+        {   required:true,
+            alphanumeric:true
+        },
+        working_as:{  
+             required:true,
+            alphanumeric:true
+        },
+        depart:"required",
+        status:"required",
+        religion:"required",
+        nationality:"required",
+        city:
+        {
+            required: true,
+                    },
+        phone:
+        {
+            required: true,
+            digits: true,
+            minlength: 10,
+            maxlength: 10,
+        },
+        UAE_mobile_number:
+        {
+            required: true,
+            digits: true,
+            minlength: 9,
+            maxlength: 9,
+            uniqueContactNumber:true,
+        },
+        pay_group:"required",
+        accomodation:"required",
+        passport_no:
+        {
+            required: true,
+        
+        },
+        passport_expiry_date:"required",
+        emirates_id_no:
+        {
+            required: true,
+            digits:true,
+            minlength: 7,
+            maxlength: 7,
+        },
+        emirates_id_from_date:"required",
+        emirates_id_to_date:
+        {
+            required: true,
+            date: true,
+            greaterThan: "#emirates_id_from_date"
+        },
+        expiry_date:"required",
+        visa_status:"required",
+        desigination:{  
+             required:true,
+            alphanumeric:true
+        },
+        total_salary:
+        {
+            required: true,
+            digits:true,
+        },
+        hra:
+        {
+            required: true,
+            digits:true,
+        },
+        basic:"required"
+    },
+    messages:
+    {
+        firstname:
+        {
+            required: "Please enter the firstname",
+            alphanumeric: "The firstname allows only alphabets"
+        },
+        lastname:
+        {
+            required: "Please enter the lastname",
+            alphanumeric: "The lastname allows only alphabets"
+        },
+        fathername:
+        {
+            required: "Please enter the fathername",
+            alphanumeric: "The fathername allows only alphabets"
+        },
+        mothername:
+        {
+            required: "Please enter the mothername",
+            alphanumeric: "The mothername allows only alphabets"
+        },
+        join_date:
+        {
+            required: "Please enter the join date",
+        },
+        end_date:
+        {
+            date: "Please enter a valid date",
+            greaterThan: "End date must be after the start date"
+        },
+        category:"Please select the category",
+        sponser:
+        {
+            required:"Please select the sponsor",
+            alphanumeric:"The sponsor allows only only alphabets"
+        },
+        working_as:
+        {
+            required:"Please select the Working as",
+            alphanumeric:"The Working as allows only only alphabets"
+        },
+        depart:"Please select the department",
+        status:"Please select the status",
+        religion:"Please select the religion",
+        nationality:"Please select the nationality",
+        city:
+        {
+            required: "Please enter the current location",
+            alphanumeric: "The current location  allows only only alphabets "
+        },
+        phone:
+        {
+            required: "Please enter the home country contact number",
+            digits: "Please enter only numbers",
+            minlength: "Home country contact number must be exactly 10 numbers",
+            maxlength: "Home country contact number must be exactly 10 numbers"
+        },
+        UAE_mobile_number:
+        {
+            required: "Please enter the UAE mobile number",
+            digits: "Please enter only numbers",
+            minlength: "UAE mobile number must be exactly 9 numbers",
+            maxlength: "UAE mobile number must be exactly 9 numbers",
+            uniqueContactNumber:"This UAE mobile number is already exist.Please enter new number"
+        },
+        pay_group:
+        {
+            required: "Please select the pay group",
+        },
+        accomodation:
+        {
+            required: "Please select the accommodation",
+        },
+        passport_no:
+        {
+            required: "Please enter the passport number",
+            alphanumeric:"Please enter numerical values for the passport number"
+        },
+        passport_expiry_date:"Please select the passport expiry date",
+        emirates_id_no:
+        {
+            required: "Please enter the emirates id no",
+            digits: "Please enter only numbers",
+            minlength: "Emirates id no must be exactly 7 numbers",
+            maxlength: "Emirates id no must be exactly 7 numbers",
+        },
+        emirates_id_from_date:"Please select the emirates id from date",
+        emirates_id_to_date:
+        {
+            required: "Please select the emirates id to date",
+            date: true,
+            greaterThan: "Emirates id to date must be after the emirates id from date"
+        },
+        expiry_date:"Please select the visa end date",
+        visa_status:"Please select the visa status",
+        desigination:  {
+            required:"Please select the visa desigination",
+            alphanumeric:"The visa desigination allows only only alphabets"
+        },
+        total_salary:
+        {
+            required: "Please enter the total salary",
+            digits: "Please enter only numbers",
+        },
+        hra:
+        {
+            required: "Please enter the hra",
+            digits: "Please enter only numbers",
+        },
+        basic:"Please enter the basic"
+    },errorElement: "error",
+      errorClass: "error-msg",
+      highlight: function(element, errorClass, validClass) {
+        $(element).addClass(errorClass).removeClass(validClass);
+        $(element).closest('.form-group').addClass('has-error');
+     
+      },
+      unhighlight: function(element, errorClass, validClass) {
+        $(element).removeClass(errorClass).addClass(validClass);
+        $(element).closest('.form-group').removeClass('has-error');
+        
+        
+      }
+
+  };   
+  $("#form").validate(formValidationConfig);
 </script>
 @stop

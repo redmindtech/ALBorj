@@ -101,7 +101,6 @@
                                     style="text-decoration: none;color:red">*</a></label>
                             <input type="text" id="item_name" name="item_name" value="{{ old('item_name') }}"
                                 placeholder="Item Name" class="form-control" autocomplete="off">
-                            <p style="color: red" id="error_item_name"></p>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="item_category" class="form-label fw-bold">Item category<a
@@ -113,14 +112,12 @@
                                     <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach
                             </select>
-                            <p style="color: red" id="error_item_category"></p>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="item_subcategory" class="form-label fw-bold">Item Sub category<a
                                     style="text-decoration: none;color:red">*</a></label>
                             <select id="item_subcategory" name="item_subcategory" class="form-control form-select"
                                 autocomplete="off"></select>
-                            <p style="color: red" id="error_item_subcategory"></p>
                         </div>
                         </div>
                         <div class="row">
@@ -133,7 +130,6 @@
                                     <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach
                             </select>
-                            <p style="color: red" id="error_stock_type"></p>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="item_type" class="form-label fw-bold">Item Type<a
@@ -144,7 +140,6 @@
                                     <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach
                             </select>
-                            <p style="color: red" id="error_item_type"></p>
                         </div>
                     </div>
                     <div class="row">
@@ -155,23 +150,21 @@
                             <input type="text" id="supplier_no" name="supplier_no" hidden
                                 value="{{ old('supplier_no') }}" placeholder="Supplier Id" class="form-control"
                                 autocomplete="off">
-                            <p style="color: red" id="error_name"></p>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="supplier_code" class="form-label fw-bold">Supplier Code</label>
                             <input type="text" id="code" name="code" value="{{ old('code') }}"
                                 placeholder="Supplier code" class="form-control" autocomplete="off" readonly>
-                            <p style="color: red" id="error_code"></p>
                         </div>
                         <div class="form-group col-md-4" id="quantityField">
                             <label for="name" class="form-label fw-bold">Item Quantity</label>
-                            <input type="text" id="quantity" name="quantity"
+                            <input type="number" id="quantity" name="quantity"
                                 value="{{ old('quantity') }}" placeholder="Item Quantity" class="form-control"
                                 autocomplete="off">
                                 <input type="text" id="total_quantity" name="total_quantity" hidden
                                 value="{{ old('total_quantity') }}" placeholder="Item Quantity" class="form-control"
                                 autocomplete="off">
-                            <p style="color: red" id="error_total_quantity"></p>
+                            
                         </div>
                     </div>
                     <div class="form-group col-md-12">
@@ -285,8 +278,10 @@
                         $('#form')[0].reset();
                         // Remove the show_table element
                         $('#show_table').remove();
+                        $('.error-msg').removeClass('error-msg');
+                        $('.has-error').removeClass('has-error');
                         // Hide any error messages
-                        $('p[id^="error_"]').html('');
+                        $('error').html('');
                         // Hide the dialog background
                         $('#blur-background').css('display', 'none');
                         var supplierName = document.getElementById("name");
@@ -296,44 +291,51 @@
                     }
                 // DIALOG SUBMIT FOR ADD AND EDIT
                 function handleSubmit() {
-                    event.preventDefault();
-                    let form_data = new FormData(document.getElementById('form'));
-                    let method = $('#method').val();
-                    let url;
-                    let type;
-                    if (method == 'ADD') {
-                        url = '{{ route('store') }}';
-                        type = 'POST';
-                    } else {
-                        let id = $('#id').val();
-                        url = '{{ route('itemApi.update', ':id') }}';
-                        url = url.replace(':id', id);
-                        type = 'POST';
-                    }
-                    $.ajax
-                    ({
-                        url: url,
-                        type: type,
-                        data: form_data,
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        success: function(message) {
-                            alert(message);
-                            window.location.reload();
-                        },
-                        error: function(message) {
-                            var data = message.responseJSON;
-                            $('p[id ^= "error_"]').html("");
-                            $.each(data.errors, function(key, val) {
-                                $(`#error_${key}`).html(val[0]);
-                            })
+                    var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
+                    //  alert(hiddenErrorElements);
+                    if(hiddenErrorElements === 0)
+                    {
+                        let form_data = new FormData(document.getElementById('form'));
+                        let method = $('#method').val();
+                        let url;
+                        let type;
+                        if (method == 'ADD') {
+                            url = '{{ route('store') }}';
+                            type = 'POST';
+                        } else {
+                            let id = $('#id').val();
+                            url = '{{ route('itemApi.update', ':id') }}';
+                            url = url.replace(':id', id);
+                            type = 'POST';
                         }
-                    })
+                        $.ajax
+                        ({
+                            url: url,
+                            type: type,
+                            data: form_data,
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            success: function(message) {
+                                alert(message);
+                                window.location.reload();
+                            },
+                            error: function(message) 
+                            {
+                                var data = message.responseJSON;
+                               
+                            }
+                        })
+                    }
+                    else
+                    {
+                        event.preventDefault();
+                    }
     
                 }
 
                 //DATA SHOW FOR EDIT AND SHOW
+                var currentItemName;
                 function handleShowAndEdit(id, action) {
                     let url = '{{ route('itemApi.show', ':id') }}';
                     url = url.replace(':id', id);
@@ -371,6 +373,7 @@
                                 window.scrollTo(0, 0)
                                 $('#method').val('UPDATE');
                                 $('#submit').text('UPDATE');
+                                currentItemName = message.itemsupplier[0].item_name.toLowerCase().replace(/ /g, '');
                             } else if (action == 'show') {
                                 console.log('show')
                                 for (const [key, value] of Object.entries(message.itemsupplier[0])) {
@@ -589,6 +592,68 @@
 
                     handleShowAndEdit('edit');
                 }
+
+
+                var item_Name = @json($itemName);
+    console.log(item_Name);
+    $.validator.addMethod("uniqueItemName", function(value, element)
+    {
+        var lowercaseValue = value.toLowerCase().replace(/\s/g, '');
+
+        if ($("#method").val() !== "ADD" && lowercaseValue === currentItemName)
+        {
+            return true;
+        }
+        var lowercaseValu = value.toLowerCase().replace(/\s/g, '');
+        return !item_Name.includes(lowercaseValu);
+    });
+
+  
+         
+    var formValidationConfig ={
+    
+        rules:
+        {
+            item_name:
+            {
+                required: true,
+                uniqueItemName:true
+            },
+            item_category:"required",
+            item_subcategory:"required",
+            stock_type:"required",
+            item_type:"required",
+        },
+        messages:
+        {
+            item_name:
+            {
+                required: "Please enter the item name",
+                uniqueItemName:"This item name is already exist. Please enter new item name"
+            },
+            item_category:"Please select the item category",
+            item_subcategory:"Please select the item subcategory",
+            stock_type:"Please select the stock type",
+            item_type:"Please select the item type",
+        },
+        errorElement: "error",
+        errorClass: "error-msg",
+        highlight: function(element, errorClass, validClass)
+        {
+            $(element).addClass(errorClass).removeClass(validClass);
+            $(element).closest('.form-group').addClass('has-error');
+         
+        },
+        unhighlight: function(element, errorClass, validClass)
+        {
+            $(element).removeClass(errorClass).addClass(validClass);
+            $(element).closest('.form-group').removeClass('has-error');
+           
+        }
+
+    };
+    $("#form").validate(formValidationConfig);
+    
 
 </script>
 @stop

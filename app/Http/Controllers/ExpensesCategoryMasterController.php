@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\ExpensesCategoryMaster;
-
 use Exception;
-
-use App\Http\Requests\ExpensesCategoryRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class ExpensesCategoryMasterController extends Controller
@@ -19,10 +16,14 @@ class ExpensesCategoryMasterController extends Controller
     {
         try
         {
-            //info($expenses);
+           
             $expenses = ExpensesCategoryMaster::all();
+            $categoryNames = $expenses->pluck('category_name')->map(function ($name) {
+                return strtolower(str_replace(' ', '', $name));
+            });
             return view('expensescategorymaster.index')->with([
-                'expenses' => $expenses
+                'expenses' => $expenses,
+                'categoryNames'=>$categoryNames
             ]);
         }
         catch (Exception $e)
@@ -40,7 +41,7 @@ class ExpensesCategoryMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     // DATA SAVE IN ADD DIALOG
-    public function store(ExpensesCategoryRequest $request)
+    public function store(Request $request)
     {
         try 
         {
@@ -92,7 +93,7 @@ class ExpensesCategoryMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     // UPDATE SAVE FUNCTION
-    public function update(ExpensesCategoryRequest $request, $id)
+    public function update(Request $request, $id)
     {
         try 
         {

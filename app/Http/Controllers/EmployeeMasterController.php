@@ -5,7 +5,6 @@ use App\Models\EmployeeMaster;
 use App\Models\ProjectMaster;
 use App\Models\VisaDetails;
 use App\Models\SalaryDetails;
-use App\Http\Requests\EmployeeMasterRequest;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -44,7 +43,8 @@ class EmployeeMasterController extends Controller
             $v_des = EmployeeMaster::distinct()->pluck('desigination')->toArray();
             $array = array_combine($v_des,$v_des);
             $merged = array_unique(array_merge( $desigination,$array));
-
+        $employee_uae =EmployeeMaster::pluck('UAE_mobile_number');
+   
             $employes = EmployeeMaster::join('visa_details', 'employee_masters.id', '=', 'visa_details.employee_id')
             ->join('salary_details', 'employee_masters.id', '=', 'salary_details.employee_id')
             ->select('employee_masters.*', 'visa_details.*', 'salary_details.*',
@@ -65,7 +65,9 @@ class EmployeeMasterController extends Controller
                 'visa_status' => $visa_status,
                 'pay_group' => $pay_group,
                 'accomodation' => $accomodation,
-                'desigination' => $merged
+                'desigination' => $merged,
+                'employee_uae'=>$employee_uae,
+                
             ]);
         }
         catch (Exception $e) {
@@ -81,7 +83,7 @@ class EmployeeMasterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(EmployeeMasterRequest $request)
+    public function store(Request $request)
     {
      
         if($request['over_time']=='')
@@ -151,7 +153,7 @@ class EmployeeMasterController extends Controller
      *
      */
    
-   public function update(EmployeeMasterRequest $request, $id)
+   public function update(Request $request, $id)
     {
     
         try

@@ -94,7 +94,7 @@
   <div class="form-group col-md-6">
         <label for="site_name" class="form-label fw-bold">Site Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="site_name"  name="site_name" value="{{ old('site_name') }}" placeholder="Site Name" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_site_name"></p>
+       
     </div>
 
     <div class="form-group col-md-6">
@@ -105,31 +105,31 @@
                     <option value="{{ $key }}">{{ $value }}</option>
                 @endforeach
             </select>
-        <p style="color: red" id="error_site_location"></p>
+        
     </div>
 </div>
 <div class="row">
     <div class="form-group col-md-6">
         <label for="site_building" class="form-label fw-bold">Site Building<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="site_building" name="site_building" value="{{ old('site_building') }}" placeholder="Site Building" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_site_building"></p>
+       
     </div>
     <div class="form-group col-md-6">
         <label for="site_floor" class="form-label fw-bold">Site Floor<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="site_floor" name="site_floor" value="{{ old('site_floor') }}" placeholder="Site Floor" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_site_floor"></p>
+       
     </div>
 </div>
 <div class="row">
     <div class="form-group col-md-6">
         <label for="room_number" class="form-label fw-bold">Room Number<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="room_number" name="room_number" value="{{ old('room_number') }}"  placeholder="Room Number" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_room_number"></p>
+        
     </div>
     <div class="form-group col-md-6">
         <label for="site_address" class="form-label fw-bold">Site Address<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="site_address" name="site_address" value="{{ old('site_address') }}" placeholder="Site Address" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_site_address"></p>
+       
     </div>
 </div>
 <div class="row">
@@ -138,7 +138,7 @@
         <label for="site_manager" class="form-label fw-bold">Site Manager<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="firstname" name="firstname" value="{{ old('firstname') }}" placeholder="Site Manager" class="form-control" autocomplete="off">
         <input type="text" id="site_manager" hidden  name="site_manager" value="{{ old('site_manager') }}"  class="form-control" autocomplete="off">
-        <p style="color: red" id="error_firstname"></p>
+      
     </div> 
     <div class="form-group col-md-6">
         
@@ -149,7 +149,7 @@
                 <option value="{{ $key }}">{{ $value }}</option>
             @endforeach
         </select>
-        <p style="color: red" id="error_site_status"></p>
+        
     </div>
   
 </div>
@@ -157,12 +157,12 @@
 <div class="form-group col-md-12">
         <label for="description" class="form-label fw-bold">Description</label>
         <textarea id="description" name="description" value="{{ old('description') }}" placeholder="Description" class="form-control" autocomplete="off"></textarea>
-        <p style="color: red" id="error_description"></p>
+       
     </div>
     <div class="form-group col-md-">
         <label for="site_code" id="code_lable" class="form-label fw-bold">Site Code</label>
         <input type="text" id="site_code" name="site_code" value="{{ old('site_code') }}" readonly placeholder="Site Code" class="form-control" autocomplete="off">
-        <p style="color: red" id="error_site_code"></p>
+        
     </div>
 </div>
     <div class="row">  
@@ -288,59 +288,64 @@
             document.getElementById("myDialog").open = false;
             // Clear the form fields
             $('#form')[0].reset();
+            $('.error-msg').removeClass('error-msg');
+            $('.has-error').removeClass('has-error');       
             // Hide any error messages
-            $('p[id^="error_"]').html('');
+            $('error').html('');
             // Hide the dialog background
             $('#blur-background').css('display','none');
         }
     // DIALOG SUBMIT FOR ADD AND EDIT
         function handleSubmit()
         {
-            event.preventDefault();
-            let form_data = new FormData(document.getElementById('form'));
-            let method = $('#method').val();
-            let url;
-            let type;
-            if(method == 'ADD')
-            {           
-                url = '{{route('siteApi.store')}}';
-                type  = 'POST';
-                
-            } 
-            else 
+            var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
+            // alert(hiddenErrorElements);
+            if(hiddenErrorElements === 0)
             {
-                let id = $('#site_no').val();
-                url = '{{route('siteApi.update',":site_no")}}';
-                url= url.replace(':site_no',id);
-                type = 'POST';
-            }
-            $.ajax
-            ({
-                url: url,
-                type: type,
-                data: form_data,
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function (message) 
+                let form_data = new FormData(document.getElementById('form'));
+                let method = $('#method').val();
+                let url;
+                let type;
+                if(method == 'ADD')
+                {           
+                    url = '{{route('siteApi.store')}}';
+                    type  = 'POST';
+                    
+                } 
+                else 
                 {
-                    alert(message);
-                    window.location.reload();
-                },
-                error: function (message) 
-                {
-                    var data = message.responseJSON;
-                    $('p[id ^= "error_"]').html("");
-                    $.each(data.errors, function (key, val) 
-                    {
-                        console.log(key,val);
-                        $(`#error_${key}`).html(val[0]);
-                    })
+                    let id = $('#site_no').val();
+                    url = '{{route('siteApi.update',":site_no")}}';
+                    url= url.replace(':site_no',id);
+                    type = 'POST';
                 }
-            })
+                $.ajax
+                ({
+                    url: url,
+                    type: type,
+                    data: form_data,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (message) 
+                    {
+                        alert(message);
+                        window.location.reload();
+                    },
+                    error: function (message) 
+                    {
+                        var data = message.responseJSON;
+                    }
+                })
+            }
+            else
+            {
+                event.preventDefault();
+            }
         }
 
-    //DATA SHOW FOR EDIT AND SHOW 
+    //DATA SHOW FOR EDIT AND SHOW
+    var current_SiteName; 
         function handleShowAndEdit(id,action)
         {
             let url = '{{route('siteApi.show',":site_no")}}';
@@ -369,6 +374,7 @@
                         }
                         $('#method').val('UPDATE');
                         $('#submit').text('UPDATE');
+                        current_SiteName = message[0].site_name.toLowerCase().replace(/ /g, '');
                     } 
                     else 
                     {
@@ -455,5 +461,89 @@
                 }
             });
         });
+
+
+        // validation
+        var Site_Names_check = @json($siteNames);
+            var employee_name=@json($employee_name);
+         
+            $.validator.addMethod("uniqueSiteName", function(value, element) {
+         
+                var lowercaseValue = value.toLowerCase().replace(/\s/g, '');
+                 
+  if ($("#method").val() != "ADD" && lowercaseValue == current_SiteName) {
+    return true;
+  }
+  
+    var lowercaseValu = value.toLowerCase().replace(/\s/g, '');
+  return !Site_Names_check.includes(lowercaseValu);
+  
+});
+
+$.validator.addMethod("employeeNameCheck", function(value, element) {
+  return employee_name.includes(value);
+});
+
+
+
+  // Initialize form validation
+  var formValidationConfig = {
+    rules: {
+        site_name: {
+    required: true,
+    uniqueSiteName:true
+  },
+  site_location: "required",
+
+  site_building:"required",
+
+  site_floor: "required",
+
+  room_number:"required",
+
+  site_address:"required",
+
+  site_status:"required",
+
+  firstname:{
+    required:true,
+
+    employeeNameCheck:true,
+    }},
+    messages: {
+        site_name: {
+
+            required:"The site name is required ",
+
+            uniqueSiteName:"This site name is already exist.Please enter new site name"
+  },
+  site_location: "Please select location",
+  site_building:"The site building is required",
+  site_floor: "The site floor is required",
+  room_number: "The room number is required",
+  site_address:"The site address is required",
+  site_status:"The site address is required",
+  firstname:
+  {
+    required:"The site manager is required",
+    employeeNameCheck:"Please enter valid site manager"
+  
+    }
+},
+    errorElement: "error",
+      errorClass: "error-msg",
+      highlight: function(element, errorClass, validClass) {
+        $(element).addClass(errorClass).removeClass(validClass);
+        $(element).closest('.form-group').addClass('has-error');
+    
+      },
+      unhighlight: function(element, errorClass, validClass) {
+        $(element).removeClass(errorClass).addClass(validClass);
+        $(element).closest('.form-group').removeClass('has-error');
+      
+      }
+  };
+
+  $("#form").validate(formValidationConfig);
 </script>
 @stop

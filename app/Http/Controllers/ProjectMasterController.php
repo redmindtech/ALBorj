@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\ProjectMaster;
 use App\Models\SiteMaster;
 use App\Models\EmployeeMaster;
-use App\Http\Requests\ProjectMasterRequest;
+
 use Illuminate\Support\Facades\DB;
 
 require_once(app_path('constants.php'));
@@ -24,8 +24,17 @@ class ProjectMasterController extends Controller
         try
         {  
             $project_type = PROJECT_TYPE;  
-            $currency = CURRENCY;
+            $currency = CURRENCY; 
             $project_status= PROJECT_STATUS;
+            $projectmasters=ProjectMaster::all();
+            $projectName = $projectmasters->pluck('project_name')->map(function ($name) {
+                return strtolower(str_replace(' ', '', $name));
+            });
+            $siteNames = SiteMaster::pluck('site_name');
+     
+            $client_company=ClientMaster::pluck('company_name');
+            $employee=EmployeeMaster::all();
+            $employee_name=$employee->pluck('firstname');
             $projectmaster = DB::table('project_masters')
             ->join('site_masters', 'project_masters.site_no', '=', 'site_masters.site_no')
             ->join('employee_masters', 'project_masters.employee_no', '=', 'employee_masters.id')
@@ -37,7 +46,11 @@ class ProjectMasterController extends Controller
             return view('projectmaster.index')->with([
                 'projectmasters' => $projectmaster,
                 'project_type' => $project_type,
-                'project_status'=>$project_status,
+                'project_status'=>$project_status ,
+                'projectName'=>$projectName,
+                'siteNames'=>$siteNames,
+                'employee_name'=>$employee_name,
+                'client_company'=>$client_company,
                 'currency'=>$currency 
             ]);
         }
@@ -54,7 +67,7 @@ class ProjectMasterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProjectMasterRequest $request)
+    public function store(Request $request)
     {
         if($request['amount_type']=="")
         {
@@ -112,7 +125,7 @@ class ProjectMasterController extends Controller
     }
 
     // UPDATE DATA
-    public function update(ProjectMasterRequest $request, $id)
+    public function update(Request $request, $id)
     {
     
         try {
