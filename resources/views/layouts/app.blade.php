@@ -115,10 +115,10 @@
 <!-- Styles -->
     <style>
         .main-sidebar{
-        z-index: 0 !important;
+        z-index: 4 !important;
     }
         dialog{
-            width: 1000px;
+            
     position: absolute;
     top: 10px;
     border: none;
@@ -223,13 +223,13 @@ input[type=checkbox] {
             width: 100%;
             height: 100%;
             backdrop-filter: blur(8px);
-            z-index:1;
+            z-index:8;
             display: none; /* Initially hidden */
             background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background color */
         }
 
         dialog {
-            z-index:2;
+            z-index:9;
         }
          #myTable_paginate, #myTable_info  {
             position:relative;
@@ -252,6 +252,23 @@ input[type=checkbox] {
             width: 90px; /* Adjust the width value as needed */
         }
    
+    /*table overflow */
+    #myTable{
+            width:100% !important;
+        }
+        #myTable_wrapper .row:nth-child(2) {
+            overflow-x:auto;
+        }
+
+    /*sidebar for mobile view */
+    #sidebar-overlay{
+        z-index:1 !important;
+    }
+    @media only screen and (min-width: 1024px) {
+      dialog {
+        width: 1000px !important;
+      }
+    }
    
     </style>
   

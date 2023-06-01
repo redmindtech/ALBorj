@@ -143,7 +143,7 @@ class SiteMasterController extends Controller
         {
             $site = SiteMaster::findOrFail($site_no);
             $site->delete();
-            return response()->json('SiteMaster Deleted Successfully', 200);
+            return response()->json('Site Details Deleted Successfully', 200);
 
         } 
         catch (Exception $e) 

@@ -77,7 +77,7 @@ class TimeSheetController extends Controller
                     ]);
                 }
             }  
-            return response()->json('TimeSheet Created Successfully', 200);
+            return response()->json('Employee TimeSheet Details Created Successfully', 200);
         
         } 
         catch (Exception $e) 
@@ -206,7 +206,7 @@ class TimeSheetController extends Controller
             }
         }  
 
-        return response()->json('TimeSheet Updated Successfully', 200);
+        return response()->json('Employee TimeSheet Details Updated Successfully', 200);
     } 
     catch (Exception $e) {
         info($e);
@@ -228,7 +228,7 @@ class TimeSheetController extends Controller
         {
             $items = TimeSheet::findOrFail($id);
             $items->delete();
-            return response()->json('Employee Timesheets Deleted Successfully', 200);
+            return response()->json('Employee Timesheets Details Deleted Successfully', 200);
 
         } 
         catch (Exception $e) 

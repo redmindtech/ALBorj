@@ -123,17 +123,19 @@ class SupplierMasterController extends Controller
     // DELETE FUNCTION
     public function destroy($id)
     {
+        info($id);
+
         try 
         {
             $supplier = SupplierMaster::findOrFail($id);
             $supplier->delete();
             return response()->json('Supplier Details Deleted Successfully', 200);
-
+info($supplier);
         } 
         catch (Exception $e) 
         {
             info($e);
-            return response()->json('Error occured in the edit', 400);
+            return response()->json('Error occured in the delete', 400);
         }
     }
 }

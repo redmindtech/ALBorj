@@ -38,13 +38,14 @@
                                             <th data-orderable="false" class="action notexport" >Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
+                                            <div id="blur-background" class="blur-background"></div>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($grns as $key => $grn)
                                             <tr class="text-center">
                                                 <!-- <td>{{$key+=1}}</td> -->
-                                                <td>{{$grn->grn_code}}<div id="blur-background" class="blur-background"></div></td>
+                                                <td>{{$grn->grn_code}}</td>
                                                 <td>{{date('d-m-Y',  strtotime($grn->grn_date))}}</td>                                               
                                                 <td>{{$grn->project_name}}</td>   
                                                 <td>{{$grn->discount_amount}}</td>  
@@ -78,13 +79,13 @@
                     </div>
 
                     <!-- ADD AND EDIT FORM -->
-                    <dialog id="myDialog"  style="width:1000px;">
+                    <dialog id="myDialog">
             <div class="row">
 
                 <div class="col-md-12">
 
                      <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
-                     <h4  id='heading_name' style='color:white' align="center"><b>Update Goods Receiving Note </b></h4>
+                     <h4  id='heading_name' style='color:white' align="center"><b>Update Goods Receiving Note Details</b></h4>
                     </div>
             </div>
 
@@ -135,7 +136,7 @@
    
     <div class="form-group col-md-4">
         <label for="grn_purchase_type" class="form-label fw-bold">Purchase type<a style="text-decoration: none;color:red">*</a></label>
-        <select id="grn_purchase_type" name="grn_purchase_type" class="form-control" autocomplete="off">
+        <select id="grn_purchase_type" name="grn_purchase_type" class="form-control form-select" autocomplete="off">
                                     <option value="">Select Option</option>
                                     @foreach($purchase_type as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}</option>
@@ -710,10 +711,11 @@ $(document).on('focus click', $("#project_name"), function() {
     // dialog open
     function handleDialog(){
              document.getElementById("myDialog").open = true;
+             window.scrollTo(0, 0);
             //  add_text();
              $('#method').val("ADD");
              $('#submit').text("Save");
-             $('#heading_name').text("Add Goods Receiving Note").css('font-weight', 'bold');
+             $('#heading_name').text("Add Goods Receiving Note Details").css('font-weight', 'bold');
               $('#grn_code').hide();
              $('#grn_code_lable').hide();
              $('#show').css('display','none');
@@ -736,7 +738,7 @@ $(document).on('focus click', $("#project_name"), function() {
     {
         let url = '{{route('gdelete',":id")}}';
         url= url.replace(':id',id);
-        if (confirm("Are you sure you want to delete this  Goods Receiving Note?"))
+        if (confirm("Are you sure you want to delete this  Goods Receiving Note Details?"))
         {
             $.ajax
             ({
@@ -904,13 +906,14 @@ function handleShowAndEdit(id,po_no,action)
                script+= '</tbody></table>';
                $('show_table').remove();
                $('#item_details_show').append(script); 
-                    $('#heading_name').text("View Goods Receiving Note").css('font-weight', 'bold');
+                    $('#heading_name').text("View Goods Receiving Note Details").css('font-weight', 'bold');
                     $('#show').css('display','block');
                     $('#form').css('display','none');
                     $('#blur-background').css('display','block');
 
                 }
                 document.getElementById("myDialog").open = true;
+                window.scrollTo(0, 0);
             },
         })
     }   

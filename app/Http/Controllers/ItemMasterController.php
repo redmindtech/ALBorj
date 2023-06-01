@@ -38,7 +38,7 @@ class ItemMasterController extends Controller
             $items = DB::table('item_masters')
             ->get();
 
-                // info($items);
+                
                 return view('itemmaster.index')->with([
                     'items' => $items,
                     'item_type'=>$item_type,
@@ -94,34 +94,36 @@ class ItemMasterController extends Controller
     public function show($id)
     {
 
-     try {
-         $item =  DB::table('item_supplier')->select('supplier_no')->where('item_supplier.item_no', $id)->value('supplier_no');
-           info($item);
-          $items = DB::table('item_masters')
-            ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
-            ->join('supplier_masters', 'item_supplier.supplier_no', '=', 'supplier_masters.supplier_no')
-            ->select('item_masters.*', 'item_supplier.*','supplier_masters.*')
-            ->where('item_masters.id', $id)
-            ->get();
+         try {
+                $items = DB::table('item_masters')
+                    ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
+                    ->join('supplier_masters', 'item_supplier.supplier_no', '=', 'supplier_masters.supplier_no')
+                    ->select('item_masters.*', 'item_supplier.*','supplier_masters.*')
+                    ->where('item_masters.id', $id)
+                    ->get();
+                
+                $item = DB::table('item_supplier')->select('supplier_no')->where('item_no', $id)->value('supplier_no');
+                
+                if ($item != "") {
+                    $itemsupplier = ItemMaster::join('item_supplier', 'item_supplier.item_no', '=', 'item_masters.id')
+                        ->join('supplier_masters', 'item_supplier.supplier_no', '=', 'supplier_masters.supplier_no')
+                        ->select('item_masters.*', 'item_supplier.*', 'supplier_masters.*')
+                        ->where('item_masters.id', $id)
+                        ->orderBy('item_supplier.sno', 'desc')
+                        ->get();
+                } else {
+                    $itemsupplier = ItemMaster::where('id', $id)
+                        ->get();
+                }
+                
+                return response()->json([
+                    'items' => $items,
+                    'itemsupplier' => $itemsupplier
+                ]);
 
-    if ($item != "" ){
-        $itemsupplier = ItemMaster::join('item_supplier', 'item_supplier.item_no', '=', 'item_masters.id')
-        ->join('supplier_masters', 'item_supplier.supplier_no', '=', 'supplier_masters.supplier_no')
-        ->select('item_masters.*', 'item_supplier.*', 'supplier_masters.*')
-        ->where('item_masters.id', $id)
-        ->get();
 
-        }else {
-
-            $itemsupplier = ItemMaster::where('id', $id)
-            ->get();
-        }
-      return response()->json([
-        'items' => $items,
-        'itemsupplier' => $itemsupplier
-    ]);
-    info($items);
-    info($itemsupplier);
+    
+    
         } catch (Exception $e) {
             info($e);
             return response()->json('Error occured in the show', 400);
@@ -144,15 +146,53 @@ class ItemMasterController extends Controller
         $itemMaster = ItemMaster::findOrFail($id);
         $itemMaster->update($request->only(ItemMaster::REQUEST_INPUTS));
 
-        // Update or create the item supplier if supplier_no and total_quantity are provided
+        // Check if supplier_no and total_quantity are provided
         $supplierNo = $request->input('supplier_no');
         $quantity = $request->input('total_quantity');
-        if ($supplierNo !== null && $quantity !== null) {
-            $itemSupplierData = $request->only(ItemSupplier::REQUEST_INPUTS);
-            $request['quantity'] = $request['total_quantity'];
-            $itemSupplierData['item_no'] = $id;
 
-            ItemSupplier::updateOrCreate(['item_no' => $id], $itemSupplierData);
+        if ($supplierNo !== null && $quantity !== null) {
+            // Check if the item supplier already exists
+            $existingItemSupplier = ItemSupplier::where('item_no', $id)
+                ->where('supplier_no', $supplierNo)
+                ->first();
+  
+                if ($existingItemSupplier) {
+                         // Item supplier already exists
+                         $existingQuantity = $existingItemSupplier->quantity;
+                         if ($existingQuantity != $quantity) {
+                             // Update the quantity only if it's different from the existing quantity
+                             $newQuantity = $existingQuantity + $quantity;
+                             $existingItemSupplier->update(['quantity' => $newQuantity]);
+                             
+                         }
+                         else if($existingQuantity == $quantity){
+                            
+                         }
+                } else {
+                    // Item supplier doesn't exist, create a new one
+                    $itemSupplierData = $request->only(ItemSupplier::REQUEST_INPUTS);
+                    $itemSupplierData['item_no'] = $id;
+                    $itemSupplierData['quantity'] = $quantity;
+    
+                    ItemSupplier::create($itemSupplierData);
+                }
+
+                 // Calculate the total quantity by summing up the quantities of all suppliers
+            $totalQuantity = ItemSupplier::where('item_no', $id)->sum('quantity');
+
+            // Update the total_quantity in the item master
+            $itemMaster->update(['total_quantity' => $totalQuantity]);
+
+        } else if ($supplierNo !== null) {
+            // Remove the existing item supplier
+            ItemSupplier::where('item_no', $id)
+                ->where('supplier_no', $supplierNo)
+                ->delete();
+                 // Calculate the total quantity by summing up the quantities of all suppliers
+            $totalQuantity = ItemSupplier::where('item_no', $id)->sum('quantity');
+
+            // Update the total_quantity in the item master
+            $itemMaster->update(['total_quantity' => $totalQuantity]);
         }
 
         return response()->json('Item Details Updated Successfully', 200);

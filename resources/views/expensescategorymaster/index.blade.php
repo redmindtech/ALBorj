@@ -32,6 +32,7 @@
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false"class="action notexport">Delete</th>
+                                            <div id="blur-background" class="blur-background"></div>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -39,7 +40,7 @@
                                             <tr class="text-center">
                                                 <!-- <td>{{$expense->id}}</td> -->
                                                 <td>{{ $key += 1 }}</td>
-                                                <td>{{$expense->category_name}}<div id="blur-background" class="blur-background"></div></td>
+                                                <td>{{$expense->category_name}}</td>
                                                 <td>{{$expense->category_description}}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$expense->id}}','show')"
@@ -66,7 +67,7 @@
                         </div>
                     </div>
                         <!-- ADD AND EDIT FORM -->
-                    <dialog id="myDialog"  style="width:1000px;" >
+                    <dialog id="myDialog">
                         <div class="row">
                             <div class="col-md-12">
                                 <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;">
@@ -133,9 +134,10 @@
     function handleDialog()
     {
         document.getElementById("myDialog").open = true;
+        window.scrollTo(0, 0);
         $('#method').val("ADD");
         $('#submit').text("ADD");
-        $('#heading_name').text("Add ExpensesCategory").css('font-weight', 'bold');
+        $('#heading_name').text("Add ExpensesCategory Details").css('font-weight', 'bold');
         $('#show').css('display','none');
         $('#form').css('display','block');
         $('#blur-background').css('display','block');
@@ -234,7 +236,7 @@
             {
                 if(action == 'edit')
                 {
-                    $('#heading_name').text("Update ExpensesCategory").css('font-weight', 'bold');
+                    $('#heading_name').text("Update ExpensesCategory Details").css('font-weight', 'bold');
                     $('#show').css('display','none');
                     $('#form').css('display','block');
                     $('#blur-background').css('display','block');
@@ -254,14 +256,14 @@
                     {
                         $(`#show_${key}`).text(value);
                     }
-                    $('#heading_name').text("View ExpensesCategory").css('font-weight', 'bold');
+                    $('#heading_name').text("View ExpensesCategory Details").css('font-weight', 'bold');
                     $('#show').css('display','block');
                     $('#form').css('display','none');
                     $('#blur-background').css('display','block');
 
                 }
                 document.getElementById("myDialog").open = true;
-
+                window.scrollTo(0, 0);
             },
         })
     }

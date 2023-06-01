@@ -34,12 +34,13 @@
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
+                                            <div id="blur-background" class="blur-background"></div>
                                         </tr>
                                     </thead>
                                     <tbody>
                                      @foreach ($materials as $key => $material)
                                             <tr class="text-center">
-                                                <td>{{$material->mr_reference_code}}<div id="blur-background" class="blur-background"></div></td>
+                                                <td>{{$material->mr_reference_code}}</td>
                                                
                                                 <td>{{ date('d-m-Y', strtotime($material->date))}}</td>
                                                 <td>{{$material->project_name}}</td>  
@@ -72,7 +73,7 @@
                     </div>
 
                     <!-- ADD AND EDIT FORM -->
-                    <dialog id="myDialog"  style="width:1000px;">
+                    <dialog id="myDialog">
             <div class="row">
                 <div class="col-md-12">
                     <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;">
@@ -106,7 +107,7 @@
                 <div class="row">
                     <div class="form-group col-md-4">
                         <label for="address" class="form-label fw-bold">Type of Purchase<a style="text-decoration: none;color:red">*</a></label>
-                        <select name="purchase_type" id="purchase_type"class="form-control"  autocomplete="off">
+                        <select name="purchase_type" id="purchase_type"class="form-control form-select"  autocomplete="off">
                             <option value="">Select Option</option>
                             @foreach($purchase_type as $key => $value)
                                 <option value="{{ $key }}">{{ $value }}</option>
@@ -243,13 +244,14 @@ $.ajaxSetup({
           
           function handleDialog(){
              document.getElementById("myDialog").open = true;
+             window.scrollTo(0, 0);
              $('#method').val("ADD");
              $('#submit').text("Save");
              getTodayDate();
              $('#mr_reference_code').hide();
              $("#mr_reference_code_lable").hide();
              add_text();
-             $('#heading_name').text("Add Material Requisition").css('font-weight', 'bold');
+             $('#heading_name').text("Add Material Requisition Details").css('font-weight', 'bold');
          
              $('#show').css('display','none');
              $('#form').css('display','block');
@@ -373,7 +375,7 @@ function handleSubmit(){
             success: function (message) {
                  console.log(message);
                 if(action == 'edit'){
-                    $('#heading_name').text("Update Material Requisition").css('font-weight', 'bold');
+                    $('#heading_name').text("Update Material Requisition Details").css('font-weight', 'bold');
                     $('#show').css('display','none');
                      $('#form').css('display','block');  
                      $('#blur-background').css('display','block');
@@ -427,13 +429,14 @@ function handleSubmit(){
                $('show_table').remove();
                $('#item_details_show').append(script); 
                 
-                $('#heading_name').text("View Material Requisition").css('font-weight', 'bold');
+                $('#heading_name').text("View Material Requisition Details").css('font-weight', 'bold');
                 $('#show').css('display','block');
                 $('#form').css('display','none');
                 $('#blur-background').css('display','block');
 
             }
             document.getElementById("myDialog").open = true;
+            window.scrollTo(0, 0);
                     
             },
         })

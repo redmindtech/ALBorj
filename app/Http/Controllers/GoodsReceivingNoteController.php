@@ -153,7 +153,7 @@ class GoodsReceivingNoteController extends Controller
                  }  
 
             }              
-                 return response()->json('Grn Created Successfully', 200);
+                 return response()->json('Grn Details Created Successfully', 200);
            } catch (Exception $e) {
                 info($e);
                 return response()->json('Error occured in the store', 400);
@@ -260,7 +260,7 @@ class GoodsReceivingNoteController extends Controller
             'item_amount' => $request['item_amount'][$i],
         ]);
         }          
-            return response()->json('GRN updated successfully', 200);
+            return response()->json('GRN Details updated successfully', 200);
         } catch (Exception $e) {
             info($e);
             return response()->json('Error occurred while updating GRN', 400);
@@ -272,7 +272,7 @@ class GoodsReceivingNoteController extends Controller
          try {
             $grn_item = GoodsReceivedNoteItem::where('grn_no', $grn_no)->update(['deleted' => 1]);
             $grn = GoodsReceivingNote::where('grn_no', $grn_no)->update(['deleted' => 1]);
-            return response()->json('Goods Receiving Note Deleted Successfully', 200);
+            return response()->json('Goods Receiving Note Details Deleted Successfully', 200);
         } catch (Exception $e) {
             info($e);
             return response()->json('Error occured in the delete', 400);

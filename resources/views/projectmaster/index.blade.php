@@ -42,13 +42,14 @@
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
+                                            <div id="blur-background" class="blur-background"></div>
                                         </tr>
                                     </thead>
                                   
                                     <tbody>
                                         @foreach ($projectmasters as $key => $projectmaster)
                                             <tr class="text-center">
-                                                <td>{{$projectmaster->project_code}}<div id="blur-background" class="blur-background"></div></td>                                                
+                                                <td>{{$projectmaster->project_code}}</td>                                                
                                                 <td>{{$projectmaster->project_name}}</td>
                                                 <td>{{$projectmaster->name}}</td>
                                                 <td>{{$projectmaster->status}}</td>
@@ -89,12 +90,12 @@
                     </div>
 
                     <!-- ADD AND EDIT FORM -->
-        <dialog id="myDialog"  style="width:1000px;">
+        <dialog id="myDialog">
             <div class="row">
 
                 <div class="col-md-12">
                     <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
-                    <h4  id='heading_name' style='color:white' align="center"><b>Update ProjectMaster </b></h4>
+                    <h4  id='heading_name' style='color:white' align="center"><b>Update Project Details</b></h4>
                 </div>
             </div>
             
@@ -133,7 +134,7 @@
     </div>
     <div class="form-group col-md-6">
     <label for="project_type" class="form-label fw-bold">Project Type<a style="text-decoration: none;color:red">*</a></label>
-        <select id="project_type" name="project_type" class="form-control" autocomplete="off">
+        <select id="project_type" name="project_type" class="form-control form-select" autocomplete="off">
         <option value="">Select Option</option>
             @foreach($project_type as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
@@ -188,14 +189,14 @@
     </div>     
 <div class="form-group col-md-6">
         <label for="start_date" class="form-label fw-bold">Project Start Date<a style="text-decoration: none;color:red">*</a></label>
-        <input type="date" name="start_date" id="start_date"  value="{{old("start_date")}}"  class="form-control" autocomplete="off">
+        <input type="date" name="start_date" id="start_date"  value="{{old('start_date')}}"  class="form-control" autocomplete="off">
         <p style="color: red" id="error_start_date"></p>
     </div>
 </div>
 <div class="row">
     <div class="form-group col-md-6">
         <label for="end_date" class="form-label fw-bold">Tentative Project End Date<a style="text-decoration: none;color:red">*</a></label>
-        <input type="date" name="end_date" id="end_date"  value="{{old("end_date")}}"  class="form-control" autocomplete="off">
+        <input type="date" name="end_date" id="end_date"  value="{{old('end_date')}}"  class="form-control" autocomplete="off">
         <p style="color: red" id="error_end_date"></p>
     </div>     
 <div class="form-group col-md-6">
@@ -207,7 +208,7 @@
 <div class="row">
 <div class="form-group col-md-6">
     <label for="status" class="form-label fw-bold">Project Status<a style="text-decoration: none;color:red">*</a></label>
-        <select id="status" name="status" class="form-control" autocomplete="off">
+        <select id="status" name="status" class="form-control form-select" autocomplete="off">
         <option value="">Select Option</option>
             @foreach($project_status as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
@@ -398,9 +399,10 @@
         function handleDialog()
         {
             document.getElementById("myDialog").open = true;
+            window.scrollTo(0, 0);
             $('#method').val("ADD");
             $('#submit').text("ADD");
-            $('#heading_name').text("Add ProjectMaster").css('font-weight', 'bold');
+            $('#heading_name').text("Add Project Details").css('font-weight', 'bold');
             $('#project_code').hide();
             $('#code_lable').hide();
             $('#show').css('display','none');
@@ -501,7 +503,7 @@
                 {
                     if(action == 'edit')
                     {
-                        $('#heading_name').text("Update ProjectMaster").css('font-weight', 'bold');
+                        $('#heading_name').text("Update Project Details").css('font-weight', 'bold');
                         $('#show').css('display','none');
                         $('#form').css('display','block');
                         $('#blur-background').css('display','block');
@@ -527,53 +529,54 @@
                             }
                             $(`#show_${key}`).text(value);
                         }
-                        $('#heading_name').text("View ProjectMaster").css('font-weight', 'bold');
+                        $('#heading_name').text("View Project Details").css('font-weight', 'bold');
                         $('#show').css('display','block');
                         $('#form').css('display','none');
                         $('#blur-background').css('display','block');
                     }
                     document.getElementById("myDialog").open = true;
+                    window.scrollTo(0, 0);
                 },
             })
         }
-    // auto complete for managername from employeemasters
-    jQuery($ => 
-    {
-        $(document).on('focus click', $("#firstname"), function() 
+        // auto complete for managername from employeemasters
+        jQuery($ => 
         {
-
-            $("#firstname").autocomplete(
+            $(document).on('focus click', $("#firstname"), function() 
             {
-                source: function( request, response ) 
+
+                $("#firstname").autocomplete(
                 {
-                    $.ajax
-                    ({
-                        type:"GET",
-                        url: "{{ route('getemployeedata') }}",
-                        dataType: "json",
-                        data:
-                        {
-                            'firstname':$("#firstname").val()
-                        },
-                        success: function( data ) 
-                        {
-                            result = [];
-                            for(var i in data)
+                    source: function( request, response ) 
+                    {
+                        $.ajax
+                        ({
+                            type:"GET",
+                            url: "{{ route('getemployeedata') }}",
+                            dataType: "json",
+                            data:
                             {
-                                result.push(data[i]["firstname"]);
+                                'firstname':$("#firstname").val()
+                            },
+                            success: function( data ) 
+                            {
+                                result = [];
+                                for(var i in data)
+                                {
+                                    result.push(data[i]["firstname"]);
+                                }
+                                response(result);
+                            },
+                            fail: function(xhr, textStatus, errorThrown)
+                            {
+                                alert(errorThrown);
                             }
-                            response(result);
-                        },
-                        fail: function(xhr, textStatus, errorThrown)
-                        {
-                            alert(errorThrown);
-                        }
-                    });
-                },
+                        });
+                    },
+                });
             });
         });
-    
-    // EMPLOYEE CODE
+        // EMPLOYEE CODE
         $("#firstname").on('focus change',function()
         {
             $('#employee_no').val('');
@@ -603,41 +606,42 @@
                 }
             });
         });
-    });    
+        
 
-    // auto complete for sitename from sitemaster
-    jQuery($ => 
-    {
-        $(document).on('focus click', $("#site_name"), function() 
+        // auto complete for sitename from sitemaster
+        jQuery($ => 
         {
-            $("#site_name").autocomplete(
+            $(document).on('focus click', $("#site_name"), function() 
             {
-                source: function( request, response ) 
+                $("#site_name").autocomplete(
                 {
-                    $.ajax
-                    ({
-                        type:"GET",
-                        url: "{{ route('getsitedata') }}",
-                        dataType: "json",
-                        data:
-                        {
-                            'site_name':$("#site_name").val()
-                        },
-                        success: function( data ) 
-                        {
-                            result = [];
-                            for(var i in data)
+                    source: function( request, response ) 
+                    {
+                        $.ajax
+                        ({
+                            type:"GET",
+                            url: "{{ route('getsitedata') }}",
+                            dataType: "json",
+                            data:
                             {
-                                result.push(data[i]["site_name"]);
+                                'site_name':$("#site_name").val()
+                            },
+                            success: function( data ) 
+                            {
+                                result = [];
+                                for(var i in data)
+                                {
+                                    result.push(data[i]["site_name"]);
+                                }
+                                response(result);
+                            },
+                            fail: function(xhr, textStatus, errorThrown)
+                            {
+                                alert(errorThrown);
                             }
-                             response(result);
-                        },
-                        fail: function(xhr, textStatus, errorThrown)
-                        {
-                            alert(errorThrown);
-                        }
-                    });
-                },
+                        });
+                    },
+                });
             });
         });
     
@@ -647,69 +651,65 @@
             $('#site_no').val('');
             $('#site_code').val('');
             var code= $(this).val();
-                $.ajax
-                ({
-                    type:"GET",
-                    url: "{{ route('getsitedata') }}",
-                    dataType: "json",
-                    data:
-                    {
-                        'site_name':$(this).val()
-                    },
-                    success: function( data ) 
-                    {
-                   
-                        $('#site_no').val(data[0]["site_no"]);
-                        $('#site_code').val(data[0]["site_code"]);
-                    
-                    },
-                    fail: function(xhr, textStatus, errorThrown)
-                    {
-                        alert(errorThrown);
-                    }
-                });
-        });
-
-    });
-
-        // auto complete for client from clientmaster
-    jQuery($ => 
-    {
-        $(document).on('focus click', $("#company_name"), function() 
-        {
-            $("#company_name").autocomplete(
-            {
-                source: function( request, response ) 
+            $.ajax
+            ({
+                type:"GET",
+                url: "{{ route('getsitedata') }}",
+                dataType: "json",
+                data:
                 {
-                    $.ajax
-                    ({
-                        type:"GET",
-                        url: "{{ route('getclientdata') }}",
-                        dataType: "json",
-                        data:
-                        {
-                            'company_name':$("#company_name").val()
-                        },
-                        success: function( data ) 
-                        {
-                            result = [];
-                            for(var i in data)
-                            {
-                            result.push(data[i]["company_name"]);
-                            }
-
-                            response(result);
-                        },
-                        fail: function(xhr, textStatus, errorThrown)
-                        {
-                            alert(errorThrown);
-                        }
-                    });
+                    'site_name':$(this).val()
                 },
+                success: function( data ) 
+                {
+                    $('#site_no').val(data[0]["site_no"]);
+                    $('#site_code').val(data[0]["site_code"]);
+                },
+                fail: function(xhr, textStatus, errorThrown)
+                {
+                    alert(errorThrown);
+                }
             });
         });
-    
 
+
+        // auto complete for client from clientmaster
+        jQuery($ => 
+        {
+            $(document).on('focus click', $("#company_name"), function() 
+            {
+                $("#company_name").autocomplete(
+                {
+                    source: function( request, response ) 
+                    {
+                        $.ajax
+                        ({
+                            type:"GET",
+                            url: "{{ route('getclientdata') }}",
+                            dataType: "json",
+                            data:
+                            {
+                                'company_name':$("#company_name").val()
+                            },
+                            success: function( data ) 
+                            {
+                                result = [];
+                                for(var i in data)
+                                {
+                                result.push(data[i]["company_name"]);
+                                }
+
+                                response(result);
+                            },
+                            fail: function(xhr, textStatus, errorThrown)
+                            {
+                                alert(errorThrown);
+                            }
+                        });
+                    },
+                });
+            });
+        });
         // client code
         $("#company_name").on('focus change',function()
         {
@@ -742,7 +742,7 @@
                 }
             });
         });
-    });
+        
 
 </script>
     

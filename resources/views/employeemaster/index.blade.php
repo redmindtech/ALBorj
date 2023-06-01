@@ -40,12 +40,13 @@
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false"class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
+                                            <div id="blur-background" class="blur-background"></div>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($employes as $key => $employe)
                                             <tr class="text-center">
-                                                <td>{{$employe->employee_no}}<div id="blur-background" class="blur-background"></div></td>
+                                                <td>{{$employe->employee_no}}</td>
                                                 <td>{{$employe->firstname}}</td>
                                                 <td>{{$employe->lastname}}</td>
                                                 <td>{{$employe->category}}</td>
@@ -83,7 +84,7 @@
                     </div>
 
                     <!-- ADD AND EDIT FORM -->
-            <dialog id="myDialog"  style="width:1000px;">
+            <dialog id="myDialog">
                 <div class="row">
                     <div class="col-md-12">
                         <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
@@ -142,7 +143,7 @@
 <div class="row">
     <div class="form-group col-md-6">
         <label for="category" class="form-label fw-bold">Category<a style="text-decoration: none;color:red">*</a></label>
-        <select id="category" name="category" class="form-control" autocomplete="off">
+        <select id="category" name="category" class="form-control form-select" autocomplete="off">
         <option value="">Select Option</option>
             @foreach($category as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
@@ -152,7 +153,7 @@
     </div>
     <div class="form-group col-md-6">
         <label for="sponser" class="form-label fw-bold">Sponsor<a style="text-decoration: none;color:red">*</a></label>
-        <select id="sponser" name="sponser" class="form-control" autocomplete="off" style="width:100%">
+        <select id="sponser" name="sponser" class="form-control form-select" autocomplete="off" style="width:100%">
         <option value="">Select Option</option>
             @foreach($sponsor as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
@@ -164,7 +165,7 @@
 <div class="row">
     <div class="form-group col-md-6">
         <label for="working_as" class="form-label fw-bold">Working As<a style="text-decoration: none;color:red">*</a></label>
-        <select id="working_as" name="working_as" class="form-control" autocomplete="off" style="width:100%">
+        <select id="working_as" name="working_as" class="form-control form-select" autocomplete="off" style="width:100%">
         <option value="">Select Option</option>
             @foreach($working_as as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
@@ -174,7 +175,7 @@
     </div>
     <div class="form-group col-md-6">
         <label for="depart" class="form-label fw-bold">Department<a style="text-decoration: none;color:red">*</a></label>
-        <select id="depart" name="depart" class="form-control" autocomplete="off">
+        <select id="depart" name="depart" class="form-control form-select" autocomplete="off">
         <option value="">Select Option</option>
             @foreach($department as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
@@ -186,7 +187,7 @@
 <div class="row">
     <div class="form-group col-md-6">
         <label for="status" class="form-label fw-bold">Status<a style="text-decoration: none;color:red">*</a></label>
-        <select id="status" name="status" class="form-control" autocomplete="off">
+        <select id="status" name="status" class="form-control form-select" autocomplete="off">
         <option value="">Select Option</option>
             @foreach($status as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
@@ -196,7 +197,7 @@
     </div>
     <div class="form-group col-md-6">
         <label for="religion" class="form-label fw-bold">Religion<a style="text-decoration: none;color:red">*</a></label>
-        <select id="religion" name="religion" class="form-control" autocomplete="off">
+        <select id="religion" name="religion" class="form-control form-select" autocomplete="off">
         <option value="">Select Option</option>
             @foreach($religion as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
@@ -209,7 +210,7 @@
 <div class="form-group col-md-6">
         <label for="nationality" class="form-label fw-bold">Nationality<a style="text-decoration: none;color:red">*</a></label>
         <!-- <input type="text" id="nationality" name="nationality"  value="{{ old('nationality') }}" placeholder=" nationality" class="form-control" autocomplete="off"> -->
-        <select id="nationality" name="nationality" class="form-control" autocomplete="off">
+        <select id="nationality" name="nationality" class="form-control form-select" autocomplete="off">
         <option value="">Select Option</option>
             @foreach($nationality as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
@@ -247,7 +248,7 @@
 <div class="row">
     <div class="form-group col-md-6">
         <label for="pay_group" class="form-label fw-bold">Pay Group<a style="text-decoration: none;color:red">*</a></label>
-        <select id="pay_group" name="pay_group" class="form-control" autocomplete="off">
+        <select id="pay_group" name="pay_group" class="form-control form-select" autocomplete="off">
         <option value="">Select Option</option>
             @foreach($pay_group as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
@@ -257,7 +258,7 @@
     </div>
     <div class="form-group col-md-6">
         <label for="accomodation" class="form-label fw-bold">Accomodation<a style="text-decoration: none;color:red">*</a></label>
-        <select id="accomodation" name="accomodation" class="form-control" autocomplete="off">
+        <select id="accomodation" name="accomodation" class="form-control form-select" autocomplete="off">
         <option value="">Select Option</option>
             @foreach($accomodation as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
@@ -308,7 +309,7 @@
 <div class="row">
     <div class="form-group col-md-6">
         <label for="visa_status" class="form-label fw-bold">Visa Status<a style="text-decoration: none;color:red">*</a></label>
-        <select id="visa_status" name="visa_status" class="form-control" autocomplete="off">
+        <select id="visa_status" name="visa_status" class="form-control form-select" autocomplete="off">
         <option value="">Select Option</option>
             @foreach($visa_status as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
@@ -510,10 +511,11 @@
     // ADD DIALOG 
             function handleDialog()
             {
+                window.scrollTo(0, 0)
                 document.getElementById("myDialog").open = true;
                 $('#method').val("ADD");
                 $('#submit').text("ADD");
-                $('#heading_name').text("Add Employee Master").css('font-weight', 'bold');
+                $('#heading_name').text("Add Employee Details").css('font-weight', 'bold');
                 $('#employee_no').hide();
                 $('#code_lable').hide();
                 $('#show').css('display','none');
@@ -626,7 +628,7 @@
                         console.log(message);
                         if(action == 'edit')
                         {
-                            $('#heading_name').text("Update Employee Master").css('font-weight', 'bold');
+                            $('#heading_name').text("Update Employee Details").css('font-weight', 'bold');
                             $('#show').css('display','none');
                             $('#form').css('display','block');
                             $('#blur-background').css('display','block');
@@ -676,12 +678,13 @@
                                 }
                                     $(`#show_${key}`).text(value);
                             }
-                            $('#heading_name').text("View Employee Master").css('font-weight', 'bold');
+                            $('#heading_name').text("View Employee Details").css('font-weight', 'bold');
                             $('#show').css('display','block');
                             $('#form').css('display','none');
                             $('#blur-background').css('display','block');
                         }
                         document.getElementById("myDialog").open = true;
+                        window.scrollTo(0, 0)
                     },
                 })
             }
@@ -716,21 +719,21 @@
                         dataType: "json",
                         data:
                         {
-                        'projectname':$("#city").val()
+                            'projectname':$("#city").val()
                         },
                         success: function( data ) 
                         {
-                        result = [];
+                            result = [];
                             for(var i in data)
                             {
-                            result.push(data[i]["project_name"]);
+                                result.push(data[i]["project_name"]);
                             }
-                            console.log(result);
-                            response(result);
+                                console.log(result);
+                                response(result);
                         },
                         fail: function(xhr, textStatus, errorThrown)
                         {
-                        alert(errorThrown);
+                            alert(errorThrown);
                         }
                     });
                 },

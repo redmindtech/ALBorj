@@ -37,6 +37,7 @@
                                      <th data-orderable="false" class="action notexport">Show</th>
                                      <th data-orderable="false" class="action notexport">Edit</th>
                                      <th data-orderable="false" class="action notexport">Delete</th>
+                                     <div id="blur-background" class="blur-background"></div>
                                  </tr>
                              </thead>
 
@@ -44,7 +45,7 @@
                                  @foreach ($material_issues as $key => $material_issue)
                                      <tr class="text-center">
                                          <!-- <td>{{ $key += 1 }}</td> -->
-                                         <td>{{ $material_issue->mir_code }}<div id="blur-background" class="blur-background"></div></td>
+                                         <td>{{ $material_issue->mir_code }}</td>
                                          <td>{{ $material_issue->location }}</td>
                                          <!-- <td>{{ $material_issue->issue_date }}</td> -->
                                          <td>{{ $material_issue->project_name }}</td>
@@ -77,14 +78,14 @@
              </div>
 
              <!-- ADD AND EDIT FORM -->
-             <dialog id="myDialog" style="width:1000px;">
+             <dialog id="myDialog">
                 <div class="row">
 
                     <div class="col-md-12">
 
                         <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i
                                 class="fas fa-close"></i></a>
-                        <h4 id='heading_name' style='color:white' align="center"><b>Update Material Issue/Return </b></h4>
+                        <h4 id='heading_name' style='color:white' align="center"><b>Update Material Issue/Return Details</b></h4>
                     </div>
                 </div>
 
@@ -145,7 +146,7 @@
                         <div class="form-group col-md-4">
                             <label for="type" class="form-label fw-bold">Type<a
                                     style="text-decoration: none;color:red">*</a></label>
-                            <select id="type" name="type" class="form-control" autocomplete="off">
+                            <select id="type" name="type" class="form-control form-select" autocomplete="off">
                                 <option value="">Select Option</option>
                                 @foreach ($type as $key => $value)
                                     <option value="{{ $key }}">{{ $value }}</option>
@@ -423,10 +424,11 @@
              <script type="text/javascript">
                  function handleDialog() {
                      document.getElementById("myDialog").open = true;
+                     window.scrollTo(0, 0);
                      add_text();
                      $('#method').val("ADD");
                      $('#submit').text("Save");
-                     $('#heading_name').text("Add Material Issue/Return").css('font-weight', 'bold');
+                     $('#heading_name').text("Add Material Issue/Return Details").css('font-weight', 'bold');
                      $('#mir_code').hide();
                      $('#mir_code_lable').hide();
                      $('#show').css('display', 'none');
@@ -586,13 +588,14 @@ $('.rowtr').each(function() {
                                  script += '</tbody></table>';
                                  $('show_table').remove();
                                  $('#item_details_show').append(script);
-                                 $('#heading_name').text("View Material issue/return").css('font-weight', 'bold');
+                                 $('#heading_name').text("View Material issue/return Details").css('font-weight', 'bold');
                                  $('#show').css('display', 'block');
                                  $('#form').css('display', 'none');
                                  $('#blur-background').css('display','block');
 
                              }
                              document.getElementById("myDialog").open = true;
+                             window.scrollTo(0, 0);
                          },
                      })
                  }

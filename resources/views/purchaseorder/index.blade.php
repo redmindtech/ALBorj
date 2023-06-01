@@ -38,13 +38,14 @@
                                     <th data-orderable="false" class="action notexport">Show</th>
                                     <th data-orderable="false" class="action notexport">Edit</th>
                                     <th data-orderable="false" class="action notexport">Delete</th>
+                                    <div id="blur-background" class="blur-background"></div>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($purchase_orders as $key => $purchase_order)
                                     <tr class="text-center">
                                         <!-- <td>{{$key+=1}}</td> -->
-                                        <td>{{$purchase_order->po_code}}<div id="blur-background" class="blur-background"></div></td>
+                                        <td>{{$purchase_order->po_code}}</td>
                                         <td>{{$purchase_order->po_type}}</td>
                                         <!-- <td>{{$purchase_order->po_date}}</td> -->
                                         <td>{{$purchase_order->name}}</td>
@@ -79,13 +80,13 @@
                     </div>
 
                     <!-- ADD AND EDIT FORM -->
-                    <dialog id="myDialog"  style="width:1000px;">
+                    <dialog id="myDialog">
                         <div class="row">
 
                             <div class="col-md-12">
 
                                  <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
-                                 <h4  id='heading_name' style='color:white' align="center"><b>Update purchaseOrder </b></h4>
+                                 <h4  id='heading_name' style='color:white' align="center"><b>Update purchaseOrder Details</b></h4>
                                 </div>
                         </div>
 
@@ -99,7 +100,7 @@
             <div class="row g-3">
                 <div class="form-group col-md-4">
                     <label for="po_type" class="form-label fw-bold">Purchase Type<a style="text-decoration: none;color:red">*</a></label>
-                    <select id="po_type" name="po_type" class="form-control" autocomplete="off">
+                    <select id="po_type" name="po_type" class="form-control form-select" autocomplete="off">
                     <option value="">Select Option</option>
                     @foreach($po_type as $key => $value)
                     <option value="{{ $key }}">{{ $value }}</option>
@@ -136,7 +137,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="currency" class="form-label fw-bold">Currency<a style="text-decoration: none;color:red">*</a></label>
-                    <select id="currency" name="currency" class="form-control" autocomplete="off">
+                    <select id="currency" name="currency" class="form-control form-select" autocomplete="off">
                         @foreach ($currency as $key => $value)
                             <option value="{{ $key }}"{{ $key == 'AED' ? ' selected' : '' }}>{{ $value }}</option>
                             <!-- <option value="{{ $key }}">{{ $value }}</option> -->
@@ -605,10 +606,11 @@ $(document).on('change', '.item_name', function() {
           function handleDialog()
           {
              document.getElementById("myDialog").open = true;
+             window.scrollTo(0, 0);
              add_text();
              $('#method').val("ADD");
              $('#submit').text("Save");
-             $('#heading_name').text("Add Purchase Order").css('font-weight', 'bold');
+             $('#heading_name').text("Add Purchase Order Details").css('font-weight', 'bold');
              $('#site_code').hide();
              $('#code_lable').hide();
 
@@ -622,7 +624,7 @@ $(document).on('change', '.item_name', function() {
           function handleDelete(id){
              let url = '{{route('purchaseorderApi.delete',":po_no")}}';
             url= url.replace(':po_no',id);
-            if (confirm("Are you sure you want to delete this Purchase Order?")) {
+            if (confirm("Are you sure you want to delete this Purchase Order Details?")) {
               $.ajax({
             url: url,
             type: 'DELETE',
@@ -759,13 +761,14 @@ function handleClose(){
                                 script += '</tbody></table>';
                                 $('show_table').remove();
                                 $('#item_details_show').append(script);
-                                $('#heading_name').text("View Purchase Order").css('font-weight', 'bold');
+                                $('#heading_name').text("View Purchase Order Details").css('font-weight', 'bold');
                                 $('#show').css('display', 'block');
                                 $('#form').css('display', 'none');
                                 $('#blur-background').css('display','block');
 
                             }
                             document.getElementById("myDialog").open = true;
+                            window.scrollTo(0, 0);
                         },
                     })
                 }

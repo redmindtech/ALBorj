@@ -31,13 +31,14 @@
                                             <th data-orderable="false" class="action notexport" >Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
+                                            <div id="blur-background" class="blur-background"></div>
                                         </tr>
                                     </thead>
                                     <tbody>
                                 @foreach ($prs as $key => $pr)
                                     <tr class="text-center">
                                         <!-- <td>{{$key+=1}}</td> -->
-                                        <td>{{$pr->pr_code}}<div id="blur-background" class="blur-background"></div></td>
+                                        <td>{{$pr->pr_code}}</td>
                                         <td>{{$pr->name}}</td>
                                         <td>{{$pr->project_name}}</td>
                                         <td>{{$pr->pr_purchase_type}}</td>
@@ -67,13 +68,13 @@
                             </div>
                         </div>
                     </div>
-                    <dialog id="myDialog"  style="width:1000px;">
+                    <dialog id="myDialog">
             <div class="row">
 
                 <div class="col-md-12">
 
                      <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
-                     <h4  id='heading_name' style='color:white' align="center"><b>Update Purchase Return </b></h4>
+                     <h4  id='heading_name' style='color:white' align="center"><b>Update Purchase Return Details</b></h4>
                     </div>
             </div>
 
@@ -98,7 +99,7 @@
     <div class="form-group col-md-4">
         <label for="currency" class="form-label fw-bold">Currency</label>
         {{-- <input type="text" id="currency" name="currency" value="{{ old('currency') }}" placeholder="Currency" class="form-control" autocomplete="off"> --}}
-        <select id="currency" name="currency" class="form-control" autocomplete="off">
+        <select id="currency" name="currency" class="form-control form-select" autocomplete="off">
             {{-- <option value="">Select Option</option> --}}
             @foreach ($currency as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
@@ -116,7 +117,7 @@
     </div>
     <div class="form-group col-md-4">
         <label for="pr_purchase_type" class="form-label fw-bold">Purchase type<a style="text-decoration: none;color:red">*</a></label>
-        <select id="pr_purchase_type" name="pr_purchase_type" class="form-control" autocomplete="off">
+        <select id="pr_purchase_type" name="pr_purchase_type" class="form-control form-select" autocomplete="off">
                                     <option value="">Select Option</option>
                                     @foreach($purchase_type as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}</option>
@@ -357,39 +358,40 @@ function calculateTotal() {
 
 
 //  auto complete for supplier name
-jQuery($ => {
-
-$(document).on('focus click', $("#name"), function() {
- $("#name").autocomplete(
+jQuery($ => 
+{
+    $(document).on('focus click', $("#name"), function() 
     {
-          source: function( request, response )
+        $("#name").autocomplete(
         {
-            $.ajax
-            ({
-                type:"GET",
-                url: "{{ route('getempdata') }}",
-                dataType: "json",
-                data:
-                {
-                    'suppliername':$("#name").val()
-                },
-                success: function( data )
-                {
-
-                    result = [];
-                    for(var i in data)
+            source: function( request, response )
+            {
+                $.ajax
+                ({
+                    type:"GET",
+                    url: "{{ route('getempdata') }}",
+                    dataType: "json",
+                    data:
                     {
-                        result.push(data[i]["name"]);
+                        'suppliername':$("#name").val()
+                    },
+                    success: function( data )
+                    {
+
+                        result = [];
+                        for(var i in data)
+                        {
+                            result.push(data[i]["name"]);
+                        }
+                        response(result);
+                    },fail: function(xhr, textStatus, errorThrown)
+                    {
+                        alert(errorThrown);
                     }
-                    response(result);
-                },fail: function(xhr, textStatus, errorThrown)
-                {
-                    alert(errorThrown);
-                }
-            });
-        },
+                });
+            },
+        });
     });
-});
 });
     $("#name").on('change',function()
     {
@@ -416,6 +418,7 @@ $(document).on('focus click', $("#name"), function() {
             }
         });
     });
+    
     // project name auto complete
 jQuery($ => {
 
@@ -544,11 +547,12 @@ $(document).on('focus click', $("#tbody1"), function() {
     // dialog open
     function handleDialog(){
              document.getElementById("myDialog").open = true;
+             window.scrollTo(0, 0);
              add_text();
           
              $('#method').val("ADD");
              $('#submit').text("Save");
-             $('#heading_name').text("Add Purchase Return").css('font-weight', 'bold');
+             $('#heading_name').text("Add Purchase Return Details").css('font-weight', 'bold');
               $("#lable_pr_code").hide();
               $("#pr_code").hide();
 
@@ -570,7 +574,7 @@ function handleClose(){
     {
         let url = '{{route('prApi.delete',":id")}}';
         url= url.replace(':id',id);
-        if (confirm("Are you sure you want to delete this purchase Return?"))
+        if (confirm("Are you sure you want to delete this purchase Return Details?"))
         {
             $.ajax
             ({
@@ -765,12 +769,13 @@ function handleSubmit() {
                      script += '</tbody></table>';
                     $('show_table').remove();
                      $('#item_detail_show').append(script);
-                    $('#heading_name').text("View Purchase Return").css('font-weight', 'bold');
+                    $('#heading_name').text("View Purchase Return Details").css('font-weight', 'bold');
                     $('#show').css('display', 'block');
                     $('#form').css('display', 'none');
                     $('#blur-background').css('display','block');
                 }
                  document.getElementById("myDialog").open = true;
+                 window.scrollTo(0, 0);
             },
         })
     }

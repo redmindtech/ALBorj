@@ -112,7 +112,7 @@ class MaterialIssueController extends Controller
             }
 
             //  MaterialIssueItem::create($val1);
-            return response()->json('Material Created Successfully', 200);
+            return response()->json('Material Issue Details Created Successfully', 200);
 
         } catch (Exception $e) {
             info($e);
@@ -214,7 +214,7 @@ public function show($mir_no)
 
             }
             DB::commit();
-            return response()->json('Material Updated Successfully', 200);
+            return response()->json('Materialissue Details Updated Successfully', 200);
         } catch (Exception $e) {
             DB::rollback();
             info($e);
@@ -250,7 +250,7 @@ public function show($mir_no)
                 // Enable foreign key check
                 DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-                return response()->json('Material Deleted Successfully', 200);
+                return response()->json('Material Details Deleted Successfully', 200);
             } else {
                 // Enable foreign key check
                 DB::statement('SET FOREIGN_KEY_CHECKS=1;');

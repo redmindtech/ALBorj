@@ -35,12 +35,13 @@
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
+                                            <div id="blur-background" class="blur-background"></div>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($suppliers as $key => $supplier)
                                             <tr class="text-center">
-                                                <td>{{$supplier->code}}<div id="blur-background" class="blur-background"></div></td>
+                                                <td>{{$supplier->code}}</td>
                                                 <td>{{$supplier->name}}</td>
                                                 <td>{{$supplier->company_name}}</td>
                                                 <td>{{$supplier->contact_number}}</td>
@@ -73,7 +74,7 @@
                     </div>
 
                     <!-- ADD AND EDIT FORM -->
-        <dialog id="myDialog"  style="width:1000px;">
+        <dialog id="myDialog">
             <div class="row">
 
                 <div class="col-md-12">
@@ -200,9 +201,10 @@
         function handleDialog()
         {
             document.getElementById("myDialog").open = true;
+            window.scrollTo(0, 0);
             $('#method').val("ADD");
             $('#submit').text("ADD");
-            $('#heading_name').text("Add Supplier Master").css('font-weight', 'bold');
+            $('#heading_name').text("Add Supplier Details").css('font-weight', 'bold');
             $('#code').hide();
             $('#code_lable').hide();
             $('#show').css('display','none');
@@ -302,7 +304,7 @@
                 {
                     if(action == 'edit')
                     {
-                        $('#heading_name').text("Update Supplier Master").css('font-weight', 'bold');
+                        $('#heading_name').text("Update Supplier Details").css('font-weight', 'bold');
                         $('#show').css('display','none');
                         $('#form').css('display','block');
                         for (const [key, value] of Object.entries(message)) 
@@ -320,13 +322,14 @@
                         {
                             $(`#show_${key}`).text(value);
                         }
-                        $('#heading_name').text("View Supplier Master").css('font-weight', 'bold');
+                        $('#heading_name').text("View Supplier Details").css('font-weight', 'bold');
                         $('#show').css('display','block');
                         $('#form').css('display','none');
                         $('#blur-background').css('display','block');
 
                     }
                     document.getElementById("myDialog").open = true;
+                    window.scrollTo(0, 0);
                     
                 },
             })

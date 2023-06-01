@@ -86,7 +86,9 @@ class AutoCompleteController extends Controller
   public function  getemployeedata(){
       
     $firstname = $_GET['firstname'];
-    $data = EmployeeMaster::where('firstname','LIKE',$firstname.'%')->get();
+    $data = EmployeeMaster::where('firstname','LIKE',$firstname.'%')
+    ->where('employee_masters.deleted','0')
+    ->get();
  
     return $data;
 }
@@ -122,6 +124,13 @@ public function  getempdata(){
 
   return $data;
 }
+public function  getempdata_supplier_company(){
+ 
+    $suppliername = $_GET['suppliername'];
+    $data = SupplierMaster::where('company_name','LIKE',$suppliername.'%')->get();    
+  
+    return $data;
+  }
 // sitemaster location for  material issue (location)
 public function  getsitelocationdata(){
 

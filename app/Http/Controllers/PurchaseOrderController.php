@@ -149,7 +149,7 @@ class PurchaseOrderController extends Controller
                  ]);
              }
              info($request);
-            return response()->json('Purchase Created Successfully', 200);
+            return response()->json('Purchase Details Created Successfully', 200);
 
         } catch (Exception $e) {
             info($e);
@@ -295,7 +295,7 @@ class PurchaseOrderController extends Controller
                     // 'pending_qty' => $request['pending_qty'][$i],
                 ]);
          }
-             return response()->json('Purchase Order updated successfully', 200);
+             return response()->json('Purchase Order Details updated successfully', 200);
          } catch (Exception $e) {
              info($e);
              return response()->json('Error occurred while updating Purchase', 400);
@@ -329,7 +329,7 @@ class PurchaseOrderController extends Controller
                 // Enable foreign key check
                 DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-                return response()->json('PurchaseOrder Deleted Successfully', 200);
+                return response()->json('PurchaseOrder Details Deleted Successfully', 200);
             } else {
                 // Enable foreign key check
                 DB::statement('SET FOREIGN_KEY_CHECKS=1;');

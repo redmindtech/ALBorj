@@ -39,12 +39,13 @@
                                                 <th data-orderable="false" class="action notexport">Show</th>
                                                 <th data-orderable="false" class="action notexport">Edit</th>
                                                 <th data-orderable="false" class="action notexport">Delete</th>
+                                                <div id="blur-background" class="blur-background"></div>
                                             </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($expenses as $expense)
                                             <tr class="text-center">
-                                                <td>{{$expense->exp_code}}<div id="blur-background" class="blur-background"></div></td>
+                                                <td>{{$expense->exp_code}}</td>
                                                 <td>{{date('d-m-Y', strtotime($expense->bill_date))}}</td>
                                                 <td>{{$expense->firstname}}</td>
                                                 <td>{{$expense->project_name}}</td>
@@ -83,7 +84,7 @@
             </div>
 
                  <!-- ADD AND EDIT FORM -->
-                 <dialog id="myDialog"  style="width:1000px;" >
+                 <dialog id="myDialog">
 
 
 <div class="row">
@@ -152,7 +153,7 @@
 <div class="form-group col-md-6">
 <label for="source" class="form-label fw-bold">Source<a style="text-decoration: none;color:red">*</a></label>
 <!-- <input type="text" id="source"  name="source" value="{{ old('source') }}" placeholder="Source" class="form-control" autocomplete="off"> -->
-<select id="source" name="source" class="form-control" autocomplete="off" >
+<select id="source" name="source" class="form-control form-select" autocomplete="off" >
         <option value="">Select Option</option>
             @foreach($source as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
@@ -169,7 +170,7 @@
 <label for="vat" class="form-label fw-bold">Vat<a style="text-decoration: none;color:red">*</a></label>
 <!-- <input type="text" id="vat"  name="vat" value="{{ old('vat') }}" placeholder="Vat" class="form-control" autocomplete="off"> -->
 
-<select id="vat" name="vat" class="form-control" autocomplete="off">
+<select id="vat" name="vat" class="form-control form-select" autocomplete="off">
         <option value="">Select Option</option>
             @foreach($vat as $key => $value)
                 <option value="{{ $key }}">{{$value.'%'}}</option>
@@ -291,9 +292,10 @@ $(function () {
          
         function handleDialog(){
              document.getElementById("myDialog").open = true;
+             window.scrollTo(0, 0);
              $('#method').val("ADD");
              $('#submit').text("ADD");
-             $('#heading_name').text("Add Expenses Master").css('font-weight', 'bold');
+             $('#heading_name').text("Add Expenses Details").css('font-weight', 'bold');
              $('#exp_code').hide();
              $('#code_lable').hide();
              $('#show').css('display','none');
@@ -306,7 +308,7 @@ $(function () {
         function handleDelete(id){
              let url = '{{route('expenseApi.delete',":exp_no")}}';
             url= url.replace(':exp_no',id);
-            if (confirm("Are you sure you want to delete this Expenses Master?")) {
+            if (confirm("Are you sure you want to delete this Expenses Details?")) {
               $.ajax({
             url: url,
             type: 'DELETE',
@@ -391,7 +393,7 @@ function handleClose()
             {
                 if(action == 'edit')
                 {
-                    $('#heading_name').text("Update Expenses Master").css('font-weight', 'bold');
+                    $('#heading_name').text("Update Expenses Details").css('font-weight', 'bold');
                     $('#show').css('display','none');
                     $('#form').css('display','block');
                     $('#blur-background').css('display','block');
@@ -421,115 +423,125 @@ function handleClose()
                         }
                         $(`#show_${key}`).text(value);
                     }
-                    $('#heading_name').text("View Expenses Master").css('font-weight', 'bold');
+                    $('#heading_name').text("View Expenses Details").css('font-weight', 'bold');
                     $('#show').css('display','block');
                     $('#form').css('display','none');
                     $('#blur-background').css('display','block');
 
                 }
                 document.getElementById("myDialog").open = true;
-
+                window.scrollTo(0, 0);
             },
         })
     }
 
-// auto complete
-jQuery($ => {
-
-$(document).on('focus click', $("#firstname"), function() {
-$("#firstname").autocomplete(
-      {
-
-      source: function( request, response ) {
-        $.ajax( {
-        type:"GET",
-          url: "{{ route('getemployeedata') }}",
-          dataType: "json",
-          data:{
-            'firstname':$("#firstname").val()
-          },
-          success: function( data ) {
-
-            result = [];
-            for(var i in data)
-            {
-              result.push(data[i]["firstname"]);
-            }
-
-             response(result);
-          },fail: function(xhr, textStatus, errorThrown){
-       alert(errorThrown);
-    }
-        } );
-      },
-      });
-    });
-});
-       // EMPLOYEE CODE
-       $("#firstname").on('change',function(){
-   var code= $(this).val();
-
-   $.ajax( {
-        type:"GET",
-          url: "{{ route('getemployeedata') }}",
-          dataType: "json",
-          data:{
-            'firstname':$(this).val()
-          },
-          success: function( data ) {
-            console.log(data);
-            result = [];
-            for(var i in data)
-            {
-              $('#employee_no').val(data[i]["id"]);
-            }
-             console.log(result);
-          },fail: function(xhr, textStatus, errorThrown){
-       alert(errorThrown);
-    }
-        } );
-});
-
-// Supplier name Autocomplete
-jQuery($ => {
-
-$(document).on('focus click', $("#name"), function() {
-    $("#name").autocomplete(
+    // auto complete project master from project name
+    jQuery($ => 
     {
-
-        source: function( request, response )
+        $(document).on('focus click', $("#firstname"), function() 
         {
-            $.ajax
-            ({
-                type:"GET",
-                url: "{{ route('getempdata') }}",
-                dataType: "json",
-                data:
+            $("#firstname").autocomplete(
+            {
+                source: function( request, response ) 
                 {
-                    'suppliername':$("#name").val()
+                    $.ajax
+                    ({
+                        type:"GET",
+                        url: "{{ route('getemployeedata') }}",
+                        dataType: "json",
+                        data:
+                        {
+                            'firstname':$("#firstname").val()
+                        },
+                        success: function( data ) 
+                        {
+                            result = [];
+                            for(var i in data)
+                            {
+                                result.push(data[i]["firstname"]);
+                            }
+                                response(result);
+                        },
+                        fail: function(xhr, textStatus, errorThrown)
+                        {
+                            alert(errorThrown);
+                        }
+                    });
                 },
-                success: function( data )
-                {
-
-                    result = [];
-                    for(var i in data)
-                    {
-                        result.push(data[i]["name"]);
-                    }
-                    response(result);
-                },fail: function(xhr, textStatus, errorThrown)
-                {
-                    alert(errorThrown);
-                }
             });
-        },
+        });
     });
-});
-});
+    // EMPLOYEE CODE
+    $("#firstname").on('change',function()
+    {
+        var code= $(this).val();
+        $.ajax
+        ({
+            type:"GET",
+            url: "{{ route('getemployeedata') }}",
+            dataType: "json",
+            data:
+            {
+                'firstname':$(this).val()
+            },
+            success: function( data ) 
+            {
+                console.log(data);
+                result = [];
+                for(var i in data)
+                {
+                    $('#employee_no').val(data[i]["id"]);
+                }
+                    console.log(result);
+            },
+            fail: function(xhr, textStatus, errorThrown)
+            {
+                alert(errorThrown);
+            }
+        });
+    });
+
+    // Supplier name Autocomplete from supplier master
+    jQuery($ => 
+    {
+        $(document).on('focus click', $("#name"), function() 
+        {
+            $("#name").autocomplete(
+            {
+                source: function( request, response )
+                {
+                    $.ajax
+                    ({
+                        type:"GET",
+                        url: "{{ route('getempdata') }}",
+                        dataType: "json",
+                        data:
+                        {
+                            'suppliername':$("#name").val()
+                        },
+                        success: function( data )
+                        {
+
+                            result = [];
+                            for(var i in data)
+                            {
+                                result.push(data[i]["name"]);
+                            }
+                            response(result);
+                        },
+                        fail: function(xhr, textStatus, errorThrown)
+                        {
+                            alert(errorThrown);
+                        }
+                    });
+                },
+            });
+        });
+    });
+    // Supplier code
     $("#name").on('change',function()
     {
         var code= $(this).val();
-
         $.ajax
         ({
             type:"GET",
@@ -547,46 +559,55 @@ $(document).on('focus click', $("#name"), function() {
                     $('#supplier_no').val(data[i]["supplier_no"]);
                     $('#code').val(data[i]["code"]);
                 }
-            },fail: function(xhr, textStatus, errorThrown){
+            },
+            fail: function(xhr, textStatus, errorThrown)
+            {
             alert(errorThrown);
             }
         });
     });
 
-// projectname
-// current location auto complete
-jQuery($ => {
-
-$(document).on('focus click', $("#project_name"), function() {
-$("#project_name").autocomplete(
-      {
-      source: function( request, response ) {
-        $.ajax( {
-            type:"GET",
-            url: "{{ route('getlocdata') }}",
-            dataType: "json",
-            data:{
-            'projectname':$("#project_name").val()
-             },
-             success: function( data ) {
-             result = [];
-             for(var i in data)
+    // projectname
+    // current location auto complete
+    jQuery($ => 
+    {
+        $(document).on('focus click', $("#project_name"), function() 
+        {
+            $("#project_name").autocomplete(
             {
-              result.push(data[i]["project_name"]);
-            }
-             response(result);
-           },fail: function(xhr, textStatus, errorThrown){
-        alert(errorThrown);
-      }
-      });
-      },
-      });
+                source: function( request, response ) 
+                {
+                    $.ajax
+                    ({
+                        type:"GET",
+                        url: "{{ route('getlocdata') }}",
+                        dataType: "json",
+                        data:
+                        {
+                            'projectname':$("#project_name").val()
+                        },
+                        success: function( data ) 
+                        {
+                            result = [];
+                            for(var i in data)
+                            {
+                            result.push(data[i]["project_name"]);
+                            }
+                            response(result);
+                        },
+                        fail: function(xhr, textStatus, errorThrown)
+                        {
+                            alert(errorThrown);
+                        }
+                    });
+                },
+            });
+        });
     });
-});
-      $("#project_name").on('change',function()
+    //Project number
+    $("#project_name").on('change',function()
     {
         var code= $(this).val();
-
         $.ajax
         ({
             type:"GET",
@@ -601,29 +622,33 @@ $("#project_name").autocomplete(
                 result = [];
                 for(var i in data)
                 { 
-                    $('#project_no').val(data[i]["project_no"]);
-                    
+                    $('#project_no').val(data[i]["project_no"]);                
                 }
-            },fail: function(xhr, textStatus, errorThrown){
-            alert(errorThrown);
+            },
+            fail: function(xhr, textStatus, errorThrown)
+            {
+                alert(errorThrown);
             }
         });
     });
 
-// bill_amount and vat inputs
-$('#bill_amount, #vat').on('input', function() {
-            
-            var billAmount = parseFloat($('#bill_amount').val()) || 0;
-            var vat = parseFloat($('#vat').val()) || 0;
-            var totalAmount = billAmount + (billAmount * (vat / 100));
-            $('#total_amount').val(totalAmount.toFixed(2));
-        });
+    // bill_amount and vat inputs
+    $('#bill_amount, #vat').on('input', function() 
+    {
+        var billAmount = parseFloat($('#bill_amount').val()) || 0;
+        var vat = parseFloat($('#vat').val()) || 0;
+        var totalAmount = billAmount + (billAmount * (vat / 100));
+        $('#total_amount').val(totalAmount.toFixed(2));
+    });
 
 </script>
-    <script>
-         $(document).ready(function(){
-          $('#exp_category_no').select2({
-              tags:true
+<script>
+        
+    $(document).ready(function()
+    {
+        $('#exp_category_no').select2
+        ({
+            tags:true
         });
     });
 </script>

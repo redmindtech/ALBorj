@@ -34,13 +34,14 @@
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" clclass="action notexport">Delete</th>
+                                            <div id="blur-background" class="blur-background"></div>
                                         </tr>
                                     </thead>
                                   
                                     <tbody>
                                         @foreach ($sitemasters as $key => $sitemaster)
                                             <tr class="text-center">
-                                                <td>{{$sitemaster->site_code}}<div id="blur-background" class="blur-background"></div></td>
+                                                <td>{{$sitemaster->site_code}}</td>
                                                 <td>{{$sitemaster->site_name}}</td>                                        
                                                 <td>{{$sitemaster->site_location}}</td>
                                                 <td>{{$sitemaster->firstname}}</td>
@@ -72,13 +73,13 @@
                     </div>
 
                     <!-- ADD AND EDIT FORM -->
-          <dialog id="myDialog"  style="width:1000px;">
+          <dialog id="myDialog">
             <div class="row">
 
                 <div class="col-md-12">
                
                      <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
-                     <h4  id='heading_name' style='color:white' align="center"><b>Update SiteMaster </b></h4>
+                     <h4  id='heading_name' style='color:white' align="center"><b>Update Site Details </b></h4>
                 </div>
             </div>
             
@@ -137,7 +138,7 @@
     <div class="form-group col-md-6">
         
         <label for="site_status" class="form-label fw-bold">Site Status<a style="text-decoration: none;color:red">*</a></label>
-        <select id="site_status" name="site_status" class="form-control" autocomplete="off">
+        <select id="site_status" name="site_status" class="form-control form-select" autocomplete="off">
         <option value="">Select Option</option>
             @foreach($site_status as $key => $value)
                 <option value="{{ $key }}">{{ $value }}</option>
@@ -239,14 +240,17 @@
             $("#myTable").DataTable();
         });
 </script>    
-     <!--ADD DIALOG  -->
+
+    <!-- ADD DIALOG  -->
 <script type="text/javascript">
+
         function handleDialog()
         {
              document.getElementById("myDialog").open = true;
+             window.scrollTo(0, 0);
              $('#method').val("ADD");
              $('#submit').text("ADD");
-             $('#heading_name').text("Add SiteMaster").css('font-weight', 'bold');
+             $('#heading_name').text("Add Site Details").css('font-weight', 'bold');
              $('#site_code').hide();
              $('#code_lable').hide();
              $('#show').css('display','none');
@@ -331,7 +335,7 @@
             })
         }
 
-        //DATA SHOW FOR EDIT AND SHOW 
+    //DATA SHOW FOR EDIT AND SHOW 
         function handleShowAndEdit(id,action)
         {
             let url = '{{route('siteApi.show',":site_no")}}';
@@ -349,7 +353,7 @@
                     console.log(message);
                     if(action == 'edit')
                     {
-                        $('#heading_name').text("Update SiteMaster").css('font-weight', 'bold');
+                        $('#heading_name').text("Update Site Details").css('font-weight', 'bold');
                         $('#show').css('display','none');
                         $('#form').css('display','block');
                         $('#blur-background').css('display','block');
@@ -367,86 +371,84 @@
                         {
                             $(`#show_${key}`).text(value);
                         }
-                            $('#heading_name').text("View SiteMaster").css('font-weight', 'bold');
+                            $('#heading_name').text("View Site Details").css('font-weight', 'bold');
                             $('#show').css('display','block');
                             $('#form').css('display','none');
                             $('#blur-background').css('display','block');
 
                     }
                     document.getElementById("myDialog").open = true;
-          
+                    window.scrollTo(0, 0);          
                 },
             })
         }
   
-    // auto complete from employeemaster
-    jQuery($ => 
-    {
-
-        $(document).on('focus click', $("#firstname"), function() 
+        // auto complete from employeemaster
+        jQuery($ => 
         {
-            $("#firstname").autocomplete(
+            $(document).on('focus click', $("#firstname"), function() 
             {
-
-                source: function( request, response ) 
+                $("#firstname").autocomplete(
                 {
-                    $.ajax
-                    ({
-                        type:"GET",
-                        url: "{{ route('getemployeedata') }}",
-                        dataType: "json",
-                        data:
-                        {
-                            'firstname':$("#firstname").val()
-                        },
-                        success: function( data ) 
-                        {
-                            // console.log(data);
-                            result = [];
-                            for(var i in data)
+                    source: function( request, response ) 
+                    {
+                        $.ajax
+                        ({
+                            type:"GET",
+                            url: "{{ route('getemployeedata') }}",
+                            dataType: "json",
+                            data:
                             {
-                                result.push(data[i]["firstname"]);
+                                'firstname':$("#firstname").val()
+                            },
+                            success: function( data ) 
+                            {
+                                // console.log(data);
+                                result = [];
+                                for(var i in data)
+                                {
+                                    result.push(data[i]["firstname"]);
+                                }
+                            response(result);
+                            },
+                            fail: function(xhr, textStatus, errorThrown)
+                            {
+                                alert(errorThrown);
                             }
-                        response(result);
-                        },
-                        fail: function(xhr, textStatus, errorThrown)
-                        {
-                            alert(errorThrown);
-                        }
-                    });
-                },
-            });
-        });
-    });
-            // EMPLOYEE CODE
-            $("#firstname").on('focus change',function()
-            {
-                $('#site_manager').val(null);
-                var code= $(this).val();
-
-                $.ajax
-                ({
-                    type:"GET",
-                    url: "{{ route('getemployeedata') }}",
-                    dataType: "json",
-                    data:
-                    {
-                        'firstname':$(this).val()
+                        });
                     },
-                    success: function( data ) 
-                    {
-                        console.log(data);
-                        result = [];
-                        for(var i in data)
-                        {
-                            $('#site_manager').val(data[i]["id"]);
-                        }
-                    },
-                    fail: function(xhr, textStatus, errorThrown)
-                    {
-                        alert(errorThrown);
-                    }
                 });
             });
+        });
+                
+        // EMPLOYEE CODE
+        $("#firstname").on('focus change',function()
+        {
+            $('#site_manager').val(null);
+            var code= $(this).val();
+            $.ajax
+            ({
+                type:"GET",
+                url: "{{ route('getemployeedata') }}",
+                dataType: "json",
+                data:
+                {
+                    'firstname':$(this).val()
+                },
+                success: function( data ) 
+                {
+                    console.log(data);
+                    result = [];
+                    for(var i in data)
+                    {
+                        $('#site_manager').val(data[i]["id"]);
+                    }
+                },
+                fail: function(xhr, textStatus, errorThrown)
+                {
+                    alert(errorThrown);
+                }
+            });
+        });
 </script>
 @stop

@@ -32,12 +32,13 @@
                                 <th data-orderable="false" class="action notexport">Show</th>
                                 <th data-orderable="false" class="action notexport">Edit</th>
                                 <th data-orderable="false" class="action notexport">Delete</th>
+                                <div id="blur-background" class="blur-background"></div>
                             </tr>
                         </thead>
                         <tbody>
                         @foreach($times as $time)
                             <tr class="text-center">
-                                <td>{{$time->firstname}}<div id="blur-background" class="blur-background"></div></td>
+                                <td>{{$time->firstname}}</td>
                                 <td>{{$time->desigination}}</td>
                                 <td>{{$time->depart}}</td>
                                 <td>{{$time->project_name}}</td>
@@ -70,7 +71,7 @@
 </div>  
             
 <!-- ADD AND EDIT FORM -->
-<dialog id="myDialog"  style="width:1000px;" >
+<dialog id="myDialog">
     <div class="row">
         <div class="col-md-12">
             <a class="btn btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
@@ -415,9 +416,10 @@
     function handleDialog()
     {
         document.getElementById("myDialog").open = true;
+        window.scrollTo(0, 0);
         $('#method').val("ADD");
         $('#submit').text("ADD");
-        $('#heading_name').text("Add Employee Timesheet").css('font-weight', 'bold');
+        $('#heading_name').text("Add Employee Timesheet Details").css('font-weight', 'bold');
         $('#show').css('display','none');
         $('#form').css('display','block');
         $('#blur-background').css('display','block');
@@ -515,7 +517,7 @@
             {
                 if(action == 'edit')
                 {
-                    $('#heading_name').text("Update Employee Timesheet").css('font-weight', 'bold');
+                    $('#heading_name').text("Update Employee Timesheet Details").css('font-weight', 'bold');
                     $('#show').css('display','none');
                     $('#form').css('display','block');
                     $('#blur-background').css('display','block');
@@ -610,7 +612,7 @@
                         script+= '</tbody></table>';
                         $('#show_table').remove();
                         $('#item_details_show').append(script); 
-                        $('#heading_name').text("View Employee Timesheet").css('font-weight', 'bold');
+                        $('#heading_name').text("View Employee Timesheet Details").css('font-weight', 'bold');
                         $('#show').css('display','block');
                         $('#form').css('display','none');
                         $('#blur-background').css('display','block');
@@ -633,6 +635,7 @@
                         // }
                 }
                         document.getElementById("myDialog").open = true;
+                        window.scrollTo(0, 0);                       
             },
         })
     }
@@ -640,41 +643,41 @@
 
 
         // Employee master autocomplete
-    jQuery($ => 
-    {
-        $(document).on('focus click', $("#firstname"), function()
-        { 
-            $("#firstname").autocomplete(
-            {
-                source: function( request, response ) 
+        jQuery($ => 
+        {
+            $(document).on('focus click', $("#firstname"), function()
+            { 
+                $("#firstname").autocomplete(
                 {
-                    $.ajax
-                    ({
-                        type:"GET",
-                        url: "{{ route('getemployeedata') }}",
-                        dataType: "json",
-                        data:
-                        {
-                            'firstname':$("#firstname").val()
-                        },
-                        success: function( data ) 
-                        {
-                            result = [];
-                            for(var i in data)
+                    source: function( request, response ) 
+                    {
+                        $.ajax
+                        ({
+                            type:"GET",
+                            url: "{{ route('getemployeedata') }}",
+                            dataType: "json",
+                            data:
                             {
-                                result.push(data[i]["firstname"]);
+                                'firstname':$("#firstname").val()
+                            },
+                            success: function( data ) 
+                            {
+                                result = [];
+                                for(var i in data)
+                                {
+                                    result.push(data[i]["firstname"]);
+                                }
+                                response(result);
+                            },
+                            fail: function(xhr, textStatus, errorThrown)
+                            {
+                                alert(errorThrown);
                             }
-                            response(result);
-                        },
-                        fail: function(xhr, textStatus, errorThrown)
-                        {
-                            alert(errorThrown);
-                        }
-                    });
-                },
+                        });
+                    },
+                });
             });
         });
-    });
         // EMPLOYEE CODE
         $("#firstname").on('change',function()
         {
@@ -715,43 +718,43 @@
         });
 
 
-    // auto complete for sitename from sitemaster
-    jQuery($ => 
-    {
-        $(document).on('focus click', $("#site_name"), function() 
+        // auto complete for sitename from sitemaster
+        jQuery($ => 
         {
-            $("#site_name").autocomplete(
+            $(document).on('focus click', $("#site_name"), function() 
             {
-                source: function( request, response ) 
+                $("#site_name").autocomplete(
                 {
-                    $.ajax
-                    ({
-                        type:"GET",
-                        url: "{{ route('getsitedata') }}",
-                        dataType: "json",
-                        data:
-                        {
-                            'site_name':$("#site_name").val()
-                        },
-                        success: function( data ) 
-                        {
-                            result = [];
-                            for(var i in data)
+                    source: function( request, response ) 
+                    {
+                        $.ajax
+                        ({
+                            type:"GET",
+                            url: "{{ route('getsitedata') }}",
+                            dataType: "json",
+                            data:
                             {
-                                result.push(data[i]["site_name"]);
+                                'site_name':$("#site_name").val()
+                            },
+                            success: function( data ) 
+                            {
+                                result = [];
+                                for(var i in data)
+                                {
+                                    result.push(data[i]["site_name"]);
+                                }
+                                response(result);
+                            },
+                            fail: function(xhr, textStatus, errorThrown)
+                            {
+                                alert(errorThrown);
                             }
-                            response(result);
-                        },
-                        fail: function(xhr, textStatus, errorThrown)
-                        {
-                            alert(errorThrown);
-                        }
-                    });
-                },
+                        });
+                    },
+                });
             });
         });
-    });
-    // site code
+        // site code
         $("#site_name").on('change',function()
         {
             var code= $(this).val();
@@ -781,42 +784,43 @@
         });
 
 
-    //project name autocomplete from projectermaster
-    jQuery($ => 
-    {
-        $(document).on('focus click', $("#project_name"), function() 
+        //project name autocomplete from projectermaster
+        jQuery($ => 
         {
-            $("#project_name").autocomplete(
+            $(document).on('focus click', $("#project_name"), function() 
             {
-                source: function( request, response ) 
+                $("#project_name").autocomplete(
                 {
-                    $.ajax
-                    ({
-                        type:"GET",
-                        url: "{{ route('getlocdata') }}",
-                        dataType: "json",
-                        data:
-                        {
-                            'projectname':$("#project_name").val()
-                        },
-                        success: function( data ) 
-                        {
-                            result = [];
-                            for(var i in data)
+                    source: function( request, response ) 
+                    {
+                        $.ajax
+                        ({
+                            type:"GET",
+                            url: "{{ route('getlocdata') }}",
+                            dataType: "json",
+                            data:
                             {
-                                result.push(data[i]["project_name"]);
+                                'projectname':$("#project_name").val()
+                            },
+                            success: function( data ) 
+                            {
+                                result = [];
+                                for(var i in data)
+                                {
+                                    result.push(data[i]["project_name"]);
+                                }
+                                response(result);
+                            },
+                            fail: function(xhr, textStatus, errorThrown)
+                            {
+                                alert(errorThrown);
                             }
-                            response(result);
-                        },
-                        fail: function(xhr, textStatus, errorThrown)
-                        {
-                            alert(errorThrown);
-                        }
-                    });
-                },
+                        });
+                    },
+                });
             });
         });
-    });
+        // Project number
         $("#project_name").on('change',function()
         {
             var code= $(this).val();

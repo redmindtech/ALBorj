@@ -72,7 +72,7 @@ class ExpensesController extends Controller
                 // the value of $request['exp_category_no'] exists in the $exp_category collection
                 // do something here
                 Expenses::create($request->only(Expenses::REQUEST_INPUTS));
-                return response()->json('Expenses Created Successfully', 200);
+                return response()->json('Expenses Details Created Successfully', 200);
     
             } else {
                 // the value of $request['exp_category_no'] does not exist in the $exp_category collection
@@ -83,7 +83,7 @@ class ExpensesController extends Controller
                 Expenses::create(array_merge($request->only(Expenses::REQUEST_INPUTS), [
                     'exp_category_no' => $new_category->category_name
                 ]));
-                return response()->json('Expenses Created Successfully', 200);
+                return response()->json('Expenses Details Created Successfully', 200);
             }
             
         } catch (Exception $e) {
@@ -146,7 +146,7 @@ class ExpensesController extends Controller
 
             $expense = Expenses::where('exp_no',$exp_no);
             $expense->update($request->only(Expenses::REQUEST_INPUTS));
-            return response()->json('Expenses Updated Successfully');
+            return response()->json('Expenses Details Updated Successfully');
             }else {
                 // the value of $request['exp_category_no'] does not exist in the $exp_category collection
                 // do something else here
@@ -155,7 +155,7 @@ class ExpensesController extends Controller
                 ]);
                 $expense = Expenses::where('exp_no',$exp_no);
                 $expense->update($request->only(Expenses::REQUEST_INPUTS));
-                return response()->json('Expenses Updated Successfully');
+                return response()->json('Expenses Details Updated Successfully');
             }
         } 
         
@@ -177,7 +177,7 @@ class ExpensesController extends Controller
         try {
             $expense = Expenses::where('exp_no',$exp_no);
             $expense->delete();
-            return response()->json('Expense Deleted Successfully', 200);
+            return response()->json('Expense Details Deleted Successfully', 200);
 
         } catch (Exception $e) {
             info($e);
