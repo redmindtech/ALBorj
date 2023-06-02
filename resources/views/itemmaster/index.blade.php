@@ -258,7 +258,7 @@
                 function handleDelete(id) {
                     let url = '{{ route('itemApi.delete', ':id') }}';
                     url = url.replace(':id', id);
-                    if (confirm("Are you sure you want to delete this item Details?")) {
+                    if (confirm("Are you sure want to delete this item Details?")) {
                         $.ajax({
                             url: url,
                             type: 'DELETE',

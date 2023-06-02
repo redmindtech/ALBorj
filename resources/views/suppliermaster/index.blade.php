@@ -217,7 +217,7 @@
         {
             let url = '{{route('supplierApi.delete',":id")}}';
             url= url.replace(':id',id);
-            if (confirm("Are you sure you want to delete this Supplier Details?"))
+            if (confirm("Are you sure want to delete this Supplier Details?"))
             {
                 $.ajax
                 ({

@@ -268,7 +268,7 @@
         {
             let url = '{{route('siteApi.delete',":site_no")}}';
             url= url.replace(':site_no',id);
-            if (confirm("Are you sure you want to delete this Site Details?")) 
+            if (confirm("Are you sure want to delete this Site Details?")) 
             {
                 $.ajax(
                 {

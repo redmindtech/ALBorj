@@ -208,15 +208,15 @@
        
     </div>
 </div>
-<div class="row">
+<div class="row mb-3">
     <div class="form-group col-md-4">
                             <label for="total_price_cost" class="form-label fw-bold">Total Project Cost<a
                                     style="text-decoration: none;color:red">*</a></label>
-                            <div class="input-group">
+                            <div class="input-group-prepend">
                                 <input type="text" id="total_price_cost" name="total_price_cost"
                                     value="{{ old('total_price_cost') }}" placeholder="Total Project Cost"
                                     class="form-control" autocomplete="off">
-                                <div class="input-group-append">
+                                <div class="input-group-append ml-1">
                                     <select class="form-select input-group" id="currency" name="currency">
                                         @foreach ($currency as $key => $value)
                                             <option value="{{ $key }}">{{ $value }}</option>
@@ -231,12 +231,12 @@
                 <div class="form-group col-md-3 mr-5">
                             <label for="advanced_amount" class="form-label fw-bold">Advance Amount<a
                                     style="text-decoration: none;color:red">*</a></label>
-                            <div class="input-group">
+                            <div class="input-group-prepend">
                                 <input type="text" id="advanced_amount" name="advanced_amount"
                                     value="{{ old('advanced_amount') }}" placeholder="Advance Amount"
                                     class="form-control" autocomplete="off" onchange="calculateAmount()">
                                 <div class="input-group-append">
-                                    <div class="toggle focus" >
+                                    <div class="toggle focus">
                                         <input type="checkbox" class="st amount" name="amount_type" id="amount_type"
                                         value="1" {{ old('amount_type') ? 'checked' : '' }}>
                                         <span class="slider"></span>
@@ -257,7 +257,7 @@
 <div class="row">
 
 <div class="form-group col-md-4">
-        <label for="amount_to_be_received" class="form-label fw-bold">Balance Amount To Be Received<a style="text-decoration: none;color:red">*</a></label>
+        <label for="amount_to_be_received" class="form-label fw-bold">Balance Amount To Be Received</label>
         <input type="text" id="amount_to_be_received" name="amount_to_be_received" value="{{ old('amount_to_be_received') }}" placeholder="Balance Amount To Be Received" class="form-control" autocomplete="off" readonly>
         
     </div>
@@ -489,7 +489,7 @@ function calculateAmount() {
         {
             let url = '{{route('projectApi.delete',":project_no")}}';
             url= url.replace(':project_no',id);
-            if (confirm("Are you sure you want to delete this Project Details?")) 
+            if (confirm("Are you sure want to delete this Project Details?")) 
             {
                 $.ajax
                 ({

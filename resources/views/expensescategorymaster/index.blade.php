@@ -146,7 +146,7 @@
     {
         let url = '{{route('expensescategoryApi.delete',":id")}}';
         url= url.replace(':id',id);
-        if (confirm("Are you sure you want to delete this ExpensesCategory Details?"))
+        if (confirm("Are you sure want to delete this ExpensesCategory Details?"))
         {
             $.ajax
             ({

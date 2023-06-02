@@ -176,7 +176,7 @@
     width: 2px;
 }
 .select2-container .select2-selection--single {
-    height:38px !important;
+    height:36px !important;
 }
 input[type=checkbox] {
   width: 25px;
@@ -198,9 +198,11 @@ input[type=checkbox] {
         }
         .checkbox .checked-icon, .radio .rad-icon { transition: opacity 0.3s ease-out; }
         .toggle {
+            margin-top:10%;
+            margin-left:10%;
             position: relative;
-            width: 60px;
-            height: 34px;
+            width: 55px;
+            height: 28px;
             display: inline-block;
         }
         .toggle .slider {
@@ -215,8 +217,8 @@ input[type=checkbox] {
         .toggle .slider:before {
             position: absolute;
             content: "";
-            height: 26px;
-            width: 26px;
+            height: 20px;
+            width: 20px;
             left: 4px;
             bottom: 4px;
             background-color: white;
@@ -227,7 +229,7 @@ input[type=checkbox] {
         .toggle .slider { background-color: #e3eefa; }
         .toggle.on .slider { background-color: #4287f5; }
         .toggle.on .slider:before { transform: translateX(26px); box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2); }
-        .toggle .label { position: absolute; left: 70px; top: 4px; vertical-align: middle; }
+        .toggle .label { position: absolute; left: 60px; top: 4px; vertical-align: middle; }
         .st { height: 100%; width: 100%; opacity: 0; position: absolute; z-index: 100; cursor: pointer; vertical-align: middle;}
         .toggle.focus .slider, .checkbox.focus   { box-shadow: 0px 0px 0px 2px #bababa; transition: all 0.4s; }
      /* style for percentage and ruper to toggle  ends*/ 
@@ -283,18 +285,50 @@ input[type=checkbox] {
     position: relative;
     }
 
-  #contact_number-error, #UAE_mobile_number-error{
+  #contact_number-error, #UAE_mobile_number-error, #advanced_amount-error, #total_price_cost-error{
     position: absolute;
     top: 100%;
     left: 0;
 }
-    #working_as-error, #desigination-error, #sponser-error {
+   
+, #desigination-error, , #visa_status-error {
     position: absolute;
-    top: 65%;
+    top: 75%;
     left: 1%;
 }
+ #desigination-error, #visa_status-error, #category-error, #sponser-error, #working_as-error, #depart-error {
+    position: absolute;
+    top: 95%;
+    left: 1%;
+}
+#total_price_cost {
+    width:revert;
+}
+
 /* end phone number */
 /* css end for error */
+ /*table overflow */
+ #myTable{
+            width:100% !important;
+        }
+        #myTable_wrapper .row:nth-child(2) {
+            overflow-x:auto;
+        }
+
+    /*sidebar for mobile view */
+    #sidebar-overlay{
+        z-index:1 !important;
+    }
+    @media only screen and (min-width: 1024px) {
+      dialog {
+        width: 1000px !important;
+      }
+    }
+
+    .iti__flag-container{
+        top:20% !important;
+        bottom: auto;
+    }
     </style>
   
    

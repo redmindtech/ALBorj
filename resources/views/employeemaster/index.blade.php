@@ -140,7 +140,7 @@
      
     </div>
 </div>
-<div class="row">
+<div class="row mb-3">
     <div class="form-group col-md-6">
         <label for="category" class="form-label fw-bold">Category<a style="text-decoration: none;color:red">*</a></label>
         <select id="category" name="category" class="form-control form-select" autocomplete="off">
@@ -162,7 +162,7 @@
       
     </div>
 </div>
-<div class="row">
+<div class="row mb-3">
     <div class="form-group col-md-6">
         <label for="working_as" class="form-label fw-bold">Working As<a style="text-decoration: none;color:red">*</a></label>
         <select id="working_as" name="working_as" class="form-control form-select" autocomplete="off" style="width:100%">
@@ -306,7 +306,7 @@
     
     </div>
 </div>
-<div class="row">
+<div class="row mb-3">
     <div class="form-group col-md-6">
         <label for="visa_status" class="form-label fw-bold">Visa Status<a style="text-decoration: none;color:red">*</a></label>
         <select id="visa_status" name="visa_status" class="form-control form-select" autocomplete="off">
@@ -532,7 +532,7 @@
             {
                 let url = '{{route('employeeApi.delete',":id")}}';
                 url= url.replace(':id',id);
-                if (confirm("Are you sure you want to delete this Employee Details?")) 
+                if (confirm("Are you sure want to delete this Employee Details?")) 
                 {
                     $.ajax
                     ({
