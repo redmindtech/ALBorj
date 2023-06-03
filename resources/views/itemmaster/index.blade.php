@@ -151,11 +151,6 @@
                                 value="{{ old('supplier_no') }}" placeholder="Supplier Id" class="form-control"
                                 autocomplete="off">
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="supplier_code" class="form-label fw-bold">Supplier Code</label>
-                            <input type="text" id="code" name="code" value="{{ old('code') }}"
-                                placeholder="Supplier code" class="form-control" autocomplete="off" readonly>
-                        </div>
                         <div class="form-group col-md-4" id="quantityField">
                             <label for="name" class="form-label fw-bold">Item Quantity</label>
                             <input type="number" id="quantity" name="quantity"
@@ -164,8 +159,14 @@
                                 <input type="text" id="total_quantity" name="total_quantity" hidden
                                 value="{{ old('total_quantity') }}" placeholder="Item Quantity" class="form-control"
                                 autocomplete="off">
-                            
+                                <div id="quantity-error" class="error-msg" style="display: none;"></div>
                         </div>
+                        <div class="form-group col-md-4">
+                            <label for="supplier_code" class="form-label fw-bold">Supplier Code</label>
+                            <input type="text" id="code" name="code" value="{{ old('code') }}"
+                                placeholder="Supplier code" class="form-control" autocomplete="off" readonly>
+                        </div>
+
                     </div>
                     <div class="form-group col-md-12">
                         <button type="submit" id="submit" class="btn btn-primary float-end ">ADD</button>
@@ -282,6 +283,7 @@
                         $('.has-error').removeClass('has-error');
                         // Hide any error messages
                         $('error').html('');
+                        $("#quantity-error").hide();
                         // Hide the dialog background
                         $('#blur-background').css('display', 'none');
                       
@@ -290,7 +292,7 @@
                 function handleSubmit() {
                     event.preventDefault();
                     var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
-                    //  alert(hiddenErrorElements);
+                    //   alert(hiddenErrorElements);
                     if(hiddenErrorElements === 0)
                     {
                         let form_data = new FormData(document.getElementById('form'));
@@ -611,16 +613,22 @@ jQuery($ => {
             company_name: {
             suppliercompanyCheck: true
         },
-        quantity: {
-            required: function(element) {
-                var companyName = $("#company_name").val().trim();
-                return companyName !== "" && companyName !== undefined;
-            },
-            min: function(element) {
-                var companyName = $("#company_name").val().trim();
-                return companyName !== "" ? 1 : 0;
-            }
-        }
+        // quantity: {
+        //     required: function(element) {
+        //         return $("#company_name").val().trim() !== "";
+        //     },
+        //     min: {
+        //         param: 1,
+        //         depends: function(element) {
+        //             return $("#company_name").val().trim() !== "";
+        //         },
+        //         message: function() {
+        //             return "Please enter a valid item quantity (minimum " + ($("#company_name").val().trim() !== "" ? 1 : 0) + ")";
+        //         }
+        //     }
+        // }
+   
+        
 
 
         },
@@ -638,21 +646,20 @@ jQuery($ => {
             company_name: {
             suppliercompanyCheck: "Please enter a valid supplier company name"
         },
-        quantity: {
+        // quantity: {
            
-            required: "Please enter the item quantity if the supplier name is present",
-            min: function() {
-                var companyName = $("#company_name").val().trim();
-                return companyName !== "" ? "Please enter a valid item quantity (minimum 1)" : "Please enter a valid item quantity (minimum 0)";
-            }
+        //     required: "Please enter the item quantity if the supplier name is present",
+           
         
-        }
+        // }
 
         },
         errorElement: "error",
         errorClass: "error-msg",
+        
         highlight: function(element, errorClass, validClass)
         {
+            
             $(element).addClass(errorClass).removeClass(validClass);
             $(element).closest('.form-group').addClass('has-error');
          
@@ -665,21 +672,35 @@ jQuery($ => {
         }
 
     };
-//      $("#company_name").on("input", function() {
-//     var $quantityField = $("#quantity");
-//     var isCompanyNameEmpty = $(this).val().trim() === "";
+       
+    $(document).ready(function() {
+  $("#company_name").on("focusout", function() {
+    var companyName = $(this).val().trim();
+    var quantity = $("#quantity").val().trim();
+
+    if (companyName !== "" && quantity === "") {
+      $("#quantity-error").text("Please enter the item quantity ");
+      $("#quantity-error").show();
+    } 
     
-//     if (isCompanyNameEmpty) {
-//         $quantityField.val("0").prop("readonly", true).removeClass("error").closest('.form-group').removeClass('has-error');
-//         $quantityField.rules("remove", "required");
-//     } else {
-//         $quantityField.prop("readonly", false);
-//         $quantityField.rules("add", {
-//             required: true,
-//             min: 1
-//         });
-//     }
-// });
+    else {
+      $("#quantity-error").hide();
+    }
+  });
+  $("#quantity").on("focusout", function() {
+    var companyName = $("#company_name").val().trim();
+    var quantity = $(this).val().trim();
+
+    if (companyName !== "" && quantity === "0") {
+      $("#quantity-error").text("The item quantity should not 0");
+      $("#quantity-error").show();
+    }
+     else {
+      $("#quantity-error").hide();
+    }
+});
+  });
+
 
     $("#form").validate(formValidationConfig);
     
