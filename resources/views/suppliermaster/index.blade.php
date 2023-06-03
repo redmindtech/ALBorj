@@ -248,6 +248,7 @@
     // DIALOG SUBMIT FOR ADD AND EDIT
         function handleSubmit()
         {
+            event.preventDefault();
             var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
             //  alert(hiddenErrorElements);
             if(hiddenErrorElements === 0)
@@ -286,10 +287,6 @@
                             var data = message.responseJSON;
                         }
                     })
-                }
-                else
-                {
-                    event.preventDefault();
                 }
             }
             
@@ -343,9 +340,9 @@
             })
         }
 
-        // validation
+      // validation
 
-       var contact_number=@json($contact_number);
+      var contact_number=@json($contact_number);
 $.validator.addMethod("uniqueContactNumber", function(value, element) {
   if ($("#method").val() !== "ADD" && value === current_contact_number) {
     return true;

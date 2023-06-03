@@ -290,7 +290,9 @@
                         quantityField.setAttribute("readonly", "readonly"); // Hide the Item Quantity field
                     }
                 // DIALOG SUBMIT FOR ADD AND EDIT
-                function handleSubmit() {
+                function handleSubmit() 
+                {
+                    event.preventDefault();
                     var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
                     //  alert(hiddenErrorElements);
                     if(hiddenErrorElements === 0)
@@ -327,11 +329,6 @@
                             }
                         })
                     }
-                    else
-                    {
-                        event.preventDefault();
-                    }
-    
                 }
 
                 //DATA SHOW FOR EDIT AND SHOW
@@ -481,80 +478,61 @@
  <!-- Autocomplete company name from supplier master -->
 <script>
 
-        jQuery($ =>
-        {
-            $(document).on('focus click', $("#company_name"), function() 
-            {
-                $("#company_name").autocomplete(
-                {
-                    source: function(request, response) 
-                    {
-                        $.ajax
-                        ({
-                            type: "GET",
-                            url: "{{ route('getempdata_supplier_company') }}",
-                            dataType: "json",
-                            data: 
-                            {
-                                'suppliername': $("#company_name").val()
-                            },
-                            success: function(data) 
-                            {
-                                result = [];
-                                for (var i in data) 
-                                {
-                                    result.push(data[i]["company_name"]);
-                                }
-                                response(result);
-                            },
-                            fail: function(xhr, textStatus, errorThrown) 
-                            {
-                                alert(errorThrown);
-                            }
-                        });
-                    },
-                });
+jQuery($ => {
+    $("#company_name").autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                type: "GET",
+                url: "{{ route('getempdata_supplier_company') }}",
+                dataType: "json",
+                data: {
+                    'suppliername': $("#company_name").val()
+                },
+                success: function(data) {
+                    const result = data.map(item => item.company_name);
+                    response(result);
+                },
+                fail: function(xhr, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
             });
-        });
-        // Supplier Code
-        $("#company_name").on('focus click change', function() 
-        {
-            var supplierName = $(this).val();
-            if (supplierName === '') 
-            {
-                $('#supplier_no').val('');
-                $('#code').val('');
-                $("#quantity").val('0')
-                $("#quantity").prop('readonly', true);
-            } 
-            else 
-            {
-                $.ajax
-                ({
-                    type: "GET",
-                    url: "{{ route('getempdata_supplier_company') }}",
-                    dataType: "json",
-                    data: 
-                    {
-                        'suppliername': $(this).val()
-                    },
-                    success: function(data)
-                    {
-                        result = [];
-                        for (var i in data) 
-                        {
-                            $('#supplier_no').val(data[0]["supplier_no"]);
-                            $('#code').val(data[0]["code"]);
-                            $("#quantity").prop('readonly', false);
-                        }
-                    },
-                    fail: function(xhr, textStatus, errorThrown) 
-                    {
-                        alert(errorThrown);
-                    }
-                });
+        },
+        select: function(event, ui) {
+            var selectedCompanyName = ui.item.value;
+            updateCompanyValue(selectedCompanyName);
+        }
+    });
+
+    $("#company_name").on('focus click change', function() {
+        var companyName = $(this).val();
+        updateCompanyValue(companyName);
+    });
+
+    function updateCompanyValue(companyName) {
+        $.ajax({
+            type: "GET",
+            url: "{{ route('getempdata_supplier_company') }}",
+            dataType: "json",
+            data: {
+                'suppliername': companyName
+            },
+            success: function(data) {
+                if (data.length > 0) {
+                    $('#supplier_no').val(data[0].supplier_no);
+                    $('#code').val(data[0].code);
+                } else {
+                    $('#supplier_no').val('');
+                    $('#code').val('');
+                }
+                $("#quantity").val('');
+                $("#quantity").prop('readonly', !companyName);
+            },
+            fail: function(xhr, textStatus, errorThrown) {
+                alert(errorThrown);
             }
         });
+    }
+});
 
 
                 function itemcategory_load() {
@@ -593,67 +571,89 @@
                     handleShowAndEdit('edit');
                 }
 
-
                 var item_Name = @json($itemName);
-    console.log(item_Name);
-    $.validator.addMethod("uniqueItemName", function(value, element)
-    {
-        var lowercaseValue = value.toLowerCase().replace(/\s/g, '');
+   
+   var supplier_company=@json($supplier_company);
 
-        if ($("#method").val() !== "ADD" && lowercaseValue === currentItemName)
-        {
-            return true;
-        }
-        var lowercaseValu = value.toLowerCase().replace(/\s/g, '');
-        return !item_Name.includes(lowercaseValu);
-    });
+   $.validator.addMethod("uniqueItemName", function(value, element)
+   {
+       var lowercaseValue = value.toLowerCase().replace(/\s/g, '');
 
-  
-         
-    var formValidationConfig ={
-    
-        rules:
-        {
-            item_name:
-            {
-                required: true,
-                uniqueItemName:true
-            },
-            item_category:"required",
-            item_subcategory:"required",
-            stock_type:"required",
-            item_type:"required",
-        },
-        messages:
-        {
-            item_name:
-            {
-                required: "Please enter the item name",
-                uniqueItemName:"This item name is already exist. Please enter new item name"
-            },
-            item_category:"Please select the item category",
-            item_subcategory:"Please select the item subcategory",
-            stock_type:"Please select the stock type",
-            item_type:"Please select the item type",
-        },
-        errorElement: "error",
-        errorClass: "error-msg",
-        highlight: function(element, errorClass, validClass)
-        {
-            $(element).addClass(errorClass).removeClass(validClass);
-            $(element).closest('.form-group').addClass('has-error');
-         
-        },
-        unhighlight: function(element, errorClass, validClass)
-        {
-            $(element).removeClass(errorClass).addClass(validClass);
-            $(element).closest('.form-group').removeClass('has-error');
-           
-        }
+       if ($("#method").val() !== "ADD" && lowercaseValue === currentItemName)
+       {
+           return true;
+       }
+       var lowercaseValu = value.toLowerCase().replace(/\s/g, '');
+       return !item_Name.includes(lowercaseValu);
+   });
 
-    };
-    $("#form").validate(formValidationConfig);
-    
+ 
+$.validator.addMethod("suppliercompanyCheck", function(value, element) {
+ return supplier_company.includes(value);
+});
+        
+   var formValidationConfig ={
+   
+       rules:
+       {
+           item_name:
+           {
+               required: true,
+               uniqueItemName:true
+           },
+           item_category:"required",
+           item_subcategory:"required",
+           stock_type:"required",
+           item_type:"required",
+           company_name: {
+               // required:false,
+              suppliercompanyCheck: true,
+           // required: function(element) {
+           //     return $("#quantity").val().trim() !== "";
+           // }
+           },
+     
+       // quantity: {
+       //     required: function(element) {
+       //         return $("#company_name").val().trim() !== "";
+       //     },
+       //     min: 1
+       // }
+
+       },
+       messages:
+       {
+           item_name:
+           {
+               required: "Please enter the item name",
+               uniqueItemName:"This item name is already exist. Please enter new item name"
+           },
+           item_category:"Please select the item category",
+           item_subcategory:"Please select the item subcategory",
+           stock_type:"Please select the stock type",
+           item_type:"Please select the item type",
+           company_name:{
+               suppliercompanyCheck:"Please enter valid supplier company name"
+           }
+       },
+       errorElement: "error",
+       errorClass: "error-msg",
+       highlight: function(element, errorClass, validClass)
+       {
+           $(element).addClass(errorClass).removeClass(validClass);
+           $(element).closest('.form-group').addClass('has-error');
+        
+       },
+       unhighlight: function(element, errorClass, validClass)
+       {
+           $(element).removeClass(errorClass).addClass(validClass);
+           $(element).closest('.form-group').removeClass('has-error');
+          
+       }
+
+   };
+   $("#form").validate(formValidationConfig);
+   
 
 </script>
 @stop

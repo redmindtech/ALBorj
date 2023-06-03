@@ -298,6 +298,7 @@
     // DIALOG SUBMIT FOR ADD AND EDIT
         function handleSubmit()
         {
+            event.preventDefault();
             var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
             // alert(hiddenErrorElements);
             if(hiddenErrorElements === 0)
@@ -337,10 +338,6 @@
                         var data = message.responseJSON;
                     }
                 })
-            }
-            else
-            {
-                event.preventDefault();
             }
         }
 
@@ -394,73 +391,66 @@
             })
         }
   
-        // auto complete from employeemaster
-        jQuery($ => 
-        {
-            $(document).on('focus click', $("#firstname"), function() 
-            {
-                $("#firstname").autocomplete(
-                {
-                    source: function( request, response ) 
-                    {
-                        $.ajax
-                        ({
-                            type:"GET",
-                            url: "{{ route('getemployeedata') }}",
-                            dataType: "json",
-                            data:
-                            {
-                                'firstname':$("#firstname").val()
-                            },
-                            success: function( data ) 
-                            {
-                                // console.log(data);
-                                result = [];
-                                for(var i in data)
-                                {
-                                    result.push(data[i]["firstname"]);
-                                }
-                            response(result);
-                            },
-                            fail: function(xhr, textStatus, errorThrown)
-                            {
-                                alert(errorThrown);
-                            }
-                        });
+     // auto complete from employeemaster
+     jQuery($ => {
+    $(document).on('focus', 'input',"#firstname", function() {
+        $("#firstname").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('getemployeedata') }}",
+                    dataType: "json",
+                    data: {
+                        'firstname': $("#firstname").val()
                     },
-                });
-            });
-        });
-                
-        // EMPLOYEE CODE
-        $("#firstname").on('focus change',function()
-        {
-            $('#site_manager').val(null);
-            var code= $(this).val();
-            $.ajax
-            ({
-                type:"GET",
-                url: "{{ route('getemployeedata') }}",
-                dataType: "json",
-                data:
-                {
-                    'firstname':$(this).val()
-                },
-                success: function( data ) 
-                {
-                    console.log(data);
-                    result = [];
-                    for(var i in data)
-                    {
-                        $('#site_manager').val(data[i]["id"]);
+                    success: function(data) {
+                        result = [];
+                        for (var i in data) {
+                            result.push(data[i]["firstname"]);
+                        }
+                        response(result);
+                    },
+                    fail: function(xhr, textStatus, errorThrown) {
+                        alert(errorThrown);
                     }
-                },
-                fail: function(xhr, textStatus, errorThrown)
-                {
-                    alert(errorThrown);
-                }
-            });
+                });
+            },
+            select: function(event, ui) {
+                $('#site_manager').val(null);
+                var selectedFirstName = ui.item.value;
+                updateSiteManagerValue(selectedFirstName);
+            }
         });
+    });
+
+    // EMPLOYEE CODE
+    $("#firstname").on('input', function() {
+        $('#site_manager').val(null);
+        var selectedFirstName = $(this).val();
+        updateSiteManagerValue(selectedFirstName);
+    });
+
+    function updateSiteManagerValue(firstName) {
+        $.ajax({
+            type: "GET",
+            url: "{{ route('getemployeedata') }}",
+            dataType: "json",
+            data: {
+                'firstname': firstName
+            },
+            success: function(data) {
+                console.log(data);
+                for (var i in data) {
+                    $('#site_manager').val(data[i]["id"]);
+                }
+            },
+            fail: function(xhr, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        });
+    }
+});
+
 
 
         // validation

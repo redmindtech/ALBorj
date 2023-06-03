@@ -350,7 +350,7 @@ function calculateAmount() {
                         </div>
                         <div class="col-md-4">
                             <label>Site No</label>
-                            <p id="show_site_no"></p>
+                            <p id="show_site_code"></p>
                         </div>                       
                           <div class="col-md-4">
                             <label>Project code</label>
@@ -520,6 +520,7 @@ function calculateAmount() {
     // DIALOG SUBMIT FOR ADD AND EDIT
           function handleSubmit()
           {
+            event.preventDefault();
             var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
             //  alert(hiddenErrorElements);
             if(hiddenErrorElements === 0)
@@ -560,10 +561,7 @@ function calculateAmount() {
                     }
                 })
             }
-            else
-            {
-                event.preventDefault();
-            }
+          
         }
 
     //DATA SHOW FOR EDIT AND SHOW 
@@ -640,209 +638,184 @@ function calculateAmount() {
                 },
             })
         }
-        // auto complete for managername from employeemasters
-        jQuery($ => 
-        {
-            $(document).on('focus click', $("#firstname"), function() 
-            {
-
-                $("#firstname").autocomplete(
-                {
-                    source: function( request, response ) 
-                    {
-                        $.ajax
-                        ({
-                            type:"GET",
-                            url: "{{ route('getemployeedata') }}",
-                            dataType: "json",
-                            data:
-                            {
-                                'firstname':$("#firstname").val()
-                            },
-                            success: function( data ) 
-                            {
-                                result = [];
-                                for(var i in data)
-                                {
-                                    result.push(data[i]["firstname"]);
-                                }
-                                response(result);
-                            },
-                            fail: function(xhr, textStatus, errorThrown)
-                            {
-                                alert(errorThrown);
-                            }
-                        });
+    
+    // auto complete for managername from employeemasters
+    jQuery($ => {
+    $(document).on('focus click', '#firstname', function() {
+        $("#firstname").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('getemployeedata') }}",
+                    dataType: "json",
+                    data: {
+                        'firstname': $("#firstname").val()
                     },
-                });
-            });
-        });
-        // EMPLOYEE CODE
-        $("#firstname").on('focus change',function()
-        {
-            $('#employee_no').val('');
-            $('#UAE_mobile_number').val('');
-            var code= $(this).val();
-            $.ajax
-            ({
-                type:"GET",
-                url: "{{ route('getemployeedata') }}",
-                dataType: "json",
-                data:
-                {
-                    'firstname':$(this).val()
-                },
-                success: function( data ) 
-                {
-                     result = [];
-                    for(var i in data)
-                    {
-                        $('#employee_no').val(data[i]["id"]);
-                        $('#UAE_mobile_number').val(data[i]["UAE_mobile_number"]);
+                    success: function(data) {
+                        result = [];
+                        for (var i in data) {
+                            result.push(data[i]["firstname"]);
+                        }
+                        response(result);
+                    },
+                    fail: function(xhr, textStatus, errorThrown) {
+                        alert(errorThrown);
                     }
-                },
-                fail: function(xhr, textStatus, errorThrown)
-                {
-                    alert(errorThrown);
-                }
-            });
+                });
+            },
+            select: function(event, ui) {
+                var selectedFirstName = ui.item.value;
+                updateFirstNameValue(selectedFirstName);
+            }
         });
-        
+    });
+
+    // Employee code
+    $(document).on('focus change', '#firstname', function() {
+        updateFirstNameValue($(this).val());
+    });
+
+    function updateFirstNameValue(firstName) {
+        $.ajax({
+            type: "GET",
+            url: "{{ route('getemployeedata') }}",
+            dataType: "json",
+            data: {
+                'firstname': firstName
+            },
+            success: function(data) {
+                for (var i in data) {
+                    $('#employee_no').val(data[i]["id"]);
+                    $('#UAE_mobile_number').val(data[i]["UAE_mobile_number"]);
+                }
+            },
+            fail: function(xhr, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        });
+    }
+});
+
 
         // auto complete for sitename from sitemaster
-        jQuery($ => 
-        {
-            $(document).on('focus click', $("#site_name"), function() 
-            {
-                $("#site_name").autocomplete(
-                {
-                    source: function( request, response ) 
-                    {
-                        $.ajax
-                        ({
-                            type:"GET",
-                            url: "{{ route('getsitedata') }}",
-                            dataType: "json",
-                            data:
-                            {
-                                'site_name':$("#site_name").val()
-                            },
-                            success: function( data ) 
-                            {
-                                result = [];
-                                for(var i in data)
-                                {
-                                    result.push(data[i]["site_name"]);
-                                }
-                                response(result);
-                            },
-                            fail: function(xhr, textStatus, errorThrown)
-                            {
-                                alert(errorThrown);
-                            }
-                        });
+        
+
+        jQuery($ => {
+    $(document).on('focus', 'input', '#site_name', function() {
+        $("#site_name").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('getsitedata') }}",
+                    dataType: "json",
+                    data: {
+                        'site_name': $("#site_name").val()
                     },
+                    success: function(data) {
+                        result = [];
+                        for (var i in data) {
+                            result.push(data[i]["site_name"]);
+                        }
+                        response(result);
+                    },
+                    fail: function(xhr, textStatus, errorThrown) {
+                        alert(errorThrown);
+                    }
                 });
-            });
+            },
+            select: function(event, ui) {
+                var selectedSiteName = ui.item.value;
+                updateSiteManagerValue(selectedSiteName);
+            }
         });
-    
-        // site code
-        $("#site_name").on('focus change',function()
-        {
-            $('#site_no').val('');
-            $('#site_code').val('');
-            var code= $(this).val();
-            $.ajax
-            ({
-                type:"GET",
-                url: "{{ route('getsitedata') }}",
-                dataType: "json",
-                data:
-                {
-                    'site_name':$(this).val()
-                },
-                success: function( data ) 
-                {
+    });
+
+    // Site code
+    $(document).on('input', '#site_name', function() {
+        var selectedSiteName = $(this).val();
+        updateSiteManagerValue(selectedSiteName);
+    });
+
+    function updateSiteManagerValue(siteName) {
+        $.ajax({
+            type: "GET",
+            url: "{{ route('getsitedata') }}",
+            dataType: "json",
+            data: {
+                'site_name': siteName
+            },
+            success: function(data) {
+                console.log(data);
+                for (var i in data) {  
                     $('#site_no').val(data[0]["site_no"]);
                     $('#site_code').val(data[0]["site_code"]);
-                },
-                fail: function(xhr, textStatus, errorThrown)
-                {
-                    alert(errorThrown);
                 }
-            });
+            },
+            fail: function(xhr, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
         });
-
+    }
+});
 
         // auto complete for client from clientmaster
-        jQuery($ => 
-        {
-            $(document).on('focus click', $("#company_name"), function() 
-            {
-                $("#company_name").autocomplete(
-                {
-                    source: function( request, response ) 
-                    {
-                        $.ajax
-                        ({
-                            type:"GET",
-                            url: "{{ route('getclientdata') }}",
-                            dataType: "json",
-                            data:
-                            {
-                                'company_name':$("#company_name").val()
-                            },
-                            success: function( data ) 
-                            {
-                                result = [];
-                                for(var i in data)
-                                {
-                                result.push(data[i]["company_name"]);
-                                }
-
-                                response(result);
-                            },
-                            fail: function(xhr, textStatus, errorThrown)
-                            {
-                                alert(errorThrown);
-                            }
-                        });
+        jQuery($ => {
+    $(document).on('focus click', "#company_name", function() {
+        $("#company_name").autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('getclientdata') }}",
+                    dataType: "json",
+                    data: {
+                        'company_name': $("#company_name").val()
                     },
-                });
-            });
-        });
-        // client code
-        $("#company_name").on('focus change',function()
-        {
-            $('#client_no').val('');
-            $('#contact_number').val('');
-            $('#name').val(''); 
-            var code= $(this).val();
-            $.ajax
-            ({
-                type:"GET",
-                url: "{{ route('getclientdata') }}",
-                dataType: "json",
-                data:
-                {
-                    'company_name':$(this).val()
-                },
-                success: function( data ) 
-                {
-                    result = [];
-                    for(var i in data)
-                    {
-                        $('#client_no').val(data[i]["client_no"]);
-                        $('#contact_number').val(data[i]["contact_number"]);
-                        $('#name').val(data[i]["name"]);  
+                    success: function(data) {
+                        result = [];
+                        for (var i in data) {
+                            result.push(data[i]["company_name"]);
+                        }
+                        response(result);
+                    },
+                    fail: function(xhr, textStatus, errorThrown) {
+                        alert(errorThrown);
                     }
-                },
-                fail: function(xhr, textStatus, errorThrown)
-                {
-                    alert(errorThrown);
-                }
-            });
+                });
+            },
+            select: function(event, ui) {
+                var selectedCompanyName = ui.item.value;
+                updateCompanyNameValue(selectedCompanyName);
+            }
         });
+    });
+
+    $(document).on('focus change', '#company_name', function() {
+        updateCompanyNameValue($(this).val());
+    });
+
+    function updateCompanyNameValue(companyName) {
+        $.ajax({
+            type: "GET",
+            url: "{{ route('getclientdata') }}",
+            dataType: "json",
+            data: {
+                'company_name': companyName
+            },
+            success: function(data) {
+                for (var i in data) {
+                    $('#client_no').val(data[i]["client_no"]);
+                    $('#contact_number').val(data[i]["contact_number"]);
+                    $('#name').val(data[i]["name"]);
+                }
+            },
+            fail: function(xhr, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        });
+    }
+});
+
+
    // / Initialize form validation
 
 var project_Name = @json($projectName);
@@ -881,7 +854,10 @@ $.validator.addMethod("greaterThan", function (value, element, param) {
 
         return new Date(value) > new Date(startDate);
     }, "Invalid date");
-
+    $.validator.addMethod("alphanumeric", function(value, element) {
+    console.log(value);
+  return this.optional(element) || /^[A-Za-z ]+$/i.test(value);
+});
 var formValidationConfig ={
     rules:
     {
@@ -903,6 +879,10 @@ var formValidationConfig ={
         clientcompanyNameCheck:true,
         required:true
         },
+        consultant_name:{
+            alphanumeric:true
+        },
+
         start_date:"required",
       end_date: {
                 required: true,
@@ -954,6 +934,10 @@ var formValidationConfig ={
         clientcompanyNameCheck:"Please enter valid client/company Name ",
         required:"Please enter the client/company Name "
         },
+        consultant_name:{
+            alphanumeric: "The consultant name allows only alphabets"
+        },
+
         start_date:"Please select the project start date",
         end_date: {
                 required: "Please select the tentative project end date",
@@ -999,8 +983,7 @@ var formValidationConfig ={
     }
 };
 
-$("#form").validate(formValidationConfig);     
-
+$("#form").validate(formValidationConfig);
 </script>
     
     

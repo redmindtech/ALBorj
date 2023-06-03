@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\ClientMaster;
+use App\Models\ProjectMaster;
+
 use Illuminate\Http\Request;
 
 class ClientMasterController extends Controller
@@ -117,7 +119,12 @@ public function update(Request $request, $client_no)
       public function destroy($client_no)
     {
         try {
+            
             $clients = ClientMaster::findOrFail($client_no);
+            $project = ProjectMaster::where('client_no', $client_no)->first();
+            if ($project) {
+            return response()->json('Cannot delete the client. It is associated with a project.', 200);
+            }
             $clients->delete();
             return response()->json('Client Details Deleted Successfully', 200);
 

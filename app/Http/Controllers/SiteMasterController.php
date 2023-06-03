@@ -152,6 +152,10 @@ class SiteMasterController extends Controller
         try 
         {
             $site = SiteMaster::findOrFail($site_no);
+            $project = ProjectMaster::where('site_no', $site_no)->first();
+        if ($project) {
+            return response()->json('Cannot delete the Site Details. It is associated with a project.', 200);
+        }
             $site->delete();
             return response()->json('Site Details Deleted Successfully', 200);
 

@@ -564,6 +564,7 @@
     // DIALOG SUBMIT FOR ADD AND EDIT
             function handleSubmit()
             {
+                event.preventDefault();
                 var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
                 // alert(hiddenErrorElements);
                 if(hiddenErrorElements === 0)
@@ -613,10 +614,6 @@
                             var data = message.responseJSON;
                         }
                     })
-                }
-                else
-                {
-                    event.preventDefault();
                 }
             }
 
@@ -793,8 +790,9 @@
             });
         });
     
-    // Initialize form validation
+   // Initialize form validation
  var employee_uae=@json($employee_uae);
+ var project_name=@json($project_name);
  
  $.validator.addMethod("uniqueContactNumber", function(value, element) {
   if ($("#method").val() !== "ADD" && value === currentMobileNumber) {
@@ -803,8 +801,14 @@
   return !employee_uae.includes(value);
 });
 $.validator.addMethod("alphanumeric", function(value, element) {
+    console.log(value);
   return this.optional(element) || /^[A-Za-z ]+$/i.test(value);
 });
+$.validator.addMethod("alphanumeric_pass", function(value, element) {
+    console.log(value);
+    return this.optional(element) || /^[A-Za-z0-9 ]+$/i.test(value);
+});
+
 $.validator.addMethod("greaterThan", function (value, element, param) {
     var startDate = $(param).val();
     if (!value || !startDate) {
@@ -812,6 +816,26 @@ $.validator.addMethod("greaterThan", function (value, element, param) {
     }
 
     return new Date(value) > new Date(startDate);
+});
+$.validator.addMethod("alphanumeric_city", function(value, element) {
+    return this.optional(element) || /^[A-Za-z ]+$/i.test(value);
+});
+$.validator.addMethod("alphanumeric_hra", function(value, element) {
+    return this.optional(element) || /^\d+(\.\d+)?$/i.test(value);
+});
+
+jQuery($ => {
+    $('#city').on('input', function() {
+        var cityName = $(this).val().trim();
+        if (cityName !== '') {
+            var isAlphanumeric = /^[A-Za-z ]+$/i.test(cityName);
+            if (!isAlphanumeric) {
+                $(this).addClass('error');
+            } else {
+                $(this).removeClass('error');
+            }
+        }
+    });
 });
 
  var formValidationConfig = {
@@ -862,6 +886,7 @@ $.validator.addMethod("greaterThan", function (value, element, param) {
         city:
         {
             required: true,
+            alphanumeric_city:true
                     },
         phone:
         {
@@ -883,6 +908,7 @@ $.validator.addMethod("greaterThan", function (value, element, param) {
         passport_no:
         {
             required: true,
+            alphanumeric_pass:true
         
         },
         passport_expiry_date:"required",
@@ -909,14 +935,17 @@ $.validator.addMethod("greaterThan", function (value, element, param) {
         total_salary:
         {
             required: true,
-            digits:true,
+            alphanumeric_hra:true
         },
         hra:
         {
             required: true,
-            digits:true,
+            alphanumeric_hra:true
         },
-        basic:"required"
+        basic:{
+required:true,
+alphanumeric_hra:true,
+        }
     },
     messages:
     {
@@ -967,7 +996,7 @@ $.validator.addMethod("greaterThan", function (value, element, param) {
         city:
         {
             required: "Please enter the current location",
-            alphanumeric: "The current location  allows only only alphabets "
+            alphanumeric_city: "The current location allows only alphabets"
         },
         phone:
         {
@@ -995,7 +1024,7 @@ $.validator.addMethod("greaterThan", function (value, element, param) {
         passport_no:
         {
             required: "Please enter the passport number",
-            alphanumeric:"Please enter numerical values for the passport number"
+            alphanumeric_pass:"The passport number does not allows special characters"
         },
         passport_expiry_date:"Please select the passport expiry date",
         emirates_id_no:
@@ -1039,11 +1068,15 @@ $.validator.addMethod("greaterThan", function (value, element, param) {
       unhighlight: function(element, errorClass, validClass) {
         $(element).removeClass(errorClass).addClass(validClass);
         $(element).closest('.form-group').removeClass('has-error');
-        
-        
+    
       }
 
   };   
-  $("#form").validate(formValidationConfig);
+  jQuery($ =>{
+//   $("#form").validate(formValidationConfig).valid();
+  var form = $("#form");
+  form.validate(formValidationConfig);
+ 
+});
 </script>
 @stop

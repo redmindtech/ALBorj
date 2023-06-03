@@ -178,6 +178,7 @@
     // DIALOG SUBMIT FOR ADD AND EDIT
     function handleSubmit()
     {
+        event.preventDefault();
         var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
             //  alert(hiddenErrorElements);
         if(hiddenErrorElements === 0)
@@ -215,10 +216,6 @@
                     var data = message.responseJSON;
                 }
             })
-        }
-        else
-        {
-            event.preventDefault();
         }
 
     }

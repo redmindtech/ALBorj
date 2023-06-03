@@ -223,6 +223,7 @@
 // DIALOG SUBMIT FOR ADD AND EDIT
         function handleSubmit()
         {
+            event.preventDefault();
             var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
             // alert(hiddenErrorElements);
             if(hiddenErrorElements === 0)
@@ -263,10 +264,7 @@
                     }
                 })
             }
-            else
-            {
-                event.preventDefault();
-            }
+        
         }
 //DATA SHOW FOR EDIT AND SHOW
 var currentClientName;

@@ -34,6 +34,7 @@ class ItemMasterController extends Controller
             $item_category = ITEMCATEGORY;
             $item_subcategory = ITEMSUBCATEGORY;
             $stock_type = STOCKTYPE;
+            $supplier_company=SupplierMaster::pluck('company_name');
             $items=ItemMaster::all();
             $itemName = $items->pluck('item_name')->map(function ($name) {
                 return strtolower(str_replace(' ', '', $name));
@@ -48,7 +49,8 @@ class ItemMasterController extends Controller
                     'item_category'=>$item_category,'
                     item_subcategory'=>$item_subcategory,
                     'stock_type'=>$stock_type,
-                    'itemName'=>$itemName
+                    'itemName'=>$itemName,
+                    'supplier_company'=>$supplier_company
                 ]);
 
             }

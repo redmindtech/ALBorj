@@ -130,9 +130,13 @@ class SupplierMasterController extends Controller
         try 
         {
             $supplier = SupplierMaster::findOrFail($id);
+            $item = ItemSupplier::where('supplier_no', $id)->first();
+            if ($item) {
+                return response()->json('Cannot delete this supplier. It is associated with a item.', 200);
+            }
             $supplier->delete();
             return response()->json('Supplier Details Deleted Successfully', 200);
-info($supplier);
+           
         } 
         catch (Exception $e) 
         {

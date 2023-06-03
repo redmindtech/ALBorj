@@ -21,6 +21,7 @@ class EmployeeMasterController extends Controller
     {
         try
         {
+            $project_name=ProjectMaster::pluck('project_name');
             $category = CATEGORY; 
             $sponsor  = SPONSOR;
             $sponsor1 = EmployeeMaster::distinct()->pluck('sponser')->toArray();
@@ -67,6 +68,7 @@ class EmployeeMasterController extends Controller
                 'accomodation' => $accomodation,
                 'desigination' => $merged,
                 'employee_uae'=>$employee_uae,
+                'project_name'=>$project_name
                 
             ]);
         }
