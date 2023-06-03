@@ -284,14 +284,10 @@
                         $('error').html('');
                         // Hide the dialog background
                         $('#blur-background').css('display', 'none');
-                        var supplierName = document.getElementById("name");
-                        supplierName.value = ""; // Clear the value of the Supplier Name field
-                        var quantityField = document.getElementById("quantityField");
-                        quantityField.setAttribute("readonly", "readonly"); // Hide the Item Quantity field
+                      
                     }
                 // DIALOG SUBMIT FOR ADD AND EDIT
-                function handleSubmit() 
-                {
+                function handleSubmit() {
                     event.preventDefault();
                     var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
                     //  alert(hiddenErrorElements);
@@ -329,6 +325,7 @@
                             }
                         })
                     }
+                    
                 }
 
                 //DATA SHOW FOR EDIT AND SHOW
@@ -535,6 +532,7 @@ jQuery($ => {
 });
 
 
+
                 function itemcategory_load() {
                     var selectedCategory = $('#item_category').val();
                     console.log($('#item_category').val());
@@ -571,89 +569,120 @@ jQuery($ => {
                     handleShowAndEdit('edit');
                 }
 
+
                 var item_Name = @json($itemName);
    
-   var supplier_company=@json($supplier_company);
+    var supplier_company=@json($supplier_company);
 
-   $.validator.addMethod("uniqueItemName", function(value, element)
-   {
-       var lowercaseValue = value.toLowerCase().replace(/\s/g, '');
+    $.validator.addMethod("uniqueItemName", function(value, element)
+    {
+        var lowercaseValue = value.toLowerCase().replace(/\s/g, '');
 
-       if ($("#method").val() !== "ADD" && lowercaseValue === currentItemName)
-       {
-           return true;
-       }
-       var lowercaseValu = value.toLowerCase().replace(/\s/g, '');
-       return !item_Name.includes(lowercaseValu);
-   });
+        if ($("#method").val() !== "ADD" && lowercaseValue === currentItemName)
+        {
+            return true;
+        }
+        var lowercaseValu = value.toLowerCase().replace(/\s/g, '');
+        return !item_Name.includes(lowercaseValu);
+    });
 
- 
-$.validator.addMethod("suppliercompanyCheck", function(value, element) {
- return supplier_company.includes(value);
+  
+    $.validator.addMethod("suppliercompanyCheck", function(value, element) {
+  if (value.trim() === "") {
+    return true; // If value is empty, validation is considered successful
+  }
+  return supplier_company.includes(value);
 });
-        
-   var formValidationConfig ={
-   
-       rules:
-       {
-           item_name:
-           {
-               required: true,
-               uniqueItemName:true
-           },
-           item_category:"required",
-           item_subcategory:"required",
-           stock_type:"required",
-           item_type:"required",
-           company_name: {
-               // required:false,
-              suppliercompanyCheck: true,
-           // required: function(element) {
-           //     return $("#quantity").val().trim() !== "";
-           // }
-           },
-     
-       // quantity: {
-       //     required: function(element) {
-       //         return $("#company_name").val().trim() !== "";
-       //     },
-       //     min: 1
-       // }
 
-       },
-       messages:
-       {
-           item_name:
-           {
-               required: "Please enter the item name",
-               uniqueItemName:"This item name is already exist. Please enter new item name"
-           },
-           item_category:"Please select the item category",
-           item_subcategory:"Please select the item subcategory",
-           stock_type:"Please select the stock type",
-           item_type:"Please select the item type",
-           company_name:{
-               suppliercompanyCheck:"Please enter valid supplier company name"
-           }
-       },
-       errorElement: "error",
-       errorClass: "error-msg",
-       highlight: function(element, errorClass, validClass)
-       {
-           $(element).addClass(errorClass).removeClass(validClass);
-           $(element).closest('.form-group').addClass('has-error');
-        
-       },
-       unhighlight: function(element, errorClass, validClass)
-       {
-           $(element).removeClass(errorClass).addClass(validClass);
-           $(element).closest('.form-group').removeClass('has-error');
-          
-       }
+         
+    var formValidationConfig ={
+    
+        rules:
+        {
+            item_name:
+            {
+                required: true,
+                uniqueItemName:true
+            },
+            item_category:"required",
+            item_subcategory:"required",
+            stock_type:"required",
+            item_type:"required",
+            company_name: {
+            suppliercompanyCheck: true
+        },
+        quantity: {
+            required: function(element) {
+                var companyName = $("#company_name").val().trim();
+                return companyName !== "" && companyName !== undefined;
+            },
+            min: function(element) {
+                var companyName = $("#company_name").val().trim();
+                return companyName !== "" ? 1 : 0;
+            }
+        }
 
-   };
-   $("#form").validate(formValidationConfig);
-   
+
+        },
+        messages:
+        {
+            item_name:
+            {
+                required: "Please enter the item name",
+                uniqueItemName:"This item name is already exist. Please enter new item name"
+            },
+            item_category:"Please select the item category",
+            item_subcategory:"Please select the item subcategory",
+            stock_type:"Please select the stock type",
+            item_type:"Please select the item type",
+            company_name: {
+            suppliercompanyCheck: "Please enter a valid supplier company name"
+        },
+        quantity: {
+           
+            required: "Please enter the item quantity if the supplier name is present",
+            min: function() {
+                var companyName = $("#company_name").val().trim();
+                return companyName !== "" ? "Please enter a valid item quantity (minimum 1)" : "Please enter a valid item quantity (minimum 0)";
+            }
+        
+        }
+
+        },
+        errorElement: "error",
+        errorClass: "error-msg",
+        highlight: function(element, errorClass, validClass)
+        {
+            $(element).addClass(errorClass).removeClass(validClass);
+            $(element).closest('.form-group').addClass('has-error');
+         
+        },
+        unhighlight: function(element, errorClass, validClass)
+        {
+            $(element).removeClass(errorClass).addClass(validClass);
+            $(element).closest('.form-group').removeClass('has-error');
+           
+        }
+
+    };
+//      $("#company_name").on("input", function() {
+//     var $quantityField = $("#quantity");
+//     var isCompanyNameEmpty = $(this).val().trim() === "";
+    
+//     if (isCompanyNameEmpty) {
+//         $quantityField.val("0").prop("readonly", true).removeClass("error").closest('.form-group').removeClass('has-error');
+//         $quantityField.rules("remove", "required");
+//     } else {
+//         $quantityField.prop("readonly", false);
+//         $quantityField.rules("add", {
+//             required: true,
+//             min: 1
+//         });
+//     }
+// });
+
+    $("#form").validate(formValidationConfig);
+    
 
 </script>
 @stop
