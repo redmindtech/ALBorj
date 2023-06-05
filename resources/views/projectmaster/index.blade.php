@@ -641,7 +641,7 @@ function calculateAmount() {
     
     // auto complete for managername from employeemasters
     jQuery($ => {
-    $(document).on('focus click', '#firstname', function() {
+    $(document).on('focus' ,'input', '#firstname', function() {
         $("#firstname").autocomplete({
             source: function(request, response) {
                 $.ajax({
@@ -671,7 +671,7 @@ function calculateAmount() {
     });
 
     // Employee code
-    $(document).on('focus change', '#firstname', function() {
+    $(document).on('input', '#firstname', function() {
         updateFirstNameValue($(this).val());
     });
 
@@ -760,7 +760,7 @@ function calculateAmount() {
 
         // auto complete for client from clientmaster
         jQuery($ => {
-    $(document).on('focus click', "#company_name", function() {
+    $(document).on('focus', 'input', "#company_name", function() {
         $("#company_name").autocomplete({
             source: function(request, response) {
                 $.ajax({
@@ -789,7 +789,7 @@ function calculateAmount() {
         });
     });
 
-    $(document).on('focus change', '#company_name', function() {
+    $(document).on('input', '#company_name', function() {
         updateCompanyNameValue($(this).val());
     });
 
