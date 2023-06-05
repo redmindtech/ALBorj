@@ -704,16 +704,16 @@
                                     $('#desigination').val(message[0].desigination);
                                     $('#desigination').select2({
                                         tags: true
-                                    }).trigger('change');
+                                    }).next().find('.select2-selection').attr('aria-labelledby', 'desigination-label');
                                     $('#sponser').val(message[0].sponser);
                                     $('#sponser').select2({
                                         tags: true
-                                    }).trigger('change');
+                                    }).next().find('.select2-selection').attr('aria-labelledby', 'sponser-label');
                                     $('#working_as').val(message[0].working_as);
                                     $('#working_as').select2({
                                         tags: true
-                                    }).trigger('change');
-                                }
+                                    }).next().find('.select2-selection').attr('aria-labelledby', 'working_as-label');
+                                 }
                                 currentMobileNumber = message[0].UAE_mobile_number;
                                 $('#method').val('UPDATE');
                                 $('#submit').text('UPDATE');
