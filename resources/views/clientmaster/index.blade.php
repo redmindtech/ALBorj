@@ -148,6 +148,10 @@
                                 </div>
                                 <div class="row">
                                         <div class="col-md-6">
+                                          <label>Website</label>
+                                          <p id="show_website"></p>
+                                        </div>
+                                        <div class="col-md-6">
                                           <label>Client Code</label>
                                           <p id="show_client_code"></p>
                                         </div>

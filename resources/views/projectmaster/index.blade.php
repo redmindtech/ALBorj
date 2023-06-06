@@ -213,7 +213,7 @@
                             <label for="total_price_cost" class="form-label fw-bold">Total Project Cost<a
                                     style="text-decoration: none;color:red">*</a></label>
                             <div class="input-group-prepend">
-                                <input type="text" id="total_price_cost" name="total_price_cost"
+                                <input type="number" id="total_price_cost" name="total_price_cost"
                                     value="{{ old('total_price_cost') }}" placeholder="Total Project Cost"
                                     class="form-control" autocomplete="off">
                                 <div class="input-group-append ml-1">
@@ -232,7 +232,7 @@
                             <label for="advanced_amount" class="form-label fw-bold">Advance Amount<a
                                     style="text-decoration: none;color:red">*</a></label>
                             <div class="input-group-prepend">
-                                <input type="text" id="advanced_amount" name="advanced_amount"
+                                <input type="number" id="advanced_amount" name="advanced_amount"
                                     value="{{ old('advanced_amount') }}" placeholder="Advance Amount"
                                     class="form-control" autocomplete="off" onchange="calculateAmount()">
                                 <div class="input-group-append">
@@ -248,7 +248,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="retention" class="form-label fw-bold">Retention</label>
-                            <input type="text" id="retention" name="retention" value="{{ old('retention') }}"
+                            <input type="number" id="retention" name="retention" value="{{ old('retention') }}"
                                 placeholder="Retention" class="form-control" autocomplete="off">
                             
                         </div>
@@ -258,12 +258,12 @@
 
 <div class="form-group col-md-4">
         <label for="amount_to_be_received" class="form-label fw-bold">Balance Amount To Be Received</label>
-        <input type="text" id="amount_to_be_received" name="amount_to_be_received" value="{{ old('amount_to_be_received') }}" placeholder="Balance Amount To Be Received" class="form-control" autocomplete="off" readonly>
+        <input type="number" id="amount_to_be_received" name="amount_to_be_received" value="{{ old('amount_to_be_received') }}" placeholder="Balance Amount To Be Received" class="form-control" autocomplete="off" readonly>
         
     </div>
     <div class="form-group col-md-4">
         <label for="amount_return" class="form-label fw-bold">Amount Return</label>
-        <input type="text" id="amount_return" name="amount_return" value="{{ old('amount_return') }}" placeholder="Amount Return" class="form-control" autocomplete="off">
+        <input type="number" id="amount_return" name="amount_return" value="{{ old('amount_return') }}" placeholder="Amount Return" class="form-control" autocomplete="off">
         
     </div>
     <div class="form-group col-md-4">
@@ -275,7 +275,7 @@
 <div class="row">
     <div class="form-group col-md-4">
         <label for="amount_returns_comment" class="form-label fw-bold">Amount Return Comments</label>
-        <input type="text" id="amount_returns_comment" name="amount_returns_comment" value="{{ old('amount_returns_comment') }}" placeholder="Amount Return" class="form-control" autocomplete="off">
+        <input type="text" id="amount_returns_comment" name="amount_returns_comment" value="{{ old('amount_returns_comment') }}" placeholder="Amount Return Comments" class="form-control" autocomplete="off">
         
     </div>
     <div class="form-group col-md-4">
@@ -818,7 +818,7 @@ function calculateAmount() {
 
    // / Initialize form validation
 
-var project_Name = @json($projectName);
+   var project_Name = @json($projectName);
 var sitename=@json($siteNames);
 var employee_name=@json($employee_name);
 var client_company=@json($client_company);
@@ -907,11 +907,16 @@ var formValidationConfig ={
             required: true,
             number: true
         },
-        amount_to_be_received:
+        retention:
         {
-            required: true,
+          
             number: true
-        }
+        },
+        amount_return:
+        {
+          
+          number: true
+      },
     },
     messages:
     {
@@ -961,11 +966,16 @@ var formValidationConfig ={
             required:"Please enter the advanced amount",
             number:"The advanced amount must be a number"
         },
-        amount_to_be_received:
+        retention:
         {
-            required:"Please enter the balance amount to be received",
-            number:"The balance amount to be received must be a number"
-        }
+           
+            number:"The retention must be a number"
+        },
+        amount_return:
+        {
+          
+          number:"The amount return must be a number"
+      },
     },
     errorElement: "error",
     errorClass: "error-msg",

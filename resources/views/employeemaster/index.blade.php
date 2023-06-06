@@ -546,19 +546,24 @@
                                         <p id="show_visa_status"></p>
                                     </div>
                                     <div class="col-md-4">
+                                        <label>Basic</label>
+                                        <p id="show_basic"></p>
+                                    </div>
+                                    <div class="col-md-4">
                                         <label>Total Salary</label>
                                         <p id="show_total_salary"></p>
                                     </div>
-                                    <div class="col-md-4">
+                                   
+                                </div>
+                                <div class="row">
+                                <div class="col-md-4">
                                         <label>HRA</label>
                                         <p id="show_hra"></p>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
             </dialog>
-
 
             <script type="text/javascript">
                 $.ajaxSetup({

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\ItemSupplier;
 use App\Models\SupplierMaster;
 use Exception;
 use Illuminate\Http\Request;
