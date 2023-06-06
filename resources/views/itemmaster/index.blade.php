@@ -159,7 +159,7 @@
                                 <input type="text" id="total_quantity" name="total_quantity" hidden
                                 value="{{ old('total_quantity') }}" placeholder="Item Quantity" class="form-control"
                                 autocomplete="off">
-                                <div id="quantity-error" class="error-msg" style="display: none;"></div>
+                                <div id="quantity-error" class="error-msg" style="display: none; color: red;"></div>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="supplier_code" class="form-label fw-bold">Supplier Code</label>
@@ -613,45 +613,23 @@ jQuery($ => {
             company_name: {
             suppliercompanyCheck: true
         },
-        // quantity: {
-        //     required: function(element) {
-        //         return $("#company_name").val().trim() !== "";
-        //     },
-        //     min: {
-        //         param: 1,
-        //         depends: function(element) {
-        //             return $("#company_name").val().trim() !== "";
-        //         },
-        //         message: function() {
-        //             return "Please enter a valid item quantity (minimum " + ($("#company_name").val().trim() !== "" ? 1 : 0) + ")";
-        //         }
-        //     }
-        // }
-   
         
-
-
         },
         messages:
         {
-            item_name:
-            {
-                required: "Please enter the item name",
-                uniqueItemName:"This item name is already exist. Please enter new item name"
-            },
-            item_category:"Please select the item category",
-            item_subcategory:"Please select the item subcategory",
-            stock_type:"Please select the stock type",
-            item_type:"Please select the item type",
-            company_name: {
-            suppliercompanyCheck: "Please enter a valid supplier company name"
+            item_name: {
+            required: "Please enter the item name",
+            uniqueItemName: "This item name already exists. Please enter a different item name."
         },
-        // quantity: {
-           
-        //     required: "Please enter the item quantity if the supplier name is present",
-           
-        
-        // }
+        item_category: "Please select the item category",
+        item_subcategory: "Please select the item subcategory",
+        stock_type: "Please select the stock type",
+        item_type: "Please select the item type",
+        company_name: {
+            suppliercompanyCheck: "Please enter a valid supplier company name."
+        },
+
+            
 
         },
         errorElement: "error",
@@ -692,7 +670,7 @@ jQuery($ => {
     var quantity = $(this).val().trim();
 
     if (companyName !== "" && quantity === "0") {
-      $("#quantity-error").text("The item quantity should not 0");
+      $("#quantity-error").text("The item quantity should not be 0");
       $("#quantity-error").show();
     }
      else {

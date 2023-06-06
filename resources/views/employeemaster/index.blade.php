@@ -1022,7 +1022,7 @@
                             alphanumeric: "The mothername allows only alphabets"
                         },
                         join_date: {
-                            required: "Please enter the join date",
+                            required: "Please enter the date of joining",
                         },
                         end_date: {
                             date: "Please enter a valid date",
@@ -1058,7 +1058,7 @@
                             digits: "Please enter only numbers",
                             minlength: "UAE mobile number must be exactly 9 numbers",
                             maxlength: "UAE mobile number must be exactly 9 numbers",
-                            uniqueContactNumber: "This UAE mobile number is already exist.Please enter new number"
+                            uniqueContactNumber: "This UAE mobile number is already exists.Please enter new number"
                         },
                         pay_group: {
                             required: "Please select the pay group",
@@ -1068,7 +1068,8 @@
                         },
                         passport_no: {
                             required: "Please enter the passport number",
-                            alphanumeric_pass: "The passport number does not allows special characters"
+                            alphanumeric_pass: "The passport number does not allow special characters"
+
                         },
                         passport_expiry_date: "Please select the passport expiry date",
                         emirates_id_no: {

@@ -399,7 +399,7 @@ $.validator.addMethod("email", function(value, element) {
         digits: "Please enter only numbers",
         minlength: "Contact number must be exactly 9 numbers",
         maxlength: "Contact number must be exactly 9 numbers",
-        uniqueContactNumber:"This Contact Number is already exist.Please enter new number"
+        uniqueContactNumber:"This Contact Number is already exists.Please enter new number"
       },
       address: "Please enter the address",
       website:{ 
@@ -408,7 +408,7 @@ $.validator.addMethod("email", function(value, element) {
       mail_id:
       {
         required:"Please enter the email id",
-        email:"Please enter valid email id",
+        email:"Please enter a valid email id",
 
       }
     },

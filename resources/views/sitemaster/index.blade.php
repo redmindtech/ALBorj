@@ -480,46 +480,48 @@ $.validator.addMethod("employeeNameCheck", function(value, element) {
   var formValidationConfig = {
     rules: {
         site_name: {
-    required: true,
-    uniqueSiteName:true
-  },
-  site_location: "required",
+                required: true,
+                uniqueSiteName:true
+            },
+            site_location: "required",
 
-  site_building:"required",
+            site_building:"required",
 
-  site_floor: "required",
+            site_floor: "required",
 
-  room_number:"required",
+            room_number:"required",
 
-  site_address:"required",
+            site_address:"required",
 
-  site_status:"required",
+            site_status:"required",
 
-  firstname:{
-    required:true,
+            firstname:{
+                required:true,
 
-    employeeNameCheck:true,
-    }},
+                employeeNameCheck:true,
+                }
+            },
     messages: {
         site_name: {
 
             required:"The site name is required ",
 
-            uniqueSiteName:"This site name is already exist.Please enter new site name"
-  },
-  site_location: "Please select location",
-  site_building:"The site building is required",
-  site_floor: "The site floor is required",
-  room_number: "The room number is required",
-  site_address:"The site address is required",
-  site_status:"The site address is required",
-  firstname:
-  {
-    required:"The site manager is required",
-    employeeNameCheck:"Please enter valid site manager"
-  
-    }
-},
+            uniqueSiteName:"This site name is already exists. Please enter a different site name."
+
+            },
+            site_location: "Please select location",
+            site_building:"The site building is required",
+            site_floor: "The site floor is required",
+            room_number: "The room number is required",
+            site_address:"The site address is required",
+            site_status:"The site address is required",
+            firstname:
+            {
+                required:"The site manager is required",
+                employeeNameCheck:"Please enter valid site manager"
+            
+                }
+            },
     errorElement: "error",
       errorClass: "error-msg",
       highlight: function(element, errorClass, validClass) {

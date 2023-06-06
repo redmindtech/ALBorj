@@ -298,11 +298,11 @@
         },
         messages:
         {
-            category_name:
-            {
-                required:"Please enter the category name",
-                uniqueCategoryName:"This category name is already exist.Please enter category name"
-            }
+            category_name: {
+                required: "Please enter the category name",
+                uniqueCategoryName: "This category name already exists. Please enter a different category name."
+        }
+
 
         },
         errorElement: "error",
@@ -311,13 +311,13 @@
         {
             $(element).addClass(errorClass).removeClass(validClass);
             $(element).closest('.form-group').addClass('has-error');
-            flag='1';
+        
         },
         unhighlight: function(element, errorClass, validClass)
         {
             $(element).removeClass(errorClass).addClass(validClass);
             $(element).closest('.form-group').removeClass('has-error');
-            flag='0';
+         
         }
     };
 

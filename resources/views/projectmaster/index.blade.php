@@ -208,7 +208,7 @@
        
     </div>
 </div>
-<div class="row mb-3">
+<div class="row mb-4">
     <div class="form-group col-md-4">
                             <label for="total_price_cost" class="form-label fw-bold">Total Project Cost<a
                                     style="text-decoration: none;color:red">*</a></label>
@@ -920,76 +920,66 @@ var formValidationConfig ={
     },
     messages:
     {
-        project_name:
-        {
-            required:"Please enter the project name",
-            uniqueProjectName:"This project name is already exist.Please enter the project name"
+        project_name: {
+    required: "Please enter the project name",
+    uniqueProjectName: "This project name already exists. Please enter a different project name."
         },
-        site_name:{
-            required:"Please enter the site name",
-            siteNameCheck:"Please enter valid site name"
+        site_name: {
+            required: "Please enter the site name",
+            siteNameCheck: "Please enter a valid site name."
         },
-        project_type:"Please select the project type",
-        firstname:{
-            required:"Please enter the Manager Name",
-            employeeNameCheck:"Please enter valid  Manager Name"
+        project_type: "Please select the project type",
+        firstname: {
+            required: "Please enter the Manager Name",
+            employeeNameCheck: "Please enter a valid Manager Name."
         },
-       
-        company_name:{
-        clientcompanyNameCheck:"Please enter valid client/company Name ",
-        required:"Please enter the client/company Name "
+        company_name: {
+            clientcompanyNameCheck: "Please enter a valid client/company Name",
+            required: "Please enter the client/company Name"
         },
-        consultant_name:{
-            alphanumeric: "The consultant name allows only alphabets"
+        consultant_name: {
+            alphanumeric: "The consultant name allows only alphabets."
         },
-
-        start_date:"Please select the project start date",
+        start_date: "Please select the project start date",
         end_date: {
-                required: "Please select the tentative project end date",
-                date: "Please enter a valid date",
-                greaterThan: "Tentative project end date must be after the start date"
-            },
-        actual_project_end_date:
-        {
+            required: "Please select the tentative project end date",
+            date: "Please enter a valid date",
+            greaterThan: "The tentative project end date must be after the start date."
+        },
+        actual_project_end_date: {
             required: "Please enter the actual project end date",
-                date: "Please enter a valid date",
-                greaterThan: "Actual project end date must be after the start date"
+            date: "Please enter a valid date",
+            greaterThan: "The actual project end date must be after the start date."
         },
-        status:"Please select the project status",
-        total_price_cost:
-        {
+        status: "Please select the project status",
+        total_price_cost: {
             required: "Please enter the total project cost",
-            number: "The total project cost must be a number"
+            number: "The total project cost must be a number."
         },
-        advanced_amount:
-        {
-            required:"Please enter the advanced amount",
-            number:"The advanced amount must be a number"
+        advanced_amount: {
+            required: "Please enter the advanced amount",
+            number: "The advanced amount must be a number."
         },
-        retention:
-        {
-           
-            number:"The retention must be a number"
+        retention: {
+            number: "The retention must be a number."
         },
-        amount_return:
-        {
-          
-          number:"The amount return must be a number"
-      },
-    },
+        amount_return: {
+            number: "The amount return must be a number."
+        },
+        },
     errorElement: "error",
     errorClass: "error-msg",
     highlight: function(element, errorClass, validClass)
     {
         $(element).addClass(errorClass).removeClass(validClass);
         $(element).closest('.form-group').addClass('has-error');
-        flag='1';
+      
     },
     unhighlight: function(element, errorClass, validClass)
     {
         $(element).removeClass(errorClass).addClass(validClass);
         $(element).closest('.form-group').removeClass('has-error');
-        flag='0';
+     
     }
 };
 

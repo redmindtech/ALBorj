@@ -371,7 +371,7 @@ $.validator.addMethod("alphanumeric", function(value, element) {
         digits: "Please enter only numbers",
         minlength: "Contact number must be exactly 9 numbers",
         maxlength: "Contact number must be exactly 9 numbers",
-        uniqueContactNumber:"This Contact Number is already exist.Please enter new number"
+        uniqueContactNumber:"This Contact Number is already exists.Please enter new number"
       },
       address: "Please enter the address",
       website: "Please enter a valid URL"
