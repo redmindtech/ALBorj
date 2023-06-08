@@ -107,7 +107,7 @@
 <div class="row">
     <div class="form-group col-md-6">
         <label for="website" class="form-label fw-bold">Website</label>
-        <input type="url" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control" autocomplete="off">
+        <input type="website" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control" autocomplete="off">
         
     </div>
     <div class="form-group col-md-6">
@@ -358,7 +358,9 @@ $.validator.addMethod("alphanumeric", function(value, element) {
 $.validator.addMethod("email", function(value, element) {
   return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i.test(value);
 });
-
+$.validator.addMethod("alphanumeric_website", function(value, element) {
+  return this.optional(element) || /((?:https?|http?\:\/\/|www?\.)(?:[-a-z0-9]+\.)*[-a-z0-9]+.*)/i.test(value);
+});
   // Initialize form validation
   var formValidationConfig = {
     rules: {
@@ -377,7 +379,7 @@ $.validator.addMethod("email", function(value, element) {
       },
       address: "required",
       website: {
-        url: true
+        alphanumeric_website: true
       },
       mail_id:
       {
@@ -403,7 +405,7 @@ $.validator.addMethod("email", function(value, element) {
       },
       address: "Please enter the address",
       website:{ 
-        url:"Please enter a valid URL",
+        alphanumeric_website:"Please enter a valid website",
       },
       mail_id:
       {

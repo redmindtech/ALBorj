@@ -112,7 +112,7 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="website" class="form-label fw-bold">Website</label>
-                                    <input type="url" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control" autocomplete="off">
+                                    <input type="website" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control" autocomplete="off">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="client_code" id="code_lable"class="form-label fw-bold">Client Code</label>
@@ -339,6 +339,9 @@ $.validator.addMethod("uniqueContactNumber", function(value, element) {
 $.validator.addMethod("alphanumeric", function(value, element) {
   return this.optional(element) || /^[A-Za-z ]+$/i.test(value);
 });
+$.validator.addMethod("alphanumeric_website", function(value, element) {
+  return this.optional(element) || /((?:https?|http?\:\/\/|www?\.)(?:[-a-z0-9]+\.)*[-a-z0-9]+.*)/i.test(value);
+});
   // Initialize form validation
   var formValidationConfig = {
     rules: {
@@ -357,7 +360,7 @@ $.validator.addMethod("alphanumeric", function(value, element) {
       },
       address: "required",
       website: {
-        url: true
+        alphanumeric_website: true
       }
     },
     messages: {
