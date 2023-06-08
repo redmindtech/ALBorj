@@ -20,30 +20,26 @@ return view('login');
 
     function checklogin(Request $request)
     {
-        // info($request);
-     $request->validate( [
-      'email'   => 'required|email|max:30',
-      'password'  => 'required|min:5'
-     ]);
-     $data=$request->input();
+        $request->validate([
+            'email' => 'required|email|max:30',
+            'password' => 'required|min:5'
+        ]);
 
-     $user = User::where('email',$request->input('email'))->
-                    where('password',$request->input('password'))->get();
-                    $name = json_decode($user);
-// info($user);
-$request->session()->put('user',$name[0]->name);
-$value = $request->session()->get('user');
-// info($value);
-    if(strlen($user)>3)
-       {
-         return redirect("dashboard");
-       }
-       else{
+        $data = $request->input();
 
-        return back()->with ('error','Invalid Login Details');
-       }
+        $user = User::where('email', $request->input('email'))
+            ->where('password', $request->input('password'))
+            ->first(); // Use "first()" instead of "get()" to retrieve a single user
 
-     }
+        if ($user) {
+            $request->session()->put('user', $user->name);
+            return redirect("dashboard");
+        } else {
+            return back()->with('error', 'Invalid Login Details');
+        }
+    }
+
+
     public function successlogin()
     {
         return view('successlogin');

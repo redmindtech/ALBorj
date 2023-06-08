@@ -89,11 +89,11 @@
                         <input id="password" type="password" name="password" placeholder="Enter password" class="form-control" />
                         <p style="color: red" id="error_password">{{ $errors->first('password') }}</p>
                     </div>
-                    @if ($errors->has('loginError'))
-                    <div class="alert alert-danger" role="alert">
-                        {{ $errors->first('loginError') }}
+                    @if(session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
                     </div>
-                    @endif
+                @endif
                     <div class="form-check d-flex justify-content-center me-4">
                         <center>
                             <button type="submit" class="btn btn-login float-right mt-4">
