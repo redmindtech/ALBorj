@@ -238,7 +238,7 @@
                 let type;
                 if(method == 'ADD')
                 {
-                    //
+                  
                     url = '{{route('clientApi.store')}}';
                     type  = 'POST';
 
@@ -377,7 +377,9 @@ $.validator.addMethod("alphanumeric_website", function(value, element) {
         uniqueContactNumber:"This Contact Number is already exists.Please enter new number"
       },
       address: "Please enter the address",
-      website: "Please enter a valid URL"
+      website: {
+        alphanumeric_website:"Please enter a valid website",
+      }
     },
     errorElement: "error",
       errorClass: "error-msg",
