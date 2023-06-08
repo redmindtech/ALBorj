@@ -4,56 +4,72 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Validate;
-use Illuminate\Routing\Redirector;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
 
-
-
 class UserAuth extends Controller
 {
-    function index()
+
+    public function index(Request $request)
     {
-        return view("login");
+
+return view('login');
+
     }
+
     function checklogin(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email|max:30',
-            'password' => 'required|min:5'
-        ]);
+        // info($request);
+     $request->validate( [
+      'email'   => 'required|email|max:30',
+      'password'  => 'required|min:5'
+     ]);
+     $data=$request->input();
 
-        $data = $request->input();
-        $request->session()->put('user', $data['email']);
+     $user = User::where('email',$request->input('email'))->
+                    where('password',$request->input('password'))->get();
+                    $name = json_decode($user);
+// info($user);
+$request->session()->put('user',$name[0]->name);
+$value = $request->session()->get('user');
+// info($value);
+    if(strlen($user)>3)
+       {
+         return redirect("dashboard");
+       }
+       else{
 
-        $user = User::where('email', $request->input('email'))
-                    ->where('password', $request->input('password'))
-                    ->get();
+        return back()->with ('error','Invalid Login Details');
+       }
 
-        if ($user->count() > 0) {
-            return redirect("dashboard");
-        } else {
-            return back()->withErrors(['loginError' => 'Invalid Login Details']);
-        }
-    }
-
-
-      function successlogin()
+     }
+    public function successlogin()
     {
-     return view('successlogin');
+        return view('successlogin');
     }
 
-    function logout()
-    {
-      if(Session::has('user'))
-      Session::pull('user');
-     return redirect('/');
-    }
 
+    // public function logout(Request $request)
+    // {
+    //     $request->session()->forget('user');
+
+    //     $response = redirect('/');
+
+    //     $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    //     $response->headers->set('Pragma', 'no-cache');
+    //     $response->headers->set('Expires', '0');
+
+    //     return $response;
+    // }
+
+public function logout(Request $request)
+{
+    $request->session()->forget('user');
+    $request->session()->flush();
+    $request->session()->regenerate();
+
+    return redirect('/');
+}
 }
 ?>

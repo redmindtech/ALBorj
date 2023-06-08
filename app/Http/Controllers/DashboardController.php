@@ -9,25 +9,33 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // info("das");
+
         try {
+            if ($request->session()->has('user')) {
+                $user = $request->session()->get('user');
+// info($user);
             $ApipiechartData = ProjectMaster::select('status', DB::raw('count(*) as count'))
             ->groupBy('status')
             ->orderBy('status')
             ->get()
             ->pluck('count', 'status')
             ->toArray();
-            info ($ApipiechartData);
-            
-            return view('home', compact('ApipiechartData'));
-            
+
+
+            return view('home', compact('ApipiechartData','user'));
+            }
+            else{
+                return redirect("/");
+            }
 
         } catch (Exception $e) {
             info($e);
             return response()->json('Error occured in the edit', 400);
         }
 
-        
+
     }
 }

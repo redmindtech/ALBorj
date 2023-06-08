@@ -407,7 +407,7 @@ return [
         ],
         [
             'text' => 'Logout',
-            'url'  => '',
+            'url'  => 'logout',
             'icon' => 'nav-icon fas fa-fw fa-sign-out-alt',
 
         ]

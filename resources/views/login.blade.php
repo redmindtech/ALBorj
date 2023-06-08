@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('title')
-AL BORJ ERP| Login
+    AL BORJ ERP | Login
 @endsection
 
 @section('content')
@@ -77,7 +77,7 @@ AL BORJ ERP| Login
                 <center><img src="{{ asset('images/al borj.jpeg') }}" style="width: 100%" height="100%"/>
                     <h2 style="color: #319DD9" class="mt-4">Alborj ERP</h2></center>
                 {{-- <h2 class="text-center">Alborj ERP Login</h2> --}}
-                <form class="login-form" action="{{ url('/main/checklogin') }}" method="post">
+                <form class="login-form" action="{{ url('/checklogin') }}" method="post">
                     @csrf
                     <div class="form-group">
                         <label for="Email" class="text-uppercase text-bold">Email id<a style="text-decoration: none;color:red">*</a></label>
@@ -109,5 +109,6 @@ AL BORJ ERP| Login
     </div>
   </section>
 </body>
+
 </html>
 @endsection

@@ -25,24 +25,32 @@ use APP\Http\ControllersPurchaseOrderController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// Route::get('/', [UserAuth::class, 'index']);
 Route::get('/', function () {
-    return view('login');
+    if (session()->has('user')) {
+        // Session exists, redirect to dashboard or perform desired action
+        return redirect('/dashboard');
+    } else {
+        // Session does not exist, show the login view
+        return view('login');
+    }
 });
 
-Route::get('registration', [RegistrationController::class, 'create'])->name('create');
-Route::post('post-registration', [RegistrationController::class, 'postRegistration'])->name('register.post');
 
-   Route::view('login', 'login');
-   Route::get('main/main', [UserAuth::class, 'index']);
+// Route::get('registration', [RegistrationController::class, 'create'])->name('create');
+// Route::post('post-registration', [RegistrationController::class, 'postRegistration'])->name('register.post');
+
+// //    Route::view('login', 'login');
+//    Route::get('main/main', [UserAuth::class, 'index']);
    Route::get('login', [UserAuth::class, 'index']);
-   Route::post('/main/checklogin', [UserAuth::class,'checklogin']);
+   Route::post('/checklogin', [UserAuth::class,'checklogin']);
    Route::get('successlogin', [UserAuth::class,'successlogin']);
    Route::get('logout', [UserAuth::class,'logout']);
 
     // Route::get('/home', function () {
     //     return view('home');
     // })->name('home');
+
 
     Route::resource('itemmaster', 'ItemMasterController');
     Route::resource('clientmaster', 'ClientMasterController');
