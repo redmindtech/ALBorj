@@ -14,10 +14,11 @@ class SupplierMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     // FOR MAIN PAGE
-    public function index()
+    public function index(Request $request)
     {
         try
         {
+            if ($request->session()->has('user')) {
             $supplier = SupplierMaster::all();
             $contact_number= $supplier->pluck('contact_number');
             return view('suppliermaster.index')->with([
@@ -25,6 +26,9 @@ class SupplierMasterController extends Controller
                 'contact_number'=>$contact_number
 
             ]);
+        }else{
+            return redirect("/");
+        }
         }
         catch (Exception $e) 
         {

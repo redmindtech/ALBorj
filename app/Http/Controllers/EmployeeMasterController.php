@@ -17,10 +17,11 @@ class EmployeeMasterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         try
         {
+            if ($request->session()->has('user')) {
             $project_name=ProjectMaster::pluck('project_name');
             $category = CATEGORY; 
             $sponsor  = SPONSOR;
@@ -71,6 +72,10 @@ class EmployeeMasterController extends Controller
                 'project_name'=>$project_name
                 
             ]);
+        }
+        else{
+            return redirect("/");
+        }
         }
         catch (Exception $e) {
             info($e);

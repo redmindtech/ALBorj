@@ -12,11 +12,11 @@ class ExpensesCategoryMasterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         try
         {
-           
+            if ($request->session()->has('user')) {
             $expenses = ExpensesCategoryMaster::all();
             $categoryNames = $expenses->pluck('category_name')->map(function ($name) {
                 return strtolower(str_replace(' ', '', $name));
@@ -26,6 +26,10 @@ class ExpensesCategoryMasterController extends Controller
                 'categoryNames'=>$categoryNames
             ]);
         }
+    
+        else{
+            return redirect("/");
+        }}
         catch (Exception $e)
         {
             info($e);

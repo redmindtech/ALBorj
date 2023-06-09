@@ -27,9 +27,11 @@ class ItemMasterController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
+        
         try{
+            if ($request->session()->has('user')) {
             $item_type = ITEMTYPE;
             $item_category = ITEMCATEGORY;
             $item_subcategory = ITEMSUBCATEGORY;
@@ -52,7 +54,9 @@ class ItemMasterController extends Controller
                     'itemName'=>$itemName,
                     'supplier_company'=>$supplier_company
                 ]);
-
+            }else{
+                return redirect("/");
+            }
             }
             catch (Exception $e) {
                 info($e);

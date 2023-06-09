@@ -16,9 +16,10 @@ class ClientMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     // FOR MAIN PAGE
-    public function index()
+    public function index(Request $request)
     {
         try {
+            if ($request->session()->has('user')) {
             $clients = ClientMaster::all();
             $clientNames = $clients->pluck('name')->map(function ($name) {
                 return strtolower(str_replace(' ', '', $name));
@@ -29,6 +30,9 @@ class ClientMasterController extends Controller
                 'clientNames'=> $clientNames,
                 'contact_number'=> $contact_number
             ]);
+        }else{
+            return redirect("/");
+        }
         }
         catch (Exception $e) {
             info($e);

@@ -19,10 +19,10 @@ class SiteMasterController extends Controller
      * @return \Illuminate\Http\Response
      */
     // INDEX FUNCTION
-    public function index()
+    public function index(Request $request)
     {     
         try
-        {  
+        {   if ($request->session()->has('user')) {
             $site = SiteMaster::all();
             $site_location =SITELOCATION;
             $employee=EmployeeMaster::all();
@@ -44,7 +44,10 @@ class SiteMasterController extends Controller
             'site_location'=>$site_location,
             'employee_name'=>$employee_name
            
-            ]);
+            ]);}
+            else{
+                return redirect("/");
+            }
         }
         catch (Exception $e) 
         {

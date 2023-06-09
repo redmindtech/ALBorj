@@ -11,12 +11,12 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        // info("das");
+       
 
         try {
             if ($request->session()->has('user')) {
-                $user = $request->session()->get('user');
-// info($user);
+                 $user = $request->session()->get('user');
+
             $ApipiechartData = ProjectMaster::select('status', DB::raw('count(*) as count'))
             ->groupBy('status')
             ->orderBy('status')
