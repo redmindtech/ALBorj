@@ -46,7 +46,7 @@ return [
     */
 
     'logo' => '<b>ALBORJ TECH</b>',
-    'logo_img' => 'vendor/adminlte/dist/img/alborj.png',
+    'logo_img' => 'vendor/adminlte/dist/img/Al logo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -316,12 +316,7 @@ return [
                     'icon' => 'nav-icon fas fa-fw fa-project-diagram fa-sm',
 
                 ],
-                [
-                    'text' => 'Item Master',
-                    'url'  => 'itemmaster',
-                    'icon' => 'nav-icon fas fa-shopping-basket',
-
-                ],
+                
             ],
         ],
         [
@@ -329,6 +324,12 @@ return [
             'url'  => '',
             'icon' => 'nav-icon fas fa-fw fa-shopping-cart ',
             'submenu' => [
+                [
+                    'text' => 'Item Master',
+                    'url'  => 'itemmaster',
+                    'icon' => 'nav-icon fas fa-shopping-basket',
+
+                ],
                 [
                     'text' => 'Supplier Master',
                     'url'  => 'suppliermaster',
