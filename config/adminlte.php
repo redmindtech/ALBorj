@@ -13,9 +13,9 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
     |
     */
-    'title' => 'AL BORJ ERP',
+    'title' => 'ALBORJ TECH',
     // 'title' => 'Employes Management System',
-    // 'title_prefix' => 'AL BORJ ERP',
+    // 'title_prefix' => 'ALBORJ TECH',
     // 'title_postfix' => '',
 
     /*
@@ -45,12 +45,12 @@ return [
     |
     */
 
-    'logo' => '<b>AL BORJ ERP</b>',
-    'logo_img' => 'vendor/adminlte/dist/img/Al logo.png',
+    'logo' => '<b>ALBORJ TECH</b>',
+    'logo_img' => 'vendor/adminlte/dist/img/alborj.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Employes Management System',
+    'logo_img_alt' => 'ALBORJ TECH',
 
     /*
     |--------------------------------------------------------------------------
@@ -242,12 +242,6 @@ return [
             'url'  => '',
             'icon' =>'nav-icon fas fa-fw fa-calculator',
             'submenu' => [
-                [
-                    'text' => 'Client Master',
-                    'url'  => 'clientmaster',
-                    'icon' => 'nav-icon fas fa-fw fa-users'
-
-                ],
                 // [
                 //     'text' => 'Petty Cash',
                 //     'url'  => 'account',
@@ -305,6 +299,12 @@ return [
             'url'  => '',
             'icon' => 'nav-icon fas fa-fw fa-tasks',
             'submenu' => [
+                [
+                    'text' => 'Client Master',
+                    'url'  => 'clientmaster',
+                    'icon' => 'nav-icon fas fa-fw fa-users'
+
+                ],
                 [
                     'text' => 'Site Master',
                     'url'  => 'sitemaster',

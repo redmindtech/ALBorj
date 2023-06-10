@@ -18,8 +18,8 @@ class AutoCompleteController extends Controller
   // to populate date from po in grn
      public function get_po_details(){
       try {
-      
-        
+
+
 // DB::enableQueryLog();
         // For po_id get from po table
         $po_code = $_GET['po_code'];
@@ -32,7 +32,7 @@ class AutoCompleteController extends Controller
         // info(
           // $info = DB::getQueryLog();
           // info($info);
-        
+
         if ($po_info) {
             $po_no = $po_info->po_no;
             $po_date = $po_info->po_date;
@@ -44,7 +44,7 @@ class AutoCompleteController extends Controller
                 ->select('purchase_order_item.*', 'item_masters.item_name')
                 ->where('po_no', $po_no)
                 ->get();
-            
+
             return response()->json([
                 'po_no' => $po_no,
                 'po_date' => $po_date, // Include po_date in the response
@@ -52,10 +52,10 @@ class AutoCompleteController extends Controller
                 'supplier_name'=>$supplier_name,
                 'supplier_no'=> $supplier_no
 
-                
+
 
             ]);
-          
+
         } else {
             // Handle case when no matching record is found
             return response()->json([
@@ -68,13 +68,13 @@ class AutoCompleteController extends Controller
             'error' => 'An error occurred while retrieving purchase order data.'
         ], 500);
     }
-    
+
      }
     //  auto complete data for item name populated in GRN and material issue item name
      public function  getitemnamedata(){
       try{
-          $itemname = $_GET['itemname'];        
-          $data = ItemMaster::where('item_name','LIKE',$itemname.'%')->get();          
+          $itemname = $_GET['itemname'];
+          $data = ItemMaster::where('item_name','LIKE',$itemname.'%')->get();
           return $data;
       }
        catch (Exception $e) {
@@ -84,25 +84,74 @@ class AutoCompleteController extends Controller
   }
   // to get employee firstname used in site master(site manager)
   public function  getemployeedata(){
-      
+
     $firstname = $_GET['firstname'];
-    $data = EmployeeMaster::where('firstname','LIKE',$firstname.'%')
-    ->where('employee_masters.deleted','0')
-    ->get();
- 
+    $data = EmployeeMaster::where('firstname', 'LIKE', $firstname.'%')
+        ->join('salary_details', 'employee_masters.id', '=', 'salary_details.employee_id')
+        ->where('employee_masters.deleted', '0')
+        ->get();
+
+    if ($data) {
+        $data = $data->toArray();
+
+        // Convert the data to UTF-8 encoding
+        array_walk_recursive($data, function (&$value) {
+            if (is_object($value)) {
+                $value = (array) $value; // Convert the stdClass object to an array
+            }
+
+            if (is_array($value)) {
+                array_walk_recursive($value, function (&$item) {
+                    if (!mb_check_encoding($item, 'UTF-8')) {
+                        // Handle invalid characters
+                        $item = mb_convert_encoding($item, 'UTF-8', 'UTF-8');
+                    }
+                });
+            } else {
+                if (!mb_check_encoding($value, 'UTF-8')) {
+                    // Handle invalid characters
+                    $value = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+                }
+            }
+        });
+    }
+
     return $data;
 }
   // autocomplete data for project master form clientnaster( company name)
   public function  getclientdata(){
-      
+
     $company_name = $_GET['company_name'];
     $data = ClientMaster::where('company_name','LIKE',$company_name.'%')->get();
- 
+    if ($data) {
+        $data = $data->toArray();
+
+        // Convert the data to UTF-8 encoding
+        array_walk_recursive($data, function (&$value) {
+            if (is_object($value)) {
+                $value = (array) $value; // Convert the stdClass object to an array
+            }
+
+            if (is_array($value)) {
+                array_walk_recursive($value, function (&$item) {
+                    if (!mb_check_encoding($item, 'UTF-8')) {
+                        // Handle invalid characters
+                        $item = mb_convert_encoding($item, 'UTF-8', 'UTF-8');
+                    }
+                });
+            } else {
+                if (!mb_check_encoding($value, 'UTF-8')) {
+                    // Handle invalid characters
+                    $value = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+                }
+            }
+        });
+    }
     return $data;
 }
 //  autocomplete data for project master form sitmaster(site name)
 public function  getsitedata(){
-      
+
   $site_name = $_GET['site_name'];
   $data = SiteMaster::where('site_name','LIKE',$site_name.'%')->get();
 
@@ -118,17 +167,17 @@ public function  getlocdata(){
 }
 // auto complete for itemmaster for supplier_name
 public function  getempdata(){
- 
+
   $suppliername = $_GET['suppliername'];
-  $data = SupplierMaster::where('name','LIKE',$suppliername.'%')->get();    
+  $data = SupplierMaster::where('name','LIKE',$suppliername.'%')->get();
 
   return $data;
 }
 public function  getempdata_supplier_company(){
- 
+
     $suppliername = $_GET['suppliername'];
-    $data = SupplierMaster::where('company_name','LIKE',$suppliername.'%')->get();    
-  
+    $data = SupplierMaster::where('company_name','LIKE',$suppliername.'%')->get();
+
     return $data;
   }
 // sitemaster location for  material issue (location)
@@ -167,9 +216,9 @@ public function purchase_return_data(){
   try {
       $itemname = $_GET['itemname'];
       $supplier_id = $_GET['supplier_id'];
-      $data = ItemMaster::         
+      $data = ItemMaster::
           join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
-          ->select('item_masters.*', 'item_supplier.*')
+          ->select('item_masters.', 'item_supplier.')
           ->where('item_masters.item_name', 'LIKE', $itemname.'%')
           ->where('item_supplier.supplier_no', '=', $supplier_id)
           ->get();
@@ -185,4 +234,5 @@ public function purchase_return_data(){
   }
 
 }
+
 }

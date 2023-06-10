@@ -133,6 +133,11 @@
     </div>
 </div>
 <div class="row">
+
+<div class="form-group col-md-6">
+    <label for="trn_number" class="form-label fw-bold">TRN Number</label>
+    <input type="text" id="trn_number" name="trn_number" value="{{ old('trn_number') }}" placeholder="TRN Number" class="form-control " autocomplete="off" >
+</div>  
 <div class="form-group col-md-6">
         <label for="code" id="code_lable"class="form-label fw-bold">Supplier Code<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="code" name="code" readonly value="{{ old('code') }}" placeholder="Supplier Code" class="form-control" autocomplete="off">
@@ -175,6 +180,12 @@
                             <div class="col-md-6">
                             <label>Email Id</label>
                             <p id="show_mail_id"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                                <label>TRN Number</label>
+                                <p id="show_trn_number"></p>
                         </div>
                     </div>
     </div>
@@ -361,6 +372,10 @@ $.validator.addMethod("email", function(value, element) {
 $.validator.addMethod("alphanumeric_website", function(value, element) {
   return this.optional(element) || /((?:https?|http?\:\/\/|www?\.)(?:[-a-z0-9]+\.)*[-a-z0-9]+.*)/i.test(value);
 });
+$.validator.addMethod("alphanumeric_trn", function(value, element) {
+                    console.log(value);
+                    return this.optional(element) || /^[A-Za-z0-9 ]+$/i.test(value);
+                });
   // Initialize form validation
   var formValidationConfig = {
     rules: {
@@ -386,7 +401,11 @@ $.validator.addMethod("alphanumeric_website", function(value, element) {
         required:true,
         email:true,
 
-      }
+      },
+      trn_number: {
+        alphanumeric_trn: true
+
+     },
 
     },
     messages: {
@@ -412,7 +431,10 @@ $.validator.addMethod("alphanumeric_website", function(value, element) {
         required:"Please enter the email id",
         email:"Please enter a valid email id",
 
-      }
+      },
+      trn_number: {
+            alphanumeric_trn: "The TRN number does not allow special characters"
+       },
     },
     errorElement: "error",
       errorClass: "error-msg",

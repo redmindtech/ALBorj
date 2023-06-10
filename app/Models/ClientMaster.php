@@ -18,13 +18,20 @@ class ClientMaster extends Model
         "company_name",
         "contact_number",
         "address",
-        "website"
+        "website",
+        "trn_number",
+        "mail_id",
+        "emirates",
+        "attachments",
+        "filename",
+
     ];
     protected $table ='client_masters';
     protected $primaryKey='client_no';
     protected $fillable =
     [
-        "name","client_code","company_name","contact_number","address","website"
+        "name","client_code","company_name","contact_number","address","website", "trn_number",
+        "attachments","mail_id","emirates","filename"
     ];
 
     protected static function booted()

@@ -12,11 +12,11 @@
     </title>
      <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-        
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> 
-  
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
  <!-- Fonts  -->
      <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -34,7 +34,7 @@
 <!-- phone number -->
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/css/intlTelInput.min.css" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"></script>
 
 <!-- autocomplete -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> </link>
@@ -64,7 +64,7 @@
  <script>
     $(document).ready(function() {
         var column_length = $('#myTable tr th').length;
-        
+
         var table = $('#myTable').DataTable( {
 
             lengthChange: false,
@@ -72,7 +72,7 @@
         columnDefs:[
             {
                 visible:true,targets:[0,1,2,3,column_length-3, column_length-2,column_length-1]
-                
+
             },
            { targets: '_all', visible: false }
              ],
@@ -97,12 +97,12 @@
                     columns: ':not(.notexport)'
                 },
                 orientation : 'landscape',
-                pageSize : 'A0', 
-            
+                pageSize : 'A0',
+
             },
-           
+
                 ]
-                 
+
 
             },
             'colvis',
@@ -116,7 +116,7 @@
                     columns: ':not(.notexport)'
                 }
             },
-           
+
         ],
             },]
         } );
@@ -141,9 +141,9 @@
     box-shadow: 2px 20px 10px 5px #999;
     border-radius:8px;
     margin-top:45px !important;
-   
+
     margin: auto;
-    
+
         }
         /* dialog {
   width: 1000px;
@@ -164,7 +164,7 @@
 #heading_name{
    height:40px;
    text-align:center;
-   padding-top:10px; 
+   padding-top:10px;
 }
 
 /* phone number flag in employee master */
@@ -191,7 +191,7 @@ input[type=checkbox] {
         }
         .checkbox { background-color: #4287f5; }
         .checkbox {
-            opacity: 1; 
+            opacity: 1;
             text-align: center;
             animation-name: eh;
             animation-duration: 0.3s;
@@ -232,8 +232,44 @@ input[type=checkbox] {
         .toggle .label { position: absolute; left: 60px; top: 4px; vertical-align: middle; }
         .st { height: 100%; width: 100%; opacity: 0; position: absolute; z-index: 100; cursor: pointer; vertical-align: middle;}
         .toggle.focus .slider, .checkbox.focus   { box-shadow: 0px 0px 0px 2px #bababa; transition: all 0.4s; }
-     /* style for percentage and ruper to toggle  ends*/ 
+     /* style for percentage and ruper to toggle  ends*/
      /* background blur style */
+     .toggle-retention {
+            margin-top:10%;
+            margin-left:10%;
+            position: relative;
+            width: 55px;
+            height: 28px;
+            display: inline-block;
+        }
+        .toggle-retention .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+        .toggle-retention .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.05);
+        }
+        .toggle-retention .slider { background-color: #e3eefa; }
+        .toggle-retention.on .slider { background-color: #4287f5; }
+        .toggle-retention.on .slider:before { transform: translateX(26px); box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2); }
+        .toggle-retention .label { position: absolute; left: 60px; top: 4px; vertical-align: middle; }
+        .st { height: 100%; width: 100%; opacity: 0; position: absolute; z-index: 100; cursor: pointer; vertical-align: middle;}
+        .toggle-retention.focus .slider, .checkbox.focus   { box-shadow: 0px 0px 0px 2px #bababa; transition: all 0.4s; }
+     /* style for percentage and ruper to toggle  ends*/
      .blur-background {
             position: fixed;
             top: 0;
@@ -257,7 +293,7 @@ input[type=checkbox] {
         z-index:0 !important;
         }
         /* end background blur style */
-        
+
         /* chart css */
         #chartdiv{
         width: 100%;
@@ -271,7 +307,7 @@ input[type=checkbox] {
         }
    /* css for error */
    .error-msg {
-   
+
   color: red;
   }
   .has-error .form-control {
@@ -290,7 +326,7 @@ input[type=checkbox] {
     top: 100%;
     left: 0;
 }
-   
+
 , #desigination-error, , #visa_status-error {
     position: absolute;
     top: 75%;
@@ -330,11 +366,11 @@ input[type=checkbox] {
         bottom: auto;
     }
     </style>
-  
-   
+
+
 
 </head>
 <body>
-    
+
 </body>
 </html>

@@ -7,7 +7,7 @@ use App\Models\ClientMaster;
 use App\Models\ProjectMaster;
 
 use Illuminate\Http\Request;
-
+require_once(app_path('constants.php'));
 class ClientMasterController extends Controller
 {
     /**
@@ -19,6 +19,7 @@ class ClientMasterController extends Controller
     public function index(Request $request)
     {
         try {
+            $emirates =SITELOCATION;
             if ($request->session()->has('user')) {
             $clients = ClientMaster::all();
             $clientNames = $clients->pluck('name')->map(function ($name) {
@@ -28,7 +29,8 @@ class ClientMasterController extends Controller
             return view('clientmaster.index')->with([
                 'clients' => $clients,
                 'clientNames'=> $clientNames,
-                'contact_number'=> $contact_number
+                'contact_number'=> $contact_number,
+                'emirates'=> $emirates
             ]);
         }else{
             return redirect("/");
@@ -51,9 +53,19 @@ class ClientMasterController extends Controller
     // DATA SAVE IN ADD DIALOG
     public function store(Request $request)
     {
+        $file = $request->file('attachments');
         try {
 
-            ClientMaster::create($request->only(ClientMaster::REQUEST_INPUTS));
+            $clients=ClientMaster::create($request->only(ClientMaster::REQUEST_INPUTS));
+            if ($file) {
+                $fileData = file_get_contents($file->getRealPath());
+                $fileName = $file->getClientOriginalName();
+      // Save the file data as a BLOB in the database
+                $clients->attachments = $fileData;
+                info($fileName);
+                $clients->filename = $fileName;
+                $clients->save();
+            }
             return response()->json('Client Details Added Successfully', 200);
 
         } catch (Exception $e) {
@@ -73,9 +85,28 @@ class ClientMasterController extends Controller
 
     public function show($client_no)
     {
-     
+
       try {
             $clients = ClientMaster::findOrFail($client_no);
+            if ($clients) {
+                $clients = $clients->toArray();
+
+                // Convert the data to UTF-8 encoding
+                array_walk_recursive($clients, function (&$value) {
+                    if (is_object($value)) {
+                        $value = (array) $value; // Convert the stdClass object to an array
+                    }
+
+                    if (is_array($value)) {
+                        array_walk_recursive($value, function (&$item) {
+                            $item = mb_convert_encoding($item, 'UTF-8', 'UTF-8');
+                        });
+                    } else {
+                        $value = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+                    }
+                });
+            }
+            info($clients);
             return response()->json($clients);
 
         } catch (Exception $e) {
@@ -104,6 +135,23 @@ public function update(Request $request, $client_no)
     try {
         $clients = ClientMaster::findOrFail($client_no);
         $clients->update($request->only(ClientMaster::REQUEST_INPUTS));
+        // Check if the delete button was clicked and delete the attachments
+        if ($request->has('delete_attachment') && $request->input('delete_attachment') === '1') {
+            $clients->attachments = null;
+            $clients->filename = null;
+            $clients->save();
+        }
+
+        // Update the attachments if a new file is uploaded
+        $file = $request->file('attachments');
+        if ($file) {
+            $fileData = file_get_contents($file->getRealPath());
+            $fileName = $file->getClientOriginalName();
+
+            $clients->attachments = $fileData;
+            $clients->filename = $fileName;
+            $clients->save();
+        }
         return response()->json('Client Details Updated Successfully');
 
     } catch (Exception $e) {
@@ -123,7 +171,7 @@ public function update(Request $request, $client_no)
       public function destroy($client_no)
     {
         try {
-            
+
             $clients = ClientMaster::findOrFail($client_no);
             $project = ProjectMaster::where('client_no', $client_no)->first();
             if ($project) {

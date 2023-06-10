@@ -419,7 +419,19 @@
 
                         </label>
                     </div>
-
+                    <div class="row mt-2">
+                        <div class="col-md-2">
+                            <label for="">Attachments</label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="file" name="attachments" class="form-control">
+                            <span id="filename"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" id="deleteButton" class="btn btn-danger">Delete</button>
+                            <input type="hidden" name="delete_attachment" id="deleteAttachmentInput" value="0">
+                        </div>
+                    </div>
                     <div class="form-group col-md-12">
                         <button type="submit" id="submit" class="btn btn-primary float-end ">ADD</button>
                     </div>
@@ -553,7 +565,7 @@
                                         <label>Total Salary</label>
                                         <p id="show_total_salary"></p>
                                     </div>
-                                   
+
                                 </div>
                                 <div class="row">
                                 <div class="col-md-4">
@@ -561,6 +573,12 @@
                                         <p id="show_hra"></p>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Attachments</label>
+                                        <p id="show_filename"></p>
+                                    </div>
+                                    </div>
                             </div>
                         </div>
             </dialog>
@@ -572,7 +590,16 @@
                     }
                 });
             </script>
-
+<script>
+    // delete attachment
+    document.getElementById("deleteButton").addEventListener("click", function() {
+                     if (confirm("Are you sure you want to delete this attachment?")) {
+                         document.getElementById("deleteAttachmentInput").value = "1";
+                         document.querySelector("input[name='attachments']").value = "";
+                         document.getElementById("filename").textContent = "";
+                     }
+                 });
+</script>
             <script>
                 $(function() {
                     $("#myTable").DataTable();
@@ -688,6 +715,7 @@
                                 $('#show').css('display', 'none');
                                 $('#form').css('display', 'block');
                                 $('#blur-background').css('display', 'block');
+                                $('#filename').text(message[0].filename);
                                 $('#over_time').prop('checked', true);
                                 for (const [key, value] of Object.entries(message[0])) {
                                     console.log($(`#${key}`).val(value));
@@ -720,6 +748,8 @@
                                     }).next().find('.select2-selection').attr('aria-labelledby', 'working_as-label');
                                  }
                                 currentMobileNumber = message[0].UAE_mobile_number;
+                                console.log(message[0].filename);
+
                                 $('#method').val('UPDATE');
                                 $('#submit').text('UPDATE');
                             } else {
@@ -727,11 +757,18 @@
                                     if (key === "join_date" || key === "end_date" || key === "passport_expiry_date" ||
                                         key === "emirates_id_from_date" || key === "emirates_id_to_date" || key ===
                                         "expiry_date") {
-                                        var dateObj = new Date(value);
-                                        var day = dateObj.getDate();
-                                        var month = dateObj.getMonth() + 1;
-                                        var year = dateObj.getFullYear();
-                                        value = day + '-' + month + '-' + year
+                                            if( value == null)
+                                            {
+                                                value="";
+                                            }
+                                            else
+                                            {
+                                                var dateObj = new Date(value);
+                                                var day = dateObj.getDate();
+                                                var month = dateObj.getMonth() + 1;
+                                                var year = dateObj.getFullYear();
+                                                value= day + '-' + month + '-' + year
+                                            }
                                     }
                                     $(`#show_${key}`).text(value);
                                 }
@@ -909,6 +946,10 @@
                         }
                     });
                 });
+                $.validator.addMethod("emirates_id", function(value, element) {
+                    return this.optional(element) || /^[\d\-]{18}$/.test(value);
+                });
+
 
                 var formValidationConfig = {
                     rules: {
@@ -975,9 +1016,10 @@
                         passport_expiry_date: "required",
                         emirates_id_no: {
                             required: true,
-                            digits: true,
-                            minlength: 7,
-                            maxlength: 7,
+                            // digits: true,
+                            // minlength: 7,
+                            // maxlength: 7,
+                            emirates_id:true,
                         },
                         emirates_id_from_date: "required",
                         emirates_id_to_date: {
@@ -1074,9 +1116,11 @@
                         passport_expiry_date: "Please select the passport expiry date",
                         emirates_id_no: {
                             required: "Please enter the emirates id no",
-                            digits: "Please enter only numbers",
-                            minlength: "Emirates id no must be exactly 7 numbers",
-                            maxlength: "Emirates id no must be exactly 7 numbers",
+                            // digits: "Please enter only numbers",
+                            // minlength: "Emirates id no must be exactly 7 numbers",
+                            // maxlength: "Emirates id no must be exactly 7 numbers",
+                            emirates_id:"Please enter a valid Emirates Id in the format(xxx-xxxx-xxxxxxx-x)",
+
                         },
                         emirates_id_from_date: "Please select the emirates id from date",
                         emirates_id_to_date: {

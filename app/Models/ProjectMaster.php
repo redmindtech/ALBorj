@@ -16,7 +16,7 @@ class ProjectMaster extends Model
             'project_code',
             "project_comments",
             "employee_no",
-            "client_no",          
+            "client_no",
             "consultant_name",
             "start_date",
             "end_date",
@@ -25,6 +25,7 @@ class ProjectMaster extends Model
             "total_price_cost",
             "advanced_amount",
             "amount_type",
+            "retention_type",
             "retention",
             "amount_to_be_received",
             "amount_return",
@@ -41,7 +42,7 @@ class ProjectMaster extends Model
              'project_code',
             'project_comments',
             'employee_no',
-            'client_no',          
+            'client_no',
             'consultant_name',
             'start_date',
             'end_date',
@@ -50,6 +51,7 @@ class ProjectMaster extends Model
             'total_price_cost',
             'advanced_amount',
             'amount_type',
+            'retention_type',
             'retention',
             'amount_to_be_received',
             'amount_return',
@@ -58,15 +60,15 @@ class ProjectMaster extends Model
         ];
         public function EmployeeMaster() {
             return $this->belongsTo(EmployeeMaster::class,'employee_no','id');
-            
+
         }
         public function ClientMaster() {
             return $this->belongsTo(ClientMaster::class,'client_no','client_no');
-            
+
         }
         public function SiteMaster() {
             return $this->belongsTo(SiteMaster::class,'site_no','site_no');
-            
+
         }
         protected static function booted()
         {

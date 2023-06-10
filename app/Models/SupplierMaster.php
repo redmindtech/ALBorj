@@ -19,14 +19,15 @@ class SupplierMaster extends Model
         "address",
         "contact_number",
         "mail_id",
-        "website"
+        "website",
+        "trn_number"
     ];
     protected $table ='supplier_masters';
     protected $primaryKey='supplier_no';
     protected $fillable =
     [
          "name","company_name","code","address",
-        "contact_number","mail_id","website"
+        "contact_number","mail_id","website","trn_number"
     ];
     
     protected static function booted()

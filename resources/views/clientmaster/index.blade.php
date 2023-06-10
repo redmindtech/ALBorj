@@ -87,36 +87,73 @@
                             <input type="hidden" id="client_no" name="client_no" value=""/><br>
                             {!! csrf_field() !!}
                             <div class="row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="name" class="form-label fw-bold">Client Name<a style="text-decoration: none;color:red">*</a></label>
                                     <input type="text" id="name"  name="name" value="{{ old('name') }}" placeholder="Client Name" class="form-control" autocomplete="off">
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="company_name" class="form-label fw-bold">Company Name<a style="text-decoration: none;color:red">*</a></label>
                                     <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" placeholder="Company Name" class="form-control" autocomplete="off">
                                 </div>
+                                <div class="form-group col-md-4">
+                                    <label for="emirates" class="form-label fw-bold">Emirates<a style="text-decoration: none;color:red">*</a></label>
+                                    <select id="emirates" name="emirates" class="form-control form-select" autocomplete="off">
+                                        <option value="">Select Option</option>
+                                            @foreach($emirates as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
+                                        </select>
+
+                                </div>
+
                             </div>
                             <div class="row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                     <label for="contact_number" class="form-label fw-bold">Contact Number<a style="text-decoration: none;color:red">*</a></label>
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1">{{+971}}</span>
                                         <!-- </div> -->
                                         <input type="number" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" placeholder="Contact Number" class="form-control" autocomplete="off">
                                     </div>
-                                </div>                                <div class="form-group col-md-6">
+                                </div>
+                                <div class="form-group col-md-4">
                                     <label for="address" class="form-label fw-bold">Address<a style="text-decoration: none;color:red">*</a></label>
                                     <input type="text" id="address" name="address" value="{{ old('address') }}" placeholder="Address" class="form-control" autocomplete="off">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="mail_id" class="form-label fw-bold">Email Id<a style="text-decoration: none;color:red">*</a></label>
+                                    <input type="text" id="mail_id" name="mail_id" value="{{ old('mail_id') }}" placeholder="Email Id" class="form-control" autocomplete="off">
+
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
+                                    <label for="trn_number" class="form-label fw-bold">TRN Number</label>
+                                    <input type="text" id="trn_number" name="trn_number" value="{{ old('trn_number') }}" placeholder="TRN Number" class="form-control " autocomplete="off" >
+                                    <p style="color: red" id="error_trn_number"></p>
+                                </div>
+                                <div class="form-group col-md-6">
                                     <label for="website" class="form-label fw-bold">Website</label>
                                     <input type="website" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control" autocomplete="off">
                                 </div>
+                            </div>
+                                <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="client_code" id="code_lable"class="form-label fw-bold">Client Code</label>
                                     <input type="text" id="client_code" name="client_code" readonly value="{{ old('client_code') }}" placeholder="Client Code" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-2">
+                                    <label for="">Attachments</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="file" name="attachments" class="form-control">
+                                    <span id="filename"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="button" id="deleteButton" class="btn btn-danger">Delete</button>
+                                    <input type="hidden" name="delete_attachment" id="deleteAttachmentInput" value="0">
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
@@ -127,34 +164,52 @@
                         <div class="card" id="show" style="display:none">
                             <div class="card-body" style="background-color:white;width:100%;height:20%;">
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Clients Name</label>
+                                    <div class="col-md-4">
+                                        <label>Client Name</label>
                                         <p id="show_name"></p>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label>Company Name</label>
                                         <p id="show_company_name"></p>
                                     </div>
+                                    <div class="col-md-4">
+                                        <label>Emirates</label>
+                                        <p id="show_emirates"></p>
+                                    </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label>Contact Number</label>
                                         <p id="show_contact_number"></p>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label>Address</label>
                                         <p id="show_address"></p>
                                     </div>
+                                    <div class="col-md-4">
+                                        <label>Email Id</label>
+                                        <p id="show_mail_id"></p>
+                                    </div>
                                 </div>
                                 <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                           <label>Website</label>
                                           <p id="show_website"></p>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
+                                            <label>TRN Number</label>
+                                            <p id="show_trn_number"></p>
+                                          </div>
+                                        <div class="col-md-4">
                                           <label>Client Code</label>
                                           <p id="show_client_code"></p>
                                         </div>
+                                </div>
+                                <div class="row">
+                                <div class="col-md-3">
+                                    <label>Attachments</label>
+                                    <p id="show_filename"></p>
+                                </div>
                                 </div>
                             </div>
                         </div>
@@ -169,7 +224,16 @@
         }
     });
 </script>
-
+<script>
+    // delete attachment
+    document.getElementById("deleteButton").addEventListener("click", function() {
+                     if (confirm("Are you sure you want to delete this attachment?")) {
+                         document.getElementById("deleteAttachmentInput").value = "1";
+                         document.querySelector("input[name='attachments']").value = "";
+                         document.getElementById("filename").textContent = "";
+                     }
+                 });
+</script>
 <script>
     $(function () {
         $("#myTable").DataTable();
@@ -218,7 +282,7 @@
              // Clear the form fields
              $('#form')[0].reset();
              $('.error-msg').removeClass('error-msg');
-             $('.has-error').removeClass('has-error');       
+             $('.has-error').removeClass('has-error');
              // Hide any error messages
              $('error').html('');
              // Hide the dialog background
@@ -238,7 +302,7 @@
                 let type;
                 if(method == 'ADD')
                 {
-                  
+
                     url = '{{route('clientApi.store')}}';
                     type  = 'POST';
 
@@ -268,14 +332,14 @@
                     }
                 })
             }
-        
+
         }
 //DATA SHOW FOR EDIT AND SHOW
 var currentClientName;
 var current_contact_number;
         function handleShowAndEdit(id,action)
         {
-            
+
             let url = '{{route('clientApi.show',":id")}}';
             url = url.replace(':id',id);
             let type= "GET"
@@ -300,6 +364,8 @@ var current_contact_number;
                             console.log(`${key}: ${value}`);
                             $(`#${key}`).val(value);
                         }
+                        console.log(message.filename);
+                        $('#filename').text(message.filename);
                         $('#method').val('UPDATE');
                         $('#submit').text('UPDATE');
                         var currentClientName = message.name.toLowerCase().replace(/ /g, '');
@@ -340,8 +406,12 @@ $.validator.addMethod("alphanumeric", function(value, element) {
   return this.optional(element) || /^[A-Za-z ]+$/i.test(value);
 });
 $.validator.addMethod("alphanumeric_website", function(value, element) {
-  return this.optional(element) || /((?:https?|http?\:\/\/|www?\.)(?:[-a-z0-9]+\.)*[-a-z0-9]+.*)/i.test(value);
+  return this.optional(element) || /((?:https?|http?\:\/\/|www?\.)(?:[-a-z0-9]+\.)[-a-z0-9]+.)/i.test(value);
 });
+$.validator.addMethod("alphanumeric_trn", function(value, element) {
+                    console.log(value);
+                    return this.optional(element) || /^[A-Za-z0-9 ]+$/i.test(value);
+                });
   // Initialize form validation
   var formValidationConfig = {
     rules: {
@@ -361,7 +431,18 @@ $.validator.addMethod("alphanumeric_website", function(value, element) {
       address: "required",
       website: {
         alphanumeric_website: true
-      }
+      },
+      mail_id:
+      {
+        required:true,
+        email:true,
+
+      },
+      emirates: "required",
+      trn_number: {
+        alphanumeric_trn: true
+
+     },
     },
     messages: {
         name: {
@@ -379,23 +460,33 @@ $.validator.addMethod("alphanumeric_website", function(value, element) {
       address: "Please enter the address",
       website: {
         alphanumeric_website:"Please enter a valid website",
-      }
+      },
+      mail_id:
+      {
+        required:"Please enter the email id",
+        email:"Please enter a valid email id",
+
+      },
+      emirates: "Please select emirates",
+      trn_number: {
+            alphanumeric_trn: "The TRN number does not allow special characters"
+       },
     },
     errorElement: "error",
       errorClass: "error-msg",
       highlight: function(element, errorClass, validClass) {
         $(element).addClass(errorClass).removeClass(validClass);
         $(element).closest('.form-group').addClass('has-error');
-     
+
       },
       unhighlight: function(element, errorClass, validClass) {
         $(element).removeClass(errorClass).addClass(validClass);
         $(element).closest('.form-group').removeClass('has-error');
-        
-        
+
+
       }
   };
-     
+
 
   $("#form").validate(formValidationConfig);
 </script>
