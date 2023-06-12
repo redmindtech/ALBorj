@@ -83,7 +83,7 @@ const STATUS=[
     'Vacation' => 'Vacation',
     'Long Leave' => 'Long Leave',
     'Resigned' => 'Resigned',
-    'Terminaton' => 'Terminaton',
+    'Termination' => 'Termination',
 
 ];
 
