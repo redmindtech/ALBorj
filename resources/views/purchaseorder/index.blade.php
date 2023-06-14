@@ -727,7 +727,7 @@ input:checked + .slider:before {
     {
         document.getElementById("myDialog").open = true;
         window.scrollTo(0, 0);
-        // add_text();
+         add_text();
         $('#method').val("ADD");
         $('#submit').text("Save");
         $('#heading_name').text("Add Purchase Order Details").css('font-weight', 'bold');
