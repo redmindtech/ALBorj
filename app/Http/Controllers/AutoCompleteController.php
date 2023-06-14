@@ -18,60 +18,58 @@ use App\Models\MaterialRequisition;
 class AutoCompleteController extends Controller
 {
   // to populate date from po in grn
-     public function get_po_details(){
-      try {
+  public function get_po_details(){
+    try {
 
 
 // DB::enableQueryLog();
-        // For po_id get from po table
-        $po_code = $_GET['po_code'];
-        info($po_code);
-        $po_info = DB::table('purchase_order')
-        ->join('supplier_masters', 'purchase_order.supplier_no', '=', 'supplier_masters.supplier_no')
-        ->select('purchase_order.po_no', 'purchase_order.po_date', 'purchase_order.supplier_no', 'supplier_masters.name')
-        ->where('purchase_order.po_code', $po_code)
-        ->first();
-        // info(
-          // $info = DB::getQueryLog();
-          // info($info);
+      // For po_id get from po table
+      $po_code = $_GET['po_code'];
+      info($po_code);
+      $po_info = DB::table('purchase_order')
+      ->join('supplier_masters', 'purchase_order.supplier_no', '=', 'supplier_masters.supplier_no')
+      ->select('purchase_order.po_no', 'purchase_order.po_date', 'purchase_order.supplier_no', 'supplier_masters.name','purchase_order.po_type')
+      ->where('po_status', '=', '0')
+      ->where('purchase_order.po_code', $po_code)
+      ->first();
+     
+      if ($po_info) {
+          $po_no = $po_info->po_no;
+          $po_date = $po_info->po_date;
+          $supplier_name=$po_info->name;
+          $supplier_no=$po_info->supplier_no;
+          $purchase_type=$po_info->po_type;
+          // Items get from po_item table
+          $po_items = DB::table('purchase_order_item')
+              ->join('item_masters', 'purchase_order_item.item_no', '=', 'item_masters.id')
+              ->select('purchase_order_item.*', 'item_masters.item_name')
+              ->where('po_no', $po_no)
+              ->where('pending_qty', '!=', 0)
+              ->get();
 
-        if ($po_info) {
-            $po_no = $po_info->po_no;
-            $po_date = $po_info->po_date;
-            $supplier_name=$po_info->name;
-            $supplier_no=$po_info->supplier_no;
-            // Items get from po_item table
-            $po_items = DB::table('purchase_order_item')
-                ->join('item_masters', 'purchase_order_item.item_no', '=', 'item_masters.id')
-                ->select('purchase_order_item.*', 'item_masters.item_name')
-                ->where('po_no', $po_no)
-                ->get();
+          return response()->json([
+              'po_no' => $po_no,
+              'po_date' => $po_date, // Include po_date in the response
+              'po_items' => $po_items,
+              'supplier_name'=>$supplier_name,
+              'supplier_no'=> $supplier_no,
+              'purchase_type'=>$purchase_type
+          ]);
 
-            return response()->json([
-                'po_no' => $po_no,
-                'po_date' => $po_date, // Include po_date in the response
-                'po_items' => $po_items,
-                'supplier_name'=>$supplier_name,
-                'supplier_no'=> $supplier_no
+      } else {
+          // Handle case when no matching record is found
+          return response()->json([
+              'error' => 'No purchase order found with the given code.'
+          ], 404);
+      }
+  } catch (Exception $e) {
+      // Handle any exceptions that occur during the process
+      return response()->json([
+          'error' => 'An error occurred while retrieving purchase order data.'
+      ], 500);
+  }
 
-
-
-            ]);
-
-        } else {
-            // Handle case when no matching record is found
-            return response()->json([
-                'error' => 'No purchase order found with the given code.'
-            ], 404);
-        }
-    } catch (Exception $e) {
-        // Handle any exceptions that occur during the process
-        return response()->json([
-            'error' => 'An error occurred while retrieving purchase order data.'
-        ], 500);
-    }
-
-     }
+   }
     //  auto complete data for item name populated in GRN and material issue item name
      public function  getitemnamedata(){
       try{

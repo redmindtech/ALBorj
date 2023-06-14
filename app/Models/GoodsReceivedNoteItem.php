@@ -14,8 +14,9 @@ class GoodsReceivedNoteItem extends Model
         "item_no",
         "quantity",
         "rate_per_qty",    
-        "item_discount", 
+        
         "pending_qty",
+        "receiving_qty",
         "item_amount",
         "pack_specification",
         "deleted"    
@@ -29,10 +30,12 @@ class GoodsReceivedNoteItem extends Model
         "item_no",
         "quantity",
         "rate_per_qty",    
-        "item_discount", 
+       
         "item_amount",
         "pending_qty",
-        "pack_specification","deleted"
+        "receiving_qty",
+        "pack_specification",
+        "deleted"
     ];
     protected static function booted()
     {

@@ -23,7 +23,7 @@ class GoodsReceivingNote extends Model
         "invoice_amount",
         "misc_expenses",        
         "freight",
-        "vat_type",
+        "dis_type",
         "vat",
         "remarks",
         "filename",
@@ -31,6 +31,9 @@ class GoodsReceivingNote extends Model
         "gross_amount",
         "total_amount",
         "discount_amount",
+        "grn_invoice_no",
+        "vat_amount",
+        "discount",
         "deleted"
         
     ];
@@ -49,7 +52,7 @@ class GoodsReceivingNote extends Model
         "invoice_amount",
         "misc_expenses",    
         "freight",
-        "vat_type",
+        "dis_type",
         "vat",
         "remarks",
         "filename",
@@ -57,6 +60,9 @@ class GoodsReceivingNote extends Model
         "gross_amount",
         "total_amount",
         "discount_amount",
+        "grn_invoice_no",
+        "vat_amount",
+        "discount",
         "deleted"
         
     ];

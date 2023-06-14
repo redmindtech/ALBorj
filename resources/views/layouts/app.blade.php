@@ -191,7 +191,7 @@ input[type=checkbox] {
         }
         .checkbox { background-color: #4287f5; }
         .checkbox {
-            opacity: 1;
+            opacity: 1; 
             text-align: center;
             animation-name: eh;
             animation-duration: 0.3s;
@@ -201,8 +201,8 @@ input[type=checkbox] {
             margin-top:10%;
             margin-left:10%;
             position: relative;
-            width: 55px;
-            height: 28px;
+            width: 45px;
+            height: 20px;
             display: inline-block;
         }
         .toggle .slider {
@@ -217,10 +217,10 @@ input[type=checkbox] {
         .toggle .slider:before {
             position: absolute;
             content: "";
-            height: 20px;
-            width: 20px;
+            height: 15px;
+            width: 15px;
             left: 4px;
-            bottom: 4px;
+            bottom: 2px;
             background-color: white;
             transition: .4s;
             border-radius: 50%;
@@ -229,11 +229,10 @@ input[type=checkbox] {
         .toggle .slider { background-color: #e3eefa; }
         .toggle.on .slider { background-color: #4287f5; }
         .toggle.on .slider:before { transform: translateX(26px); box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2); }
-        .toggle .label { position: absolute; left: 60px; top: 4px; vertical-align: middle; }
+        .toggle .label { position: absolute; left: 50px; top: 0px; vertical-align: middle; }
         .st { height: 100%; width: 100%; opacity: 0; position: absolute; z-index: 100; cursor: pointer; vertical-align: middle;}
         .toggle.focus .slider, .checkbox.focus   { box-shadow: 0px 0px 0px 2px #bababa; transition: all 0.4s; }
-     /* style for percentage and ruper to toggle  ends*/
-     /* background blur style */
+     /* style for percentage and ruper to toggle  ends*/     /* background blur style */
      .toggle-retention {
             margin-top:10%;
             margin-left:10%;

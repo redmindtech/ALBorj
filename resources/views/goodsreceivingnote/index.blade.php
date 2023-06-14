@@ -8,7 +8,11 @@
 @stop
 
 @section('content')
-
+<style>
+    .toggle {
+  display: flex; /* Use flexbox to align the checkbox and slider */
+  align-items: center; /* Align vertically centered */
+}</style>
 <!-- DATA table -->
      <div class="row">
                 <div class="container-fluid">
@@ -149,9 +153,13 @@
         <label for="due_Date" class="form-label fw-bold">Due date</label>
         <input type="date" id="due_Date" name="due_Date"  value="{{ old('due_Date') }}" placeholder="REF LPO date" class="form-control" autocomplete="off" >
         
-    </div>    
+    </div>  
     <div class="form-group col-md-4">
-        <label for="grn_code" id="grn_code_lable"class="form-label fw-bold">GRN Invoice #</label>
+        <label for="grn_invoice_no" class="form-label fw-bold">GRN Invoice No<a style="text-decoration: none;color:red">*</a></label>
+        <input type="text" id="grn_invoice_no" name="grn_invoice_no"  value="{{ old('grn_invoice_no') }}"  placeholder="GRN Invoice No" class="form-control" autocomplete="off">       
+    </div>  
+    <div class="form-group col-md-4">
+        <label for="grn_code" id="grn_code_lable"class="form-label fw-bold">GRN Code</label>
         <input type="text" id="grn_code" name="grn_code"  value="{{ old('grn_code ') }}" readonly placeholder="GRN Invoice #" class="form-control" autocomplete="off">       
     </div>
   
@@ -162,16 +170,16 @@
         <table class="table table-bordered" id="register">
             <thead>
             <tr>
-                <th>S.No</th>               
-                <th>Item Name</th>
+                <th style="width:1%">S.No</th>               
+                <th style="width:5%">Item Name</th>
                 <th hidden>item_id</th>
-                <th>Pack Specification</th>
-                <th>Quantity</th>
-                <th>Pending Quantity</th>
-                <th>Receiving Quantity</th>
-                <th>Rate per Quantity</th>
-                <th>Total</th>
-                <th hidden>Delete</th>
+                <th style="width:4%">Pack Spec.</th>
+                <th style="width:1%">Qty</th>
+                <th style="width:1%">Pending Qty</th>
+                <th style="width:1%">Rec.Qty</th>
+                <th style="width:1%">Rate per Qty</th>
+                <th style="width:2%">Total</th>
+                <th style="width:0.5%">Delete</th>
             </tr>
             </thead>
             <tbody id="tbody1">
@@ -194,25 +202,41 @@
         <label for="misc_expenses" class="form-label fw-bold">Misc Expenses</label>
         <input type="text" id="misc_expenses" name="misc_expenses" value="{{ old('misc_expenses')}}" placeholder="Misc Expenses" class="form-control" autocomplete="off">      
     </div>
-    <div class="form-group col-md-2">
+    <!-- <div class="form-group col-md-2">
         <label for="discount" class="form-label fw-bold">Discount</label>
         <input type="text" id="discount_amount" name="discount_amount" value="{{ old('discount_amount')}}" placeholder="Discount" class="form-control" autocomplete="off">      
-    </div>
+    </div> -->
     <div class="form-group col-md-2">
         <label for="freight" class="form-label fw-bold">Freight</label>
         <input type="text" id="freight" name="freight" value="{{ old('freight')}}" placeholder="Freight" class="form-control" autocomplete="off">      
     </div>
     <div class="form-group col-md-3">
-        <label for="vat" class="form-label fw-bold">VAT</label>
-        <div class="input-group">
-            <input type="text" id="vat" name="vat" value="{{ old('vat')}}"  placeholder="VAT" class="form-control" autocomplete="off">      
-        <div class="toggle focus">   
-              
-            <input type="checkbox" class="st" name="vat_type" id="vat_type" value="1" {{ old('vat_type') ? 'checked' : '' }}>
-                <span class="slider focus"></span>
-                <span class="label">₹</span>  </div>
-    </div>  
+  <label for="discount" class="form-label fw-bold">Discount</label>
+  <div class="input-group">
+    <input type="text" id="discount_amount" name="discount_amount" value="{{ old('discount_amount')}}" placeholder="Discount" class="form-control" autocomplete="off">
+    <div class="toggle focus" style="margin-top:6% !important;"> <!-- Add margin to create space between the input and the toggle button -->
+      <input type="checkbox" class="st" name="dis_type" id="dis_type" value="1" {{ old('dis_type') ? 'checked' : '' }}>
+      <span class="slider focus"></span>
+      <span class="label">AED</span>
     </div>
+  </div>
+</div>
+
+    <div class="form-group col-md-2 offset-md-1">
+    <label class="form-label fw-bold">VAT</label>
+    <div class="input-group">
+        <div class="form-check form-check-inline">
+            <input type="radio" id="vat-included" name="vat" value="0" class="form-check-input"{{ old('vat') == 'included' ? ' checked' : '' }}>
+            <label for="vat-included" class="form-check-label">0%</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="radio" id="vat-excluded" name="vat" value="5" class="form-check-input"{{ old('vat') == 'excluded' ? ' checked' : '' }}>
+            <label for="vat-excluded" class="form-check-label">5%</label>
+        </div>
+    </div>
+</div>
+
+
  </div>
     <div class="row" style="margin-top:8px">
     <div class="col-md-2">
@@ -233,7 +257,7 @@
         <input type="text" name="total_item_amount"  id="total_item_amount" readonly class="form-control mb-2">
         <input type="text" name="discount" id="discount" readonly class="form-control mb-2">
         <input type="text" name="total_amount" id="total_amount"readonly class="form-control mb-2">
-        <input type="text" name="vat" id="vat1" readonly class="form-control mb-2">
+        <input type="text" name="vat_amount" id="vat_amount" readonly class="form-control mb-2">
         <input type="text" name="gross_amount" id="gross_amount"readonly class="form-control mb-2">
     </div>
     
@@ -355,29 +379,57 @@
        <!--script starts  -->
 <script> 
    $(document).ready(function(){
+    $(this).parent().toggleClass('on');
         $('.toggle input[type="checkbox"]').click(function(){
-            $(this).parent().toggleClass('on');
+            $(this).parent().toggleClass('on');      
 
             if ($(this).parent().hasClass('on')) {
-               $('#vat_type').val('1');
-               var total=  (parseFloat($('#total_amount').val()) || 0);
-               var vatPercentage = parseFloat($('input[name="vat"]').val() || 0);
-                vat = (vatPercentage / 100) * total;
-                var gross_amount =total+vat;
-                $('#gross_amount').val(gross_amount.toFixed(2));
+                console.log('on');
+                var miscExpenses = parseFloat($('input[name="misc_expenses"]').val() || 0);        
+            var freight = parseFloat($('input[name="freight"]').val() || 0);
+            var totalAmount =  parseFloat($('#total_item_amount').val()) || 0;
+               $('#dis_type').val('1');
+               var disPercentage = parseFloat($('input[name="discount_amount"]').val() || 0);
+            //    discount cALCULATION
+                dis = (disPercentage / 100) * totalAmount;
+                $('#discount').val(dis.toFixed(2));
+                // ITEM TOTAL CAL
+                var total_amount =totalAmount-dis;
+                var total_ex_f= total_amount+miscExpenses+freight;
+                $('#total_amount').val(total_ex_f.toFixed(2));
+                // VAT CALCULATION
+                var selectedValue = $('input[name="vat"]:checked').val() || 0;
+                var total_vat =((selectedValue/100)*total) || 0;
+                $('#vat_amount').val(total_vat.toFixed(2));
+                // GROSS AMT
+               var gross_amount =parseFloat(total_ex_f)+parseFloat(total_vat);
+               $('#gross_amount').val(gross_amount.toFixed(2));
+
                 $(this).parent().children('.label').text('%')
 
             } else {
-                $('#vat_type').val('0');
-                var total=  (parseFloat($('#total_amount').val()) || 0);
-               var vatPercentage = parseFloat($('input[name="vat"]').val() || 0);
-              var gross_amount = vatPercentage + total;
-                
-                $('#gross_amount').val(gross_amount.toFixed(2));
-                $(this).parent().children('.label').text('₹')
+                console.log('off');
+           var miscExpenses = parseFloat($('input[name="misc_expenses"]').val() || 0);        
+            var freight = parseFloat($('input[name="freight"]').val() || 0);
+            var totalAmount =  parseFloat($('#total_item_amount').val()) || 0;
+                $('#dis_type').val('0');
+               var disPercentage = parseFloat($('input[name="discount_amount"]').val() || 0);
+               $('#discount').val(disPercentage.toFixed(2));
+               var total_amount =totalAmount-disPercentage;
+
+                var total_ex_f= total_amount+miscExpenses+freight;
+                $('#total_amount').val(total_ex_f.toFixed(2));
+                // VAT CALCULATION
+                var selectedValue = $('input[name="vat"]:checked').val() || 0;
+                var total_vat =((selectedValue/100)*total) || 0;
+                $('#vat_amount').val(total_vat.toFixed(2));
+                // GROSS AMT
+               var gross_amount =parseFloat(total_ex_f)+parseFloat(total_vat);
+               $('#gross_amount').val(gross_amount.toFixed(2));
+                $(this).parent().children('.label').text('AED')
             }
         });           
-    }); 
+    });  
     // delete attachment
         document.getElementById("deleteButton").addEventListener("click", function() {
             if (confirm("Are you sure you want to delete this attachment?"))
@@ -440,19 +492,6 @@
                              });
    
 
-            // vat text box
-            var textbox1 = document.getElementById("vat");
-                var textbox2 = document.getElementById("vat1");
-                textbox1.addEventListener("input", function() {
-                    textbox2.value = textbox1.value;
-                });// vat end
-
-                // discount_text
-                var textbox3 = document.getElementById("discount_amount");
-                var textbox4 = document.getElementById("discount"); 
-                textbox3.addEventListener("input", function() {
-                    textbox4.value = textbox3.value;
-                });// discount end
 
             // table textbox multiple receiving_qty and rate_per_qty
             $('#tbody1').on('input', 'input[id^="receiving_qty"], input[id^="rate_per_qty_"]', function() {
@@ -467,25 +506,29 @@
 
     // calculation for total amount
     $(' input[name="misc_expenses"],  input[name="freight"],input[name="discount_amount"],input[name="vat"], input[name="purchase"],#total_item_amount').on('input', function() {
-        // Get the values of the input fields
         var miscExpenses = parseFloat($('input[name="misc_expenses"]').val() || 0);        
         var freight = parseFloat($('input[name="freight"]').val() || 0);
         calculateTotal();
-        var discount=parseFloat($('input[name="discount_amount"]').val() || 0);
-        // Calculate the total amount
-        var totalAmount =  miscExpenses + freight + (parseFloat($('#total_item_amount').val()) || 0)-discount;
-        // Set the value of the total_amount input field
-        $('#total_amount').val(totalAmount.toFixed(2));
-        var vat = 0;
+        var totalAmount =  parseFloat($('#total_item_amount').val()) || 0;
+         var dis = 0;
     if ($('.toggle input[type="checkbox"]').parent().hasClass('on')) {
-        // VAT input is set to percentage
-        var vatPercentage = parseFloat($('input[name="vat"]').val() || 0);
-        vat = (vatPercentage / 100) * totalAmount;
+        // VAT input is set to percentagediscount_amount
+        var disPercentage = parseFloat($('input[name="discount_amount"]').val() || 0);
+        dis = (disPercentage / 100) * totalAmount;
+
     } else {
         // VAT input is set to rupee amount
-        vat = parseFloat($('input[name="vat"]').val() || 0);
+        dis = parseFloat($('input[name="discount_amount"]').val() || 0);
     }
-         var gross_amount =totalAmount+vat;
+    $('#discount').val(dis.toFixed(2));
+    var total_1 = totalAmount-dis;
+    var total = total_1+miscExpenses+freight;
+    $('#total_amount').val(total.toFixed(2));
+    console.log(total);
+    var selectedValue = $('input[name="vat"]:checked').val() || 0;
+        var total_vat =(selectedValue/100)*total ;
+    $('#vat_amount').val(total_vat.toFixed(2));
+     var gross_amount =total+total_vat;
          $('#gross_amount').val(gross_amount.toFixed(2));
     });
 
@@ -505,24 +548,28 @@
     function updateGrossAmount() {
     var miscExpenses = parseFloat($('input[name="misc_expenses"]').val() || 0);        
     var freight = parseFloat($('input[name="freight"]').val() || 0);
-  
-    var discount=parseFloat($('input[name="discount_amount"]').val() || 0);
-   
-    var totalAmount =  miscExpenses + freight +  (parseFloat($('#total_item_amount').val()) || 0)-discount;
-    $('#total_amount').val(totalAmount.toFixed(2));
-    var vat = 0;
+    var total =parseFloat($('#total_item_amount').val()) || 0;
+    var dis = 0;
     if ($('.toggle input[type="checkbox"]').parent().hasClass('on')) {
         // VAT input is set to percentage
-        var vatPercentage = parseFloat($('input[name="vat"]').val() || 0);
-        vat = (vatPercentage / 100) * totalAmount;
+        var disPercentage = parseFloat($('input[name="discount_amount"]').val() || 0);
+        dis = (disPercentage / 100) * total;
     } else {
         // VAT input is set to rupee amount
-        vat = parseFloat($('input[name="vat"]').val() || 0);
+        dis = parseFloat($('input[name="discount_amount"]').val() || 0);
     }
-    var gross_amount =totalAmount+vat;
+
+    $('#discount').val(dis.toFixed(2));
+    var total1=total-dis;
+    var totalAmount=total1+miscExpenses+freight;
+    $('#total_amount').val(totalAmount.toFixed(2));
+    var selectedValue = $('input[name="vat"]:checked').val() || 0;
+    var total_vat =(selectedValue/100)*totalAmount;
+    $('#vat_amount').val(total_vat.toFixed(2));   
+    var gross_amount =totalAmount+total_vat;
     $('#gross_amount').val(gross_amount.toFixed(2));    
        
-    }       
+    }              
     
     // dynamic table creation
 var rowIdx =1;
@@ -531,18 +578,19 @@ function add_text()
 		html +='<tr id="row'+rowIdx+'" class="rowtr">';
         html += '<td>'+rowIdx+'</td>';
 		html += '<td><div class="col-xs-12"><input type="text" id="item_name_'
-        +rowIdx+'"  name="item_name[]" class="item_name" placeholder="Start Typing Item name..."></div></td>';
+        +rowIdx+'"  name="item_name[]" class="item_name form-control" placeholder="Start Typing Item name..."></div></td>';
         html += '<td hidden ><div class="col-xs-12"><input type="text"  id="item_no_'+rowIdx+'"  name="item_no[]" class="item_no_'+rowIdx+'"></div></td>';
-        html += '<td><div class="col-xs-12"><input type="text" id="pack_specification_'+rowIdx+'"  name="pack_specification[]" class="pack_specification"></div></td>';
+        html += '<td><div class="col-xs-12"><input type="text" id="pack_specification_'+rowIdx+'"  name="pack_specification[]" class="pack_specification form-control"></div></td>';
         html += '<td><center><div class="col-xs-12" name="quantity[]" id="quantity1_'+ rowIdx + '" ></div></center>';
         html += '<div class="col-xs-12"><input hidden type="text" id="quantity_'+rowIdx+'" name="quantity[]" class="quantity"></td>';
-        html += '<td><center><div class="col-xs-12"name="pending_qty[]" id="pending_qty1_'+ rowIdx + '" ></div></center>';
+        html += '<td><center><div class="col-xs-12 pending_qty1"name="pending_qty[]" id="pending_qty1_'+ rowIdx + '" ></div></center>';
         html += '<div class="col-xs-12"><input type="text" hidden id="pending_qty_'+rowIdx+'" name="pending_qty[]" class="pending_qty"></td>';
-        html += '<td><div class="col-xs-12"><input type="text" id="receiving_qty_'+rowIdx+'" name="receiving_qty[]" class="receiving_qty"></div></td>';
-        html += '<td><div class="col-xs-12"><input type="text" id="rate_per_qty_'+rowIdx+'"  name="rate_per_qty[]"class="rate_per_qty"></div></td>';       
-        html += '<td><div class="col-xs-12"><input type="text"  id="item_amount_'+rowIdx+'"name="item_amount[]" class="item_amount"></div></td>';
-        html +='<td hidden><button class="btn btn-danger remove" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';     
-        html+='</tr>';
+        html += '<td><div class="col-xs-12"><input type="text" id="receiving_qty_'+rowIdx+'" name="receiving_qty[]" class="receiving_qty form-control"></div></td>';
+        html += '<td><div class="col-xs-12"><input type="text" id="rate_per_qty_'+rowIdx+'"  name="rate_per_qty[]"class="rate_per_qty form-control"></div></td>';       
+        html += '<td><center><div class="col-xs-12"><center><input type="text"  id="item_amount_'+rowIdx+'"name="item_amount[]" class="item_amount form-control"></div></center></td>';
+        html +=
+            '<td><button class="btn btn-danger remove btn-sm" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
+        html += '</tr>';
         $("#tbody1").append(html);        
         rowIdx++;     
  }
@@ -611,63 +659,62 @@ $(document).on('focus click', $("#tbody1"), function() {
         
     // project name auto complete
     jQuery($ => {
-
-$(document).on('focus click', $("#project_name"), function() {
-    $("#project_name").autocomplete(
-      {
-      source: function( request, response ) {
-        $.ajax( {
-            type:"GET",
-            url: "{{ route('getlocdata') }}",
-            dataType: "json",
-            data:{
-            'projectname':$("#project_name").val()
-             },
-             success: function( data ) {
-             result = [];
-             for(var i in data)
-            {
+  $(document).on('focus', 'input',  "#project_name", function() {
+    $("#project_name").autocomplete({
+      source: function(request, response) {
+        $.ajax({
+          type: "GET",
+          url: "{{ route('getlocdata') }}",
+          dataType: "json",
+          data: {
+            'projectname': $("#project_name").val()
+          },
+          success: function(data) {
+            result = [];
+            for (var i in data) {
               result.push(data[i]["project_name"]);
             }
-             response(result);
-           },fail: function(xhr, textStatus, errorThrown){
+            response(result);
+          },
+          fail: function(xhr, textStatus, errorThrown) {
+            alert(errorThrown);
+          }
+        });
+      },
+      select: function(event, ui) {
+        var selectedproName = ui.item.value;
+        updateProjectNameValue(selectedproName);
+      }
+    });
+  });
+
+  $(document).on('input', '#project_name', function() {
+    updateProjectNameValue($(this).val());
+  });
+
+  function updateProjectNameValue(proName) {
+    $.ajax({
+      type: "GET",
+      url: "{{ route('getlocdata') }}",
+      dataType: "json",
+      data: {
+        'projectname': proName
+      },
+      success: function(data) {
+        for (var i in data) {
+          $('#project_no').val(data[i]["project_no"]);
+          $('#project_code').val(data[i]['project_code']);
+        }
+      },
+      fail: function(xhr, textStatus, errorThrown) {
         alert(errorThrown);
       }
-      });
-      },
-      
-      });
     });
+  }
 });
-      $("#project_name").on('change',function()
-    {
-        var code= $(this).val();
-
-        $.ajax
-        ({
-            type:"GET",
-            url: "{{ route('getlocdata') }}",
-            dataType: "json",
-            data:
-            {
-                'projectname':$(this).val()
-            },
-            success: function( data )
-            {
-                result = [];
-                for(var i in data)
-                { 
-                    $('#project_no').val(data[i]["project_no"]);
-                    $('#project_code').val(data[i]['project_code'])
-                }
-            },fail: function(xhr, textStatus, errorThrown){
-            alert(errorThrown);
-            }
-        });
-    });
 
 // table create with data for ref lpo number
-    $("#po_code").on('change',function()
+$(document).on('input', '#po_code',function()
     {   
         $('.rowtr').remove();   
        
@@ -682,10 +729,13 @@ $(document).on('focus click', $("#project_name"), function() {
         },
         success: function( data )
         {   
+            console.log(data);
             $('#po_no').val(data.po_no);
             $('#po_date').val(data.po_date.split(' ')[0]);
             $('#name').val(data.supplier_name);
             $('#supplier_no').val(data.supplier_no);
+            $('#grn_purchase_type').val(data.purchase_type);
+            console.log(data.purchase_type);
             var create_id=1;   
             for (const item of data.po_items) { 
             add_text();
@@ -694,8 +744,8 @@ $(document).on('focus click', $("#project_name"), function() {
             $('#quantity1_'+ create_id).text(item.qty); 
             $('#quantity_'+ create_id).val(item.qty); 
                                  
-            $('#pending_qty1_'+ create_id).text(item.qty); 
-            $('#pending_qty_'+ create_id).val(item.qty); 
+            $('#pending_qty1_'+ create_id).text(item.pending_qty); 
+            $('#pending_qty_'+ create_id).val(item.pending_qty); 
          
             $('#item_name_' + create_id).val(item.item_name);   
             $('#rate_per_qty_'+ create_id).val(item.rate_per_qty);              
@@ -708,11 +758,13 @@ $(document).on('focus click', $("#project_name"), function() {
     }
 });
     });
+
     // dialog open
     function handleDialog(){
              document.getElementById("myDialog").open = true;
              window.scrollTo(0, 0);
             //  add_text();
+            $('#vat-included').prop('checked', true);
              $('#method').val("ADD");
              $('#submit').text("Save");
              $('#heading_name').text("Add Goods Receiving Note Details").css('font-weight', 'bold');
@@ -724,13 +776,24 @@ $(document).on('focus click', $("#project_name"), function() {
 
           }
 // dialogclose
-        function handleClose(){
+function handleClose(){
             document.getElementById("myDialog").open = false;
-            $("#myDialog").load(" #myDialog > *");
-             rowIdx=1;
-             $('#blur-background').css('display','none');
-            // window.location.reload();
-          }
+                // Clear the form fields
+                $('#form')[0].reset();
+                // $('#dis_type').prop('checked', true).trigger('click');
+                $("#tbody1").empty();
+                // show_table
+                $("#item_details_show").empty();
+                rowIdx=1;
+                $('.error-msg').removeClass('error-msg');
+                $('.has-error').removeClass('has-error');
+                // Hide any error messages
+                $('error').html('');
+                $('#blur-background').css('display','none');
+                // window.location.reload();
+          } 
+        //   }
+
 
 
           // DELETE FUNCTION
@@ -784,6 +847,10 @@ if (isNaN(receivingQty) ) {
 
     });
          if(!hasError) {
+            var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
+            // alert(hiddenErrorElements);
+            if(hiddenErrorElements === 0)
+            {
             let form_data = new FormData(document.getElementById('form'));
             let method = $('#method').val();
             let url;
@@ -810,21 +877,17 @@ if (isNaN(receivingQty) ) {
                 },
                 error: function (message) {
                     var data = message.responseJSON;
-                    $('p[id ^= "error_"]').html("");
-                    $.each(data.errors, function (key, val) {
-                        $(`#error_${key}`).html(val[0]);
-                    });
+
                 }
             });
-         }
-  
-}
+        }
+    }
 
+}
 //DATA SHOW FOR EDIT AND SHOW
 function handleShowAndEdit(id,po_no,action)
-    { var totalAmount=0;
-         
-        
+    { 
+        var totalAmount=0;
         let url = '{{ route('grnApi.show', [":grnid", ":po_no"]) }}';
         url = url.replace(':grnid', id);
         url = url.replace(':po_no', po_no);
@@ -843,37 +906,48 @@ function handleShowAndEdit(id,po_no,action)
                     $('#show').css('display','none');
                     $('#form').css('display','block');
                     $('#blur-background').css('display','block');
-
+                    $('#grn_code').show();
+                     $('#grn_code_lable').show();
+                     $('#heading_name').text("Update Goods Receiving Note Details").css('font-weight', 'bold');
                     for (const [key, value] of Object.entries(message.grn))
                     {
                         $(`#${key}`).val(value);
                     }                    
-             if (message.grn.vat_type == '1') {          
-          $('#vat_type').prop('checked', true).trigger('click');
-    }
-     let fileName = message.grn.filename;
-       $('#filename').text(fileName);
-      
+             if (message.grn.dis_type == '1') {          
+                $('#dis_type').prop('checked', true).trigger('click');
+             }
+
+             if (message.grn.vat == '5') {
+                  $('#vat-excluded').prop('checked', true);
+            }else{
+                $('#vat-included').prop('checked', true);
+            }
+                let fileName = message.grn.filename;
+                $('#filename').text(fileName);
                var rowid=1;
                for (const item of message.grn_item) {
                 add_text(); // add a new row to the table
                 $('#item_name_' + rowid).val(item.item_name);
                 $('#item_no_' + rowid).val(item.item_no);
                 $('#pack_specification_'+ rowid).val(item.pack_specification);
+
                 $('#quantity_'+ rowid).val(item.quantity);
                 $('#quantity1_'+ rowid).text(item.quantity);
-              
                 $('#pending_qty1_'+ rowid).text(item.pending_qty); 
                 $('#pending_qty_'+ rowid).val(item.pending_qty); 
                 $('#receiving_qty_'+ rowid).val(item.receiving_qty);
                 $('#rate_per_qty_'+ rowid).val(item.rate_per_qty);
-                // $('#item_amount_'+ rowid).val(item.item_amount);
+                 $('#item_amount_'+ rowid).val(item.item_amount);
                totalAmount += parseFloat(item.item_amount);             
                 rowid++;
             }
-                    $('#total_item_amount').val(totalAmount);
-                    $('#vat1').val(message.grn.vat);
-                    $('#discount').val(message.grn.discount_amount);
+                     $('#total_item_amount').val(totalAmount);
+                    $('#total_amount').val(message.grn.total_amount);
+                     $('#discount').val(message.grn.discount);
+                     $('#gross_amount').val(message.grn.gross_amount);
+                     $('#vat_amount').val(message.grn.vat_amount);
+
+
                     $('#method').val('UPDATE');
                     $('#submit').text('UPDATE');
                 }
@@ -883,11 +957,15 @@ function handleShowAndEdit(id,po_no,action)
                         // date formate
                     
                       if (key === "grn_date" || key === "po_date" || key === "due_Date") {
+                        if(value == ''){
+                            value='';
+                        }else{
                     var dateObj = new Date(value);
                     var day = dateObj.getDate();
                     var month = dateObj.getMonth() + 1;
                     var year = dateObj.getFullYear();
                     value= day + '-' + month + '-' + year
+                        }
                     }
                     $(`#show_${key}`).text(value);
 
@@ -896,6 +974,9 @@ function handleShowAndEdit(id,po_no,action)
                     for (const item of message.grn_item) {
                    script += '<tr>';
                    script += '<td>' + item.item_name + '</td>';
+                   if(item.pack_specification == null){
+                    item.pack_specification ='';}
+                    
                    script += '<td>' + item.pack_specification + '</td>';
                    script += '<td>' + item.quantity+ '</td>';
                    script += '<td>' + item.pending_qty+ '</td>';
@@ -917,5 +998,168 @@ function handleShowAndEdit(id,po_no,action)
             },
         })
     }   
+    // Initialize form validation
+    var item_name = @json($item_name);
+
+$.validator.addMethod("ItemName", function(value, element)
+{
+    return item_name.includes(value.trim());
+});
+var project_name=@json($project_name);
+$.validator.addMethod("projectNameCheck", function(value, element)
+{
+    return project_name.includes(value);
+});
+var purchase_order=@json($purchase_order);
+$.validator.addMethod("pruchaseNameCheck", function(value, element)
+{
+    return purchase_order.includes(value);
+});
+$.validator.addMethod("alphanumeric_invoice", function(value, element) {
+    return this.optional(element) || /^\d+(\.\d+)?$/i.test(value);
+});
+
+$.validator.addMethod("lessThanQty", function(value, element){
+    console.log(value);
+    var rowId = $(element).closest('.rowtr').attr('id');
+    var Quantity = $('#' + rowId + ' .pending_qty1').text().trim();
+
+    return parseFloat(value) <= parseFloat(Quantity);
+    });
+
+var formValidationConfig = {
+rules:
+{
+grn_purchase_type: "required",
+
+project_name:
+{
+    required:true,
+    projectNameCheck:true
+},
+grn_date:
+{
+    required: true,
+},
+po_code:
+{
+    required: true
+},
+invoice_amount:
+{
+    alphanumeric_invoice:true
+},
+misc_expenses:
+{
+    alphanumeric_invoice:true
+},
+discount_amount:
+{
+    alphanumeric_invoice:true
+},
+freight:
+{
+    alphanumeric_invoice:true
+},
+vat:
+{
+    alphanumeric_invoice:true
+},
+grn_invoice_no:{
+    required: true, 
+},
+"item_name[]":
+{
+    required: true,
+    ItemName: true
+},
+"rate_per_qty[]":
+{
+    required: true,
+    
+},
+"receiving_qty[]":
+{
+    required: true,
+    digits: true,
+    lessThanQty:true
+
+},
+},
+messages:
+{
+
+grn_purchase_type: "Please select the purchase type ",
+
+project_name:
+{
+    required:"Please enter the project Name",
+    projectNameCheck:"Please enter valid project Name"
+},
+grn_date:
+{
+    required: "Please enter the grn date",
+},
+po_code:
+{
+    required:"Please enter the purchaseorder Number",
+},
+invoice_amount:
+{
+    alphanumeric_invoice: "Please enter only numbers"
+},
+misc_expenses:
+{
+    alphanumeric_invoice: "Please enter only numbers"
+},
+discount_amount:
+{
+    alphanumeric_invoice: "Please enter only numbers"
+},
+freight:
+{
+    alphanumeric_invoice:"Please enter only numbers"
+},
+vat:
+{
+    alphanumeric_invoice:"Please enter only numbers"
+},
+ "item_name[]":
+{
+    required: "Please enter the item name",
+    ItemName: "Please enter a valid item name"
+},
+grn_invoice_no:{
+    required: "Please enter the invoice number", 
+},
+
+"rate_per_qty[]":
+{
+    required: "Please enter the rate per quantity",
+    
+},
+"receiving_qty[]":
+{
+    required: "Please enter the receiving quantity",
+    digits: "Please enter an integer value",
+    lessThanQty: "Receiving qty should be less than or equal to p.qty."
+
+},
+},
+errorElement: "error",
+errorClass: "error-msg",
+highlight: function(element, errorClass, validClass)
+{
+    $(element).addClass(errorClass).removeClass(validClass);
+    $(element).closest('.form-group').addClass('has-error');
+},
+unhighlight: function(element, errorClass, validClass)
+{
+    $(element).removeClass(errorClass).addClass(validClass);
+    $(element).closest('.form-group').removeClass('has-error');
+}
+};
+
+$("#form").validate(formValidationConfig);
     </script>        
 @stop
