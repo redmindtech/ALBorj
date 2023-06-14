@@ -1,3 +1,9 @@
+<style>
+    .toggle{
+  display: flex; /* Use flexbox to align the checkbox and slider */
+  align-items: center; /* Align vertically centered */
+}
+</style>
 <!-- STYLE INCLUDED IN LAYOUT PAGE -->
 @extends('layouts.app', [
     'activeName' => 'Project Master',
@@ -277,7 +283,7 @@
                                     value="{{ old('advanced_amount') }}" placeholder="Advance Amount"
                                     class="form-control" autocomplete="off" onchange="calculateAmount()">
                                 <div class="input-group-append">
-                                    <div class="toggle focus">
+                                    <div class="toggle focus" style="margin-top:33% !important;">
                                         <input type="checkbox" class="st amount" name="amount_type" id="amount_type"
                                             value="1" {{ old('amount_type') ? 'checked' : '' }}>
                                         <span class="slider"></span>

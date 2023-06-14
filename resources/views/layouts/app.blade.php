@@ -269,7 +269,14 @@ input[type=checkbox] {
         .toggle-retention .label { position: absolute; left: 60px; top: 4px; vertical-align: middle; }
         .st { height: 100%; width: 100%; opacity: 0; position: absolute; z-index: 100; cursor: pointer; vertical-align: middle;}
         .toggle-retention.focus .slider, .checkbox.focus   { box-shadow: 0px 0px 0px 2px #bababa; transition: all 0.4s; }
-     /* style for percentage and ruper to toggle  ends*/
+        .toggle-label {
+            border:solid;
+        }
+        .toggle-label:before {
+            bottom:2px !important;
+        }
+     
+        /* style for percentage and ruper to toggle  ends*/
      .blur-background {
             position: fixed;
             top: 0;

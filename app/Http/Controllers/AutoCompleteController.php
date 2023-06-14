@@ -12,6 +12,8 @@ use App\Models\SupplierMaster;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use App\Models\MaterialRequisition;
+
 
 class AutoCompleteController extends Controller
 {
@@ -234,5 +236,14 @@ public function purchase_return_data(){
   }
 
 }
+//get MR code from MaterialRequisition
+public function  getmrcode(){
 
+    $mrcode = $_GET['mrcode'];
+    $data = MaterialRequisition::where('mr_reference_code','LIKE',$mrcode.'%')->get();
+  
+    return $data;
+    info($data);
+  }
+  
 }

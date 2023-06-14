@@ -6,6 +6,7 @@ use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderItem;
 use App\Models\SupplierMaster;
 use App\Models\ProjectMaster;
+use App\Models\SiteMaster;
 use App\Models\ItemMaster;
 use App\Models\ItemSupplier;
 use App\Models\EmployeeMaster;
@@ -75,16 +76,25 @@ class PurchaseOrderController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
 
         try{
+            if ($request->session()->has('user')) {
+            $employee=EmployeeMaster::all();
+            $employee_name=$employee->pluck('firstname');
+            $supplier = SupplierMaster::all();
+            $supplier_name=$supplier->pluck('name');
+            $item=ItemMaster::all();
+            $item_name=$item->pluck('item_name');
+            $site = SiteMaster::all();
+            $site_location=$site->pluck('site_location');
             $po_type = PROJECTORDERTYPE;
             $currency = CURRENCY;
             $purchase_orders =  DB::table('purchase_order')
             ->join('supplier_masters', 'purchase_order.supplier_no', '=', 'supplier_masters.supplier_no')
-           ->join('project_masters', 'purchase_order.delivery_location', '=', 'project_masters.project_no')
-           ->select( 'supplier_masters.*','project_masters.*', 'purchase_order.*')
+           ->join('site_masters', 'purchase_order.delivery_location', '=', 'site_masters.site_no')
+           ->select( 'supplier_masters.*','site_masters.*', 'purchase_order.*')
            ->where('purchase_order.deleted','0')
            ->get();
          info($purchase_orders);
@@ -93,11 +103,20 @@ class PurchaseOrderController extends Controller
                 'purchase_orders' => $purchase_orders,
                 'po_type' => $po_type,
                 'currency' => $currency,
+                'site_location' => $site_location,
+                'supplier_name'=>$supplier_name,
+                'item_name' => $item_name,
+                'employee_name'=>$employee_name
             ]);
+        }
+        else
+        {
+            return redirect("/");
+        }
         }
         catch (Exception $e) {
             info($e);
-            return response()->json('Error occured in the loading page', 400);
+            return response()->json('Error occured in the index page', 400);
         }
     }
 
@@ -117,9 +136,16 @@ class PurchaseOrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PurchaseOrderRequest $request)
+    public function store(Request $request)
     {
-        // info($request);
+        if($request['discount_type']=="")
+        {
+            $request['discount_type']='0' ;
+        }
+        if($request['discount'] == "")
+        {
+            $request['discount_type']=null ; 
+        }  
         $file = $request->file('attachments');
         try {
             // grn insert data
@@ -143,13 +169,13 @@ class PurchaseOrderController extends Controller
                      'item_no' => $request['item_no'][$i],
                      'qty' => $request['qty'][$i],
                      'rate_per_qty' => $request['rate_per_qty'][$i],
-                     'discount' => $request['discount'][$i],
+                    //  'discount' => $request['discount'][$i],
                      'item_amount' => $request['item_amount'][$i],
                     //  'pending_qty' => $request['pending_qty'][$i],
                  ]);
              }
              info($request);
-            return response()->json('Purchase Created Successfully', 200);
+            return response()->json('Purchase Order Created Successfully', 200);
 
         } catch (Exception $e) {
             info($e);
@@ -173,22 +199,22 @@ class PurchaseOrderController extends Controller
              if ($purchase_order != '') {
                  $purchase_orders = DB::table('purchase_order')
                      ->join('supplier_masters', 'purchase_order.supplier_no', '=', 'supplier_masters.supplier_no')
-                     ->join('project_masters', 'purchase_order.delivery_location', '=', 'project_masters.project_no')
+                     ->join('site_masters', 'purchase_order.delivery_location', '=', 'site_masters.site_no')
                      ->join('employee_masters', 'purchase_order.po_prepared', '=', 'employee_masters.id')
                      ->join('materials', 'purchase_order.mr_no', '=', 'materials.mr_id')
-                     ->select('supplier_masters.*', 'project_masters.*', 'purchase_order.*', 'employee_masters.*', 'materials.*',
+                     ->select('supplier_masters.*', 'site_masters.*', 'purchase_order.*', 'employee_masters.*', 'materials.*',
                          DB::raw('DATE(purchase_order.quote_date) as quote_date'),
                          DB::raw('DATE(purchase_order.po_date) as po_date'),
                          DB::raw('DATE(purchase_order.credit_period) as credit_period'))
                      ->where('purchase_order.po_no', $po_no)
                      ->get();
-
+            info($purchase_orders);
              } else {
                  $purchase_orders = DB::table('purchase_order')
                      ->join('supplier_masters', 'purchase_order.supplier_no', '=', 'supplier_masters.supplier_no')
-                     ->join('project_masters', 'purchase_order.delivery_location', '=', 'project_masters.project_no')
+                     ->join('site_masters', 'purchase_order.delivery_location', '=', 'site_masters.site_no')
                      ->join('employee_masters', 'purchase_order.po_prepared', '=', 'employee_masters.id')
-                     ->select('supplier_masters.*', 'project_masters.*', 'purchase_order.*', 'employee_masters.*',
+                     ->select('supplier_masters.*', 'site_masters.*', 'purchase_order.*', 'employee_masters.*',
                          DB::raw('DATE(purchase_order.quote_date) as quote_date'),
                          DB::raw('DATE(purchase_order.po_date) as po_date'),
                          DB::raw('DATE(purchase_order.credit_period) as credit_period'))
@@ -219,14 +245,22 @@ class PurchaseOrderController extends Controller
 
 
 
-             $purchase_orders_item = DB::table('purchase_order_item')
-                 ->join('item_masters', 'purchase_order_item.item_no', '=', 'item_masters.id')
-                 ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
-                 ->join('purchase_order', 'purchase_order_item.po_no', '=', 'purchase_order.po_no')
-                 ->select('purchase_order_item.*', 'item_masters.*', 'item_supplier.*')
-                 ->where('purchase_order_item.po_no', $po_no)
-                 ->get();
-
+            //  $purchase_orders_item = DB::table('purchase_order_item')
+            //      ->join('item_masters', 'purchase_order_item.item_no', '=', 'item_masters.id')
+            //      ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
+            //      ->join('purchase_order', 'purchase_order_item.po_no', '=', 'purchase_order.po_no')
+            //      ->select('purchase_order_item.*', 'item_masters.*', 'item_supplier.*')
+            //      ->where('purchase_order_item.po_no', $po_no)
+            //      ->get();
+            $purchase_orders_item = DB::table('purchase_order_item')
+            ->join('item_masters', 'purchase_order_item.item_no', '=', 'item_masters.id')
+            ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
+            ->join('purchase_order', 'purchase_order_item.po_no', '=', 'purchase_order.po_no')
+            ->select('purchase_order_item.*', 'item_masters.*', 'item_supplier.price_per_qty')
+            ->where('purchase_order_item.po_no', $po_no)
+            ->distinct()
+            ->get();
+        
              return response()->json([
                  'purchase_orders' => $purchase_orders,
                  'purchase_orders_item' => $purchase_orders_item,
@@ -257,9 +291,13 @@ class PurchaseOrderController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function update(PurchaseOrderRequest $request, $po_no)
+     public function update(Request $request, $po_no)
      {
          try {
+                if($request['discount_type']=='')
+                {
+                $request['discount_type']='0';
+                }
               $purchase_orders = PurchaseOrder::where('po_no', $po_no)->first();
               $purchase_orders->update($request->only(PurchaseOrder::REQUEST_INPUTS));
                // Check if the delete button was clicked and delete the attachments
@@ -289,7 +327,7 @@ class PurchaseOrderController extends Controller
                     'item_no' => $request['item_no'][$i],
                     'qty' => $request['qty'][$i],
                     'rate_per_qty' => $request['rate_per_qty'][$i],
-                    'discount' => $request['discount'][$i],
+                    // 'discount' => $request['discount'][$i],
                     // 'previous_rate' => $request['previous_rate'][$i],
                     'item_amount' => $request['item_amount'][$i],
                     // 'pending_qty' => $request['pending_qty'][$i],

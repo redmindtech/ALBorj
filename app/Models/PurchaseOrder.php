@@ -17,13 +17,29 @@ class PurchaseOrder extends Model
         "po_date",
         "quote_ref",
         "quote_date",
-        "currency","credit_period","payment_terms","delivery_location","delivery_terms","mr_no","total_amount","total_discount","gross_amount","remarks","attachments","vat","po_prepared","deleted"
+        "currency",
+        "discount_type",
+        "discount",
+        "credit_period",
+        "payment_terms",
+        "delivery_location",
+        "delivery_terms",
+        "mr_no",
+        "total_amount",
+        "total_discount",
+        "gross_amount",
+        "remarks",
+        "attachments",
+        "vat",
+        "total_vat",
+        "po_prepared",
+        "deleted"
     ];
     protected $table ='purchase_order';
     protected $primaryKey='po_no';
     protected $fillable =
     [
-        'po_type','supplier_no','po_date','quote_ref','quote_date','currency','credit_period','payment_terms','delivery_location','delivery_terms','mr_no','total_amount','total_discount','gross_amount','remarks','attachments','vat','po_prepared','deleted'
+        'po_type','supplier_no','po_date','discount','discount_type','quote_ref','quote_date','currency','credit_period','payment_terms','delivery_location','delivery_terms','mr_no','total_amount','total_discount','gross_amount','remarks','attachments','vat','total_vat','po_prepared','deleted'
     ];
     protected static function booted()
     {
