@@ -500,6 +500,7 @@
                 var rate = parseFloat(row.find('input[id^="rate_per_qty_"]').val()) || 0;
                 var itemAmount = quantity * rate;
                 row.find('input[id^="item_amount_"]').val(itemAmount);
+                
                 calculateTotal();
                 updateGrossAmount();
             });//end
@@ -577,8 +578,8 @@ function add_text()
 {    var html = '';
 		html +='<tr id="row'+rowIdx+'" class="rowtr">';
         html += '<td>'+rowIdx+'</td>';
-		html += '<td><div class="col-xs-12"><input type="text" id="item_name_'
-        +rowIdx+'"  name="item_name[]" class="item_name form-control" placeholder="Start Typing Item name..."></div></td>';
+		html += '<td><center><div class="col-xs-12" name="item_name1[]" id="item_name1_'+ rowIdx + '" ></div></center>';
+        html +='<div class="col-xs-12"><input type="text" id="item_name_'+rowIdx+'" hidden name="item_name[]" class="item_name form-control" placeholder="Start Typing Item name..."></div></td>';
         html += '<td hidden ><div class="col-xs-12"><input type="text"  id="item_no_'+rowIdx+'"  name="item_no[]" class="item_no_'+rowIdx+'"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="pack_specification_'+rowIdx+'"  name="pack_specification[]" class="pack_specification form-control"></div></td>';
         html += '<td><center><div class="col-xs-12" name="quantity[]" id="quantity1_'+ rowIdx + '" ></div></center>';
@@ -587,9 +588,8 @@ function add_text()
         html += '<div class="col-xs-12"><input type="text" hidden id="pending_qty_'+rowIdx+'" name="pending_qty[]" class="pending_qty"></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="receiving_qty_'+rowIdx+'" name="receiving_qty[]" class="receiving_qty form-control"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="rate_per_qty_'+rowIdx+'"  name="rate_per_qty[]"class="rate_per_qty form-control"></div></td>';       
-        html += '<td><center><div class="col-xs-12"><center><input type="text"  id="item_amount_'+rowIdx+'"name="item_amount[]" class="item_amount form-control"></div></center></td>';
-        html +=
-            '<td><button class="btn btn-danger remove btn-sm" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
+        html += '<td><div class="col-xs-12"><input type="text"  id="item_amount_'+rowIdx+'"name="item_amount[]" class="item_amount form-control"></div></td>';
+        html += '<td><button class="btn btn-danger remove btn-sm" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
         html += '</tr>';
         $("#tbody1").append(html);        
         rowIdx++;     
@@ -734,12 +734,14 @@ $(document).on('input', '#po_code',function()
             $('#po_date').val(data.po_date.split(' ')[0]);
             $('#name').val(data.supplier_name);
             $('#supplier_no').val(data.supplier_no);
-            $('#grn_purchase_type').val(data.purchase_type);
+
+             $('#grn_purchase_type').val(data.purchase_type);
             console.log(data.purchase_type);
             var create_id=1;   
             for (const item of data.po_items) { 
             add_text();
             $('#item_name_' + create_id).val(item.item_name);
+            $('#item_name1_' + create_id).text(item.item_name);
             $('#item_no_' + create_id).val(item.item_no);              
             $('#quantity1_'+ create_id).text(item.qty); 
             $('#quantity_'+ create_id).val(item.qty); 
@@ -751,6 +753,9 @@ $(document).on('input', '#po_code',function()
             $('#rate_per_qty_'+ create_id).val(item.rate_per_qty);              
             create_id++;
             }  
+            // setTimeout(function() {
+            //     $('#grn_purchase_type').val(data.purchase_type);
+            // }, 0);
             rowIdx=1;      
 
     },fail: function(xhr, textStatus, errorThrown){
@@ -937,6 +942,8 @@ function handleShowAndEdit(id,po_no,action)
                 $('#pending_qty_'+ rowid).val(item.pending_qty); 
                 $('#receiving_qty_'+ rowid).val(item.receiving_qty);
                 $('#rate_per_qty_'+ rowid).val(item.rate_per_qty);
+              
+                
                  $('#item_amount_'+ rowid).val(item.item_amount);
                totalAmount += parseFloat(item.item_amount);             
                 rowid++;

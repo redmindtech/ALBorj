@@ -15,13 +15,15 @@ class PurchaseOrderItem extends Model
         "qty",
         "rate_per_qty",
         "discount",
-        "item_amount","deleted"
+        "item_amount",
+        "pending_qty",
+        "deleted"
     ];
     protected $table ='purchase_order_item';
     protected $primaryKey='po_item_no';
     protected $fillable =
     [
-        'po_no','item_no','qty','rate_per_qty','discount','item_amount','deleted',
+        'po_no','item_no','qty','rate_per_qty','discount','item_amount','pending_qty','deleted',
     ];
     public function purchaseissue()
     {

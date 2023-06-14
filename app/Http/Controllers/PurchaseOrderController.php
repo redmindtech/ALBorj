@@ -171,7 +171,7 @@ class PurchaseOrderController extends Controller
                      'rate_per_qty' => $request['rate_per_qty'][$i],
                     //  'discount' => $request['discount'][$i],
                      'item_amount' => $request['item_amount'][$i],
-                    //  'pending_qty' => $request['pending_qty'][$i],
+                    'pending_qty' =>  $request['qty'][$i],
                  ]);
              }
              info($request);
@@ -330,7 +330,7 @@ class PurchaseOrderController extends Controller
                     // 'discount' => $request['discount'][$i],
                     // 'previous_rate' => $request['previous_rate'][$i],
                     'item_amount' => $request['item_amount'][$i],
-                    // 'pending_qty' => $request['pending_qty'][$i],
+                     'pending_qty' =>  $request['qty'][$i],
                 ]);
          }
              return response()->json('Purchase Order updated successfully', 200);

@@ -32,8 +32,9 @@ class AutoCompleteController extends Controller
       ->where('po_status', '=', '0')
       ->where('purchase_order.po_code', $po_code)
       ->first();
-     
+      
       if ($po_info) {
+        
           $po_no = $po_info->po_no;
           $po_date = $po_info->po_date;
           $supplier_name=$po_info->name;
@@ -44,7 +45,7 @@ class AutoCompleteController extends Controller
               ->join('item_masters', 'purchase_order_item.item_no', '=', 'item_masters.id')
               ->select('purchase_order_item.*', 'item_masters.item_name')
               ->where('po_no', $po_no)
-              ->where('pending_qty', '!=', 0)
+            //   ->where('pending_qty', '!=', 0)
               ->get();
 
           return response()->json([
