@@ -20,7 +20,7 @@ class GoodsReceivingNote extends Model
         "po_date", 
         "grn_purchase_type",
         "due_Date",
-        "invoice_amount",
+        
         "misc_expenses",        
         "freight",
         "dis_type",
@@ -49,7 +49,7 @@ class GoodsReceivingNote extends Model
         "po_date", 
         "grn_purchase_type",
         "due_Date",
-        "invoice_amount",
+        
         "misc_expenses",    
         "freight",
         "dis_type",

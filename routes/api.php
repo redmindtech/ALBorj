@@ -62,6 +62,7 @@ Route::get("/getmrdata", [App\Http\Controllers\PurchaseOrderController::class, '
 Route::get("/purchase_return_data", [App\Http\Controllers\AutoCompleteController::class, 'purchase_return_data'])->name('purchase_return_data');
 Route::get("/getempdata_supplier_company", [App\Http\Controllers\AutoCompleteController::class, 'getempdata_supplier_company'])->name('getempdata_supplier_company');
 Route::get("/getmrcode",[App\Http\Controllers\AutoCompleteController::class,'getmrcode'])->name('getmrcode');
+Route::get("/po_number",[App\Http\Controllers\AutoCompleteController::class,'po_number'])->name('po_number');
 
 // item master
 Route::post("/item", [App\Http\Controllers\ItemMasterController::class, 'store'])->name('store');

@@ -194,30 +194,24 @@
  </div> -->
     </div>
     <div class="row" style="margin-top:8px">
-    <div class="form-group col-md-2">
-        <label for="invoice_amount" class="form-label fw-bold">Invoice Amt</label>
-        <input type="text" id="invoice_amount" name="invoice_amount" value="{{ old('invoice_amount')}}" placeholder="Invoice Amt" class="form-control" autocomplete="off">      
-    </div>
+   
     <div class="form-group col-md-2">
         <label for="misc_expenses" class="form-label fw-bold">Misc Expenses</label>
-        <input type="text" id="misc_expenses" name="misc_expenses" value="{{ old('misc_expenses')}}" placeholder="Misc Expenses" class="form-control" autocomplete="off">      
+        <input type="text" id="misc_expenses" style="width: 70%;" name="misc_expenses" value="{{ old('misc_expenses')}}" placeholder="Misc Expenses" class="form-control" autocomplete="off">      
     </div>
-    <!-- <div class="form-group col-md-2">
-        <label for="discount" class="form-label fw-bold">Discount</label>
-        <input type="text" id="discount_amount" name="discount_amount" value="{{ old('discount_amount')}}" placeholder="Discount" class="form-control" autocomplete="off">      
-    </div> -->
+    
     <div class="form-group col-md-2">
         <label for="freight" class="form-label fw-bold">Freight</label>
-        <input type="text" id="freight" name="freight" value="{{ old('freight')}}" placeholder="Freight" class="form-control" autocomplete="off">      
+        <input type="text" id="freight" name="freight" style="width: 70%;" value="{{ old('freight')}}" placeholder="Freight" class="form-control" autocomplete="off">      
     </div>
-    <div class="form-group col-md-3">
+    <div class="form-group col-md-2">
   <label for="discount" class="form-label fw-bold">Discount</label>
-  <div class="input-group">
+  <div class="input-group" >
     <input type="text" id="discount_amount" name="discount_amount" value="{{ old('discount_amount')}}" placeholder="Discount" class="form-control" autocomplete="off">
     <div class="toggle focus" style="margin-top:6% !important;"> <!-- Add margin to create space between the input and the toggle button -->
       <input type="checkbox" class="st" name="dis_type" id="dis_type" value="1" {{ old('dis_type') ? 'checked' : '' }}>
       <span class="slider focus"></span>
-      <span class="label">AED</span>
+      <span class="label" >AED</span>
     </div>
   </div>
 </div>
@@ -326,10 +320,6 @@
                         <div class="col-md-3">
                             <label>Due date</label>
                             <p id="show_due_Date"></p>
-                        </div>                
-                          <div class="col-md-3">
-                            <label>Invoice Amount</label>
-                            <p id="show_invoice_amount"></p>
                         </div>
                           <div class="col-md-3">
                             <label>Misc Expenses</label>
@@ -378,58 +368,70 @@
      
        <!--script starts  -->
 <script> 
-   $(document).ready(function(){
-    $(this).parent().toggleClass('on');
-        $('.toggle input[type="checkbox"]').click(function(){
-            $(this).parent().toggleClass('on');      
 
-            if ($(this).parent().hasClass('on')) {
-                console.log('on');
-                var miscExpenses = parseFloat($('input[name="misc_expenses"]').val() || 0);        
-            var freight = parseFloat($('input[name="freight"]').val() || 0);
-            var totalAmount =  parseFloat($('#total_item_amount').val()) || 0;
-               $('#dis_type').val('1');
-               var disPercentage = parseFloat($('input[name="discount_amount"]').val() || 0);
-            //    discount cALCULATION
-                dis = (disPercentage / 100) * totalAmount;
-                $('#discount').val(dis.toFixed(2));
-                // ITEM TOTAL CAL
-                var total_amount =totalAmount-dis;
-                var total_ex_f= total_amount+miscExpenses+freight;
-                $('#total_amount').val(total_ex_f.toFixed(2));
-                // VAT CALCULATION
-                var selectedValue = $('input[name="vat"]:checked').val() || 0;
-                var total_vat =((selectedValue/100)*total) || 0;
-                $('#vat_amount').val(total_vat.toFixed(2));
-                // GROSS AMT
-               var gross_amount =parseFloat(total_ex_f)+parseFloat(total_vat);
-               $('#gross_amount').val(gross_amount.toFixed(2));
 
-                $(this).parent().children('.label').text('%')
+  $(document).ready(function() {
+    // Toggle checkbox event
+     
+    $('.toggle input[type="checkbox"]').on('click', function() {
+      $(this).parent().toggleClass('on');
+    
+      updateCalculation();
+    });
 
-            } else {
-                console.log('off');
-           var miscExpenses = parseFloat($('input[name="misc_expenses"]').val() || 0);        
-            var freight = parseFloat($('input[name="freight"]').val() || 0);
-            var totalAmount =  parseFloat($('#total_item_amount').val()) || 0;
-                $('#dis_type').val('0');
-               var disPercentage = parseFloat($('input[name="discount_amount"]').val() || 0);
-               $('#discount').val(disPercentage.toFixed(2));
-               var total_amount =totalAmount-disPercentage;
+    // Input event for quantity and rate
+    $('#tbody1').on('input', 'input[id^="receiving_qty"], input[id^="rate_per_qty_"]', function() {
+      var row = $(this).closest('tr');
+      var quantity = parseFloat(row.find('input[id^="receiving_qty"]').val()) || 0;
+      var rate = parseFloat(row.find('input[id^="rate_per_qty_"]').val()) || 0;
+      var itemAmount = quantity * rate;
+      row.find('input[id^="item_amount_"]').val(itemAmount);
 
-                var total_ex_f= total_amount+miscExpenses+freight;
-                $('#total_amount').val(total_ex_f.toFixed(2));
-                // VAT CALCULATION
-                var selectedValue = $('input[name="vat"]:checked').val() || 0;
-                var total_vat =((selectedValue/100)*total) || 0;
-                $('#vat_amount').val(total_vat.toFixed(2));
-                // GROSS AMT
-               var gross_amount =parseFloat(total_ex_f)+parseFloat(total_vat);
-               $('#gross_amount').val(gross_amount.toFixed(2));
-                $(this).parent().children('.label').text('AED')
-            }
-        });           
-    });  
+      calculateTotal();
+      updateCalculation();
+    });
+
+    // Input event for misc expenses, freight, discount, vat, and total item amount
+    $('input[name="misc_expenses"], input[name="freight"], input[name="discount_amount"], input[name="vat"], input[name="purchase"], #total_item_amount').on('input', function() {
+      calculateTotal();
+      updateCalculation();
+    });
+
+    // Calculate and display the total item amount
+    function calculateTotal() {
+      var total = 0;
+      $("input[name='item_amount[]']").each(function() {
+        var val = parseFloat($(this).val());
+        if (!isNaN(val)) {
+          total += val;
+        }
+      });
+      $("#total_item_amount").val(total.toFixed(2));
+    }
+
+    // Update calculation based on inputs
+    function updateCalculation() {
+      var isChecked = $('.toggle input[type="checkbox"]').parent().hasClass('on');
+      var miscExpenses = parseFloat($('input[name="misc_expenses"]').val() || 0);
+      var freight = parseFloat($('input[name="freight"]').val() || 0);
+      var totalAmount = parseFloat($('#total_item_amount').val()) || 0;
+      var disPercentage = parseFloat($('input[name="discount_amount"]').val() || 0);
+      var selectedValue = $('input[name="vat"]:checked').val() || 0;
+
+      var dis = isChecked ? (disPercentage / 100) * totalAmount : disPercentage;
+      var total_amount = totalAmount - dis;
+      var total_ex_f = total_amount + miscExpenses + freight;
+      var total_vat = (selectedValue / 100) * total_ex_f;
+      var gross_amount = total_ex_f + total_vat;
+
+      $('#dis_type').val(isChecked ? '1' : '0');
+      $('#discount').val(dis.toFixed(2));
+      $('#total_amount').val(total_ex_f.toFixed(2));
+      $('#vat_amount').val(total_vat.toFixed(2));
+      $('#gross_amount').val(gross_amount.toFixed(2));
+      $('.toggle .label').text(isChecked ? '%' : 'AED');
+    }
+  });
     // delete attachment
         document.getElementById("deleteButton").addEventListener("click", function() {
             if (confirm("Are you sure you want to delete this attachment?"))
@@ -490,88 +492,7 @@
                                  // Decreasing total number of rows by 1.
                                  rowIdx--;
                              });
-   
-
-
-            // table textbox multiple receiving_qty and rate_per_qty
-            $('#tbody1').on('input', 'input[id^="receiving_qty"], input[id^="rate_per_qty_"]', function() {
-                var row = $(this).closest('tr');
-                var quantity = parseFloat(row.find('input[id^="receiving_qty"]').val()) || 0;
-                var rate = parseFloat(row.find('input[id^="rate_per_qty_"]').val()) || 0;
-                var itemAmount = quantity * rate;
-                row.find('input[id^="item_amount_"]').val(itemAmount);
-                
-                calculateTotal();
-                updateGrossAmount();
-            });//end
-
-    // calculation for total amount
-    $(' input[name="misc_expenses"],  input[name="freight"],input[name="discount_amount"],input[name="vat"], input[name="purchase"],#total_item_amount').on('input', function() {
-        var miscExpenses = parseFloat($('input[name="misc_expenses"]').val() || 0);        
-        var freight = parseFloat($('input[name="freight"]').val() || 0);
-        calculateTotal();
-        var totalAmount =  parseFloat($('#total_item_amount').val()) || 0;
-         var dis = 0;
-    if ($('.toggle input[type="checkbox"]').parent().hasClass('on')) {
-        // VAT input is set to percentagediscount_amount
-        var disPercentage = parseFloat($('input[name="discount_amount"]').val() || 0);
-        dis = (disPercentage / 100) * totalAmount;
-
-    } else {
-        // VAT input is set to rupee amount
-        dis = parseFloat($('input[name="discount_amount"]').val() || 0);
-    }
-    $('#discount').val(dis.toFixed(2));
-    var total_1 = totalAmount-dis;
-    var total = total_1+miscExpenses+freight;
-    $('#total_amount').val(total.toFixed(2));
-    console.log(total);
-    var selectedValue = $('input[name="vat"]:checked').val() || 0;
-        var total_vat =(selectedValue/100)*total ;
-    $('#vat_amount').val(total_vat.toFixed(2));
-     var gross_amount =total+total_vat;
-         $('#gross_amount').val(gross_amount.toFixed(2));
-    });
-
-// Calculate and display the total item amount
-        function calculateTotal() {
-        var total = 0;
-        $("input[name='item_amount[]']").each(function() {
-            var val = parseFloat($(this).val());
-            if (!isNaN(val)) {
-            total += val;
-            }
-        });
-        $("#total_item_amount").val(total.toFixed(2));
-        }
-
-// after calculation if they add new row
-    function updateGrossAmount() {
-    var miscExpenses = parseFloat($('input[name="misc_expenses"]').val() || 0);        
-    var freight = parseFloat($('input[name="freight"]').val() || 0);
-    var total =parseFloat($('#total_item_amount').val()) || 0;
-    var dis = 0;
-    if ($('.toggle input[type="checkbox"]').parent().hasClass('on')) {
-        // VAT input is set to percentage
-        var disPercentage = parseFloat($('input[name="discount_amount"]').val() || 0);
-        dis = (disPercentage / 100) * total;
-    } else {
-        // VAT input is set to rupee amount
-        dis = parseFloat($('input[name="discount_amount"]').val() || 0);
-    }
-
-    $('#discount').val(dis.toFixed(2));
-    var total1=total-dis;
-    var totalAmount=total1+miscExpenses+freight;
-    $('#total_amount').val(totalAmount.toFixed(2));
-    var selectedValue = $('input[name="vat"]:checked').val() || 0;
-    var total_vat =(selectedValue/100)*totalAmount;
-    $('#vat_amount').val(total_vat.toFixed(2));   
-    var gross_amount =totalAmount+total_vat;
-    $('#gross_amount').val(gross_amount.toFixed(2));    
-       
-    }              
-    
+        
     // dynamic table creation
 var rowIdx =1;
 function add_text()
@@ -713,8 +634,34 @@ $(document).on('focus click', $("#tbody1"), function() {
   }
 });
 
+jQuery($ => {
+  $(document).on('focus', 'input',  "#po_code", function() {
+    $("#po_code").autocomplete({
+      source: function(request, response) {
+        $.ajax({
+          type: "GET",
+          url: "{{ route('po_number') }}",
+          dataType: "json",
+          data: {
+            'po_code':$('#po_code').val()
+          },
+          success: function(data) {
+            result = [];
+            for (var i in data) {
+              result.push(data[i]["po_code"]);
+            }
+            response(result);
+          },
+          fail: function(xhr, textStatus, errorThrown) {
+            alert(errorThrown);
+          }
+        });
+      },
+    });
+  });
+});
 // table create with data for ref lpo number
-$(document).on('input', '#po_code',function()
+$(document).on('change','#po_code',function()
     {   
         $('.rowtr').remove();   
        
@@ -734,9 +681,23 @@ $(document).on('input', '#po_code',function()
             $('#po_date').val(data.po_date.split(' ')[0]);
             $('#name').val(data.supplier_name);
             $('#supplier_no').val(data.supplier_no);
-
-             $('#grn_purchase_type').val(data.purchase_type);
-            console.log(data.purchase_type);
+            $('#freight').val(data.freight);
+            $('#misc_expenses').val(data.misc_expenses);
+            $('#discount_amount').val(data.discount);
+            $('#grn_purchase_type').val(data.purchase_type);
+            if (data.discount_type == 1) {
+            $('.toggle input[type="checkbox"]').parent().addClass('on');  
+            } else {
+            $('.toggle input[type="checkbox"]').parent().removeClass('on');  
+            }
+            $('#grn_purchase_type').val(data.purchase_type);
+            if (data.vat == '5') {
+                  $('#vat-excluded').prop('checked', true);
+            }else{
+                $('#vat-included').prop('checked', true);
+            }
+            // vat_amount
+            $('#vat_amount').val(data.total_vat);            
             var create_id=1;   
             for (const item of data.po_items) { 
             add_text();
@@ -745,30 +706,26 @@ $(document).on('input', '#po_code',function()
             $('#item_no_' + create_id).val(item.item_no);              
             $('#quantity1_'+ create_id).text(item.qty); 
             $('#quantity_'+ create_id).val(item.qty); 
-                                 
             $('#pending_qty1_'+ create_id).text(item.pending_qty); 
-            $('#pending_qty_'+ create_id).val(item.pending_qty); 
-         
+            $('#pending_qty_'+ create_id).val(item.pending_qty);         
             $('#item_name_' + create_id).val(item.item_name);   
             $('#rate_per_qty_'+ create_id).val(item.rate_per_qty);              
             create_id++;
             }  
-            // setTimeout(function() {
-            //     $('#grn_purchase_type').val(data.purchase_type);
-            // }, 0);
             rowIdx=1;      
 
-    },fail: function(xhr, textStatus, errorThrown){
-    alert(errorThrown);
-    }
-});
-    });
+            },fail: function(xhr, textStatus, errorThrown){
+            alert(errorThrown);
+            }
+           });
+            });
 
     // dialog open
     function handleDialog(){
              document.getElementById("myDialog").open = true;
              window.scrollTo(0, 0);
             //  add_text();
+            // $('#dis_type').prop('checked', true);
             $('#vat-included').prop('checked', true);
              $('#method').val("ADD");
              $('#submit').text("Save");
@@ -785,7 +742,8 @@ function handleClose(){
             document.getElementById("myDialog").open = false;
                 // Clear the form fields
                 $('#form')[0].reset();
-                // $('#dis_type').prop('checked', true).trigger('click');
+                $('.toggle input[type="checkbox"]').parent().removeClass('on');
+                //  $('.toggle').prop('checked', false);
                 $("#tbody1").empty();
                 // show_table
                 $("#item_details_show").empty();
@@ -797,10 +755,6 @@ function handleClose(){
                 $('#blur-background').css('display','none');
                 // window.location.reload();
           } 
-        //   }
-
-
-
           // DELETE FUNCTION
     function handleDelete(id)
     {
@@ -825,6 +779,8 @@ function handleClose(){
     function handleSubmit() {
         event.preventDefault();
     var hasError = false;
+    alert( $('#dis_type').val());
+       $('#dis_type').is(':checked') ? 1 : 0
     // check receiving qty
     $('.rowtr').each(function() {
         // Get the row index
@@ -918,9 +874,11 @@ function handleShowAndEdit(id,po_no,action)
                     {
                         $(`#${key}`).val(value);
                     }                    
-             if (message.grn.dis_type == '1') {          
-                $('#dis_type').prop('checked', true).trigger('click');
-             }
+             if (message.grn.dis_type == '1') {    
+                $('.toggle input[type="checkbox"]').parent().addClass('on');
+                } else {
+                $('.toggle input[type="checkbox"]').parent().removeClass('on');
+                }
 
              if (message.grn.vat == '5') {
                   $('#vat-excluded').prop('checked', true);
@@ -942,21 +900,17 @@ function handleShowAndEdit(id,po_no,action)
                 $('#pending_qty_'+ rowid).val(item.pending_qty); 
                 $('#receiving_qty_'+ rowid).val(item.receiving_qty);
                 $('#rate_per_qty_'+ rowid).val(item.rate_per_qty);
-              
-                
                  $('#item_amount_'+ rowid).val(item.item_amount);
                totalAmount += parseFloat(item.item_amount);             
                 rowid++;
             }
                      $('#total_item_amount').val(totalAmount);
-                    $('#total_amount').val(message.grn.total_amount);
+                     $('#total_amount').val(message.grn.total_amount);
                      $('#discount').val(message.grn.discount);
                      $('#gross_amount').val(message.grn.gross_amount);
                      $('#vat_amount').val(message.grn.vat_amount);
-
-
-                    $('#method').val('UPDATE');
-                    $('#submit').text('UPDATE');
+                     $('#method').val('UPDATE');
+                     $('#submit').text('UPDATE');
                 }
                 else
                 {
@@ -1052,10 +1006,6 @@ po_code:
 {
     required: true
 },
-invoice_amount:
-{
-    alphanumeric_invoice:true
-},
 misc_expenses:
 {
     alphanumeric_invoice:true
@@ -1111,10 +1061,7 @@ po_code:
 {
     required:"Please enter the purchaseorder Number",
 },
-invoice_amount:
-{
-    alphanumeric_invoice: "Please enter only numbers"
-},
+
 misc_expenses:
 {
     alphanumeric_invoice: "Please enter only numbers"

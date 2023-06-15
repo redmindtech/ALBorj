@@ -69,16 +69,13 @@ class GoodsReceivingNoteController extends Controller
      */
     public function store(GoodReceivingNoteRequest $request)
     {
-        info($request);
-    //    for DISCOUNT_typE
-        if($request['dis_type']=="")
-        {
-            $request['dis_type']='0' ;
+        if (!isset($request['dis_type'])) {
+            // The 'dis_type' key exists in the $request array
+            // Perform your desired actions here
+            $request['dis_type']=1;
         }
-        if($request['dis_type'] == "")
-        {
-            $request['dis_type']=null ; 
-        }  
+        
+         
         $file = $request->file('attachments');        
         $po_no=$request['po_no'];
         $purchase_type=$request['grn_purchase_type'];
@@ -158,7 +155,7 @@ class GoodsReceivingNoteController extends Controller
                     ]); 
                 }
                  //UPDATEPENDING QUANTITY STATUS
-                 info($update_pending_qty_array);
+                //  info($update_pending_qty_array);
                  // update po_status in purchase order table
                  $hasNonZeroValue = false;
                     foreach ($update_pending_qty_array as $value) {
@@ -267,6 +264,12 @@ class GoodsReceivingNoteController extends Controller
     {  
         $po_no=$request['po_no'];
         $purchase_type=$request['grn_purchase_type'];
+        if (!isset($request['dis_type'])) {
+            // The 'dis_type' key exists in the $request array
+            // Perform your desired actions here
+            $request['dis_type']=1;
+        }
+        
         try {
             $grn = GoodsReceivingNote::where('grn_no', $grn_no)->first();
             $grossAmount = $grn->gross_amount;

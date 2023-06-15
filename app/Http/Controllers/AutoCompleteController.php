@@ -7,6 +7,7 @@ use App\Models\ClientMaster;
 use App\Models\EmployeeMaster;
 use App\Models\ItemMaster;
 use App\Models\ProjectMaster;
+use App\Models\PurchaseOrder;
 use App\Models\SiteMaster;
 use App\Models\SupplierMaster;
 use Illuminate\Http\Request;
@@ -28,7 +29,9 @@ class AutoCompleteController extends Controller
       info($po_code);
       $po_info = DB::table('purchase_order')
       ->join('supplier_masters', 'purchase_order.supplier_no', '=', 'supplier_masters.supplier_no')
-      ->select('purchase_order.po_no', 'purchase_order.po_date', 'purchase_order.supplier_no', 'supplier_masters.name','purchase_order.po_type')
+      ->select('purchase_order.po_no', 'purchase_order.po_date', 'purchase_order.supplier_no', 'supplier_masters.name','purchase_order.po_type',
+      'purchase_order.freight','purchase_order.misc_expenses','purchase_order.discount','purchase_order.discount_type',
+     'purchase_order.vat','purchase_order.total_vat' )
       ->where('po_status', '=', '0')
       ->where('purchase_order.po_code', $po_code)
       ->first();
@@ -40,6 +43,15 @@ class AutoCompleteController extends Controller
           $supplier_name=$po_info->name;
           $supplier_no=$po_info->supplier_no;
           $purchase_type=$po_info->po_type;
+          $freight=$po_info->freight;
+          $misc_expenses=$po_info->misc_expenses;
+          $discount=$po_info->discount;
+          $discount_type=$po_info->discount_type;
+          $vat=$po_info->vat;
+          $total_vat=$po_info->total_vat;
+
+
+
           // Items get from po_item table
           $po_items = DB::table('purchase_order_item')
               ->join('item_masters', 'purchase_order_item.item_no', '=', 'item_masters.id')
@@ -54,7 +66,15 @@ class AutoCompleteController extends Controller
               'po_items' => $po_items,
               'supplier_name'=>$supplier_name,
               'supplier_no'=> $supplier_no,
-              'purchase_type'=>$purchase_type
+              'purchase_type'=>$purchase_type,
+              'freight'=>$freight,
+              'misc_expenses'=>$misc_expenses,
+              'discount'=>$discount,
+              'discount_type'=>$discount_type,
+              'total_vat'=>$total_vat,
+              'vat'=>$vat
+
+    
           ]);
 
       } else {
@@ -242,7 +262,16 @@ public function  getmrcode(){
     $data = MaterialRequisition::where('mr_reference_code','LIKE',$mrcode.'%')->get();
   
     return $data;
-    info($data);
+    
   }
+//   auto complete for po number
+public function po_number()
+{
+    $pocode = $_GET['po_code'];
+    $data = PurchaseOrder::where('po_code','LIKE',$pocode.'%')
+    ->where('po_status', '=', '0')
+    ->where('deleted', '=', '0')->get();
+    return $data;
+}
   
 }
