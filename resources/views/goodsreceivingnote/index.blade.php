@@ -935,7 +935,7 @@ function handleShowAndEdit(id,po_no,action)
                 $('#item_name_' + rowid).val(item.item_name);
                 $('#item_no_' + rowid).val(item.item_no);
                 $('#pack_specification_'+ rowid).val(item.pack_specification);
-
+                $('#item_name1_' + rowid).text(item.item_name);
                 $('#quantity_'+ rowid).val(item.quantity);
                 $('#quantity1_'+ rowid).text(item.quantity);
                 $('#pending_qty1_'+ rowid).text(item.pending_qty); 

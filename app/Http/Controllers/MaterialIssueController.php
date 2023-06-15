@@ -12,7 +12,7 @@ use Exception;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Requests\MaterialIssueRequest;
+
 
 
 use Illuminate\Http\Request;
@@ -20,29 +20,25 @@ require_once(app_path('constants.php'));
 
 class MaterialIssueController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // autocomplete data from site name
+    public function  getitemnamedata()
+    {
+        try
+        {
+            $itemname = $_GET['itemname'];
+            info($itemname);
+            $data = ItemMaster::where('item_name','LIKE',$itemname.'%')->get();
+            info($data);
 
-    //don't touch that
-    public function  getitemnamedata(){
-      try{
-        $itemname = $_GET['itemname'];
-        info($itemname);
-        $data = ItemMaster::where('item_name','LIKE',$itemname.'%')->get();
-        info($data);
-
-        return $data;
+            return $data;
+        }
+        catch (Exception $e)
+        {
+            info($e);
+            return response()->json('Error occured in the loading page', 400);
+        }
     }
-     catch (Exception $e) {
-        info($e);
-        return response()->json('Error occured in the loading page', 400);
-    }
-}
-    public function  getsitelocationdata(){
+    public function  getsitelocationdata()
+    {
         $site_name = $_GET['site_name'];
 
         $data = SiteMaster::where('site_location','LIKE',$site_name.'%')->get();
@@ -51,124 +47,198 @@ class MaterialIssueController extends Controller
         return $data;
     }
 
+      /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    // autocomplete data from site name
+
+    //don't touch that
     public function index()
     {
-        try{
+        try
+        {
             $type = MATERIALTYPE;
+            $siteLocation = SiteMaster::pluck('site_location');
+            $projectNames=ProjectMaster::pluck('project_name');
+            $employeeNames = EmployeeMaster::pluck('firstname');
+            $itemNames = ItemMaster::pluck('item_name');
 
-        $material_issues = DB::table('material_issue_return')
-             ->join('employee_masters', 'material_issue_return.receiving_employee', '=', 'employee_masters.id')
+            $material_issues = DB::table('material_issue_return')
+            // ->join('employee_masters', 'material_issue_return.receiving_employee', '=', 'employee_masters.id')
+
             ->join('project_masters', 'material_issue_return.project_no', '=', 'project_masters.project_no')
-            ->select('employee_masters.*','project_masters.*', 'material_issue_return.*')
+            ->select('project_masters.*', 'material_issue_return.*')
             ->get();
-        return view('materialissue.index')->with([
-            'material_issues' => $material_issues,
-            'type' => $type,
+            return view('materialissue.index')->with([
+                'material_issues' => $material_issues,
+                'type' => $type,
+                'siteLocation' => $siteLocation,
+                'projectNames' => $projectNames,
+                'employeeNames' => $employeeNames,
+                'itemNames' => $itemNames
 
-        ]);
+            ]);
 
+        }
+        catch (Exception $e)
+        {
+            info($e);
+            return response()->json('Error occured in the loading page', 400);
+        }
     }
-    catch (Exception $e) {
-        info($e);
-        return response()->json('Error occured in the loading page', 400);
-    }
-}
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MaterialIssueRequest $request)
-    {
 
-        try {
-            info($request);
+     public function store(Request $request)
+     {
+         try {
+             info($request);
 
-            MaterialIssue::create($request->only(MaterialIssue::REQUEST_INPUTS));
-            $mir_no= MaterialIssue::max('mir_no');
+             // Create MaterialIssue record
+             $materialIssue = MaterialIssue::create($request->only(MaterialIssue::REQUEST_INPUTS));
+             $mir_no = $materialIssue->mir_no;
 
-            for ($i = 0;$i <  count($request['item_no']); $i++) {
+             // Create MaterialIssueItem records
+             for ($i = 0; $i < count($request['item_no']); $i++) {
+                 MaterialIssueItem::create([
+                     'mir_no' => $mir_no,
+                     'item_no' => $request['item_no'][$i],
+                     'store_room' => $request['store_room'][$i],
+                     'item_quantity' => $request['item_quantity'][$i],
+                 ]);
 
-                MaterialIssueItem::create([
+                 // Update total_quantity based on the selected type
+                 $type = $request->input('type');
+                 if ($type === 'Issue') {
+                     // Reduce the total_quantity by item_quantity
+                     $item = ItemMaster::find($request['item_no'][$i]);
+                     $item->total_quantity -= $request['item_quantity'][$i];
+                     $item->save();
+                 } elseif ($type === 'Return') {
+                     // Add the item_quantity to total_quantity
+                     $item = ItemMaster::find($request['item_no'][$i]);
+                     $item->total_quantity += $request['item_quantity'][$i];
+                     $item->save();
+                 }
+             }
 
-                    'mir_no' => $mir_no,
-                    'item_no' => $request['item_no'][$i],
-                    // 'item' => $request['item'][$i],
-                    'store_room' => $request['store_room'][$i],
-                    'item_quantity' => $request['item_quantity'][$i],
-                ]);
-            }
+             // Return appropriate response based on the selected type
+             if ($type === 'Issue') {
+                 return response()->json('Material Issue added Successfully', 200);
+             } elseif ($type === 'Return') {
+                 return response()->json('Material Return added Successful', 200);
+             } else {
+                 return response()->json('Operation Successful', 200);
+             }
+         } catch (Exception $e) {
+             info($e);
+             return response()->json('Error occurred in the store', 400);
+         }
+     }
 
-            //  MaterialIssueItem::create($val1);
-            return response()->json('Material Issue Created Successfully', 200);
-
-        } catch (Exception $e) {
-            info($e);
-            return response()->json('Error occured in the store', 400);
-        }
-
-
-    }
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-public function show($mir_no)
-{
-    try {
-        $material_issue_return =  DB::table('material_issue_return')->select('mr_no')->where('material_issue_return.mir_no', $mir_no)->value('mr_no');
-        if ($material_issue_return != '') {
-        $material_issues = DB::table('material_issue_return')
-            ->join('employee_masters', 'material_issue_return.receiving_employee', '=', 'employee_masters.id')
-           ->join('project_masters', 'material_issue_return.project_no', '=', 'project_masters.project_no')
-           ->join('materials', 'material_issue_return.mr_no', '=', 'materials.mr_id')
+    public function show($mir_no)
+    {
+        try
+        {
+            $material_issue_return = DB::table('material_issue_return')
+                ->select('mr_no')
+                ->where('material_issue_return.mir_no', $mir_no)
+                ->value('mr_no');
 
-           ->select( 'employee_masters.*','project_masters.*', 'material_issue_return.*','materials.*',
-           DB::raw('DATE(material_issue_return.issue_date) as issue_date'))
-           ->where('material_issue_return.mir_no',$mir_no)
-           ->get();
+            if ($material_issue_return != '')
+            {
+                info("gowtham");
+                $material_issues = DB::table('material_issue_return')
+                // ->join('employee_masters', 'material_issue_return.receiving_employee', '=', 'employee_masters.id')
+                ->join('project_masters', 'material_issue_return.project_no', '=', 'project_masters.project_no')
+                ->join('materials', 'material_issue_return.mr_no', '=', 'materials.mr_id')
+                ->select('project_masters.*', 'material_issue_return.*', 'materials.*', DB::raw('DATE(material_issue_return.issue_date) as issue_date'))
+                ->where('material_issue_return.mir_no', $mir_no)
+                ->get();
+
+                $material_issues_item = DB::table('material_issue_return_item')
+                ->join('item_masters', 'material_issue_return_item.item_no', '=', 'item_masters.id')
+                ->join('material_issue_return', 'material_issue_return_item.mir_no', '=', 'material_issue_return.mir_no')
+                ->join('material_requisition_item', 'material_requisition_item.item_no', '=', 'item_masters.id')
+                ->select('material_issue_return_item.*', 'item_masters.*', 'material_requisition_item.*','material_issue_return.*')
+                ->where('material_issue_return_item.mir_no', $mir_no)
+                ->where('material_requisition_item.mr_no', $material_issue_return) // Include separate where condition for mr_no
+                ->get();
+
+            } else
+            {
+                // info('sara');
+                $material_issues = DB::table('material_issue_return')
+
+                ->join('project_masters', 'material_issue_return.project_no', '=', 'project_masters.project_no')
+                ->select('project_masters.*', 'material_issue_return.*', DB::raw('DATE(material_issue_return.issue_date) as issue_date'))
+                ->where('material_issue_return.mir_no', $mir_no)
+                ->get();
+                $material_issues_item = DB::table('material_issue_return_item')
+                ->join('item_masters', 'material_issue_return_item.item_no', '=', 'item_masters.id')
+                ->join('material_issue_return', 'material_issue_return_item.mir_no', '=', 'material_issue_return.mir_no')
+                 //->join('material_requisition_item', 'material_requisition_item.item_no', '=', 'item_masters.id')
+                ->select('material_issue_return_item.*', 'item_masters.*', 'material_issue_return.*')
+                ->where('material_issue_return_item.mir_no', $mir_no)
+                // ->where('material_requisition_item.mr_no', $mr_no) // Include separate where condition for mr_no
+                ->get();
+
+            }
+            if ($material_issues) {
+                $material_issues = $material_issues->toArray();
+
+                // Convert the data to UTF-8 encoding
+                array_walk_recursive($material_issues, function (&$value) {
+                    if (is_object($value)) {
+                        $value = (array) $value; // Convert the stdClass object to an array
+                    }
+
+                    if (is_array($value)) {
+                        array_walk_recursive($value, function (&$item) {
+                            if (!mb_check_encoding($item, 'UTF-8')) {
+                                // Handle invalid characters
+                                $item = mb_convert_encoding($item, 'UTF-8', 'UTF-8');
+                            }
+                        });
+                    } else {
+                        if (!mb_check_encoding($value, 'UTF-8')) {
+                            // Handle invalid characters
+                            $value = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+                        }
+                    }
+                });
+            }
+
+
+            // info($material_issues_item);
+
+            return response()->json([
+                'material_issues' => $material_issues,
+                'material_issues_item' => $material_issues_item,
+            ]);
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occurred in the show', 400);
         }
-        else{
-            $material_issues = DB::table('material_issue_return')
-            ->join('employee_masters', 'material_issue_return.receiving_employee', '=', 'employee_masters.id')
-           ->join('project_masters', 'material_issue_return.project_no', '=', 'project_masters.project_no')
-           ->select( 'employee_masters.*','project_masters.*', 'material_issue_return.*',
-           DB::raw('DATE(material_issue_return.issue_date) as issue_date'))
-           ->where('material_issue_return.mir_no',$mir_no)
-           ->get();
-        }
-           $material_issues_item = DB::table('material_issue_return_item')
-           ->join('item_masters', 'material_issue_return_item.item_no', '=', 'item_masters.id')
-           ->join('material_issue_return', 'material_issue_return_item.mir_no', '=', 'material_issue_return.mir_no')
-            ->select('material_issue_return_item.*', 'item_masters.*','material_issue_return.*')
-            ->where('material_issue_return_item.mir_no', $mir_no)
-            ->get();
-        
-
-
-        return response()->json([
-            'material_issues' => $material_issues,
-            'material_issues_item'=>$material_issues_item,
-        ]);
-    } catch (Exception $e) {
-        info($e);
-        return response()->json('Error occurred in the show', 400);
     }
-}
 
 
     /**
@@ -177,11 +247,6 @@ public function show($mir_no)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-       //
-    }
-
 
     /**
      * Update the specified resource in storage.
@@ -191,37 +256,109 @@ public function show($mir_no)
      * @return \Illuminate\Http\Response
      */
 
-       public function update(MaterialIssueRequest $request, $mir_no)
-    {
+     public function update(Request $request, $id)
+     {
+         try {
+             // Find the MaterialIssue record
+             $materialIssue = MaterialIssue::findOrFail($id);
+             $mir_no = $id;
 
-        try {
-            DB::beginTransaction();
+             // Update MaterialIssue record
+             $materialIssue->update($request->only(MaterialIssue::REQUEST_INPUTS));
 
-            $material_issues = MaterialIssue::where('mir_no', $mir_no)->firstOrFail();
-            $material_issues->update($request->only(MaterialIssue::REQUEST_INPUTS));
+            //  // Delete existing MaterialIssueItem records
+            //  $material = DB::table('material_issue_return_item')
+            //          ->where('mir_no', $mir_no)
+            //          ->get();
+            //  MaterialIssueItem::where('mir_no', $mir_no)->delete();
+             $type = $request->input('type');
 
-            // update the Material Issue item data
-            $itemCount = count($request['item_no']);
-            $mir_delete=MaterialIssueItem::where('mir_no',$mir_no)->delete();
-            for ($i = 0; $i < $itemCount; $i++) {
-                MaterialIssueItem::create([
-                    'mir_no'=>$mir_no,
-                    // 'item' => $request['item'][$i],
-                    'item_no' => $request['item_no'][$i],
-                    'store_room' => $request['store_room'][$i],
-                    'item_quantity' => $request['item_quantity'][$i],
-                ]);
+             // Create MaterialIssueItem records
+             for ($i = 0; $i < count($request['item_no']); $i++) {
 
-            }
-            DB::commit();
-            return response()->json('Materialissue Updated Successfully', 200);
-        } catch (Exception $e) {
-            DB::rollback();
-            info($e);
-            return response()->json('Error occurred in the update', 400);
-        }
-    }
+                $material = DB::table('material_issue_return_item')
+                ->where('mir_no', $mir_no)
+                ->where('item_no',$request['item_no'][$i])
+                ->value('item_quantity');
+                MaterialIssueItem::where('mir_no', $mir_no)
+                ->where('item_no',$request['item_no'][$i])
+                ->delete();
+                //  foreach ($material as $materialItem) {
+                     $itemQty = $material;
+                     info($itemQty);
+                     info($request['item_quantity']);
 
+                     if ($type === 'Issue'){
+
+                     if ($itemQty != $request['item_quantity'][$i]) {
+                        info('gowtham');
+
+                             // Reduce the total_quantity by item_quantity
+                             $item = ItemMaster::find($request['item_no'][$i]);
+                            //  $item->total_quantity += $request['item_quantity'][$i];
+                            $qty= $request['item_quantity'][$i]- $material;
+
+                             $item->total_quantity -= $qty;
+                             $item->save();
+                             MaterialIssueItem::create([
+                                'mir_no' => $mir_no,
+                                'item_no' => $request['item_no'][$i],
+                                'store_room' => $request['store_room'][$i],
+                                 'item_quantity' => $request['item_quantity'][$i],
+                            ]);}
+                            else{
+                                MaterialIssueItem::create([
+                                    'mir_no' => $mir_no,
+                                    'item_no' => $request['item_no'][$i],
+                                    'store_room' => $request['store_room'][$i],
+                                     'item_quantity' => $request['item_quantity'][$i],
+                                ]);
+
+                            }
+                        }
+                        elseif ($type === 'Return'){
+
+                        if ($itemQty != $request['item_quantity'][$i]) {
+                           info('gowtham');
+
+                                // Reduce the total_quantity by item_quantity
+                                $item = ItemMaster::find($request['item_no'][$i]);
+                               //  $item->total_quantity += $request['item_quantity'][$i];
+                               $qty= $request['item_quantity'][$i]- $material;
+                                $item->total_quantity += $qty;
+                                $item->save();
+                                MaterialIssueItem::create([
+                                   'mir_no' => $mir_no,
+                                   'item_no' => $request['item_no'][$i],
+                                   'store_room' => $request['store_room'][$i],
+                                    'item_quantity' => $request['item_quantity'][$i],
+                               ]);}
+                               else{
+                                   MaterialIssueItem::create([
+                                       'mir_no' => $mir_no,
+                                       'item_no' => $request['item_no'][$i],
+                                       'store_room' => $request['store_room'][$i],
+                                        'item_quantity' => $request['item_quantity'][$i],
+                                   ]);
+
+                               }
+                           }
+             }
+
+             // Return appropriate response based on the selected type
+             if ($type === 'Issue') {
+                 return response()->json('Material Issue updated successfully', 200);
+             } elseif ($type === 'Return') {
+                 return response()->json('Material Return updated successfully', 200);
+             } else {
+                 return response()->json('Operation successful', 200);
+             }
+
+         } catch (Exception $e) {
+             info($e);
+             return response()->json('Error occurred during update', 400);
+         }
+     }
 
 
     /**
@@ -231,17 +368,21 @@ public function show($mir_no)
      * @return \Illuminate\Http\Response
      */
 
-     public function destroy($mir_no){
-        try {
+    public function destroy($mir_no)
+    {
+        try
+        {
             // Disable foreign key check
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
             $material_issues = MaterialIssue::where('mir_no', $mir_no)->first();
 
-            if ($material_issues != null) {
+            if ($material_issues != null)
+            {
                 $material_issues_items = MaterialIssueItem::where('mir_item_no', $mir_no)->get();
 
-                foreach ($material_issues_items as $material_issues_item) {
+                foreach ($material_issues_items as $material_issues_item)
+                {
                     $material_issues_item->delete();
                 }
 
@@ -251,13 +392,15 @@ public function show($mir_no)
                 DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
                 return response()->json('Material Deleted Successfully', 200);
-            } else {
+            } else
+            {
                 // Enable foreign key check
                 DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
                 return response()->json('Material not found', 404);
             }
-        } catch (Exception $e) {
+        } catch (Exception $e)
+        {
             // Enable foreign key check
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 

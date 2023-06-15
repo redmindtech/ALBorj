@@ -32,7 +32,7 @@
                                      <th>Location</th>
                                      <!-- <th>Issue Date</th> -->
                                      <th>Project Name</th>
-                                     <th>Employee Name</th>
+                                     {{-- <th>Employee Name</th> --}}
                                      <th>Type</th>
                                      <th data-orderable="false" class="action notexport">Show</th>
                                      <th data-orderable="false" class="action notexport">Edit</th>
@@ -47,9 +47,9 @@
                                          <!-- <td>{{ $key += 1 }}</td> -->
                                          <td>{{ $material_issue->mir_code }}</td>
                                          <td>{{ $material_issue->location }}</td>
-                                         <!-- <td>{{ $material_issue->issue_date }}</td> -->
+                                         {{-- {{ $material_issue->issue_date }}</td>  --}}
                                          <td>{{ $material_issue->project_name }}</td>
-                                         <td>{{ $material_issue->firstname }}</td>
+                                         {{-- <td>{{ $material_issue->firstname }}</td> --}}
                                          <td>{{ $material_issue->type }}</td>
                                          <td>
                                              <a onclick="handleShowAndEdit('{{ $material_issue->mir_no }}','show')"
@@ -99,12 +99,12 @@
                     {!! csrf_field() !!}
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <label for="location" class="form-label fw-bold">Location<a
+                            <label for="location" class="form-label fw-bold">Location (Site location)<a
                                     style="text-decoration: none;color:red">*</a></label>
                             <input type="text" id="location" name="location" value="{{ old('location') }}"
                                 placeholder="Location" class="form-control" autocomplete="off">
 
-                            <p style="color: red" id="error_location"></p>
+
                         </div>
 
                         <div class="form-group col-md-4">
@@ -112,14 +112,14 @@
                                     style="text-decoration: none;color:red">*</a></label>
                             <input type="date" id="issue_date" name="issue_date" value="{{ old('issue_date') }}"
                                 placeholder="dd-mm-yyyy" class="form-control" autocomplete="off">
-                            <p style="color: red" id="error_issue_date"></p>
+
                         </div>
                         <div class="form-group col-md-4">
                             <label for="issue_ref_no" class="form-label fw-bold">Issue Ref No<a
                                     style="text-decoration: none;color:red">*</a></label>
                             <input type="text" id="issue_ref_no" name="issue_ref_no" value="{{ old('issue_ref_no') }}"
                                 placeholder="Issue Ref No" class="form-control" autocomplete="off">
-                            <p style="color: red" id="error_issue_ref_no"></p>
+
                         </div>
                     </div>
                     <div class="row">
@@ -127,21 +127,19 @@
                         <div class="form-group col-md-4">
                             <label for="project_name" class="form-label fw-bold">Project Name<a
                                     style="text-decoration: none;color:red">*</a></label>
-                            <input type="text" id="project_name" name="project_name"
-                                value="{{ old('project_name') }}" placeholder="Project Name" class="form-control"
-                                autocomplete="off">
+                            <input type="text" id="project_name" name="project_name" value="{{ old('project_name') }}"
+                                placeholder="Project Name" class="form-control" autocomplete="off">
                             <input type="text" id="project_no" hidden name="project_no"
                                 value="{{ old('project_no') }}" class="form-control" autocomplete="off">
-                            <p style="color: red" id="error_project_name"></p>
+
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="receiving_employee" class="form-label fw-bold">Receiving Employee<a
-                                    style="text-decoration: none;color:red">*</a></label>
+                            <label for="receiving_employee" class="form-label fw-bold">Receiving Employee</label>
                             <input type="text" id="firstname" name="firstname" value="{{ old('firstname') }}"
                                 placeholder="Receiving Employee" class="form-control" autocomplete="off">
                             <input type="text" id="receiving_employee" hidden name="receiving_employee"
                                 value="{{ old('receiving_employee') }}" class="form-control" autocomplete="off">
-                            <p style="color: red" id="error_firstname"></p>
+
                         </div>
                         <div class="form-group col-md-4">
                             <label for="type" class="form-label fw-bold">Type<a
@@ -152,7 +150,7 @@
                                     <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach
                             </select>
-                            <p style="color: red" id="error_type"></p>
+
                         </div>
 
 
@@ -168,33 +166,39 @@
                             <input type="text" id="mr_reference_code" name="mr_reference_code"
                                 value="{{ old('mr_reference_code') }}" placeholder="MR Code" class="form-control"
                                 autocomplete="off">
-                            <!-- <p style="color: red" id="error_mr_reference_code"></p> -->
+
                         </div>
                     </div>
 
 
-                     {{-- Add row table code --}}
+                    {{-- Add row table code --}}
+
+                    <h4>
+                        <center><b>Item Details</b></center>
+                    </h4>
+                    <div class="container pt-4">
+                        <div class="table-responsive">
+                            <center>
+                                <table class="table table-bordered" id="material" style="width: 95%;">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">S.No</th>
+
+                                            <th class="text-center" style="width: 45%;">Item Name</th>
+                                            <th class="text-center" style="width: 30%;">Store Room</th>
+                                            <th class="text-center" style="width: 20%;">Item Stock</th>
+                                            <th class="text-center" style="width: 20%;">Requested Qty</th>
+                                            <th class="text-center" style="width: 20%;">Qty</th>
+                                            <th class="text-center">Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody">
 
 
-                     <div class="container pt-4">
-                         <div class="table-responsive">
-                             <table class="table table-bordered" id="material">
-                                 <thead>
-                                     <tr>
-                                         <th>S.No</th>
-
-                                         <th>Item Name</th>
-                                         <th>Store Room</th>
-                                         <th>Item Quantity</th>
-                                         <th>Remove</th>
-                                     </tr>
-                                 </thead>
-                                 <tbody id="tbody">
-
-
-                                 </tbody>
-                             </table>
-                         </div>
+                                    </tbody>
+                                </table>
+                            </center>
+                        </div>
                          <button class="btn btn-md btn-primary" id="addBtn" type="button">
                              Add Row
                          </button>
@@ -279,30 +283,26 @@
              </script>
              {{-- Add row table script --}}
              <script>
-                 // Denotes total number of rows
-
-
                  // jQuery button click event to add a row
-                 $('#addBtn').on('click', function() {
-                    //  //     alert('');
-                    //  //     alert(rowIdx);
-                     var row = rowIdx - 1;
-                     //    alert(row)
-                     //     alert($('#receiving_qty_'+row).val());
-                     if ($('#item_name_' + row).val() == '') {
-                         alert("Please enter item name.");
-                     } else if (!/^[a-zA-Z]+$/.test($('#item_name_' + row).val())) {
-                         alert("Item name should only contain alphabets.");
-                     } else if ($('#item_quantity_' + row).val() == '') {
-                         alert("Please enter receiving quantity.");
-                     } else if (!/^\d+(\.\d+)?$/.test($('#item_quantity_' + row).val())) {
-                         alert("Item quantity should only contain numbers.");
-                     } else {
-                         add_text();
-                     }
+                 let itemNames = []; // Array to store encountered item names
+                $('#addBtn').on('click', function() {
+
+                    var row = rowIdx - 1;
+                    var itemName = $('#item_name_' + row).val();
+
+                    if ($('#item_name_' + row).val() == '') {
+                        alert("Please enter item name in row" + row);
+                    } else if (itemNames.includes(itemName)) {
+                        alert('Item name "' + itemName + '" is repeated. Please enter a unique item name in row ' + row);
+                    } else if ($('#item_quantity_' + row).val() == '') {
+                        alert("Please enter item quantity in row" + row);
+                    } else {
+                        itemNames.push(itemName);
+                        add_text();
+                    }
                     //  detele row
 
-                 });
+                });
                  $('#tbody').on('click', '.remove', function() {
                      // Getting all the rows next to the row containing the clicked button
                      var child = $(this).closest('tr').nextAll();
@@ -337,19 +337,23 @@
                  function add_text() {
                      var html = '';
                      html += '<tr id="row' + rowIdx + '" class="rowtr">';
-                     html += '<td>' + rowIdx + '</td>';
-                     html += '<td><div class="col-xs-12"><input type="text" id="item_name_' + rowIdx +
-                         '"  name="item_name[]" class="item_name" placeholder="Item name"><input type="text"  name="item_no[]" id="item_no_' +
-                         rowIdx + '" class="item_no_' + rowIdx + '" hidden placeholder=" Item no"></div></td>';
-                     html += '<td><div class="col-xs-12"><input type="text" name="store_room[]" id="store_room_' + rowIdx +
-                         '"  name="store_room[]" class="store_room"></div></td>';
-                     html += '<td><div class="col-xs-12"><input type="text" name="item_quantity[]"  id="item_quantity_' + rowIdx +
-                         '"name="item_quantity[]" class="item_quantity"></div></td>';
-                     html +=
-                         '<td><button class="btn btn-danger remove" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
-                     html += '</tr>';
-                     $("#tbody").append(html);
-                     rowIdx++;
+                    html += '<td>' + rowIdx + '</td>';
+                    html += '<td><div class="col-xs-12"><input type="text" id="item_name_' + rowIdx +
+                        '"  name="item_name[]" class="item_name" placeholder="Item name"><input type="text"  name="item_no[]" id="item_no_' +
+                        rowIdx + '" class="item_no_' + rowIdx + '" hidden placeholder=" Item no"></div></td>';
+
+                    html += '<td><div class="col-xs-12"><input type="text" name="store_room[]" id="store_room_' + rowIdx +
+                        '"  name="store_room[]" class="store_room"></div></td>';
+                    html += '<td><center><div class="col-xs-12" id="total_quantity_' + rowIdx + '" ></div></center></td>';
+                    html += '<td><div class="col-xs-12 requesting_qty" id="requesting_qty_' + rowIdx + '"></div></td>';
+                    html += '<td><div class="col-xs-12"><input type="text" name="item_quantity[]"  id="item_quantity_' + rowIdx +
+                        '"name="item_quantity[]" class="item_quantity" style="width: 100px;"></div></td>';
+
+                    html +=
+                        '<td><button class="btn btn-danger remove" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
+                    html += '</tr>';
+                    $("#tbody").append(html);
+                    rowIdx++;
                      //    auto();
                      // Add autocomplete to the new item_name input field
 
@@ -405,6 +409,7 @@
                              for (var i in data) {
 
                                  $('#item_no_' + id).val(data[0]["id"]);
+                                 $('#total_quantity_' + id).text(data[0]["total_quantity"]);
                              }
                          },
                          fail: function(xhr, textStatus, errorThrown) {
@@ -455,8 +460,15 @@
                  // DIALOG CLOSE BUTTON
                  function handleClose(){
                      document.getElementById("myDialog").open = false;
-                    $("#myDialog").load(" #myDialog > *");
+                     $('#form')[0].reset();
+                    $("#tbody").empty();
                     rowIdx=1;
+                    itemNames = []; // Clear the itemNames array
+                    // Hide any error messages
+                    $('.error-msg').removeClass('error-msg');
+                    $('.has-error').removeClass('has-error');
+                    // Hide any error messages
+                    $('error').html('');
                     $('#blur-background').css('display','none');
                     // window.location.reload();
                 }
@@ -469,7 +481,7 @@ $('.rowtr').each(function() {
   var rowIdx = $(this).attr('id').replace('row', '');
 
   var itemname = $('#item_name_' + rowIdx).val();
-  var quantity = $('#quantity_' + rowIdx).val();
+  var quantity = $('#item_quantity_' + rowIdx).val();
 
   if (itemname === '') {
     alert('Please enter an item name for row ' + rowIdx);
@@ -549,16 +561,18 @@ $('.rowtr').each(function() {
                                  }
                                  var rowid = 1;
                                  for (const item of message.material_issues_item) {
-                                     add_text(); // add a new row to the table
-                                     //  console.log(item.item_no);
-                                     console.log(rowid);
-                                     $('#item_name_' + rowid).val(item.item_name);
-                                     $('#item_no_' + rowid).val(item.item_no);
-                                     $('#store_room_' + rowid).val(item.store_room);
-                                     $('#item_quantity_' + rowid).val(item.item_quantity);
+                                    add_text(); // add a new row to the table
+                                    //  console.log(item.item_no);
+                                    console.log(rowid);
+                                    $('#item_name_' + rowid).val(item.item_name);
+                                    $('#item_no_' + rowid).val(item.item_no);
+                                    $('#total_quantity_' + rowid).text(item.total_quantity);
+                                    $('#store_room_' + rowid).val(item.store_room);
+                                    $('#item_quantity_' + rowid).val(item.item_quantity);
+                                    $('#requesting_qty_' + rowid).text(item.quantity);
 
-                                     rowid++;
-                                 }
+                                    rowid++;
+                                }
 
 
 
@@ -577,16 +591,18 @@ $('.rowtr').each(function() {
                                      $(`#show_${key}`).text(value);
                                  }
                                  let script =
-                                     '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Store Room</th><th>Item Quantity</th></tr></thead><tbody>';
-                                 for (const item of message.material_issues_item) {
-                                     script += '<tr>';
-                                     script += '<td>' + item.item_name + '</td>';
-                                     script += '<td>' + item.store_room + '</td>';
-                                     script += '<td>' + item.item_quantity + '</td>';
-                                     script += '</tr>';
-                                 }
+                                    '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Store Room</th><th>Item in stock</th><th>Requesting qty</th><th>Item Quantity</th></tr></thead><tbody>';
+                                for (const item of message.material_issues_item) {
+                                    script += '<tr>';
+                                    script += '<td>' + item.item_name + '</td>';
+                                    script += '<td>' + (item.store_room || '-') + '</td>';
+                                    script += '<td>' + (item.total_quantity || '-') + '</td>';
+                                    script += '<td>' + (item.quantity || '-') + '</td>';
+                                    script += '<td>' + item.item_quantity + '</td>';
+                                    script += '</tr>';
+                                }
                                  script += '</tbody></table>';
-                                 $('show_table').remove();
+                                 $('#show_table').remove();
                                  $('#item_details_show').append(script);
                                  $('#heading_name').text("View Material issue/return Details").css('font-weight', 'bold');
                                  $('#show').css('display', 'block');
@@ -604,7 +620,7 @@ $('.rowtr').each(function() {
                 jQuery($ => {
 
                 $(document).on('focus click', $("#project_name"), function() {
-          
+
                  $("#project_name").autocomplete({
                      source: function(request, response) {
                          $.ajax({
@@ -763,7 +779,9 @@ $('.rowtr').each(function() {
 
                                     $('#item_name_' + create_id).val(item.item_name);
                                     $('#item_no_' + create_id).val(item.item_no);
-                                    $('#item_quantity_' + create_id).val(item.quantity);
+                                    $('#total_quantity_' + create_id).text(item.total_quantity);
+                                    $('#item_quantity_' + create_id).val(item.item_qty);
+                                    $('#requesting_qty_' + create_id).text(item.quantity);
 
                                 }
                             } else {
@@ -772,8 +790,11 @@ $('.rowtr').each(function() {
                                     add_text();
                                     $('#item_name_' + create_id).val(item.item_name);
                                     $('#item_no_' + create_id).val(item.item_no);
+                                    $('#total_quantity_' + create_id).text(item.total_quantity);
                                     $('#item_quantity_' + create_id).val(item.item_qty);
                                     $('#store_room_' + create_id).val(item.store_room);
+                                    $('#requesting_qty_' + create_id).text(item.quantity);
+
                                     create_id++;
                                 }
                             }
@@ -783,6 +804,135 @@ $('.rowtr').each(function() {
                         }
                     });
                 });
+                   //  Initialize form validation
+
+                   var $siteLocations = @json($siteLocation);
+                $.validator.addMethod("siteLocationCheck", function(value, element) {
+                    return $siteLocations.includes(value);
+                });
+
+                var project_Names = @json($projectNames);
+                $.validator.addMethod("projectNameCheck", function(value, element) {
+                    return project_Names.includes(value);
+                });
+                $.validator.addMethod("lessThanStockQty", function(value, element)
+                    {
+                        var rowId = $(element).closest('tr').index()+1;
+                        var stockQuantity = $('#total_quantity_'+ rowId ).text().trim();
+                        console.log(rowId);
+                        console.log(stockQuantity);
+                        return parseFloat(value) <= parseFloat(stockQuantity);
+
+                    });
+
+
+                // var employee_name=@json($employeeNames);
+                //  $.validator.addMethod("employeeNameCheck", function(value, element)
+                //  {
+                //     return employee_name.includes(value);
+                // });
+
+                var item_Names = @json($itemNames);
+                $.validator.addMethod("itemNameCheck", function(value, element) {
+                    return item_Names.includes(value.trim());
+                });
+
+                $.validator.addMethod("alphanumeric_mrno", function(value, element) {
+                    return this.optional(element) || /^[a-zA-Z0-9]+$/i.test(value);
+                });
+                $.validator.addMethod("alphanumeric_Qty", function(value, element) {
+                    return this.optional(element) || /^\d+(\.\d+)?$/i.test(value);
+                });
+
+                var formValidationConfig = {
+
+                    // Specify validation rules
+                    rules: {
+                        location: {
+                            required: true,
+                            siteLocationCheck: true
+                        },
+                        issue_date: {
+                            required: true
+                        },
+                        issue_ref_no: "required",
+                        project_name: {
+                            required: true,
+                            projectNameCheck: true
+                        },
+                        // firstname:
+                        // {
+                        //   employeeNameCheck:true
+                        // },
+                        type: "required",
+                        mr_reference_code: {
+                            alphanumeric_mrno: true
+                        },
+                        "item_name[]": {
+                            required: true,
+                            itemNameCheck: true
+                        },
+                        "item_quantity[]": {
+                            required: true,
+                            alphanumeric_Qty: true,
+                            lessThanStockQty:true
+                        }
+
+                    },
+                    // Specify validation error messages
+
+                    messages: {
+                        location: {
+                            required: "Please enter the location",
+                            siteLocationCheck: "Please enter valid location"
+                        },
+                        issue_date: {
+                            required: "Please select the issue date"
+                        },
+                        issue_ref_no: "Please enter the issue reference number",
+                        project_name: {
+                            required: "Please enter the project name",
+                            projectNameCheck: "Please enter valid project name"
+                        },
+                        // firstname:
+                        // {
+
+                        //     employeeNameCheck: "Please enter valid  receiving employee"
+
+                        // },
+                        type: {
+                            required: "Please select the type"
+                        },
+                        mr_reference_code: {
+                            alphanumeric_mrno: "Please enter valid MR NO"
+                        },
+
+                        "item_name[]": {
+                            required: "Please enter the item name.",
+                            itemNameCheck: "Please enter valid item name."
+                        },
+                        "item_quantity[]": {
+                            required: "Please enter the item qty",
+                            alphanumeric_Qty: "please enter numbers only",
+                            lessThanStockQty: "Item quantity should be less than or equal to stock quantity."
+                        },
+                    },
+                    errorElement: "error",
+                    errorClass: "error-msg",
+                    highlight: function(element, errorClass, validClass) {
+                        $(element).addClass(errorClass).removeClass(validClass);
+                        $(element).closest('.form-group').addClass('has-error');
+                        flag = '1';
+                    },
+                    unhighlight: function(element, errorClass, validClass) {
+                        $(element).removeClass(errorClass).addClass(validClass);
+                        $(element).closest('.form-group').removeClass('has-error');
+                        flag = '0';
+                    }
+                };
+
+                $("#form").validate(formValidationConfig);
+
              </script>
 
 

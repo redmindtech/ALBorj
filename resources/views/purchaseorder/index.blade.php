@@ -385,7 +385,7 @@ input:checked + .slider:before {
                             </div>
                         </div>              
                     <div class="col-md-1" style="margin-left: 35%">
-                        <label for="vat">Vat<a style="text-decoration: none;color:red">*</a></label>
+                        <label for="vat">VAT<a style="text-decoration: none;color:red">*</a></label>
                     </div>
                         <div class="col-md-3" style="margin-left: 5px"> 
                             <div style="display: flex;flex-wrap:wrap">
@@ -517,7 +517,32 @@ input:checked + .slider:before {
             </div>
             </div>
         <div class="row">
-
+        <div class="col-md-3">
+                <label>Discount</label>
+                <p id="show_discount"></p>
+            </div>
+            <div class="col-md-3">
+                <label>Total Discount</label>
+                <p id="show_total_discount"></p>
+            </div>
+            <div class="col-md-3">
+                <label>VAT</label>
+                <p id="show_vat"></p>
+            </div>
+            <div class="col-md-3">
+                <label>VAT Amount</label>
+                <p id="show_total_vat"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label>Total Amount</label>
+                <p id="show_total_amount"></p>
+            </div>
+            <div class="col-md-3">
+                <label>Grand Total</label>
+                <p id="show_gross_amount"></p>
+            </div>
             <div class="col-md-3">
                 <label>Attachments</label>
                 <p id="show_filename"></p>
@@ -984,13 +1009,13 @@ $.ajax({
 
                     }
                     let script =
-                        '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Item Quantity</th><th>Rate Per Quantity</th><th>Discount</th><th>Item Amount</th><th>Previous Rate</th></tr></thead><tbody>';
+                        '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Item Quantity</th><th>Rate Per Quantity</th><th>Item Amount</th><th>Previous Rate</th></tr></thead><tbody>';
                     for (const item of message.purchase_orders_item) {
                         script += '<tr>';
                         script += '<td>' + item.item_name + '</td>';
                         script += '<td>' + item.qty + '</td>';
                         script += '<td>' + item.rate_per_qty + '</td>';
-                        script += '<td>' + item.discount + '</td>';
+                        // script += '<td>' + item.discount + '</td>';
                         script += '<td>' + item.item_amount + '</td>';
                         script += '<td >' + item.price_per_qty + '</td>';
                         // script += '<td>' + item.pending_qty + '</td>';
