@@ -240,7 +240,7 @@ class GoodsReceivingNoteController extends Controller
             $grn_item=GoodsReceivedNoteItem::     
             join('item_masters', 'goods_received_note_item.item_no', '=', 'item_masters.id') 
                        
-            ->select( 'goods_received_note_item.', 'item_masters.')
+            ->select( 'goods_received_note_item.*', 'item_masters.*')
             ->where('goods_received_note_item.grn_no', $grn_no)
           
             ->get();    
