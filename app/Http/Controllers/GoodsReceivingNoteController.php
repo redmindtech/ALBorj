@@ -24,7 +24,8 @@ class GoodsReceivingNoteController extends Controller
     {
         try 
         {
-            $purchase_type=GRNPURCHASETYPE;
+            $purchase_type = PROJECTORDERTYPE;
+
             if ($request->session()->has('user')) {
             $item=ItemMaster::all();
             $item_name=$item->pluck('item_name');
@@ -103,12 +104,12 @@ class GoodsReceivingNoteController extends Controller
                     $itemCount = count($request['item_no']);
             // iteration 
                 for ($i = 0; $i < $itemCount; $i++)
-                { 
+                {  $item_no=$request['item_no'][$i];
                     $update_pending_qty= $request['pending_qty'][$i]-$request['receiving_qty'][$i];    
                     $update_pending_qty_array[] = $update_pending_qty;        
                  if($purchase_type =="Local Purchase Order" || $purchase_type =="Cash purchase")
                 {
-                    $item_no=$request['item_no'][$i];
+                    // $item_no=$request['item_no'][$i];
                    //  update total qty in itemmaster table
                     $item_update = ItemMaster::where('id', $item_no)->value('total_quantity');                                     
                     $item_qty=$item_update+ $request['receiving_qty'][$i];                     
