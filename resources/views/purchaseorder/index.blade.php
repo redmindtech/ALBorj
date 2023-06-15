@@ -1,158 +1,181 @@
 <style>
-    #vat-error{
+
+    #vat-error
+    {
         position: inherit;
-    top: 100%;
-    left: 0;
+        top: 100%;
+        left: 0;
     }
-    .switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
 
-.switch input { 
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+    .switch 
+    {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
 
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
+    .switch input 
+    { 
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
+    .slider 
+    {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
 
-input:checked + .slider {
-  background-color: #2196F3;
-}
+    .slider:before 
+    {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
 
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
+    input:checked + .slider 
+    {
+        background-color: #2196F3;
+    }
 
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
+    input:focus + .slider 
+    {
+        box-shadow: 0 0 1px #2196F3;
+    }
 
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
+    input:checked + .slider:before 
+    {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
 
-.slider.round:before {
-  border-radius: 50%;
-}
-    /* new style */
-    .radio-buttons {
-  display: flex;
-  align-items: center;
-}
+    /* Rounded sliders */
+    .slider.round 
+    {
+        border-radius: 34px;
+    }
 
-.radio-buttons input[type="radio"] {
-  margin-right: 8px;
-  transform: scale(1.5); /* Increase the scale value as needed */
-}
-.toggle-switch {
-            margin-top:10%;
-            margin-left:10%;
-            position: relative;
-            width: 60px;
-            height: 34px;
-            display: inline-block;
-}
+    .slider.round:before 
+    {
+        border-radius: 50%;
+    }
+        /* new style */
+    .radio-buttons 
+    {
+        display: flex;
+        align-items: center;
+    }
 
-.toggle-switch input[type="checkbox"] {
-  opacity: 5;
-  width: 0;
-  height: 0;
-}
+    .radio-buttons input[type="radio"] 
+    {
+        margin-right: 8px;
+        transform: scale(1.5); /* Increase the scale value as needed */
+    }
+    .toggle-switch 
+    {
+        margin-top:10%;
+        margin-left:10%;
+        position: relative;
+        width: 60px;
+        height: 34px;
+        display: inline-block;
+    }
 
-.toggle-label {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  transition: 0.1s;
-  border-radius: 34px;
-  width: 57px; /* Decrease the width */
-  height: 27px;
-}
+    .toggle-switch input[type="checkbox"] 
+    {
+        opacity: 5;
+        width: 0;
+        height: 0;
+    }
 
-.toggle-label:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  border-radius: 50%;
-  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.09); /* Add this line */
-}
+    .toggle-label 
+    {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transition: 0.1s;
+        border-radius: 34px;
+        width: 57px; /* Decrease the width */
+        height: 27px;
+    }
 
-.toggle-switch input[type="checkbox"]:checked + .toggle-label {
-  background-color: #2196F3;
-  border-color: transparent; /* Set the border color to transparent for checked state */
-}
+    .toggle-label:before 
+    {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+        border-radius: 50%;
+        box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.09); /* Add this line */
+    }
 
-.toggle-switch input[type="checkbox"]:checked + .toggle-label:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-.toggle-switch input[type="checkbox"]:not(:checked) + .toggle-label {
-  border-color: gray; /* Set the border color to gray for unchecked state */
-}
-.toggle-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    font-size: 16px;
-    width: 100%;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-    color: black; 
-}
+    .toggle-switch input[type="checkbox"]:checked + .toggle-label 
+    {
+        background-color: #2196F3;
+        border-color: transparent; /* Set the border color to transparent for checked state */
+    }
 
-.discount-type:checked + .toggle-label #toggle-text::before {
-    content: '%';
-    
-}
+    .toggle-switch input[type="checkbox"]:checked + .toggle-label:before 
+    {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+    .toggle-switch input[type="checkbox"]:not(:checked) + .toggle-label 
+    {
+        border-color: gray; /* Set the border color to gray for unchecked state */
+    }
+    .toggle-text 
+    {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        font-size: 16px;
+        width: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        pointer-events: none;
+        color: black; 
+    }
 
-.discount-type:not(:checked) + .toggle-label #toggle-text::before {
-    content: '₹';
-    color: black; 
-}
+    .discount-type:checked + .toggle-label #toggle-text::before 
+    {
+        content: '%';        
+    }
+
+    .discount-type:not(:checked) + .toggle-label #toggle-text::before 
+    {
+        content: '₹';
+        color: black; 
+    }
 </style>
 
 <!-- STYLE INCLUDED IN LAYOUT PAGE -->
@@ -266,6 +289,23 @@ input:checked + .slider:before {
                             value="{{ old('supplier_no') }}" class="form-control supplier_no" autocomplete="off">
                     </div>
                     <div class="form-group col-md-4">
+                        <label for="contact_person" class="form-label fw-bold">Contact Person</label>
+                        <input type="text" id="c_name" name="c_name" value="{{ old('name') }}" placeholder="Contact Person" class="form-control contact_person" autocomplete="off" readonly>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="mobile_no" class="form-label fw-bold">Mobile Number</label>
+                        <input type="text" id="contact_number" name="contact_number" value="{{ old('mobile_no') }}" placeholder="Mobile Number" class="form-control mobile_no" autocomplete="off" readonly>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="email" class="form-label fw-bold">Email</label>
+                        <input type="email" id="mail_id" name="mail_id" value="{{ old('mail_id') }}"
+                            placeholder="Email" class="form-control email" autocomplete="off" readonly>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="website" class="form-label fw-bold">Website</label>
+                        <input type="text" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control website" autocomplete="off" readonly>
+                    </div>
+                    <div class="form-group col-md-4">
                         <label for="po_date" class="form-label fw-bold">Date<a style="text-decoration: none;color:red">*</a></label>
                         <input type="date" id="po_date" name="po_date" value="{{ old('po_date') }}" placeholder="Site Building" class="form-control" autocomplete="off" data-date-format="dd-mm-yy">
                     </div>
@@ -284,24 +324,6 @@ input:checked + .slider:before {
                             <option value="{{ $key }}"{{ $key == 'AED' ? ' selected' : '' }}>{{ $value }}</option>
                             @endforeach
                         </select>
-                    </div>
-
-                    <div class="form-group col-md-4">
-                        <label for="email" class="form-label fw-bold">Email</label>
-                        <input type="email" id="mail_id" name="mail_id" value="{{ old('mail_id') }}"
-                            placeholder="Email" class="form-control email" autocomplete="off" readonly>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="contact_person" class="form-label fw-bold">Contact Person</label>
-                        <input type="text" id="c_name" name="c_name" value="{{ old('name') }}" placeholder="Contact Person" class="form-control contact_person" autocomplete="off" readonly>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="mobile_no" class="form-label fw-bold">Mobile Number</label>
-                        <input type="text" id="contact_number" name="contact_number" value="{{ old('mobile_no') }}" placeholder="Mobile Number" class="form-control mobile_no" autocomplete="off" readonly>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label for="website" class="form-label fw-bold">Website</label>
-                        <input type="text" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control website" autocomplete="off" readonly>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="credit_period" class="form-label fw-bold">Credit period</label>
@@ -353,7 +375,7 @@ input:checked + .slider:before {
                                     <th class="text-center" style="width:12%">Rate Per Quantity</th>
                                     <!-- <th>Discount</th> -->
                                     <th class="text-center" style="width:15%">Item Amount</th>
-                                    <th class="text-center" style="width:5%">Previous Rate</th>
+                                    <th class="text-center" style="width:5%">Prior Cost</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -368,12 +390,20 @@ input:checked + .slider:before {
                     </div>
                 </div>
                 <div class="row" style="margin-top:10px;">
-                    <div class="col-md-1" style="margin-left: 5px">
+                    <div class="form-group col-md-2" style="margin-left:110px; margin-top:12px;">
+                        <label for="misc_expenses" class="form-label fw-bold">Misc Expenses</label>
+                        <input type="number" id="misc_expenses" name="misc_expenses" value="{{ old('misc_expenses')}}" placeholder="Misc Expenses" class="form-control" autocomplete="off">
+                    </div>
+                    <div class="form-group col-md-2" style="margin-left:30px; margin-top:12px;">
+                        <label for="freight" class="form-label fw-bold">Freight</label>
+                        <input type="number" id="freight" name="freight" value="{{ old('freight')}}" placeholder="Freight" class="form-control" autocomplete="off">
+                    </div>
+                    <div class="col-md-2" style="margin-left: 30px;margin-top:12px;">
                         <label for="discount" class="form-label fw-bold">Discount</label>
-                    </div> 
-                        <div class="col-md-2" style="margin-right: 3px;">   
+                    
+                        <!-- <div class="col-md-2" style="margin-right: 3px;">    -->
                             <div class="input-group">
-                                <input type="number" style="height: 33px;"  name="discount" id="discount" class="discount  form-control" autocomplete="off">
+                                <input type="number" style="height: 34px;"  name="discount" id="discount" class="discount  form-control" autocomplete="off">
                                     <div class="input-group-append">
                                         <div class="toggle-switch">
                                             <input type="checkbox" id="discount-type" name="discount_type" class="discount-type" value="1" {{ old('discount_type') ? 'checked' : '' }}>
@@ -383,11 +413,12 @@ input:checked + .slider:before {
                                         </div>
                                     </div>
                             </div>
-                        </div>              
-                    <div class="col-md-1" style="margin-left: 35%">
-                        <label for="vat">VAT<a style="text-decoration: none;color:red">*</a></label>
-                    </div>
-                        <div class="col-md-3" style="margin-left: 5px"> 
+                        <!-- </div>  -->
+                    </div>             
+                    <div class="col-md-3" style="margin-left: 35px;margin-top: 12px;">
+                        <label for="vat">Vat<a style="text-decoration: none;color:red">*</a></label>
+                    
+                        <!-- <div class="col-md-3" style="margin-left: 5px">  -->
                             <div style="display: flex;flex-wrap:wrap">
                                 <div class="form-check" style="margin-right: 8px;">
                                     <input class="form-check-input" type="radio" name="vat" value="0" id="vat1">
@@ -398,7 +429,8 @@ input:checked + .slider:before {
                                     <label class="form-check-label" for="5%">5%</label>
                                 </div>
                             </div>
-                        </div>
+                        <!-- </div> -->
+                    </div>
                 </div>
                 <div class="row mt-5">
                     <div class="col-md-2">
@@ -440,119 +472,133 @@ input:checked + .slider:before {
                 </div>
         </form>
 
-          <!-- SHOW DIALOG -->
-<div class="card" id="show" style="display:none">
-    <div class="card-body" style="background-color:white;width:100%;height:20%;">
-
-        <div class="row">
-            <div class="col-md-3">
-                <label>Purchase Type</label>
-                <p id="show_po_type"></p>
-            </div>
-            <div class="col-md-3">
-                <label>Po Code</label>
-                <p id="show_po_code"></p>
-            </div>
-            <div class="col-md-3">
-                <label>Date</label>
-                <p id="show_po_date"></p>
-            </div>
-            <div class="col-md-3">
-                <label>Quote Reference</label>
-                <p id="show_quote_ref"></p>
-            </div>
-            </div>
-            <div class="row">
-            <div class="col-md-3">
-                <label>Currency</label>
-                <p id="show_currency"></p>
-            </div>
-            <div class="col-md-3">
-                <label>Email</label>
-                <p id="show_mail_id"></p>
-            </div>
-            <div class="col-md-3">
-                <label>Contact Person</label>
-                <p id="show_name"></p>
-            </div>
-            <div class="col-md-3">
-                <label>Mobile Number</label>
-                <p id="show_contact_number"></p>
-            </div>
-            </div>
-            <div class="row">
-            <div class="col-md-3">
-                <label>Website</label>
-                <p id="show_website"></p>
-            </div>
-            <div class="col-md-3">
-                <label>Credit period</label>
-                <p id="show_credit_period"></p>
-            </div>
-            <div class="col-md-3">
-                <label>Payment Terms</label>
-                <p id="show_payment_terms"></p>
-            </div>
-            <div class="col-md-3">
-                <label>Delivery Location</label>
-                <p id="show_project_name"></p>
-            </div>
-            </div>
-            <div class="row">
-            <div class="col-md-3">
-                <label>Quote Date</label>
-                <p id="show_quote_date"></p>
-            </div>
-            <div class="col-md-3">
-                <label>Delivery Terms</label>
-                <p id="show_delivery_terms"></p>
-            </div>
-            <div class="col-md-3">
-                <label>Prepared By</label>
-                <p id="show_firstname"></p>
-            </div>
-            <div class="col-md-3">
-                <label>Pull Mr Code</label>
-                <p id="show_mr_reference_code"></p>
-            </div>
-            </div>
-        <div class="row">
-        <div class="col-md-3">
-                <label>Discount</label>
-                <p id="show_discount"></p>
-            </div>
-            <div class="col-md-3">
-                <label>Total Discount</label>
-                <p id="show_total_discount"></p>
-            </div>
-            <div class="col-md-3">
-                <label>VAT</label>
-                <p id="show_vat"></p>
-            </div>
-            <div class="col-md-3">
-                <label>VAT Amount</label>
-                <p id="show_total_vat"></p>
+        <!-- SHOW DIALOG -->
+        <div class="card" id="show" style="display:none">
+            <div class="card-body" style="background-color:white;width:100%;height:20%;">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Po Code</label>
+                        <p id="show_po_code"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Purchase Type</label>
+                        <p id="show_po_type"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Date</label>
+                        <p id="show_po_date"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Supplier Name</label>
+                        <p id="show_name"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Contact Person</label>
+                        <p id="show_name"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Mobile Number</label>
+                        <p id="show_contact_number"></p>
+                    </div>                  
+                    <div class="col-md-3">
+                        <label>Email</label>
+                        <p id="show_mail_id"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Website</label>
+                        <p id="show_website"></p>
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Currency</label>
+                        <p id="show_currency"></p>
+                    </div>          
+                    <div class="col-md-3">
+                        <label>Quote Reference</label>
+                        <p id="show_quote_ref"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Quote Date</label>
+                        <p id="show_quote_date"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Credit period</label>
+                        <p id="show_credit_period"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Payment Terms</label>
+                        <p id="show_payment_terms"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Delivery Location</label>
+                        <p id="show_site_location"></p>
+                    </div>                    
+                    <div class="col-md-3">
+                        <label>Delivery Terms</label>
+                        <p id="show_delivery_terms"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Prepared By</label>
+                        <p id="show_firstname"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Pull Mr Code</label>
+                        <p id="show_mr_reference_code"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Total Amount</label>
+                        <p id="show_total_amount"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Misc Expenses</label>
+                        <p id="show_misc_expenses"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Freight</label>
+                        <p id="show_freight"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Discount</label>
+                        <p id="show_discount"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Total Discount</label>
+                        <p id="show_total_discount"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>VAT</label>
+                        <p id="show_vat"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>VAT Amount</label>
+                        <p id="show_total_vat"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Grand Total</label>
+                        <p id="show_gross_amount"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Attachments</label>
+                        <p id="show_filename"></p>
+                    </div>
+                </div>
+                <div id="item_details_show"></div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-3">
-                <label>Total Amount</label>
-                <p id="show_total_amount"></p>
-            </div>
-            <div class="col-md-3">
-                <label>Grand Total</label>
-                <p id="show_gross_amount"></p>
-            </div>
-            <div class="col-md-3">
-                <label>Attachments</label>
-                <p id="show_filename"></p>
-            </div>
-        </div>
+    </dialog>
 
-        <div id="item_details_show"></div>
-    </div>
-</div>
-</dialog>
+
 <script type="text/javascript">
 
     $.ajaxSetup(
@@ -562,17 +608,14 @@ input:checked + .slider:before {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
     $(function () 
     {
         $("#myTable").DataTable();
     });
-</script>
-
-<script>
-
 
    
-            // delete attachment
+        // delete function for attachment
     document.getElementById("deleteButton").addEventListener("click", function() 
     {
         if (confirm("Are you sure you want to delete this attachment?")) 
@@ -793,11 +836,9 @@ input:checked + .slider:before {
         itemNames = []; // Clear the itemNames array
         $('.error-msg').removeClass('error-msg');
         $('.has-error').removeClass('has-error');       
-        // Hide any error messages
-        $('error').html('');
-        $('#blur-background').css('display','none');
-        // window.location.reload();
-        $('#toggle-symbol').text('AED'); // Set the symbol to "AED"
+        $('error').html('');   // Hide any error messages
+        $('#blur-background').css('display','none');   // window.location.reload();
+        $('#toggle-symbol').text('AED');  // Set the symbol to "AED"
     }
 
             // DIALOG SUBMIT FOR ADD AND EDIT
@@ -890,31 +931,32 @@ input:checked + .slider:before {
     }
 
         //DATA SHOW FOR EDIT AND SHOW
-        function handleShowAndEdit(id,action){
-
-let url = "{{ route('purchaseorderApi.show', ':po_no') }}";
-url = url.replace(':po_no',id);
-let type= "GET"
-console.log(id);
-$.ajax({
+    function handleShowAndEdit(id,action)
+    {
+        let url = "{{ route('purchaseorderApi.show', ':po_no') }}";
+        url = url.replace(':po_no',id);
+        let type= "GET"
+        console.log(id);
+        $.ajax(
+        {
             url: url,
             type: type,
             contentType: false,
             cache: false,
             processData: false,
-            success: function(message) {
+            success: function(message) 
+            {
                 console.log(message.purchase_orders);
-                 console.log(message.purchase_orders_item);
-                if (action == 'edit') {
-
+                console.log(message.purchase_orders_item);
+                if (action == 'edit') 
+                {
                     $('#show').css('display', 'none');
                     $('#form').css('display', 'block');
                     $('#blur-background').css('display','block');
-                    
+                    $('#heading_name').text("Update Purchase Order Details").css('font-weight', 'bold');
                     for (const [key, value] of Object.entries(message.purchase_orders[0])) 
                     {
                         //  console.log(`${key}: ${value}`);
-                        
                         if (key === 'discount') 
                         {
                             if (value.endsWith('%')) 
@@ -949,25 +991,24 @@ $.ajax({
                             $(`#${key}`).val(value);
                         }
                     }
-                    $(document).ready(function() {
-    var vatValue = message.purchase_orders[0]['vat'];
-    console.log(vatValue);
-    if (vatValue == '0') {
-        $('#vat1').prop('checked', true);
-    } else if (vatValue == '5') {
-        $('#vat2').prop('checked', true);
-    }
-});
-                    console.log($('#vat2').prop('checked', true)); 
-                    console.log($('#vat1').prop('checked', true));    
-   
-                    console.log(message.purchase_orders[0].mr_reference_code);
-                    console.log(message.purchase_orders[0].filename);
+                    $(document).ready(function() 
+                    {
+                        var vatValue = message.purchase_orders[0]['vat'];
+                        console.log(vatValue);
+                        if (vatValue == '0') 
+                        {
+                            $('#vat1').prop('checked', true);
+                        } 
+                        else if (vatValue == '5') 
+                        {
+                            $('#vat2').prop('checked', true);
+                        }
+                    });
                     $('#c_name').val(message.purchase_orders[0].name);
                     $('#filename').text(message.purchase_orders[0].filename);
-
                     var rowid = 1;
-                    for (const item of message.purchase_orders_item) {
+                    for (const item of message.purchase_orders_item) 
+                    {
                         add_text(); // add a new row to the table
                         //  console.log(item.item_no);
                         console.log(rowid);
@@ -975,7 +1016,7 @@ $.ajax({
                         $('#item_no_' + rowid).val(item.item_no);
                         $('#qty_' + rowid).val(item.qty);
                         $('#rate_per_qty_' + rowid).val(item.rate_per_qty);
-                        $('#discount_' + rowid).val(item.discount);
+                        // $('#discount_' + rowid).val(item.discount);
                         $('#item_amount_' + rowid).val(item.item_amount);
                         $('#price_per_qty_' + rowid).text(item.price_per_qty);
                         // $('#pending_qty_' + rowid).val(item.pending_qty);
@@ -983,10 +1024,11 @@ $.ajax({
                     }
                     $('#method').val('UPDATE');
                     $('#submit').text('UPDATE');
-     }
-     else {
-
-        for (let [key, value] of Object.entries(message.purchase_orders[0])) {
+                }
+                else 
+                {
+                    for (let [key, value] of Object.entries(message.purchase_orders[0])) 
+                    {
                         // console.log(`${key}: ${value}`);
                         if (key === "po_date" || key === "quote_date" || key === "credit_period") 
                         {
@@ -1003,32 +1045,29 @@ $.ajax({
                                 var year = dateObj.getFullYear();
                                 value= day + '-' + month + '-' + year
                             }
-                        }
-                            
+                        }       
                         $(`#show_${key}`).text(value);
-
                     }
-                    let script =
-                        '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Item Quantity</th><th>Rate Per Quantity</th><th>Item Amount</th><th>Previous Rate</th></tr></thead><tbody>';
-                    for (const item of message.purchase_orders_item) {
+                    let script ='<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Item Quantity</th><th>Rate Per Quantity</th><th>Item Amount</th><th>Previous Rate</th></tr></thead><tbody>';
+                    for (const item of message.purchase_orders_item) 
+                    {
                         script += '<tr>';
                         script += '<td>' + item.item_name + '</td>';
                         script += '<td>' + item.qty + '</td>';
                         script += '<td>' + item.rate_per_qty + '</td>';
-                        // script += '<td>' + item.discount + '</td>';
+                            // script += '<td>' + item.discount + '</td>';
                         script += '<td>' + item.item_amount + '</td>';
                         script += '<td >' + item.price_per_qty + '</td>';
-                        // script += '<td>' + item.pending_qty + '</td>';
+                            // script += '<td>' + item.pending_qty + '</td>';
                         script += '</tr>';
                     }
                     script += '</tbody></table>';
-                    $('show_table').remove();
+                    $('#show_table').remove();
                     $('#item_details_show').append(script);
                     $('#heading_name').text("View Purchase Order Details").css('font-weight', 'bold');
                     $('#show').css('display', 'block');
                     $('#form').css('display', 'none');
                     $('#blur-background').css('display','block');
-
                 }
                 document.getElementById("myDialog").open = true;
                 window.scrollTo(0, 0);
@@ -1037,7 +1076,7 @@ $.ajax({
     }
 
 
-        
+        //  Autocomplete for supplier name from supplier master   
     jQuery($ => 
     {
         $(document).on('focus click', $("#name"), function() 
@@ -1106,7 +1145,7 @@ $.ajax({
     });
 
 
-            // autocomplete project name
+            // autocomplete for site location from site master
     jQuery($ => 
     {
         $(document).on('focus click', $("#site_location"), function() 
@@ -1172,7 +1211,7 @@ $.ajax({
         });
     });
     
-            //po prepared
+            //po prepared auttocomplete for employee name from employee master
     jQuery($ => 
     {
         $(document).on('focus click', $("#firstname"), function() 
@@ -1240,7 +1279,7 @@ $.ajax({
     });
     
 
-
+            // autocomplete for mr code from MR 
     jQuery($ => 
     {
         $(document).on('focus click', $("#mr_reference_code"), function() 
@@ -1372,209 +1411,219 @@ $.ajax({
         $.validator.addMethod("alphanumeric_Qty", function(value, element) {
             return this.optional(element) || /^(\d+(\.\d*)?|\.\d+)$/i.test(value);
         });
-        // $.validator.addMethod("letters", function(value, element) {
-        //     return this.optional(element) || /^[a-zA-Z0-9\s\W]+$/i.test(value);
-        // });
+       
 
-    var formValidationConfig = 
-    {
-        rules: 
+        var formValidationConfig = 
         {
-            po_type: "required",
-            name:
+            rules: 
             {
-                required:true,
-                suppliernameCheck:true
-            },
-            po_date: 
-            {
-                required: true,
-            },
-            site_location:
-            {
-                required:true,
-                sitelocationCheck:true
-            },
-            currency:"required",
-            payment_terms:
-            {
-                required:true,
-                
-            }, 
-               
-            firstname:
-            {
-                required:true,
-                employeeNameCheck:true
-            },
-            mr_reference_code:
-            {
-                alphanumeric_mrno:true
-            },
-            vat:
-            {
-                required:true,
-               
-            },
-            "item_name[]": 
-            {
-                required: true,
-                ItemName: true
-            },
-            "qty[]":
-            {
-                required:true,
-                digits:true
-            },
-            "rate_per_qty[]":
-            {
-                required:true,
-                alphanumeric_Qty:true 
-            },
-            "discount[]":
-            {
-                alphanumeric_Qty:true
-            },
-        },
-        messages:
-        {
-            
-            po_type: "Please select the purchase type ",
-            name:
-            {
-                required:"Please enter the Supplier Name",
-                suppliernameCheck:"Please enter valid Supplier Name"
-            },
-            po_date: 
-            {
-                required: "Please enter the date",
-            },
-            site_location:
-            {
-                required:"Please enter the Site Location",
-                sitelocationCheck:"Please enter valid Site location"
-            },
-            currency:"Please Select the currency",
-            payment_terms:
-            {
-                required:"Please enter the payment Terms",
-            
-            }, 
-           
-            firstname:
-            {
-                required:"Please enter the Employee Name",
-                employeeNameCheck:"Please enter valid Employee Name"
-            },
-            mr_reference_code:
-            {
-                alphanumeric_mrno:"Please enter valid MR NO"
-            },
-            vat:
-            {
-                required:"Please enter the VAT",
-            },
-            "item_name[]": 
-            {
-                required: "Please enter the item name",
-                ItemName: "Please enter a valid item name"
-            },
-            "qty[]":
-            {
-                required: "Please enter the qty",
-                digits:"please enter an integer value"
-            },
-            "rate_per_qty[]":
-            {
-                required: "Please enter the rate per qty",
-                alphanumeric_Qty:"please enter numbers only"
-            },
-            "discount[]":
-            {
-                alphanumeric_Qty:"please enter numbers only"        
-            },
-        
-        },
-        errorElement: "error",
-        errorClass: "error-msg",
-        highlight: function(element, errorClass, validClass) 
-        {
-            $(element).addClass(errorClass).removeClass(validClass);
-            $(element).closest('.form-group').addClass('has-error');
-        },
-        unhighlight: function(element, errorClass, validClass) 
-        {
-            $(element).removeClass(errorClass).addClass(validClass);
-            $(element).closest('.form-group').removeClass('has-error');
-        }
-    };
-
-    jQuery($ => 
-    {
-        var form = $("#form");
-        form.validate(formValidationConfig);
-    });
-
-</script>
-<script>
+                po_type: "required",
+                name:
+                {
+                    required:true,
+                    suppliernameCheck:true
+                },
+                po_date: 
+                {
+                    required: true,
+                },
+                site_location:
+                {
+                    required:true,
+                    sitelocationCheck:true
+                },
+                currency:"required",
+                payment_terms:
+                {
+                    required:true,
                     
-                    const discountToggle = document.getElementById('discount-type');
-                    const toggleSymbol = document.getElementById('toggle-symbol');
-                    const discountInput = document.getElementById('discount');
-                    const totalAmountInput = document.getElementById('total_amount');
-                    const totalDiscountInput = document.getElementById('total_discount');
+                }, 
                 
-                    discountToggle.addEventListener('change', function() {
-                        
-                        if (discountToggle.checked) {
-                            toggleSymbol.textContent = '%';
-                        } else {
-                            toggleSymbol.textContent = 'AED';
-                        }
-                        
-                        // calculateTotalAmount();
-                    });
+                firstname:
+                {
+                    required:true,
+                    employeeNameCheck:true
+                },
+                mr_reference_code:
+                {
+                    alphanumeric_mrno:true
+                },
+                vat:
+                {
+                    required:true,
                 
-                    $(document).ready(function() {
-                    const discountToggle = $('#discount-type');
-                    const toggleSymbol = $('#toggle-symbol');
-                    const discountInput = $('#discount');
-                    const totalAmountInput = $('#total_amount');
-                    const totalDiscountInput = $('#total_discount');
-                    const grandTotalInput = $('#gross_amount');
-                const vatAmount = $('#total_vat');
-                    // Trigger calculation on input change
-                    $('#tbody').on('input', 'input[name^="qty"], input[name^="rate_per_qty"]', calculateRowTotal);
-                    discountInput.on('input', calculateTotalAmount);
-                    discountToggle.on('change', calculateTotalAmount);
-                    $('input[name="vat"]').on('change', calculateVATAmount);
+                },
+                "item_name[]": 
+                {
+                    required: true,
+                    ItemName: true
+                },
+                "qty[]":
+                {
+                    required:true,
+                    digits:true
+                },
+                "rate_per_qty[]":
+                {
+                    required:true,
+                    alphanumeric_Qty:true 
+                },
+                "discount[]":
+                {
+                    alphanumeric_Qty:true
+                },
+            },
+            messages:
+            {
                 
-                    function calculateRowTotal() {
-                        var row = $(this).closest('tr');
-                        var qty = parseInt(row.find('input[name^="qty"]').val()) || 0;
-                        var ratePerQuantity = parseFloat(row.find('input[name^="rate_per_qty"]').val()) || 0;
-                        var total = qty * ratePerQuantity;
-                        row.find('input[name^="item_amount"]').val(total.toFixed(2));
-                        calculateTotalAmount();
-                    }
+                po_type: "Please select the purchase type ",
+                name:
+                {
+                    required:"Please enter the Supplier Name",
+                    suppliernameCheck:"Please enter valid Supplier Name"
+                },
+                po_date: 
+                {
+                    required: "Please enter the date",
+                },
+                site_location:
+                {
+                    required:"Please enter the Site Location",
+                    sitelocationCheck:"Please enter valid Site location"
+                },
+                currency:"Please Select the currency",
+                payment_terms:
+                {
+                    required:"Please enter the payment Terms",
                 
-                    function calculateTotalAmount() {
-                        const totalAmount = calculateSubtotal();
-                        totalAmountInput.val(totalAmount.toFixed(2)); // Set the total_amount value
+                }, 
+            
+                firstname:
+                {
+                    required:"Please enter the Employee Name",
+                    employeeNameCheck:"Please enter valid Employee Name"
+                },
+                mr_reference_code:
+                {
+                    alphanumeric_mrno:"Please enter valid MR NO"
+                },
+                vat:
+                {
+                    required:"Please enter the VAT",
+                },
+                "item_name[]": 
+                {
+                    required: "Please enter the item name",
+                    ItemName: "Please enter a valid item name"
+                },
+                "qty[]":
+                {
+                    required: "Please enter the qty",
+                    digits:"please enter an integer value"
+                },
+                "rate_per_qty[]":
+                {
+                    required: "Please enter the rate per qty",
+                    alphanumeric_Qty:"please enter numbers only"
+                },
+                "discount[]":
+                {
+                    alphanumeric_Qty:"please enter numbers only"        
+                },
+            
+            },
+            errorElement: "error",
+            errorClass: "error-msg",
+            highlight: function(element, errorClass, validClass) 
+            {
+                $(element).addClass(errorClass).removeClass(validClass);
+                $(element).closest('.form-group').addClass('has-error');
+            },
+                unhighlight: function(element, errorClass, validClass) 
+            {
+                $(element).removeClass(errorClass).addClass(validClass);
+                $(element).closest('.form-group').removeClass('has-error');
+            }
+        };
+
+        jQuery($ => 
+        {
+            var form = $("#form");
+            form.validate(formValidationConfig);
+        });
+
+                  
+        const discountToggle = document.getElementById('discount-type');
+        const toggleSymbol = document.getElementById('toggle-symbol');
+        const discountInput = document.getElementById('discount');
+        const totalAmountInput = document.getElementById('total_amount');
+        const totalDiscountInput = document.getElementById('total_discount');
                 
-                        calculateTotalDiscount(); // Calculate the total discount
-                        calculateVATAmount(); // Calculate the VAT amount
-                        calculateGrandTotal(); // Calculate the grand total
-                    }
+        discountToggle.addEventListener('change', function() 
+        {
+            if (discountToggle.checked) 
+            {
+                toggleSymbol.textContent = '%';
+            } 
+            else 
+            {
+                toggleSymbol.textContent = 'AED';
+            }
+            // calculateTotalAmount();
+        });
+            // CALCULATION  START HEAR     
+        $(document).ready(function() 
+        {
+            const discountToggle = $('#discount-type');
+            const toggleSymbol = $('#toggle-symbol');
+            const discountInput = $('#discount');
+            const totalAmountInput = $('#total_amount');
+            const totalDiscountInput = $('#total_discount');
+            const grandTotalInput = $('#gross_amount');
+            const vatAmount = $('#total_vat');
+            const miscExpensesInput = $('#misc_expenses');
+            const freightInput = $('#freight');
+
+            // Trigger calculation on input change
+            $('#tbody').on('input', 'input[name^="qty"], input[name^="rate_per_qty"]', calculateRowTotal);
+            discountInput.on('input', calculateTotalAmount);
+            discountToggle.on('change', calculateTotalAmount);
+            $('input[name="vat"]').on('change', calculateVATAmount);
+            miscExpensesInput.on('input', calculateGrandTotal);
+            freightInput.on('input', calculateGrandTotal);
                 
-                    function calculateSubtotal() {
-                        var subtotal = 0;
-                        $('#tbody tr').each(function() {
-                            var total = parseFloat($(this).find('input[name^="item_amount"]').val()) || 0;
-                            subtotal += total;
-                        });
-                        return subtotal;
-                    }
+            // Row wise calculation 
+            function calculateRowTotal() 
+            {
+                var row = $(this).closest('tr');
+                var qty = parseInt(row.find('input[name^="qty"]').val()) || 0;
+                var ratePerQuantity = parseFloat(row.find('input[name^="rate_per_qty"]').val()) || 0;
+                var total = qty * ratePerQuantity;
+                row.find('input[name^="item_amount"]').val(total.toFixed(2));
+                calculateTotalAmount();
+            }
+              
+            // Calculate Total Amount
+            function calculateTotalAmount() 
+            {
+                const totalAmount = calculateSubtotal();
+                totalAmountInput.val(totalAmount.toFixed(2)); // Set the total_amount value
+                
+                calculateTotalDiscount(); // Calculate the total discount
+                calculateVATAmount(); // Calculate the VAT amount
+                calculateGrandTotal(); // Calculate the grand total
+            }
+                
+            function calculateSubtotal() 
+            {
+                var subtotal = 0;
+                $('#tbody tr').each(function() 
+                {
+                    var total = parseFloat($(this).find('input[name^="item_amount"]').val()) || 0;
+                    subtotal += total;
+                });
+                    return subtotal;
+            }
                 
                     // function calculateTotalDiscount() {
                     //     const totalAmount = parseFloat(totalAmountInput.val()) || 0;
@@ -1583,46 +1632,59 @@ $.ajax({
                     //     const discountAmount = (totalAmount * discount) / 100;
                     //     totalDiscountInput.val(discountAmount.toFixed(2)); // Set the total discount value
                     // }
-                    function calculateTotalDiscount() {
-                    const totalAmount = calculateSubtotal();
-                    const discount = discountInput.val() ? parseFloat(discountInput.val()) : 0;
+            function calculateTotalDiscount() 
+            {
+                const totalAmount = calculateSubtotal();
+                const discount = discountInput.val() ? parseFloat(discountInput.val()) : 0;
                 
-                    if (discountToggle.is(':checked')) {
-                        const discountAmount = (totalAmount * discount) / 100;
-                        const discountPercentage = discount.toFixed(2); // Discount percentage
+                if (discountToggle.is(':checked')) 
+                {
+                    const discountAmount = (totalAmount * discount) / 100;
+                    const discountPercentage = discount.toFixed(2); // Discount percentage
                 
-                        totalDiscountInput.val(discountAmount.toFixed(2)); // Set the total discount value
-                    } else {
+                    totalDiscountInput.val(discountAmount.toFixed(2)); // Set the total discount value
+                } 
+                else 
+                {
                         const discountAmount = discountInput.val() ? parseFloat(discountInput.val()) : 0;
                         const discountAmountAED = discountAmount.toFixed(2); // Discount amount in AED format
                 
                         totalDiscountInput.val(discountAmountAED); // Set the total discount value
-                    }
+                }
                 
                     calculateGrandTotal(); // Recalculate the grand total
                 }
                 
-                function calculateVATAmount() {
-                    const totalAmount = parseFloat(totalAmountInput.val()) || 0;
-                    const discount = parseFloat(totalDiscountInput.val()) || 0;
-                    const vatRate = parseFloat($('input[name="vat"]:checked').val()) || 0;
+                // Calculate VAT Amount 
+            function calculateVATAmount() 
+            {
+                const totalAmount = parseFloat(totalAmountInput.val()) || 0;
+                const discount = parseFloat(totalDiscountInput.val()) || 0;
+                const vatRate = parseFloat($('input[name="vat"]:checked').val()) || 0;
                 
-                    const vatAmount = (totalAmount - discount) * (vatRate / 100);
-                    $('#total_vat').val(vatAmount.toFixed(2));
-                    calculateGrandTotal();
-                }
+                const vatAmount = (totalAmount - discount) * (vatRate / 100);
+                $('#total_vat').val(vatAmount.toFixed(2));
+                calculateGrandTotal();
+            }
                 
+                // Calculate Grand Total 
+            function calculateGrandTotal() 
+            {
+                const totalAmount = parseFloat(totalAmountInput.val()) || 0;
+                const totalDiscount = parseFloat(totalDiscountInput.val()) || 0;
+                const miscExpenses = parseFloat(miscExpensesInput.val()) || 0;
+                const freight = parseFloat(freightInput.val()) || 0;
+                const vatAmount = parseFloat($('#total_vat').val()) || 0;
+            
+                const grossAmount = totalAmount - totalDiscount + miscExpenses + freight + vatAmount ;
+                grandTotalInput.val(grossAmount.toFixed(2));
+                    // const grossAmount = totalAmount - totalDiscount + vatAmount;
+                    // grandTotalInput.val(grossAmount.toFixed(2));
+            }
                 
-                function calculateGrandTotal() {
-                    const totalAmount = parseFloat(totalAmountInput.val()) || 0;
-                    const totalDiscount = parseFloat(totalDiscountInput.val()) || 0;
-                    const vatAmount = parseFloat($('#total_vat').val()) || 0;
-                
-                    const grossAmount = totalAmount - totalDiscount + vatAmount;
-                    grandTotalInput.val(grossAmount.toFixed(2));
-                }
-                
-                });
-                </script>
+        });
+
+                    
+</script>
                 
 @stop

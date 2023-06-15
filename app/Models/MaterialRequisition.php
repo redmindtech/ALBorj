@@ -19,7 +19,7 @@ class MaterialRequisition extends Model
         "date",
         "project_id",
         "user_id",
-        "purchase_type",
+        //"purchase_type",
         "mr_reference_code",
         "reference_date",
         "remarks"
@@ -30,7 +30,7 @@ class MaterialRequisition extends Model
         "date",
         "project_id",
         "user_id",
-        "purchase_type",        
+        //"purchase_type",        
         "mr_reference_code",
         "reference_date",
         "remarks"

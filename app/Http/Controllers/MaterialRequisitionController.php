@@ -2,34 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\MaterialRequest;
 use App\Models\MaterialRequisition;
 use App\Http\Controllers\Controller;
 use App\Models\MaterialRequisitionItem;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use App\Models\ItemMaster;
+use App\Models\EmployeeMaster;
+use App\Models\ProjectMaster;
 require_once(app_path('constants.php'));
 class MaterialRequisitionController extends Controller
 {    public function index()
     {
 
         try {
-            $purchase_type = GRNPURCHASETYPE;
+            $item=ItemMaster::all();
+            $item_name=$item->pluck('item_name');
+            $employee=EmployeeMaster::all();
+            $employee_name=$employee->pluck('firstname');
+            $project = ProjectMaster::all();
+            $project_name=$project->pluck('project_name');
+            //$purchase_type = GRNPURCHASETYPE;
             $material = MaterialRequisition::join('project_masters', 'materials.project_id', '=', 'project_masters.project_no')
                 ->join('employee_masters', 'materials.user_id', '=', 'employee_masters.id')
                 ->select(
                     'materials.*',
                     'project_masters.*',
                     'employee_masters.*',
-                    DB::raw('DATE(materials.date) as date')
+                     DB::raw('DATE(materials.date) as date')
                 )
                 ->where('materials.deleted', '0')
                 ->get();
             return view('material.index')
                 ->with([
-                    'purchase_type' => $purchase_type,
-                    'materials' => $material
+                    //'purchase_type' => $purchase_type,
+                    'materials' => $material,
+                    'employee_name'=>$employee_name,
+                    'project_name'=>$project_name,
+                    'item_name' => $item_name
                 ]);
         } catch (Exception $e) {
             info($e);
@@ -41,14 +52,13 @@ class MaterialRequisitionController extends Controller
 
 
 
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MaterialRequest $request)
+    public function store(Request $request)
     {
 
         try {
@@ -114,8 +124,7 @@ class MaterialRequisitionController extends Controller
         }
     }
 
-
-    public function update(MaterialRequest $request, $id)
+    public function update(Request $request, $id)
     {
 
         try {
