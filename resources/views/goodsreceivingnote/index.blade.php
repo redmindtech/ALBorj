@@ -197,12 +197,12 @@
    
     <div class="form-group col-md-2">
         <label for="misc_expenses" class="form-label fw-bold">Misc Expenses</label>
-        <input type="text" id="misc_expenses" style="width: 70%;" name="misc_expenses" value="{{ old('misc_expenses')}}" placeholder="Misc Expenses" class="form-control" autocomplete="off">      
+        <input type="number" id="misc_expenses" style="width: 70%;" name="misc_expenses" value="{{ old('misc_expenses')}}" placeholder="Misc Expenses" class="form-control" autocomplete="off">      
     </div>
     
     <div class="form-group col-md-2">
         <label for="freight" class="form-label fw-bold">Freight</label>
-        <input type="text" id="freight" name="freight" style="width: 70%;" value="{{ old('freight')}}" placeholder="Freight" class="form-control" autocomplete="off">      
+        <input type="number" id="freight" name="freight" style="width: 70%;" value="{{ old('freight')}}" placeholder="Freight" class="form-control" autocomplete="off">      
     </div>
     <div class="form-group col-md-2">
   <label for="discount" class="form-label fw-bold">Discount</label>
@@ -329,13 +329,12 @@
                             <label>Discount</label>
                             <p id="show_discount_amount"></p>
                         </div>
-                </div>
-                <div class="row">
                         <div class="col-md-3">
                             <label>Freight</label>
                             <p id="show_freight"></p>
-                        </div>                
-                       
+                        </div>
+                </div>
+                <div class="row">
                           <div class="col-md-3">
                             <label>VAT</label>
                             <p id="show_vat"></p>
@@ -348,13 +347,14 @@
                             <label>Purchase Amount</label>
                             <p id="show_gross_amount"></p>
                         </div>
-                </div>
-                <div class="row">
-                                        
-                          <div class="col-md-3">
+                        <div class="col-md-3">
                             <label>Attachments</label>
                             <p id="show_filename"></p>
                         </div>
+                </div>
+                <div class="row">
+                                        
+
                           <div class="col-md-3">
                             <label>Remarks</label>
                             <p id="show_remarks"></p>
@@ -443,26 +443,26 @@
         });
 
         // jQuery button click event to add a row
-        $('#addBtn').on('click', function () {               
-           var row=rowIdx-1;
-                        if ($('#item_name_'+row).val() == '') {
-                    alert("Please enter item name.");
-                } else if (!/^[a-zA-Z]+$/.test($('#item_name_'+row).val())) {
-                    alert("Item name should only contain alphabets.");
-                } else if ($('#receiving_qty_'+row).val() == '') {
-                    alert("Please enter receiving quantity.");
-                } else if (!/^\d+(\.\d+)?$/.test($('#receiving_qty_'+row).val())) {
-                    alert("Receiving quantity should only contain numbers.");
-                } else if ($('#rate_per_qty_'+row).val() == '') {
-                    alert("Please enter rate per quantity.");
-                } else if (!/^\d+(\.\d+)?$/.test($('#rate_per_qty_'+row).val())) {
-                    alert("Rate per quantity should only contain numbers.");
-                } else{            
+        // $('#addBtn').on('click', function () {               
+        //    var row=rowIdx-1;
+        //                 if ($('#item_name_'+row).val() == '') {
+        //             alert("Please enter item name.");
+        //         } else if (!/^[a-zA-Z]+$/.test($('#item_name_'+row).val())) {
+        //             alert("Item name should only contain alphabets.");
+        //         } else if ($('#receiving_qty_'+row).val() == '') {
+        //             alert("Please enter receiving quantity.");
+        //         } else if (!/^\d+(\.\d+)?$/.test($('#receiving_qty_'+row).val())) {
+        //             alert("Receiving quantity should only contain numbers.");
+        //         } else if ($('#rate_per_qty_'+row).val() == '') {
+        //             alert("Please enter rate per quantity.");
+        //         } else if (!/^\d+(\.\d+)?$/.test($('#rate_per_qty_'+row).val())) {
+        //             alert("Rate per quantity should only contain numbers.");
+        //         } else{            
 
-           add_text();
-                 }                               
+        //    add_text();
+        //          }                               
                  
-            });
+        //     });
             // delete row in dynamically created table
             $('#tbody1').on('click', '.remove', function() {
                                  // Getting all the rows next to the row containing the clicked button
@@ -507,7 +507,7 @@ function add_text()
         html += '<div class="col-xs-12"><input hidden type="text" id="quantity_'+rowIdx+'" name="quantity[]" class="quantity"></td>';
         html += '<td><center><div class="col-xs-12 pending_qty1"name="pending_qty[]" id="pending_qty1_'+ rowIdx + '" ></div></center>';
         html += '<div class="col-xs-12"><input type="text" hidden id="pending_qty_'+rowIdx+'" name="pending_qty[]" class="pending_qty"></td>';
-        html += '<td><div class="col-xs-12"><input type="text" id="receiving_qty_'+rowIdx+'" name="receiving_qty[]" class="receiving_qty form-control"></div></td>';
+        html += '<td><div class="col-xs-12"><input type="number" id="receiving_qty_'+rowIdx+'" name="receiving_qty[]" class="receiving_qty form-control"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="rate_per_qty_'+rowIdx+'"  name="rate_per_qty[]"class="rate_per_qty form-control"></div></td>';       
         html += '<td><div class="col-xs-12"><input type="text"  id="item_amount_'+rowIdx+'"name="item_amount[]" class="item_amount form-control"></div></td>';
         html += '<td><button class="btn btn-danger remove btn-sm" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
@@ -779,7 +779,7 @@ function handleClose(){
     function handleSubmit() {
         event.preventDefault();
     var hasError = false;
-    alert( $('#dis_type').val());
+    
        $('#dis_type').is(':checked') ? 1 : 0
     // check receiving qty
     $('.rowtr').each(function() {
@@ -861,7 +861,8 @@ function handleShowAndEdit(id,po_no,action)
             cache: false,
             processData: false,
             success: function (message)
-            { console.log(message);
+            { 
+                console.log(message);
                  if(action == 'edit')
                 {   
                     $('#show').css('display','none');
@@ -887,8 +888,9 @@ function handleShowAndEdit(id,po_no,action)
             }
                 let fileName = message.grn.filename;
                 $('#filename').text(fileName);
+
                var rowid=1;
-               for (const item of message.grn_item) {
+               for (const item of message.grn_item_edit) {
                 add_text(); // add a new row to the table
                 $('#item_name_' + rowid).val(item.item_name);
                 $('#item_no_' + rowid).val(item.item_no);
@@ -972,16 +974,22 @@ $.validator.addMethod("projectNameCheck", function(value, element)
     return project_name.includes(value);
 });
 var purchase_order=@json($purchase_order);
-$.validator.addMethod("pruchaseNameCheck", function(value, element)
-{
+$.validator.addMethod("purchaseNameCheck", function(value, element)
+{ console.log(value);
     return purchase_order.includes(value);
 });
 $.validator.addMethod("alphanumeric_invoice", function(value, element) {
     return this.optional(element) || /^\d+(\.\d+)?$/i.test(value);
 });
+$.validator.addMethod("alphanumeric", function(value, element) {
+  return this.optional(element) || /^[a-zA-Z0-9\s]+$/i.test(value);
+});
+
 
 $.validator.addMethod("lessThanQty", function(value, element){
     console.log(value);
+     method = $('#method').val();
+    console.log(method)
     var rowId = $(element).closest('.rowtr').attr('id');
     var Quantity = $('#' + rowId + ' .pending_qty1').text().trim();
 
@@ -1004,7 +1012,8 @@ grn_date:
 },
 po_code:
 {
-    required: true
+    required: true,
+    purchaseNameCheck:true
 },
 misc_expenses:
 {
@@ -1024,6 +1033,7 @@ vat:
 },
 grn_invoice_no:{
     required: true, 
+    alphanumeric:true
 },
 "item_name[]":
 {
@@ -1059,7 +1069,8 @@ grn_date:
 },
 po_code:
 {
-    required:"Please enter the purchaseorder Number",
+    required:"Please enter the REF LPO",
+    purchaseNameCheck:"Please enter valid REF LPO "
 },
 
 misc_expenses:
@@ -1085,6 +1096,7 @@ vat:
 },
 grn_invoice_no:{
     required: "Please enter the invoice number", 
+    alphanumeric:"GRN Invoice no. allow only alphanumeric letters not symbols"
 },
 
 "rate_per_qty[]":

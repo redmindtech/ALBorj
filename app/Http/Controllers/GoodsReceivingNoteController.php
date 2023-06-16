@@ -236,16 +236,21 @@ class GoodsReceivingNoteController extends Controller
         }
       
             $grn_item=GoodsReceivedNoteItem::     
-            join('item_masters', 'goods_received_note_item.item_no', '=', 'item_masters.id') 
-                       
+            join('item_masters', 'goods_received_note_item.item_no', '=', 'item_masters.id')                       
             ->select( 'goods_received_note_item.*', 'item_masters.*')
-            ->where('goods_received_note_item.grn_no', $grn_no)
-          
+            ->where('goods_received_note_item.grn_no', $grn_no)          
+            ->get(); 
+            $grn_item_edit=GoodsReceivedNoteItem::     
+            join('item_masters', 'goods_received_note_item.item_no', '=', 'item_masters.id')                       
+            ->select( 'goods_received_note_item.*', 'item_masters.*')
+            ->where('goods_received_note_item.grn_no', $grn_no)  
+            ->where('pending_qty', '!=', 0)      
             ->get();    
          
              return response()->json([
                 'grn' => $grn,
-                'grn_item' => $grn_item
+                'grn_item' => $grn_item,
+                'grn_item_edit'=>$grn_item_edit
             ]);
         } catch (Exception $e) {
             info($e);
