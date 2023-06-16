@@ -627,40 +627,40 @@
     });
 
             // jQuery button click event to add a row
-            let itemNames = []; // Array to store encountered item names           
+            // let itemNames = []; // Array to store encountered item names           
     $('#addBtn').on('click', function() 
     {
-        var row = rowIdx - 1;
-        var itemName = $('#item_name_' + row).val();
+        // var row = rowIdx - 1;
+        // var itemName = $('#item_name_' + row).val();
 
-        if ($('#item_name_' + row).val() == '') 
-        {
-            alert("Please enter an item name in " + row);
-        } 
-        else if (itemNames.includes(itemName)) 
-        {
-        alert('Item name "' + itemName + '" is repeated. Please enter a unique item name in row ' + row);
-        }
-        else if ($('#qty_' + row).val() == '') 
-        {
-            alert("Please enter the quantity." + row);
-        } else if (!/^\d+(\.\d+)?$/.test($('#qty_' + row).val())) 
-        {
-            alert("Item quantity should only contain numbers.");
-        }
-        else if ($('#rate_per_qty_' + row).val() == '') 
-        {
-            alert("Please enter rate per quantity." + row);
-        } 
-        else if (!/^\d+(\.\d+)?$/.test($('#rate_per_qty_' + row).val())) 
-        {
-            alert("Rate Per quantity should only contain numbers.");
-        }
-        else 
-        {
-            itemNames.push(itemName);         
-            add_text();
-        }
+        // if ($('#item_name_' + row).val() == '') 
+        // {
+        //     alert("Please enter an item name in " + row);
+        // } 
+        // else if (itemNames.includes(itemName)) 
+        // {
+        // alert('Item name "' + itemName + '" is repeated. Please enter a unique item name in row ' + row);
+        // }
+        // else if ($('#qty_' + row).val() == '') 
+        // {
+        //     alert("Please enter the quantity." + row);
+        // } else if (!/^\d+(\.\d+)?$/.test($('#qty_' + row).val())) 
+        // {
+        //     alert("Item quantity should only contain numbers.");
+        // }
+        // else if ($('#rate_per_qty_' + row).val() == '') 
+        // {
+        //     alert("Please enter rate per quantity." + row);
+        // } 
+        // else if (!/^\d+(\.\d+)?$/.test($('#rate_per_qty_' + row).val())) 
+        // {
+        //     alert("Rate Per quantity should only contain numbers.");
+        // }
+        // else 
+        // {
+        //     itemNames.push(itemName);         
+             add_text();
+        // }
         // detele row
     });
 
@@ -716,9 +716,12 @@
         html += '<td><center><div class="col-xs-12" id="price_per_qty_'+ rowIdx + '" ></div></center></td>';
         // html += '<td id="tr_qty"><div class="col-xs-12"><input type="text" name="pending_qty[]" id="pending_qty_' + rowIdx +
         //     '"  name="pending_qty[]" class="pending_qty" ></div></td>';
+        if(rowIdx !=1){
         html +=
             '<td><button class="btn btn-danger remove btn-sm" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
         html += '</tr>';
+        }
+
         $("#tbody").append(html);
         rowIdx++;
     }
@@ -798,6 +801,7 @@
          add_text();
         $('#method').val("ADD");
         $('#submit').text("Save");
+        $('#vat1').prop('checked', true);
         $('#heading_name').text("Add Purchase Order Details").css('font-weight', 'bold');
         $('#site_code').hide();
         $('#code_lable').hide();
@@ -1448,11 +1452,11 @@
                 {
                     alphanumeric_mrno:true
                 },
-                vat:
-                {
-                    required:true,
+                // vat:
+                // {
+                //     required:true,
                 
-                },
+                // },
                 "item_name[]": 
                 {
                     required: true,
@@ -1507,10 +1511,10 @@
                 {
                     alphanumeric_mrno:"Please enter valid MR NO"
                 },
-                vat:
-                {
-                    required:"Please enter the VAT",
-                },
+                // vat:
+                // {
+                //     required:"Please enter the VAT",
+                // },
                 "item_name[]": 
                 {
                     required: "Please enter the item name",

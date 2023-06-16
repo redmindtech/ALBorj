@@ -339,15 +339,15 @@
                      html += '<tr id="row' + rowIdx + '" class="rowtr">';
                     html += '<td>' + rowIdx + '</td>';
                     html += '<td><div class="col-xs-12"><input type="text" id="item_name_' + rowIdx +
-                        '"  name="item_name[]" class="item_name" placeholder="Item name"><input type="text"  name="item_no[]" id="item_no_' +
+                        '"  name="item_name[]" class="item_name form-control" placeholder="Item name"><input type="text"  name="item_no[]" id="item_no_' +
                         rowIdx + '" class="item_no_' + rowIdx + '" hidden placeholder=" Item no"></div></td>';
 
                     html += '<td><div class="col-xs-12"><input type="text" name="store_room[]" id="store_room_' + rowIdx +
-                        '"  name="store_room[]" class="store_room"></div></td>';
+                        '"  name="store_room[]" class="store_room form-control"></div></td>';
                     html += '<td><center><div class="col-xs-12" id="total_quantity_' + rowIdx + '" ></div></center></td>';
                     html += '<td><div class="col-xs-12 requesting_qty" id="requesting_qty_' + rowIdx + '"></div></td>';
                     html += '<td><div class="col-xs-12"><input type="text" name="item_quantity[]"  id="item_quantity_' + rowIdx +
-                        '"name="item_quantity[]" class="item_quantity" style="width: 100px;"></div></td>';
+                        '"name="item_quantity[]" class="item_quantity form-control" style="width: 100px;"></div></td>';
 
                     html +=
                         '<td><button class="btn btn-danger remove" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';

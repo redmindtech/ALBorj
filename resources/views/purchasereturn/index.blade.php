@@ -767,7 +767,7 @@ function handleSubmit() {
                         script += '</tr>';
                     }
                      script += '</tbody></table>';
-                    $('show_table').remove();
+                    $('#show_table').remove();
                      $('#item_detail_show').append(script);
                     $('#heading_name').text("View Purchase Return Details").css('font-weight', 'bold');
                     $('#show').css('display', 'block');

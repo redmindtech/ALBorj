@@ -98,12 +98,10 @@
                         <div class="form-group col-md-4">
                         <label for="date" class="form-label fw-bold">Date</label>
                             <input type="date" id="date" name="date" value="{{ old('date')}}" placeholder="Company Name" class="form-control" autocomplete="off">
-                            <p style="color: red" id="error_date"></p>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="voucher_no" class="form-label fw-bold">Invoice Voucher No</label>
                             <input type="text" id="voucher_no"  name="voucher_no" value="{{ old('voucher_no') }}" placeholder="Voucher No" class="form-control" autocomplete="off">
-                            <p style="color: red" id="error_voucher_no"></p>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="reference_date" class="form-label fw-bold">REF DATE</label>
@@ -115,12 +113,10 @@
                             <label for="contact_number" class="form-label fw-bold">Project Name<a style="text-decoration: none;color:red">*</a></label>
                             <input type="text" id="project_name" name="project_name" value="{{ old('project_name') }}"  placeholder="Project Name" class="form-control" autocomplete="off" >
                             <input type="text" hidden  id="project_id" name="project_id" value="{{ old('project_id') }}"   class="form-control" />
-                            <p style="color: red" id="error_project_name"></p>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="project_code" class="form-label fw-bold">Project Code</label>
                             <input type="text" id="project_code" name="project_code" readonly value="{{ old('project_code') }}" placeholder="Project Code" class="form-control" autocomplete="off">
-                            <p style="color: red" id="error_project_code"></p>
                         </div>
                     <!-- </div> -->
                     <!-- <div class="row"> -->
@@ -128,12 +124,10 @@
                             <label for="contact_number" class="form-label fw-bold">Employee Name<a style="text-decoration: none;color:red">*</a></label>
                             <input type="text" id="firstname" name="firstname" value="{{ old('firstname') }}"  placeholder="Employee Name" class="form-control"  autocomplete="off">
                             <input type="text"  id="user_id" hidden name="user_id" value="{{ old('user_id') }}"   class="form-control" />
-                            <p style="color: red" id="error_firstname"></p>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="mr_reference_code"  id="mr_reference_code_lable" class="form-label fw-bold">MR Code<a style="text-decoration: none;color:red">*</a></label>
                             <input type="text" readonly id="mr_reference_code" name="mr_reference_code" value="{{ old('mr_reference_code') }}" placeholder="Reference No" class="form-control" autocomplete="off">
-                            <p style="color: red" id="error_mr_reference_code"></p>
                         </div>
                     </div>
 
@@ -497,9 +491,10 @@
             html += '<td hidden ><div class="col-xs-12"><input type="text"  id="item_no_'+rowIdx+'"  name="item_no[]" class="item_no_'+rowIdx+'"></div></td>';
             html += '<td><center><div class="col-xs-12" id="total_quantity_'+ rowIdx + '" ></div></center></td>';
             html += '<td><div class="col-xs-12"><input type="number" id="quantity_'+rowIdx+'"  name="quantity[]" class="quantity form-control"></div></td>';
-                html +='<td><button class="btn btn-danger btn-sm remove" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';     
+            if(rowIdx != 1){
+            html +='<td><button class="btn btn-danger btn-sm remove" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';     
             html+='</tr>';
-            
+            }
             $("#tbodyMI").append(html);        
             rowIdx++;     
         }
@@ -570,34 +565,34 @@
     });
 
     // jQuery button click event to add a row
-    let itemNames = []; // Array to store encountered item names           
+    // let itemNames = []; // Array to store encountered item names           
 
     $('#addBtn').on('click', function () 
     {   
-        var row=rowIdx-1;
-        var itemName = $('#item_name_' + row).val();
+        // var row=rowIdx-1;
+        // var itemName = $('#item_name_' + row).val();
 
-        if (itemName == '') 
-        {
-            alert("Please enter item name in row " +row);        
-        }
-        else if (itemNames.includes(itemName)) 
-        {
-        alert('Item name "' + itemName + '" is repeated. Please enter a unique item name in row ' + row);
-        }
-        else if ($('#quantity_'+row).val() == '') 
-        {
-            alert("Please enter quantity in row" +row);
-        } 
-        else if (!/^\d+(\.\d+)?$/.test($('#quantity_'+row).val())) 
-        {
-            alert("Quantity should only contain numbers.");
-        } 
-        else
-        {    
-            itemNames.push(itemName);         
+        // if (itemName == '') 
+        // {
+        //     alert("Please enter item name in row " +row);        
+        // }
+        // else if (itemNames.includes(itemName)) 
+        // {
+        // alert('Item name "' + itemName + '" is repeated. Please enter a unique item name in row ' + row);
+        // }
+        // else if ($('#quantity_'+row).val() == '') 
+        // {
+        //     alert("Please enter quantity in row" +row);
+        // } 
+        // else if (!/^\d+(\.\d+)?$/.test($('#quantity_'+row).val())) 
+        // {
+        //     alert("Quantity should only contain numbers.");
+        // } 
+        // else
+        // {    
+            // itemNames.push(itemName);         
         add_text();
-        }                               
+        // }                               
     });
     
             // delete row in dynamically created table
