@@ -59,13 +59,25 @@ return view('login');
     //     return $response;
     // }
 
-public function logout(Request $request)
-{
+    public function logout(Request $request)
+    {
+
     $request->session()->forget('user');
     $request->session()->flush();
     $request->session()->regenerate();
+    $g =$request->header('Referer');
+    info($g);
+    if ($request->header('Referer')) {
+        
+        return redirect()->back()->with('refresh', true);
+    } else {
+        
+        return redirect('/')->with('refresh', true);
+    }
 
-    return redirect('/');
-}
+    // return redirect()->intended('/');
+
+    }
+
 }
 ?>
