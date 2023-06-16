@@ -13,10 +13,11 @@ use App\Models\EmployeeMaster;
 use App\Models\ProjectMaster;
 require_once(app_path('constants.php'));
 class MaterialRequisitionController extends Controller
-{    public function index()
+{    public function index(Request $request)
     {
 
         try {
+            if ($request->session()->has('user')) {
             $item=ItemMaster::all();
             $item_name=$item->pluck('item_name');
             $employee=EmployeeMaster::all();
@@ -42,6 +43,10 @@ class MaterialRequisitionController extends Controller
                     'project_name'=>$project_name,
                     'item_name' => $item_name
                 ]);
+            }
+            else{
+                return redirect("/");
+            }
         } catch (Exception $e) {
             info($e);
             return redirect()->route('suppliermaster.index')->with('error', 'Error occured in the Material Requisition');

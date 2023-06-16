@@ -33,6 +33,7 @@ class AutoCompleteController extends Controller
       'purchase_order.freight','purchase_order.misc_expenses','purchase_order.discount','purchase_order.discount_type',
      'purchase_order.vat','purchase_order.total_vat' )
       ->where('po_status', '=', '0')
+      ->where('purchase_order.deleted','0')
       ->where('purchase_order.po_code', $po_code)
       ->first();
       
@@ -57,6 +58,7 @@ class AutoCompleteController extends Controller
               ->join('item_masters', 'purchase_order_item.item_no', '=', 'item_masters.id')
               ->select('purchase_order_item.*', 'item_masters.item_name')
               ->where('po_no', $po_no)
+              ->where('purchase_order_item.deleted','0')
                ->where('pending_qty', '!=', 0)
               ->get();
 
@@ -259,7 +261,9 @@ public function purchase_return_data(){
 public function  getmrcode(){
 
     $mrcode = $_GET['mrcode'];
-    $data = MaterialRequisition::where('mr_reference_code','LIKE',$mrcode.'%')->get();
+    $data = MaterialRequisition::where('mr_reference_code','LIKE',$mrcode.'%')
+    ->where('deleted','=', '0')
+    ->get();
   
     return $data;
     

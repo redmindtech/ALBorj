@@ -19,10 +19,11 @@ class ProjectMasterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         try
         {
+            if ($request->session()->has('user')) {
             $project_type = PROJECT_TYPE;
             $currency = CURRENCY;
             $project_status= PROJECT_STATUS;
@@ -54,6 +55,10 @@ class ProjectMasterController extends Controller
                 'currency'=>$currency,
                 'site_name' => $site_name
             ]);
+        }
+        else{
+            return redirect("/");
+        }
         }
         catch (Exception $e)
         {

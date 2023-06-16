@@ -120,3 +120,4 @@ Route::post("/purchasereturn", [App\Http\Controllers\PurchaseReturnController::c
 Route::get("/purchasereturn/{pr_no}/show", [App\Http\Controllers\PurchaseReturnController::class, 'show'])->name('prApi.show');
 Route::post("/purchasereturn/{pr_no}/update", [App\Http\Controllers\PurchaseReturnController::class, 'update'])->name('prApi.update');
 Route::delete("/purchasereturn/{pr_no}/delete", [App\Http\Controllers\PurchaseReturnController::class, 'delete'])->name('prApi.delete');
+Route::get("/get_grn_details",[App\Http\Controllers\PurchaseReturnController::class,'get_grn_details'])->name('get_grn_details');

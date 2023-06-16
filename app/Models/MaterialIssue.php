@@ -18,13 +18,14 @@ class MaterialIssue extends Model
         "issue_ref_no",
         "mr_no",
         "receiving_employee",
+        "deleted",
         "remarks","project_no","type",
     ];
     protected $table ='material_issue_return';
     protected $primaryKey='mir_no';
     protected $fillable =
     [
-        'mir_code','location','issue_date','issue_ref_no','receiving_employee','remarks','project_no','type','mr_no'
+        'mir_code','location','issue_date','issue_ref_no','receiving_employee','remarks','project_no','type','mr_no','deleted'
     ];
     protected static function booted()
     {
@@ -37,6 +38,7 @@ class MaterialIssue extends Model
             $currentYear = substr(date('Y'), -2);
             $mirNo = str_pad($results, 2, '0', STR_PAD_LEFT);
             $materialissue->mir_code = 'AB'.$currentYear.'MIR' . $mirNo;
+            $materialissue->deleted='0';
         });
     }
     public function MaterialIssueItem()

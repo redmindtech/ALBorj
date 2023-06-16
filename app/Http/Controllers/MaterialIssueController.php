@@ -55,12 +55,14 @@ class MaterialIssueController extends Controller
     // autocomplete data from site name
 
     //don't touch that
-    public function index()
+    public function index(Request $request)
     {
         try
         {
+            if ($request->session()->has('user')) {
             $type = MATERIALTYPE;
-            $siteLocation = SiteMaster::pluck('site_location');
+            $site_location =SITELOCATION;
+            // $siteLocation = SiteMaster::pluck('site_location');
             $projectNames=ProjectMaster::pluck('project_name');
             $employeeNames = EmployeeMaster::pluck('firstname');
             $itemNames = ItemMaster::pluck('item_name');
@@ -70,17 +72,21 @@ class MaterialIssueController extends Controller
 
             ->join('project_masters', 'material_issue_return.project_no', '=', 'project_masters.project_no')
             ->select('project_masters.*', 'material_issue_return.*')
+            ->where('material_issue_return.deleted','0')
             ->get();
             return view('materialissue.index')->with([
                 'material_issues' => $material_issues,
                 'type' => $type,
-                'siteLocation' => $siteLocation,
+                'site_location' => $site_location,
                 'projectNames' => $projectNames,
                 'employeeNames' => $employeeNames,
                 'itemNames' => $itemNames
 
             ]);
-
+        }
+        else {
+            return response()->json('GRN not found', 404);
+        }
         }
         catch (Exception $e)
         {
@@ -264,7 +270,7 @@ class MaterialIssueController extends Controller
              $mir_no = $id;
 
              // Update MaterialIssue record
-             $materialIssue->update($request->only(MaterialIssue::REQUEST_INPUTS));
+            //  $materialIssue->update($request->only(MaterialIssue::REQUEST_INPUTS));
 
             //  // Delete existing MaterialIssueItem records
             //  $material = DB::table('material_issue_return_item')
@@ -280,14 +286,84 @@ class MaterialIssueController extends Controller
                 ->where('mir_no', $mir_no)
                 ->where('item_no',$request['item_no'][$i])
                 ->value('item_quantity');
+                info("sa".$material);
+                //type
+                $type_before=$request['type'];
+                $type_actual = DB::table('material_issue_return')
+                        ->select('type')
+                        ->where('mir_no', $mir_no)
+                         ->value('type');
+                info($type_before);
+                info("go".$type_actual);
                 MaterialIssueItem::where('mir_no', $mir_no)
                 ->where('item_no',$request['item_no'][$i])
                 ->delete();
                 //  foreach ($material as $materialItem) {
                      $itemQty = $material;
-                     info($itemQty);
-                     info($request['item_quantity']);
+                    //  info($itemQty);
+                    //  info($request['item_quantity']);
+                    if ( $type_before!=$type_actual){
+                        info($type_before);
+                        if ( $type_before === 'Return'){
+                            if ($itemQty != $request['item_quantity'][$i]) {
+                        info('ss');
+                            $item = ItemMaster::find($request['item_no'][$i]);
+                            $item->total_quantity += $request['item_quantity'][$i]+$material;
+                            // // $qty= $request['item_quantity'][$i]- $material;
+                            //  $item->total_quantity += $qty;
+                             $item->save();
+                             MaterialIssueItem::create([
+                                'mir_no' => $mir_no,
+                                'item_no' => $request['item_no'][$i],
+                                'store_room' => $request['store_room'][$i],
+                                 'item_quantity' => $request['item_quantity'][$i],
+                            ]);
+                         }
+                        else{
+                            $item = ItemMaster::find($request['item_no'][$i]);
+                            $item->total_quantity += $request['item_quantity'][$i];
+                            // // $qty= $request['item_quantity'][$i]- $material;
+                            //  $item->total_quantity += $qty;
+                             $item->save();
+                             MaterialIssueItem::create([
+                                'mir_no' => $mir_no,
+                                'item_no' => $request['item_no'][$i],
+                                'store_room' => $request['store_room'][$i],
+                                 'item_quantity' => $request['item_quantity'][$i],
+                            ]);
+                        }}
+                         if ( $type_before === 'Issue'){
+                            if ($itemQty != $request['item_quantity'][$i]) {
+                            info('ss1');
+                                $item = ItemMaster::find($request['item_no'][$i]);
+                                $reduce=$item->total_quantity - $request['item_quantity'][$i];
+                                $item->total_quantity =$reduce-$material;
+                                // // $qty= $request['item_quantity'][$i]- $material;
+                                //  $item->total_quantity += $qty;
+                                 $item->save();
+                                 MaterialIssueItem::create([
+                                    'mir_no' => $mir_no,
+                                    'item_no' => $request['item_no'][$i],
+                                    'store_room' => $request['store_room'][$i],
+                                     'item_quantity' => $request['item_quantity'][$i],
+                                ]);
+                             }else{
+                                $item = ItemMaster::find($request['item_no'][$i]);
+                                $item->total_quantity -= $request['item_quantity'][$i];
+                                // // $qty= $request['item_quantity'][$i]- $material;
+                                //  $item->total_quantity += $qty;
+                                 $item->save();
+                                 MaterialIssueItem::create([
+                                    'mir_no' => $mir_no,
+                                    'item_no' => $request['item_no'][$i],
+                                    'store_room' => $request['store_room'][$i],
+                                     'item_quantity' => $request['item_quantity'][$i],
+                                ]);
 
+                             }}
+
+                    }
+else{
                      if ($type === 'Issue'){
 
                      if ($itemQty != $request['item_quantity'][$i]) {
@@ -306,6 +382,7 @@ class MaterialIssueController extends Controller
                                 'store_room' => $request['store_room'][$i],
                                  'item_quantity' => $request['item_quantity'][$i],
                             ]);}
+
                             else{
                                 MaterialIssueItem::create([
                                     'mir_no' => $mir_no,
@@ -316,10 +393,11 @@ class MaterialIssueController extends Controller
 
                             }
                         }
-                        elseif ($type === 'Return'){
+
+                        if ($type === 'Return'){
 
                         if ($itemQty != $request['item_quantity'][$i]) {
-                           info('gowtham');
+                           info('gowtham2');
 
                                 // Reduce the total_quantity by item_quantity
                                 $item = ItemMaster::find($request['item_no'][$i]);
@@ -342,9 +420,10 @@ class MaterialIssueController extends Controller
                                    ]);
 
                                }
+                            }
                            }
              }
-
+             $materialIssue->update($request->only(MaterialIssue::REQUEST_INPUTS));
              // Return appropriate response based on the selected type
              if ($type === 'Issue') {
                  return response()->json('Material Issue updated successfully', 200);
@@ -368,46 +447,18 @@ class MaterialIssueController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+   
     public function destroy($mir_no)
-    {
-        try
-        {
-            // Disable foreign key check
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-
-            $material_issues = MaterialIssue::where('mir_no', $mir_no)->first();
-
-            if ($material_issues != null)
-            {
-                $material_issues_items = MaterialIssueItem::where('mir_item_no', $mir_no)->get();
-
-                foreach ($material_issues_items as $material_issues_item)
-                {
-                    $material_issues_item->delete();
-                }
-
-                $material_issues->delete();
-
-                // Enable foreign key check
-                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-                return response()->json('Material Deleted Successfully', 200);
-            } else
-            {
-                // Enable foreign key check
-                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-                return response()->json('Material not found', 404);
-            }
-        } catch (Exception $e)
-        {
-            // Enable foreign key check
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-            info($e);
-            return response()->json('Error occurred in the delete', 400);
-        }
+{
+    try {
+        $material_issues_items = MaterialIssueItem::where('mir_no', $mir_no)->update(['deleted' => 1]);
+        $material_issues = MaterialIssue::where('mir_no', $mir_no)->update(['deleted' => 1]);
+        return response()->json('Material issue/return Deleted Successfully', 200);
+    } catch (Exception $e) {
+        info($e);
+        return response()->json('Error occurred in the delete', 400);
     }
+}
 
 
 }

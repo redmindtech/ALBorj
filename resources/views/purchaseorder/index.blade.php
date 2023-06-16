@@ -230,7 +230,7 @@
                                         <td>{{$purchase_order->po_type}}</td>
                                         <td>{{$purchase_order->vat}}</td>
                                         <td>{{$purchase_order->delivery_terms}}</td>
-                                        <td>{{$purchase_order->po_prepared}}</td>
+                                        <td>{{$purchase_order->firstname}}</td>
                                         <td>
                                             <a  onclick="handleShowAndEdit('{{$purchase_order->po_no}}','show')"
                                                 class="btn btn-primary btn-circle btn-sm"   >
@@ -892,7 +892,7 @@
              
         if(hasError) 
         {
-            
+            event.preventDefault();
             var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
             // alert(hiddenErrorElements);
             if(hiddenErrorElements === 0)

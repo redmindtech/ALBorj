@@ -101,9 +101,14 @@
                         <div class="form-group col-md-4">
                             <label for="location" class="form-label fw-bold">Location (Site location)<a
                                     style="text-decoration: none;color:red">*</a></label>
-                            <input type="text" id="location" name="location" value="{{ old('location') }}"
-                                placeholder="Location" class="form-control" autocomplete="off">
-
+                            {{-- <input type="text" id="location" name="location" value="{{ old('location') }}"
+                                placeholder="Location" class="form-control" autocomplete="off"> --}}
+                                <select id="location" name="location" class="form-control form-select" autocomplete="off">
+                                    <option value="">Select Option</option>
+                                        @foreach($site_location as $key => $value)
+                                            <option value="{{ $key }}">{{ $value }}</option>
+                                        @endforeach
+                                    </select>
 
                         </div>
 
@@ -189,7 +194,7 @@
                                             <th class="text-center" style="width: 20%;">Item Stock</th>
                                             <th class="text-center" style="width: 20%;">Requested Qty</th>
                                             <th class="text-center" style="width: 20%;">Qty</th>
-                                            <th class="text-center">Remove</th>
+                                            <th class="text-center"></th>
                                         </tr>
                                     </thead>
                                     <tbody id="tbody">
@@ -284,22 +289,22 @@
              {{-- Add row table script --}}
              <script>
                  // jQuery button click event to add a row
-                 let itemNames = []; // Array to store encountered item names
+                //  let itemNames = []; // Array to store encountered item names
                 $('#addBtn').on('click', function() {
 
-                    var row = rowIdx - 1;
-                    var itemName = $('#item_name_' + row).val();
+                    // var row = rowIdx - 1;
+                    // var itemName = $('#item_name_' + row).val();
 
-                    if ($('#item_name_' + row).val() == '') {
-                        alert("Please enter item name in row" + row);
-                    } else if (itemNames.includes(itemName)) {
-                        alert('Item name "' + itemName + '" is repeated. Please enter a unique item name in row ' + row);
-                    } else if ($('#item_quantity_' + row).val() == '') {
-                        alert("Please enter item quantity in row" + row);
-                    } else {
-                        itemNames.push(itemName);
+                    // if ($('#item_name_' + row).val() == '') {
+                    //     alert("Please enter item name in row" + row);
+                    // } else if (itemNames.includes(itemName)) {
+                    //     alert('Item name "' + itemName + '" is repeated. Please enter a unique item name in row ' + row);
+                    // } else if ($('#item_quantity_' + row).val() == '') {
+                    //     alert("Please enter item quantity in row" + row);
+                    // } else {
+                    //     itemNames.push(itemName);
                         add_text();
-                    }
+                    // }
                     //  detele row
 
                 });
@@ -348,10 +353,10 @@
                     html += '<td><div class="col-xs-12 requesting_qty" id="requesting_qty_' + rowIdx + '"></div></td>';
                     html += '<td><div class="col-xs-12"><input type="text" name="item_quantity[]"  id="item_quantity_' + rowIdx +
                         '"name="item_quantity[]" class="item_quantity form-control" style="width: 100px;"></div></td>';
-
+if(rowIdx!=1){
                     html +=
                         '<td><button class="btn btn-danger remove" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
-                    html += '</tr>';
+                    html += '</tr>';}
                     $("#tbody").append(html);
                     rowIdx++;
                      //    auto();
@@ -474,65 +479,67 @@
                 }
                  // DIALOG SUBMIT FOR ADD AND EDIT
                  function handleSubmit() {
-                     event.preventDefault();
-                     var hasError = false;
+    event.preventDefault();
+    var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
+    if (hiddenErrorElements === 0) {
+        var hasError = false; // Declare hasError variable and set it to false
 
-$('.rowtr').each(function() {
-  var rowIdx = $(this).attr('id').replace('row', '');
+        $('.rowtr').each(function() {
+            var rowIdx = $(this).attr('id').replace('row', '');
+            var itemname = $('#item_name_' + rowIdx).val();
+            var quantity = $('#item_quantity_' + rowIdx).val();
 
-  var itemname = $('#item_name_' + rowIdx).val();
-  var quantity = $('#item_quantity_' + rowIdx).val();
+            if (itemname === '') {
+                alert('Please enter an item name for row ' + rowIdx);
+                hasError = true;
+                return false;
+            }
 
-  if (itemname === '') {
-    alert('Please enter an item name for row ' + rowIdx);
-    hasError = true;
-    return false;
-  }
+            if (quantity === '') {
+                alert('Please enter a quantity for row ' + rowIdx);
+                hasError = true;
+                return false;
+            }
+        });
 
-  if (quantity === '') {
-    alert('Please enter a quantity for row ' + rowIdx);
-    hasError = true;
-    return false;
-  }
-});
-
-        if(!hasError) {
-                     let form_data = new FormData(document.getElementById('form'));
-                     let method = $('#method').val();
-                     let url;
-                     let type;
-                     if (method == 'ADD') {
-                         url = '{{ route('materialissueApi.store') }}';
-                         type = 'POST';
-
-                     } else {
-                         let id = $('#mir_no').val();
-                         url = '{{ route('materialissueApi.update', ':mir_no') }}';
-                         url = url.replace(':mir_no', id);
-                         type = 'POST';
-                     }
-                     $.ajax({
-                         url: url,
-                         type: type,
-                         data: form_data,
-                         contentType: false,
-                         cache: false,
-                         processData: false,
-                         success: function(message) {
-                             alert(message);
-                             window.location.reload();
-                         },
-                         error: function(message) {
-                             var data = message.responseJSON;
-                             $('p[id ^= "error_"]').html("");
-                             $.each(data.errors, function(key, val) {
-                                 console.log(key, val);
-                                 $(`#error_${key}`).html(val[0]);
-                             });
-                         }
-                     })
-                 }
+        if (!hasError) {
+            let form_data = new FormData(document.getElementById('form'));
+            let method = $('#method').val();
+            let url;
+            let type;
+            if (method == 'ADD') {
+                url = '{{ route('materialissueApi.store') }}';
+                type = 'POST';
+            } else {
+                let id = $('#mir_no').val();
+                url = '{{ route('materialissueApi.update', ':mir_no') }}';
+                url = url.replace(':mir_no', id);
+                type = 'POST';
+            }
+            $.ajax({
+                url: url,
+                type: type,
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(message) {
+                    alert(message);
+                    window.location.reload();
+                },
+                error: function(message) {
+                    var data = message.responseJSON;
+                    $('p[id ^= "error_"]').html("");
+                    $.each(data.errors, function(key, val) {
+                        console.log(key, val);
+                        $(`#error_${key}`).html(val[0]);
+                    });
                 }
+            });
+        }
+    }
+}
+
                  //DATA SHOW FOR EDIT AND SHOW
                  function handleShowAndEdit(id, action) {
                     // alert(id);
@@ -806,24 +813,26 @@ $('.rowtr').each(function() {
                 });
                    //  Initialize form validation
 
-                   var $siteLocations = @json($siteLocation);
-                $.validator.addMethod("siteLocationCheck", function(value, element) {
-                    return $siteLocations.includes(value);
-                });
+              
 
                 var project_Names = @json($projectNames);
                 $.validator.addMethod("projectNameCheck", function(value, element) {
                     return project_Names.includes(value);
                 });
-                $.validator.addMethod("lessThanStockQty", function(value, element)
-                    {
-                        var rowId = $(element).closest('tr').index()+1;
-                        var stockQuantity = $('#total_quantity_'+ rowId ).text().trim();
-                        console.log(rowId);
-                        console.log(stockQuantity);
-                        return parseFloat(value) <= parseFloat(stockQuantity);
+                $.validator.addMethod("lessThanStockQty", function(value, element) {
+                    var rowId = $(element).closest('tr').index() + 1;
+                    var stockQuantity = $('#total_quantity_' + rowId).text().trim();
+                    var type = $('#type').val(); // Assuming the type value is stored in an input field with id "type"
 
-                    });
+                    if (type === 'Issue') {
+                        return parseFloat(value) <= parseFloat(stockQuantity);
+                    } else if (type === 'Return') {
+                        return true; // Allow any value for Return type, no error message will be shown
+                    }
+
+                    return false; // Invalid type, show error message
+                }, "Please enter a value less than or equal to the stock quantity for Issue type.");
+
 
 
                 // var employee_name=@json($employeeNames);
@@ -850,7 +859,7 @@ $('.rowtr').each(function() {
                     rules: {
                         location: {
                             required: true,
-                            siteLocationCheck: true
+
                         },
                         issue_date: {
                             required: true
@@ -883,8 +892,8 @@ $('.rowtr').each(function() {
 
                     messages: {
                         location: {
-                            required: "Please enter the location",
-                            siteLocationCheck: "Please enter valid location"
+                            required: "Please select the location",
+
                         },
                         issue_date: {
                             required: "Please select the issue date"

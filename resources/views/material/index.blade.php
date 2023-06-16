@@ -335,7 +335,7 @@
                 }
             });
             if(hasError) 
-            {
+            { event.preventDefault();
                 var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
                 // alert(hiddenErrorElements);
                 if(hiddenErrorElements === 0)

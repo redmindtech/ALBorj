@@ -45,10 +45,12 @@ class PurchaseOrderController extends Controller
             $mr_no=DB::table('materials')
              ->select('mr_id')
              ->where('materials.mr_reference_code', $mrcode)
+             ->where('materials.deleted','0')
             ->value('mr_id');
             $mr_items = DB::table('material_requisition_item')
             ->join('item_masters', 'material_requisition_item.item_no', '=', 'item_masters.id')
             ->select('material_requisition_item.*', 'item_masters.*')
+            ->where('material_requisition_item.deleted','0')
             ->where('material_requisition_item.mr_no', $mr_no)
             ->get();
             $mr_data=DB::table('materials')
@@ -94,8 +96,10 @@ class PurchaseOrderController extends Controller
             $purchase_orders =  DB::table('purchase_order')
             ->join('supplier_masters', 'purchase_order.supplier_no', '=', 'supplier_masters.supplier_no')
            ->join('site_masters', 'purchase_order.delivery_location', '=', 'site_masters.site_no')
-           ->select( 'supplier_masters.*','site_masters.*', 'purchase_order.*')
+           ->join('employee_masters', 'purchase_order.po_prepared', '=', 'employee_masters.id')
+           ->select( 'supplier_masters.*','site_masters.*', 'purchase_order.*','employee_masters.*')
            ->where('purchase_order.deleted','0')
+           ->where('purchase_order.po_status','0')
            ->get();
          info($purchase_orders);
 
@@ -359,10 +363,10 @@ class PurchaseOrderController extends Controller
                 $purchase_order_items = PurchaseOrderItem::where('po_item_no', $po_no)->get();
 
                 foreach ($purchase_order_items as $purchase_order_item) {
-                    $purchase_order_item->delete();
+                    $purchase_order_item->update(['deleted' => 1]);
                 }
 
-                $purchase_orders->delete();
+                $purchase_orders->update(['deleted' => 1]);
 
                 // Enable foreign key check
                 DB::statement('SET FOREIGN_KEY_CHECKS=1;');

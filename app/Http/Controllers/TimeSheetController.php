@@ -20,10 +20,11 @@ class TimeSheetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         try
-        {     
+        {  
+            if ($request->session()->has('user')) {   
             $times = DB::table('emp_timesheets')
             ->join('site_masters', 'emp_timesheets.site_no', '=', 'site_masters.site_no')
             ->join('employee_masters', 'emp_timesheets.emp_no', '=', 'employee_masters.id')
@@ -33,6 +34,10 @@ class TimeSheetController extends Controller
             return view('timesheet.index')->with([
                 'times' => $times
             ]);
+        }
+        else{
+            return redirect("/");
+        }
             
         }
         catch (Exception $e) 

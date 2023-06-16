@@ -450,6 +450,10 @@
         document.getElementById("myDialog").open = false;
         // Clear the form fields
         $('#form')[0].reset();
+        $("#tbody").empty();
+        $('#time_table').hide();
+        // Hide any error messages
+        i=1;
         // Hide any error messages
         $('p[id^="error_"]').html('');
         // Hide the dialog background
@@ -598,11 +602,11 @@
                             }
                             script += '<tr>';
                             script += '<td>' + (time.date || '') + '</td>';
-                            script += '<td>' + (time.start_time || '-') + '</td>';
-                            script += '<td>' + (time.end_time || '-') + '</td>';
+                            script += '<td>' + (time.start_time ? convertTo12HourFormat(time.start_time) : '-') + '</td>';
+                            script += '<td>' + (time.end_time ? convertTo12HourFormat(time.end_time) : '-') + '</td>';
                             script += '<td>' + (time.total_time || '-') + '</td>';
-                            script += '<td>' + (time.ot_start_time || '-') + '</td>';
-                            script += '<td>' + (time.ot_end_time || '-') + '</td>';
+                            script += '<td>' + (time.ot_start_time ? convertTo12HourFormat(time.ot_start_time) : '-') + '</td>';
+                            script += '<td>' + (time.ot_end_time ? convertTo12HourFormat(time.ot_end_time) : '-') + '</td>';
                             script += '<td>' + (time.ot_total_time || '-') + '</td>';
                             script += '<td>' + (holiday_flag || '-') + '</td>';
                             script += '<td>' + (leave_flag || '-') + '</td>';
@@ -616,23 +620,22 @@
                         $('#show').css('display','block');
                         $('#form').css('display','none');
                         $('#blur-background').css('display','block');
-                        // script += '<td>' + convertTo12HourFormat(time.ot_end_time || '-') + '</td>';
-                        // function convertTo12HourFormat(time) 
-                        // {
-                        //     var timeParts = time.split(':');
-                        //     var hours = parseInt(timeParts[0]);
-                        //     var minutes = parseInt(timeParts[1]);
-                        //     var meridiem = 'AM';
-                        //     if (hours >= 12) 
-                        //     {
-                        //         meridiem = 'PM';
-                        //         if (hours > 12) {
-                        //             hours -= 12;
-                        //         }
-                        //     }
-                        //     var formattedTime = ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) + ' ' + meridiem;
-                        //     return formattedTime;
-                        // }
+                        function convertTo12HourFormat(time) 
+                        {
+                            var timeParts = time.split(':');
+                            var hours = parseInt(timeParts[0]);
+                            var minutes = parseInt(timeParts[1]);
+                            var meridiem = 'AM';
+                            if (hours >= 12) 
+                            {
+                                meridiem = 'PM';
+                                if (hours > 12) {
+                                    hours -= 12;
+                                }
+                            }
+                            var formattedTime7 = ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2) + ' ' + meridiem;
+                            return formattedTime7;
+                        }
                 }
                         document.getElementById("myDialog").open = true;
                         window.scrollTo(0, 0);                       
