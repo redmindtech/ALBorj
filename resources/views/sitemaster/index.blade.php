@@ -173,58 +173,49 @@
 </form>
 <!-- SHOW DIALOG -->
 <div class="card" id="show" style="display:none">
-    <div class="card-body" style="background-color:white;width:100%;height:20%;" >
-       
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Site Name</label>
-                            <p id="show_site_name"></p>
-                        </div>
-                        <div class="col-md-6">
-                            <label>Location</label>
-                            <p id="show_site_location"></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Site Building</label>
-                            <p id="show_site_building"></p>
-                        </div>
-                        <div class="col-md-6">
-                            <label>Site Floor</label>
-                            <p id="show_site_floor"></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Room Number</label>
-                            <p id="show_room_number"></p>
-                        </div>
-                        <div class="col-md-6">
-                            <label>Site Address</label>
-                            <p id="show_site_address"></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Site Status</label>
-                            <p id="show_site_status"></p>
-                        </div>
-                        <div class="col-md-6">
-                            <label>Site Manager</label>
-                            <p id="show_firstname"></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Description</label>
-                            <p id="show_description"></p>
-                        </div>
-                        <div class="col-md-6">
-                            <label>Site Code</label>
-                            <p id="show_site_code"></p>
-                        </div>
-                    </div>
+    <div class="card-body" style="background-color:white;">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td><label>Site Name</label></td>
+                    <td><p id="show_site_name"></p></td>
+                
+                    <td><label>Location</label></td>
+                    <td><p id="show_site_location"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Site Building</label></td>
+                    <td><p id="show_site_building"></p></td>
+                
+                    <td><label>Site Floor</label></td>
+                    <td><p id="show_site_floor"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Room Number</label></td>
+                    <td><p id="show_room_number"></p></td>
+                
+                    <td><label>Site Address</label></td>
+                    <td><p id="show_site_address"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Site Status</label></td>
+                    <td><p id="show_site_status"></p></td>
+                
+                    <td><label>Site Manager</label></td>
+                    <td><p id="show_firstname"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Description</label></td>
+                    <td><p id="show_description"></p></td>
+                
+                    <td><label>Site Code</label></td>
+                    <td><p id="show_site_code"></p></td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <button type="button" id="print" class="btn btn-primary float-end">Print</button>
+        
     </div>
 </div>
         </dialog>
@@ -379,7 +370,7 @@
                         {
                             $(`#show_${key}`).text(value);
                         }
-                            $('#heading_name').text("View Site Details").css('font-weight', 'bold');
+                            $('#heading_name').text("Site Details").css('font-weight', 'bold');
                             $('#show').css('display','block');
                             $('#form').css('display','none');
                             $('#blur-background').css('display','block');
@@ -451,7 +442,9 @@
     }
 });
 
-
+document.getElementById("print").addEventListener("click", function() {
+        window.print();
+    });
 
         // validation
         var Site_Names_check = @json($siteNames);

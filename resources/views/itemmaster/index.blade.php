@@ -174,48 +174,31 @@
                 </form>
                 <!-- SHOW DIALOG -->
                 <div class="card" id="show" style="display:none">
-                    <div class="card-body" style="background-color:white;width:100%;height:20%;">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Item Name</label>
-                                <p id="show_item_name"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Item category</label>
-                                <p id="show_item_category"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Item Subcategory</label>
-                                <p id="show_item_subcategory"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Item Type</label>
-                                <p id="show_item_type"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Stock Type</label>
-                                <p id="show_stock_type"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label id="item_quantity">Item Total Quantity</label>
-                                <p id="show_total_quantity"></p>
-                            </div>
-                        </div>
-                        <!-- <div class="row">
-                            <div class="col-md-6">
-                                <label id="supplier_name">Company Name</label>
-                                <p id="show_company_name"></p>
-                            </div>
-                            <div class="col-md-6">
-                                <label id="supplier_code">Supplier Code</label>
-                                <p id="show_code"></p>
-                            </div>
-                        </div> -->
-                        <div id="item_details_show"></div>
-                    </div>
-                </div>
+    <div class="card-body" style="background-color:white;">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td><label>Item Name</label></td>
+                    <td><p id="show_item_name"></p></td>
+                    <td><label>Item Category</label></td>
+                    <td><p id="show_item_category"></p></td>
+                    <td><label>Item Subcategory</label></td>
+                    <td><p id="show_item_subcategory"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Item Type</label></td>
+                    <td><p id="show_item_type"></p></td>
+                    <td><label>Stock Type</label></td>
+                    <td><p id="show_stock_type"></p></td>
+                    <td><label id="item_quantity">Item Total Quantity</label></td>
+                    <td><p id="show_total_quantity"></p></td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="item_details_show"></div>
+    </div>
+</div>
+        <button type="button" id="print" class="btn btn-primary float-end">Print</button>
             </dialog>
             <script type="text/javascript">
                 $.ajaxSetup({
@@ -376,7 +359,7 @@
                                     $(`#show_${key}`).text(value);
 
                                 }
-                                $('#heading_name').text("View Item Details").css('font-weight', 'bold');
+                                $('#heading_name').text("Item Details").css('font-weight', 'bold');
                                 $('#show').css('display', 'block');
                                 $('#form').css('display', 'none');
                                 $('#supplier_name').hide();
@@ -571,7 +554,9 @@ jQuery($ => {
                     handleShowAndEdit('edit');
                 }
 
-
+                document.getElementById("print").addEventListener("click", function() {
+                   window.print();
+                });
                 var item_Name = @json($itemName);
    
     var supplier_company=@json($supplier_company);

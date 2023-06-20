@@ -371,6 +371,16 @@ input[type=checkbox] {
         top:20% !important;
         bottom: auto;
     }
+    /* style for table show */
+    #show table {
+        border-collapse: collapse;
+    }
+    
+    #show td {
+        padding: 5px;
+        border: 1px solid black;
+    }
+    /* end style for table show */
     </style>
 
 

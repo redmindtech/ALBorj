@@ -96,20 +96,25 @@
                             </div>
                         </form>
                             <!-- SHOW DIALOG -->
-                        <div class="card" id="show" style="display:none">
-                            <div class="card-body" style="background-color:white;width:100%;height:20%;">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Category Name</label>
-                                        <p id="show_category_name"></p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Description</label>
-                                        <p id="show_category_description"></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <div class="card" id="show" style="display:none">
+    <div class="card-body" style="background-color:white;">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td><label>Category Name</label></td>
+                    <td><p id="show_category_name"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Description</label></td>
+                    <td><p id="show_category_description"></p></td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <button type="button" id="print" class="btn btn-primary float-end">Print</button>
+        </div>
+</div>
+
                     </dialog>
 
 <script type="text/javascript">
@@ -259,7 +264,7 @@
                     {
                         $(`#show_${key}`).text(value);
                     }
-                    $('#heading_name').text("View ExpensesCategory Details").css('font-weight', 'bold');
+                    $('#heading_name').text("ExpensesCategory Details").css('font-weight', 'bold');
                     $('#show').css('display','block');
                     $('#form').css('display','none');
                     $('#blur-background').css('display','block');
@@ -270,7 +275,9 @@
             },
         })
     }
-
+    document.getElementById("print").addEventListener("click", function() {
+        window.print();
+    });
     // Initialize form validation
 
     var category_Name = @json($categoryNames);

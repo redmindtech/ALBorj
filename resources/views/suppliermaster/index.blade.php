@@ -8,6 +8,8 @@
 @stop
 
 @section('content')
+
+
 <!-- DATA table -->
      <div class="row">
                 <div class="container-fluid">
@@ -149,46 +151,46 @@
     </div>
 </form>
 <!-- SHOW DIALOG -->
+
+
 <div class="card" id="show" style="display:none">
-    <div class="card-body" style="background-color:white;width:100%;height:20%;" >
-       
-                          <div class="row">
-                        <div class="col-md-6">
-                            <label>Supplier Name</label>
-                            <p id="show_name"></p>
-                        </div>
-                        <div class="col-md-6">
-                            <label>Company Name</label>
-                            <p id="show_company_name"></p>
-                        </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-6">
-                            <label>Supplier Code</label>
-                            <p id="show_code"></p>
-                        </div>
-                          <div class="col-md-6">
-                            <label>Address</label>
-                            <p id="show_address"></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label>Contact Number</label>
-                            <p id="show_contact_number"></p>
-                        </div>
-                            <div class="col-md-6">
-                            <label>Email Id</label>
-                            <p id="show_mail_id"></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                                <label>TRN Number</label>
-                                <p id="show_trn_number"></p>
-                        </div>
-                    </div>
+    <div class="card-body" style="background-color:white;width:100%;height:20%;">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td><label>Supplier Name</label></td>
+                    <td><p id="show_name"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Company Name</label></td>
+                    <td><p id="show_company_name"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Supplier Code</label></td>
+                    <td><p id="show_code"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Address</label></td>
+                    <td><p id="show_address"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Contact Number</label></td>
+                    <td><p id="show_contact_number"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Email Id</label></td>
+                    <td><p id="show_mail_id"></p></td>
+                </tr>
+                <tr>
+                    <td><label>TRN Number</label></td>
+                    <td><p id="show_trn_number"></p></td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <button type="button" id="print" class="btn btn-primary float-end">Print</button>
     </div>
+</div>
 </div>
           </dialog>
 <script type="text/javascript">
@@ -338,7 +340,7 @@
                         {
                             $(`#show_${key}`).text(value);
                         }
-                        $('#heading_name').text("View Supplier Details").css('font-weight', 'bold');
+                        $('#heading_name').text("Supplier Details").css('font-weight', 'bold');
                         $('#show').css('display','block');
                         $('#form').css('display','none');
                         $('#blur-background').css('display','block');
@@ -350,7 +352,10 @@
                 },
             })
         }
-
+        
+    document.getElementById("print").addEventListener("click", function() {
+        window.print();
+    });
       // validation
 
       var contact_number=@json($contact_number);

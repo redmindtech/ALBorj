@@ -425,114 +425,77 @@
                 </script>
                 <!-- SHOW DIALOG -->
                 <div class="card" id="show" style="display:none">
-                    <div class="card-body" style="background-color:white;width:100%;height:20%;">
+    <div class="card-body" style="background-color:white;">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td><label>Site Name</label></td>
+                    <td><p id="show_site_name"></p></td>
+                    <td><label>Site No</label></td>
+                    <td><p id="show_site_code"></p></td>
+                    <td><label>Project code</label></td>
+                    <td><p id="show_project_code"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Project Name</label></td>
+                    <td><p id="show_project_name"></p></td>
+                    <td><label>Project Type</label></td>
+                    <td><p id="show_project_type"></p></td>
+                    <td><label>Comments</label></td>
+                    <td><p id="show_project_comments"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Manager Name</label></td>
+                    <td><p id="show_firstname"></p></td>
+                    <td><label>Manager Contact Number</label></td>
+                    <td><p id="show_UAE_mobile_number"></p></td>
+                    <td><label>Client / Company Name</label></td>
+                    <td><p id="show_company_name"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Client Contact Number</label></td>
+                    <td><p id="show_contact_number"></p></td>
+                    <td><label>Consultant Name</label></td>
+                    <td><p id="show_consultant_name"></p></td>
+                    <td><label>Project Start Date</label></td>
+                    <td><p id="show_start_date"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Tentative Project End Date</label></td>
+                    <td><p id="show_end_date"></p></td>
+                    <td><label>Actual Project End Date</label></td>
+                    <td><p id="show_actual_project_end_date"></p></td>
+                    <td><label>Project Status</label></td>
+                    <td><p id="show_status"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Total Project Cost</label></td>
+                    <td><p id="show_total_price_cost"></p></td>
+                    <td><label>Advance Amount</label></td>
+                    <td><p id="show_advanced_amount"></p></td>
+                    <td><label>Retention</label></td>
+                    <td><p id="show_retention"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Balance Amount to be Received</label></td>
+                    <td><p id="show_amount_to_be_received"></p></td>
+                    <td><label>Amount Return</label></td>
+                    <td><p id="show_amount_return"></p></td>
+                    <td><label>Amount Return Date</label></td>
+                    <td><p id="show_amount_return_date"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Amount Return Comments</label></td>
+                    <td><p id="show_amount_returns_comment"></p></td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <button type="button" id="print" class="btn btn-primary float-end">Print</button>
+    
+    </div>
+</div>
 
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Site Name</label>
-                                <p id="show_site_name"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Site No</label>
-                                <p id="show_site_code"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Project code</label>
-                                <p id="show_project_code"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Project Name</label>
-                                <p id="show_project_name"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Project Type</label>
-                                <p id="show_project_type"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Comments</label>
-                                <p id="show_project_comments"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Manager Name</label>
-                                <p id="show_firstname"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Manager Contact Number</label>
-                                <p id="show_UAE_mobile_number"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Client / Company Name</label>
-                                <p id="show_company_name"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Client Contact Number</label>
-                                <p id="show_contact_number"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Consultant Name</label>
-                                <p id="show_consultant_name"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Project Start Date</label>
-                                <p id="show_start_date"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Tentative Project End Date</label>
-                                <p id="show_end_date"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Actual Project End Date</label>
-                                <p id="show_actual_project_end_date"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Project Status</label>
-                                <p id="show_status"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Total Project Cost</label>
-                                <p id="show_total_price_cost"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Advance Amount</label>
-                                <p id="show_advanced_amount"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Retention</label>
-                                <p id="show_retention"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Balance Amount to be Received</label>
-                                <p id="show_amount_to_be_received"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Amount Return</label>
-                                <p id="show_amount_return"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Amount Return Date</label>
-                                <p id="show_amount_return_date"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Amount Return Comments</label>
-                                <p id="show_amount_returns_comment"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </dialog>
 
 
@@ -703,7 +666,7 @@
                                     $(`#show_${key}`).text(value);
                                 }
 
-                                $('#heading_name').text("View Project Details").css('font-weight', 'bold');
+                                $('#heading_name').text("Project Details").css('font-weight', 'bold');
                                 $('#show').css('display', 'block');
                                 $('#form').css('display', 'none');
                                 $('#blur-background').css('display', 'block');
@@ -834,63 +797,65 @@
                 // });
 
                 // auto complete for client from clientmaster
-                jQuery($ => {
-                    $(document).on('focus', 'input', "#company_name", function() {
-                        $("#company_name").autocomplete({
-                            source: function(request, response) {
-                                $.ajax({
-                                    type: "GET",
-                                    url: "{{ route('getclientdata') }}",
-                                    dataType: "json",
-                                    data: {
-                                        'company_name': $("#company_name").val()
-                                    },
-                                    success: function(data) {
-                                        result = [];
-                                        for (var i in data) {
-                                            result.push(data[i]["company_name"]);
-                                        }
-                                        response(result);
-                                    },
-                                    fail: function(xhr, textStatus, errorThrown) {
-                                        alert(errorThrown);
-                                    }
-                                });
-                            },
-                            select: function(event, ui) {
-                                var selectedCompanyName = ui.item.value;
-                                updateCompanyNameValue(selectedCompanyName);
-                            }
-                        });
-                    });
+                // jQuery($ => {
+                //     $(document).on('focus', 'input', "#company_name", function() {
+                //         $("#company_name").autocomplete({
+                //             source: function(request, response) {
+                //                 $.ajax({
+                //                     type: "GET",
+                //                     url: "{{ route('getclientdata') }}",
+                //                     dataType: "json",
+                //                     data: {
+                //                         'company_name': $("#company_name").val()
+                //                     },
+                //                     success: function(data) {
+                //                         result = [];
+                //                         for (var i in data) {
+                //                             result.push(data[i]["company_name"]);
+                //                         }
+                //                         response(result);
+                //                     },
+                //                     fail: function(xhr, textStatus, errorThrown) {
+                //                         alert(errorThrown);
+                //                     }
+                //                 });
+                //             },
+                //             select: function(event, ui) {
+                //                 var selectedCompanyName = ui.item.value;
+                //                 updateCompanyNameValue(selectedCompanyName);
+                //             }
+                //         });
+                //     });
 
-                    $(document).on('input', '#company_name', function() {
-                        updateCompanyNameValue($(this).val());
-                    });
+                //     $(document).on('input', '#company_name', function() {
+                //         updateCompanyNameValue($(this).val());
+                //     });
 
-                    function updateCompanyNameValue(companyName) {
-                        $.ajax({
-                            type: "GET",
-                            url: "{{ route('getclientdata') }}",
-                            dataType: "json",
-                            data: {
-                                'company_name': companyName
-                            },
-                            success: function(data) {
-                                for (var i in data) {
-                                    $('#client_no').val(data[i]["client_no"]);
-                                    $('#contact_number').val(data[i]["contact_number"]);
-                                    $('#name').val(data[i]["name"]);
-                                }
-                            },
-                            fail: function(xhr, textStatus, errorThrown) {
-                                alert(errorThrown);
-                            }
-                        });
-                    }
+                //     function updateCompanyNameValue(companyName) {
+                //         $.ajax({
+                //             type: "GET",
+                //             url: "{{ route('getclientdata') }}",
+                //             dataType: "json",
+                //             data: {
+                //                 'company_name': companyName
+                //             },
+                //             success: function(data) {
+                //                 for (var i in data) {
+                //                     $('#client_no').val(data[i]["client_no"]);
+                //                     $('#contact_number').val(data[i]["contact_number"]);
+                //                     $('#name').val(data[i]["name"]);
+                //                 }
+                //             },
+                //             fail: function(xhr, textStatus, errorThrown) {
+                //                 alert(errorThrown);
+                //             }
+                //         });
+                //     }
+                // });
+
+                document.getElementById("print").addEventListener("click", function() {
+                   window.print();
                 });
-
-
                 // / Initialize form validation
 
                 var project_Name = @json($projectName);

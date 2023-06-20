@@ -438,149 +438,95 @@
                 </form>
                 <!-- SHOW DIALOG -->
                 <div class="card" id="show" style="display:none">
-                    <div class="card-body" style="background-color:white;width:100%;height:20%;">
+    <div class="card-body" style="background-color:white;">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td><label>Employee code</label></td>
+                    <td><p id="show_employee_no"></p></td>
+                    <td><label>First Name</label></td>
+                    <td><p id="show_firstname"></p></td>
+                    <td><label>Last Name</label></td>
+                    <td><p id="show_lastname"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Father Name</label></td>
+                    <td><p id="show_fathername"></p></td>
+                    <td><label>Mother Name</label></td>
+                    <td><p id="show_mothername"></p></td>
+                    <td><label>Date of Joining</label></td>
+                    <td><p id="show_join_date"></p></td>
+                </tr>
+                <tr>
+                    <td><label>End Date</label></td>
+                    <td><p id="show_end_date"></p></td>
+                    <td><label>Category</label></td>
+                    <td><p id="show_category"></p></td>
+                    <td><label>Sponsor</label></td>
+                    <td><p id="show_sponser"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Working As</label></td>
+                    <td><p id="show_working_as"></p></td>
+                    <td><label>Visa Designation</label></td>
+                    <td><p id="show_desigination"></p></td>
+                    <td><label>Department</label></td>
+                    <td><p id="show_depart"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Status</label></td>
+                    <td><p id="show_status"></p></td>
+                    <td><label>Nationality</label></td>
+                    <td><p id="show_nationality"></p></td>
+                    <td><label>Location</label></td>
+                    <td><p id="show_city"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Home Country Number</label></td>
+                    <td><p id="show_phone"></p></td>
+                    <td><label>UAE Mobile Number</label></td>
+                    <td><p id="show_UAE_mobile_number"></p></td>
+                    <td><label>Accomodation</label></td>
+                    <td><p id="show_accomodation"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Passport Number</label></td>
+                    <td><p id="show_passport_no"></p></td>
+                    <td><label>Passport Expiry Date</label></td>
+                    <td><p id="show_passport_expiry_date"></p></td>
+                    <td><label>Emirates Id No</label></td>
+                    <td><p id="show_emirates_id_no"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Emirates Id From Date</label></td>
+                    <td><p id="show_emirates_id_from_date"></p></td>
+                    <td><label>Emirates Id To Date</label></td>
+                    <td><p id="show_emirates_id_to_date"></p></td>
+                    <td><label>Visa End Date</label></td>
+                    <td><p id="show_expiry_date"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Visa Status</label></td>
+                    <td><p id="show_visa_status"></p></td>
+                    <td><label>Basic</label></td>
+                    <td><p id="show_basic"></p></td>
+                    <td><label>Total Salary</label></td>
+                    <td><p id="show_total_salary"></p></td>
+                </tr>
+                <tr>
+                    <td><label>HRA</label></td>
+                    <td><p id="show_hra"></p></td>
+                
+                    <td><label>Attachments</label></td>
+                    <td><p id="show_filename"></p></td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <button type="button" id="print" class="btn btn-primary float-end">Print</button>
+    </div>
+</div>
 
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Employee code</label>
-                                <p id="show_employee_no"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>First Name</label>
-                                <p id="show_firstname"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Last Name</label>
-                                <p id="show_lastname"></p>
-                            </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>Father Name</label>
-                                        <p id="show_fathername"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Mother Name</label>
-                                        <p id="show_mothername"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Date of Joining</label>
-                                        <p id="show_join_date"></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>End Date</label>
-                                        <p id="show_end_date"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Category</label>
-                                        <p id="show_category"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Sponsor</label>
-                                        <p id="show_sponser"></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>Working As</label>
-                                        <p id="show_working_as"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Visa Designation</label>
-                                        <p id="show_desigination"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Department</label>
-                                        <p id="show_depart"></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>Status</label>
-                                        <p id="show_status"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Nationality</label>
-                                        <p id="show_nationality"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Location</label>
-                                        <p id="show_city"></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>Home Country Number</label>
-                                        <p id="show_phone"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>UAE Mobile Number</label>
-                                        <p id="show_UAE_mobile_number"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Accomodation</label>
-                                        <p id="show_accomodation"></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>Passport Number</label>
-                                        <p id="show_passport_no"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Passport Expiry Date</label>
-                                        <p id="show_passport_expiry_date"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Emirates Id No</label>
-                                        <p id="show_emirates_id_no"></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>Emirates Id From Date</label>
-                                        <p id="show_emirates_id_from_date"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Emirates Id To Date</label>
-                                        <p id="show_emirates_id_to_date"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Visa End Date</label>
-                                        <p id="show_expiry_date"></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>Visa Status</label>
-                                        <p id="show_visa_status"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Basic</label>
-                                        <p id="show_basic"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Total Salary</label>
-                                        <p id="show_total_salary"></p>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                <div class="col-md-4">
-                                        <label>HRA</label>
-                                        <p id="show_hra"></p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <label>Attachments</label>
-                                        <p id="show_filename"></p>
-                                    </div>
-                                    </div>
-                            </div>
-                        </div>
             </dialog>
 
             <script type="text/javascript">
@@ -772,7 +718,7 @@
                                     }
                                     $(`#show_${key}`).text(value);
                                 }
-                                $('#heading_name').text("View Employee Details").css('font-weight', 'bold');
+                                $('#heading_name').text("Employee Details").css('font-weight', 'bold');
                                 $('#show').css('display', 'block');
                                 $('#form').css('display', 'none');
                                 $('#blur-background').css('display', 'block');
@@ -860,6 +806,9 @@
                     }).next().find('.select2-selection').attr('aria-labelledby', 'working_as-label');
                 });
 
+                document.getElementById("print").addEventListener("click", function() {
+                window.print();
+                });
                 // Initialize form validation
                 var employee_uae = @json($employee_uae);
                 var project_name = @json($project_name);
