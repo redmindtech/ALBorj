@@ -30,7 +30,10 @@ class ProjectMaster extends Model
             "amount_to_be_received",
             "amount_return",
             "amount_return_date",
-            "amount_returns_comment"
+            "amount_returns_comment",  
+             "Approved_Variation_Cost",
+            "Advance_Variation_Amount",
+            "Retention_Variation_Amount"
     ];
     protected $table = 'project_masters';
     protected $primaryKey = 'project_no';
@@ -56,7 +59,10 @@ class ProjectMaster extends Model
             'amount_to_be_received',
             'amount_return',
             'amount_return_date',
-            'amount_returns_comment'
+            'amount_returns_comment',
+            "Approved_Variation_Cost",
+            "Advance_Variation_Amount",
+            "Retention_Variation_Amount"
         ];
         public function EmployeeMaster() {
             return $this->belongsTo(EmployeeMaster::class,'employee_no','id');

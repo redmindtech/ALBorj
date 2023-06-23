@@ -81,7 +81,7 @@
 
                 <div class="col-md-12">
                
-                     <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
+                     <a class="btn  btn-sm" id="closeButton" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
                      <h4  id='heading_name' style='color:white' align="center"><b>Update Supplier </b></h4>
                 </div>
             </div>
@@ -160,24 +160,20 @@
                 <tr>
                     <td><label>Supplier Name</label></td>
                     <td><p id="show_name"></p></td>
-                </tr>
-                <tr>
+                
                     <td><label>Company Name</label></td>
                     <td><p id="show_company_name"></p></td>
-                </tr>
-                <tr>
+              
                     <td><label>Supplier Code</label></td>
                     <td><p id="show_code"></p></td>
                 </tr>
                 <tr>
                     <td><label>Address</label></td>
                     <td><p id="show_address"></p></td>
-                </tr>
-                <tr>
+             
                     <td><label>Contact Number</label></td>
                     <td><p id="show_contact_number"></p></td>
-                </tr>
-                <tr>
+                
                     <td><label>Email Id</label></td>
                     <td><p id="show_mail_id"></p></td>
                 </tr>
@@ -354,7 +350,9 @@
         }
         
     document.getElementById("print").addEventListener("click", function() {
+        $('#heading_name').css('color', 'black').css('font-weight', 'bold');
         window.print();
+        $('#heading_name').css('color', 'white').css('font-weight', 'bold');
     });
       // validation
 

@@ -9,6 +9,9 @@
 
 @section('content')
 
+<!-- Add this code where you want to display the date filter -->
+
+
 <!-- DATA table -->
      <div class="row">
                 <div class="container-fluid">
@@ -21,6 +24,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                             <div class="card">
                             <div class="card-body">
                                 <table id="myTable" class="table table-bordered table-striped">
@@ -33,6 +37,7 @@
                                             <th>Contact Number</th>
                                             <th>Address</th>
                                             <th>Website</th>
+                                            <th>date</th>
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
@@ -49,6 +54,7 @@
                                                 <td>{{$client->contact_number}}</td>
                                                 <td>{{$client->address}}</td>
                                                 <td>{{$client->website}}</td>
+                                                <td>{{ $client->created_at->format('Y-m-d') }}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$client->client_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -78,7 +84,7 @@
                     <dialog id="myDialog">
                         <div class="row">
                             <div class="col-md-12">
-                                <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
+                                <a class="btn  btn-sm" id="closeButton" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
                                 <h4  id='heading_name' style='color:white' align="center"><b>Update Client </b></h4>
                             </div>
                         </div>
@@ -270,6 +276,7 @@
             document.getElementById("myDialog").open = false;
              // Clear the form fields
              $('#form')[0].reset();
+             
              $('.error-msg').removeClass('error-msg');
              $('.has-error').removeClass('has-error');
              // Hide any error messages
@@ -379,9 +386,13 @@ var current_contact_number;
                 },
             })
         }
+        
         document.getElementById("print").addEventListener("click", function() {
-                window.print();
-                });
+        $('#heading_name').text("Client Details").css('color', 'black').css('font-weight', 'bold');
+        window.print();
+        $('#heading_name').text("Client Details").css('color', 'white').css('font-weight', 'bold');
+
+    });
         // inline validation
         var clientNames = @json($clientNames);
        var contact_number=@json($contact_number);

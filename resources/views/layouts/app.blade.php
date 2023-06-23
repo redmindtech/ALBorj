@@ -58,72 +58,100 @@
 
 
 
-
+@php
+    $currentUrl = url()->current();
+@endphp
 
  <!-- DATA TABLE FILTERS -->
  <script>
-    $(document).ready(function() {
-        var column_length = $('#myTable tr th').length;
+   $(document).ready(function() {
+    var column_length = $('#myTable tr th').length;
 
-        var table = $('#myTable').DataTable( {
-
-            lengthChange: false,
-
-        columnDefs:[
+    var table = $('#myTable').DataTable({
+        lengthChange: false,
+        columnDefs: [
             {
-                visible:true,targets:[0,1,2,3,column_length-3, column_length-2,column_length-1]
-
+                visible: true,
+                targets: [0, 1, 2, 3, column_length - 3, column_length - 2, column_length - 1]
             },
-           { targets: '_all', visible: false }
-             ],
-
-            buttons: [
+            { targets: '_all', visible: false }
+        ],
+        buttons: [
             {
                 extend: 'collection',
                 text: '<i class="fa fa-file-export" aria-hidden="true"></i>',
                 buttons: [
-            {
-                extend: 'csv',
-                //title:    function () { return cfTitle; },
-               filename: $('title').text().trim(),
-                exportOptions: {
-                    columns: ':not(.notexport)'
-                }
-            },
-            {
-                extend: 'pdf',
-                 filename: $('title').text().trim(),
-                exportOptions: {
-                    columns: ':not(.notexport)'
-                },
-                orientation : 'landscape',
-                pageSize : 'A0',
-
-            },
-
+                    {
+                        extend: 'csv',
+                        filename: $('title').text().trim(),
+                        exportOptions: {
+                            columns: ':not(.notexport)'
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        filename: $('title').text().trim(),
+                        exportOptions: {
+                            columns: ':not(.notexport)'
+                        },
+                        orientation: 'landscape',
+                        pageSize: 'A0'
+                    }
                 ]
-
-
             },
             'colvis',
             {
                 extend: 'collection',
                 text: '<i class="fa fa-print" aria-hidden="true"></i>',
-                buttons:  [
-            {
-                extend: 'print',
-                exportOptions: {
-                    columns: ':not(.notexport)'
-                }
-            },
+                buttons: [
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':not(.notexport)'
+                        }
+                    }
+                ]
+            }
+        ]
+    });
 
-        ],
-            },]
-        } );
+    table.buttons().container().appendTo('#myTable_wrapper .col-md-6:eq(0)');
 
-        table.buttons().container()
-            .appendTo( '#myTable_wrapper .col-md-6:eq(0)' );
-    } );
+    // Add date range filter
+//     $('<label for="startDate">Start Date:</label> <input type="date" id="startDate">').appendTo('#myTable_wrapper .col-md-6:eq(0)');
+//     $('<label for="endDate">End Date:</label> <input type="date" id="endDate">').appendTo('#myTable_wrapper .col-md-6:eq(0)');
+    
+//     $('#startDate, #endDate').on('change', function() {
+//         var startDate = $('#startDate').val();
+//         var endDate = $('#endDate').val();
+//         alert(startDate , endDate);
+//         var currentUrl = "{{ $currentUrl }}";    
+//         console.log("Current URL: " + currentUrl);
+//         var lastSegment = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+//         console.log("Last Segment: " + lastSegment);
+//         var searchUrl = lastSegment + '_datesearch';
+// console.log("Search URL: " + searchUrl);
+        
+        // $.ajax({
+        //         url: "{{ route('clientmaster_datesearch') }}",
+        //         method: 'POST',
+        //         data: {
+        //             startDate: startDate,
+        //             endDate: endDate
+        //         },
+        //         success: function() {
+        //             console.log("fff");
+        //         },
+        //         error: function(xhr, textStatus, errorThrown) {
+        //             // Handle any error that occurs during the AJAX request
+        //         }
+        //     });
+
+
+        // table.columns(0).search(startDate + '|' + endDate, true).draw();
+    // });
+});
+
 
 
     </script>
@@ -148,6 +176,18 @@
         /* dialog {
   width: 1000px;
 } */
+#dialog1{
+            width: 1000px;
+    position: absolute;
+    top: 10px;
+    border: none;
+    box-shadow: 2px 20px 10px 5px #999;
+    border-radius:8px;
+    margin-top:45px !important;
+
+    margin: auto;
+
+        }
 
 /* Target the div containing the header */
 #myDialog > div {
@@ -380,6 +420,21 @@ input[type=checkbox] {
         padding: 5px;
         border: 1px solid black;
     }
+    
+  
+
+  @media print {
+        body::before {
+            content: none;
+        }
+        body::after {
+            content: none;
+        }
+        #print,#closeButton {
+            display: none;
+        }
+    }
+
     /* end style for table show */
     </style>
 

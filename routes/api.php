@@ -63,6 +63,7 @@ Route::get("/purchase_return_data", [App\Http\Controllers\AutoCompleteController
 Route::get("/getempdata_supplier_company", [App\Http\Controllers\AutoCompleteController::class, 'getempdata_supplier_company'])->name('getempdata_supplier_company');
 Route::get("/getmrcode",[App\Http\Controllers\AutoCompleteController::class,'getmrcode'])->name('getmrcode');
 Route::get("/po_number",[App\Http\Controllers\AutoCompleteController::class,'po_number'])->name('po_number');
+Route::get("/getpaydata",[App\Http\Controllers\AutoCompleteController::class,'getpaydata'])->name('getpaydata');
 
 // item master
 Route::post("/item", [App\Http\Controllers\ItemMasterController::class, 'store'])->name('store');
@@ -121,3 +122,10 @@ Route::get("/purchasereturn/{pr_no}/show", [App\Http\Controllers\PurchaseReturnC
 Route::post("/purchasereturn/{pr_no}/update", [App\Http\Controllers\PurchaseReturnController::class, 'update'])->name('prApi.update');
 Route::delete("/purchasereturn/{pr_no}/delete", [App\Http\Controllers\PurchaseReturnController::class, 'delete'])->name('prApi.delete');
 Route::get("/get_grn_details",[App\Http\Controllers\PurchaseReturnController::class,'get_grn_details'])->name('get_grn_details');
+// date filter
+Route::POST("/clientmaster_datesearch", [App\Http\Controllers\ClientMasterController::class, 'clientmaster_datesearch'])->name('clientmaster_datesearch');
+// Payroll
+Route::post("/payroll", [App\Http\Controllers\PayRollController::class, 'store'])->name('payrollApi.store');
+Route::get("/payroll/{id}/show", [App\Http\Controllers\PayRollController::class, 'show'])->name('payrollApi.show');
+Route::post("/payroll/{id}/update", [App\Http\Controllers\PayRollController::class, 'update'])->name('payrollApi.update');
+Route::delete("/payroll/{id}/delete", [App\Http\Controllers\PayRollController::class, 'destroy'])->name('payrollApi.delete');

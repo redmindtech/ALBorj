@@ -108,11 +108,12 @@ class AutoCompleteController extends Controller
   // to get employee firstname used in site master(site manager)
   public function  getemployeedata(){
 
-    $firstname = $_GET['firstname'];
-    $data = EmployeeMaster::where('firstname', 'LIKE', $firstname.'%')
-        ->join('salary_details', 'employee_masters.id', '=', 'salary_details.employee_id')
-        ->where('employee_masters.deleted', '0')
-        ->get();
+     $firstname = $_GET['firstname'];
+    // $empname = $_GET['empname'];
+    $data = EmployeeMaster::where('firstname','LIKE',$firstname.'%')
+    ->orwhere('lastname', 'LIKE', $firstname . '%')
+    ->where('employee_masters.deleted','0')
+    ->get();
 
     if ($data) {
         $data = $data->toArray();
@@ -278,4 +279,75 @@ public function po_number()
     return $data;
 }
   
+//auto complete for payroll
+public function getpaydata(Request $request)
+{
+    $month = $request->input('month');
+    $year = $request->input('year');
+    $employee_id = $request->input('employee_id');
+
+    $empTimesheets = DB::table('emp_timesheets')
+        ->where('emp_no', $employee_id)
+        ->whereMonth('emp_timesheets.from_date', '=', $month)
+        ->pluck('id')
+        ->toArray();
+info($empTimesheets);
+    $emp = count($empTimesheets);
+    info($emp);
+
+    $data = [];
+    $data1 = [];
+    $data2 = [];
+
+    if ($emp > 0) {
+        for ($i = 0; $i < $emp; $i++) {
+            $currentTimesheetId = $empTimesheets[$i];
+
+            $attendanceData = DB::table('employee_attendance_sheets')
+                ->join('emp_timesheets', 'emp_timesheets.id', '=', 'employee_attendance_sheets.timesheet_id')
+                ->join('employee_masters', 'employee_masters.id', '=', 'emp_timesheets.emp_no')
+                ->join('salary_details', 'salary_details.employee_id', '=', 'employee_masters.id')
+                ->whereMonth('employee_attendance_sheets.date', '=', $month)
+                ->where('emp_timesheets.id', $currentTimesheetId)
+                ->whereYear('employee_attendance_sheets.date', '=', $year)
+                ->where('employee_attendance_sheets.holiday', 0)
+                ->where('employee_attendance_sheets.leave', 0)
+                ->groupBy('salary_details.basic', 'salary_details.hra')
+                ->select(DB::raw('count(*) as count, salary_details.basic, salary_details.hra'))
+                ->first();
+
+            $leaveData = DB::table('employee_attendance_sheets')
+                ->join('emp_timesheets', 'emp_timesheets.id', '=', 'employee_attendance_sheets.timesheet_id')
+                ->join('employee_masters', 'employee_masters.id', '=', 'emp_timesheets.emp_no')
+                ->join('salary_details', 'salary_details.employee_id', '=', 'employee_masters.id')
+                ->whereMonth('employee_attendance_sheets.date', '=', $month)
+                ->where('emp_timesheets.id', $currentTimesheetId)
+                ->whereYear('employee_attendance_sheets.date', '=', $year)
+                ->where('employee_attendance_sheets.leave', 1)
+                ->select(DB::raw('count(*) as `leave`'))
+                ->first();
+
+            $otData = DB::table('employee_attendance_sheets')
+                ->join('emp_timesheets', 'emp_timesheets.id', '=', 'employee_attendance_sheets.timesheet_id')
+                ->join('employee_masters', 'employee_masters.id', '=', 'emp_timesheets.emp_no')
+                ->join('salary_details', 'salary_details.employee_id', '=', 'employee_masters.id')
+                ->whereMonth('employee_attendance_sheets.date', '=', $month)
+                ->where('emp_timesheets.id', $currentTimesheetId)
+                ->whereYear('employee_attendance_sheets.date', '=', $year)
+                ->whereNotNull('employee_attendance_sheets.ot_total_time')
+                ->select(DB::raw('sum(ot_total_time) as `ot`'))
+                ->first();
+
+            $data[] = $attendanceData;
+            $data1[] = $leaveData;
+            $data2[] = $otData;
+        }
+    }
+
+    return response()->json([
+        'data' => $data,
+        'data1' => $data1,
+        'data2' => $data2
+    ]);
+}
 }

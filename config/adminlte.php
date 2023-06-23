@@ -288,7 +288,7 @@ return [
                 ],
                 [
                     'text' => 'Payroll Option-Salary Employee Wise',
-                    'url'  => 'account',
+                    'url'  => 'payroll',
                     'icon' => 'nav-icon fas fa-money-bill',
 
                 ],

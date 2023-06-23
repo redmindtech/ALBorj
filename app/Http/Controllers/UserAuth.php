@@ -68,7 +68,7 @@ return view('login');
     $g =$request->header('Referer');
     info($g);
     if ($request->header('Referer')) {
-        
+        info($request->header('Referer'));
         return redirect()->back()->with('refresh', true);
     } else {
         

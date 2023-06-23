@@ -65,11 +65,14 @@ class TimeSheetController extends Controller
             
             if (!empty($request['date'])) 
             {
-                for ($i = 0; $i < $Count; $i++) 
+                for ($i = 0; $i < $Count; $i++)
                 {
+                    $date = date_create_from_format('d/m/Y', $request['date'][$i]);
+                    $convertedDate = date_format($date, 'Y-m-d');
+
                     EmployeeAttendanceSheet::create([
-                        'timesheet_id'=>$time, 
-                        'date' => $request['date'][$i],
+                        'timesheet_id'=>$time,
+                        'date'=>$convertedDate,
                         'start_time' => $request['start_time'][$i],
                         'end_time' => $request['end_time'][$i],
                         'total_time' => $request['total_time'][$i],
@@ -114,6 +117,30 @@ class TimeSheetController extends Controller
             DB::raw('DATE(emp_timesheets.to_date) as to_date'))
             ->where('emp_timesheets.id', $id)
             ->get();    
+            if ($time) {
+                $time = $time->toArray();
+
+                // Convert the data to UTF-8 encoding
+                array_walk_recursive($time, function (&$value) {
+                    if (is_object($value)) {
+                        $value = (array) $value; // Convert the stdClass object to an array
+                    }
+
+                    if (is_array($value)) {
+                        array_walk_recursive($value, function (&$item) {
+                            if (!mb_check_encoding($item, 'UTF-8')) {
+                                // Handle invalid characters
+                                $item = mb_convert_encoding($item, 'UTF-8', 'UTF-8');
+                            }
+                        });
+                    } else {
+                        if (!mb_check_encoding($value, 'UTF-8')) {
+                            // Handle invalid characters
+                            $value = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+                        }
+                    }
+                });
+            }
             
             $time_sheet = DB::table('employee_attendance_sheets')
             ->select('employee_attendance_sheets.*')

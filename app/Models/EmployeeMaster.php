@@ -15,7 +15,7 @@ class EmployeeMaster extends Model
         "employee_no","firstname","lastname","fathername","mothername",
         "join_date","end_date","category","sponser","working_as","desigination","depart",
         "status","religion","nationality","city","phone","UAE_mobile_number","pay_group",
-        "accomodation","passport_no","passport_expiry_date","emirates_id_no","emirates_id_from_date","emirates_id_to_date","deleted","over_time","country_code","attachments","filename"
+        "accomodation","passport_no","passport_expiry_date","emirates_id_no","emirates_id_from_date","emirates_id_to_date","deleted","over_time","country_code","wps","bank_name","account_no","attachments","filename"
 
     ];
     protected $table ='employee_masters';
@@ -25,7 +25,7 @@ class EmployeeMaster extends Model
          "employee_no","firstname","lastname","fathername","mothername",
         "join_date","end_date","category","sponser","working_as","desigination","depart",
         "status","religion","nationality","city","phone","UAE_mobile_number","pay_group",
-        "accomodation","passport_no","passport_expiry_date","emirates_id_no","emirates_id_from_date","emirates_id_to_date","deleted","over_time","country_code","attachments","filename"
+        "accomodation","passport_no","passport_expiry_date","emirates_id_no","emirates_id_from_date","emirates_id_to_date","deleted","over_time","country_code","wps","bank_name","account_no","attachments","filename"
     ];
 
 

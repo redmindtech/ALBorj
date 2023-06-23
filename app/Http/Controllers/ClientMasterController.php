@@ -185,5 +185,31 @@ public function update(Request $request, $client_no)
             return response()->json('Error occured in the edit', 400);
         }
     }
+    public function clientmaster_datesearch(){
+        try{
+        info('hi');
+        $start = $_POST['startDate'];
+        $end=$_POST['endDate'];
+        info($start);
+        info($end);
+        $clients = ClientMaster::whereBetween('created_at', [$start, $end])->get();
+        $emirates =SITELOCATION;
+         info($clients);
+         $clientNames = $clients->pluck('name')->map(function ($name) {
+            return strtolower(str_replace(' ', '', $name));
+        });
+        $contact_number= $clients->pluck('contact_number');
+         return view('clientmaster.index')->with([
+            'clients' => $clients,
+            'emirates'=> $emirates,
+             'clientNames'=> $clientNames,
+             'contact_number'=> $contact_number
+        ]);
+    }
+    catch (Exception $e) {
+        info($e);
+        return response()->json('Error occured in the search', 400);
+    }
+    }
 
 }

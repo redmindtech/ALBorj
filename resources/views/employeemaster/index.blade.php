@@ -37,6 +37,9 @@
                                     <th>Accomodation</th>
                                     <th>Visa Status</th>
                                     <th>Total Salary</th>
+                                    <th>Account Number</th>
+                                    <th>Name of the Bank</th>
+                                    <th>WPS</th>
                                     <th data-orderable="false" class="action notexport">Show</th>
                                     <th data-orderable="false"class="action notexport">Edit</th>
                                     <th data-orderable="false" class="action notexport">Delete</th>
@@ -58,6 +61,9 @@
                                         <td>{{ $employe->accomodation }}</td>
                                         <td>{{ $employe->visa_status }}</td>
                                         <td>{{ $employe->total_salary }}</td>
+                                        <td>{{$employe->account_no}}</td>
+                                        <td>{{$employe->bank_name}}</td>
+                                        <td>{{$employe->wps}}</td>
                                         <td>
                                             <a onclick="handleShowAndEdit('{{ $employe->id }}','show')"
                                                 class="btn btn-primary btn-circle btn-sm">
@@ -88,7 +94,7 @@
             <dialog id="myDialog">
                 <div class="row">
                     <div class="col-md-12">
-                        <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i
+                        <a class="btn  btn-sm" id="closeButton" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i
                                 class="fas fa-close"></i></a>
                         <h4 id='heading_name' style='color:white' align="center"><b>Update Employee</b></h4>
                     </div>
@@ -412,6 +418,26 @@
                         </div>
                     </div>
                     <div class="row">
+                    <div class="form-group col-md-4">
+                            <label for="account_np" class="form-label fw-bold">A/C No</label>
+                            <input type="number" id="account_no" name="account_no" value="{{ old('account_no') }}"
+                                placeholder="Account_No" class="form-control" autocomplete="off">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label for="bank_name" class="form-label fw-bold">Name of the Bank</label>
+                            <input type="text" id="bank_name" name="bank_name" value="{{ old('bank_name') }}"
+                                placeholder="Bank_Name" class="form-control" autocomplete="off">
+                        </div>
+    
+                                       
+                        <div class="form-group col-md-4">
+                            <label for="wps" class="form-label fw-bold">WPS</label>
+                            <input type="number" id="wps" name="wps" value="{{ old('wps') }}"
+                                placeholder="WPS" class="form-control" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="row">
                         <label>
                             Over Time:<br>
                             <input type="checkbox" id="over_time" name="over_time" value="1"
@@ -514,6 +540,14 @@
                     <td><p id="show_total_salary"></p></td>
                 </tr>
                 <tr>
+               <td><label>Account Number</label></td>
+               <td><p id="show_account_no"></p></td>             
+                  <td><label>Name of the Bank</label></td>
+               <td><p id="show_bank_name"></p></td>
+                   <td><label>WPS</label></td>
+                     <td><p id="show_wps"></p></td>
+                    </tr>
+                    <tr>
                     <td><label>HRA</label></td>
                     <td><p id="show_hra"></p></td>
                 
@@ -807,7 +841,9 @@
                 });
 
                 document.getElementById("print").addEventListener("click", function() {
+                    $('#heading_name').text("Employee Details").css('color', 'black').css('font-weight', 'bold');
                 window.print();
+                $('#heading_name').text("Employee Details").css('color', 'white').css('font-weight', 'bold');
                 });
                 // Initialize form validation
                 var employee_uae = @json($employee_uae);
@@ -993,7 +1029,11 @@
                         basic: {
                             required: true,
                             alphanumeric_hra: true,
-                        }
+                        },  wps: {
+                            digits: true,
+                            minlength: 14,
+                            maxlength: 14,
+                        },
                     },
                     messages: {
                         firstname: {
@@ -1091,7 +1131,13 @@
                             required: "Please enter the hra",
                             digits: "Please enter only numbers",
                         },
-                        basic: "Please enter the basic"
+                        basic: "Please enter the basic",
+                      
+                        wps: {
+                            digits: "Please enter numerical value",
+                            minlength: "WPS must be 14 digits",
+                            maxlength: "WPS must be 14 digits"
+                        }
                     },
                     errorElement: "error",
                     errorClass: "error-msg",

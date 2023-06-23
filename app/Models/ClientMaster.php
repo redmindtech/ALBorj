@@ -49,4 +49,5 @@ class ClientMaster extends Model
     {
         return $this->hasMany(ProjectMaster::class, 'client_no','client_no');
     }
+    
 }

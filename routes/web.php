@@ -14,6 +14,7 @@ use App\Http\Controllers\GoodsReceivingNoteController;
 use App\Http\Controllers\MaterialRequisitionController;
 use App\Http\Controllers\TimeSheetController;
 use APP\Http\ControllersPurchaseOrderController;
+use App\Http\Controllers\PayRollController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,3 +75,4 @@ Route::get('/', function () {
     Route::resource('purchaseorder', 'PurchaseOrderController');
     Route::resource('purchasereturn', 'PurchaseReturnController');
     Route::resource('dashboard', 'DashboardController');
+    Route::resource('payroll', 'PayRollController');

@@ -45,6 +45,9 @@
                                     <th>Actual End Date</th>
                                     <th>Retention</th>
                                     <th>Amount Return</th>
+                                    <th>Approved Variation Cost </th>
+                                            <th>Advance Variation Amount</th>
+                                            <th>Retention Variation Amount</th>
                                     <th data-orderable="false" class="action notexport">Show</th>
                                     <th data-orderable="false" class="action notexport">Edit</th>
                                     <th data-orderable="false" class="action notexport">Delete</th>
@@ -69,6 +72,9 @@
                                         <td>{{ date('d-m-Y', strtotime($projectmaster->actual_project_end_date)) }}</td>
                                         <td>{{ $projectmaster->retention }}</td>
                                         <td>{{ $projectmaster->amount_return }}</td>
+                                        <td>{{$projectmaster->Approved_Variation_Cost}} </td>
+                                        <td>{{$projectmaster->Advance_Variation_Amount}}</td>
+                                         <td>{{$projectmaster->Retention_Variation_Amount}}</td>
 
                                         <td>
                                             <a onclick="handleShowAndEdit('{{ $projectmaster->project_no }}','show')"
@@ -313,6 +319,22 @@
                     </div>
                     <div class="row">
 
+<div class="form-group col-md-4">
+        <label for="Approved_Variation_Cost" class="form-label fw-bold">Approved Variation Cost</label>
+        <input type="number" id="Approved_Variation_Cost" name="Approved_Variation_Cost" value="{{ old('Approved_Variation_Cost') }}" placeholder="Approved Variation Cost" class="form-control" autocomplete="off">    
+    </div>
+    <div class="form-group col-md-4">
+        <label for="Advance_Variation_Amount" class="form-label fw-bold">Advance Variation Amount</label>
+        <input type="number" id="Advance_Variation_Amount" name="Advance_Variation_Amount" value="{{ old('Advance_Variation_Amount') }}" placeholder="Advance Variation Amount" class="form-control" autocomplete="off">
+        
+    </div>
+    <div class="form-group col-md-4">
+        <label for="Retention_Variation_Amount" class="form-label fw-bold">Retention Variation Amount</label>
+        <input type="number" name="Retention_Variation_Amount" id="Retention_Variation_Amount"  value="{{old('Retention_Variation_Amount')}}" placeholder="Retention Variation Amount"   class="form-control" autocomplete="off">   
+    </div>
+</div>
+                    <div class="row">
+
                         <div class="form-group col-md-4">
                             <label for="amount_to_be_received" class="form-label fw-bold">Balance Amount To Be
                                 Received</label>
@@ -425,77 +447,129 @@
                 </script>
                 <!-- SHOW DIALOG -->
                 <div class="card" id="show" style="display:none">
-    <div class="card-body" style="background-color:white;">
-        <table class="table">
-            <tbody>
-                <tr>
-                    <td><label>Site Name</label></td>
-                    <td><p id="show_site_name"></p></td>
-                    <td><label>Site No</label></td>
-                    <td><p id="show_site_code"></p></td>
-                    <td><label>Project code</label></td>
-                    <td><p id="show_project_code"></p></td>
-                </tr>
-                <tr>
-                    <td><label>Project Name</label></td>
-                    <td><p id="show_project_name"></p></td>
-                    <td><label>Project Type</label></td>
-                    <td><p id="show_project_type"></p></td>
-                    <td><label>Comments</label></td>
-                    <td><p id="show_project_comments"></p></td>
-                </tr>
-                <tr>
-                    <td><label>Manager Name</label></td>
-                    <td><p id="show_firstname"></p></td>
-                    <td><label>Manager Contact Number</label></td>
-                    <td><p id="show_UAE_mobile_number"></p></td>
-                    <td><label>Client / Company Name</label></td>
-                    <td><p id="show_company_name"></p></td>
-                </tr>
-                <tr>
-                    <td><label>Client Contact Number</label></td>
-                    <td><p id="show_contact_number"></p></td>
-                    <td><label>Consultant Name</label></td>
-                    <td><p id="show_consultant_name"></p></td>
-                    <td><label>Project Start Date</label></td>
-                    <td><p id="show_start_date"></p></td>
-                </tr>
-                <tr>
-                    <td><label>Tentative Project End Date</label></td>
-                    <td><p id="show_end_date"></p></td>
-                    <td><label>Actual Project End Date</label></td>
-                    <td><p id="show_actual_project_end_date"></p></td>
-                    <td><label>Project Status</label></td>
-                    <td><p id="show_status"></p></td>
-                </tr>
-                <tr>
-                    <td><label>Total Project Cost</label></td>
-                    <td><p id="show_total_price_cost"></p></td>
-                    <td><label>Advance Amount</label></td>
-                    <td><p id="show_advanced_amount"></p></td>
-                    <td><label>Retention</label></td>
-                    <td><p id="show_retention"></p></td>
-                </tr>
-                <tr>
-                    <td><label>Balance Amount to be Received</label></td>
-                    <td><p id="show_amount_to_be_received"></p></td>
-                    <td><label>Amount Return</label></td>
-                    <td><p id="show_amount_return"></p></td>
-                    <td><label>Amount Return Date</label></td>
-                    <td><p id="show_amount_return_date"></p></td>
-                </tr>
-                <tr>
-                    <td><label>Amount Return Comments</label></td>
-                    <td><p id="show_amount_returns_comment"></p></td>
-                </tr>
-            </tbody>
-        </table>
-        <br>
-        <button type="button" id="print" class="btn btn-primary float-end">Print</button>
-    
-    </div>
-</div>
+                    <div class="card-body" style="background-color:white;width:100%;height:20%;">
 
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Site Name</label>
+                                <p id="show_site_name"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Site No</label>
+                                <p id="show_site_code"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Project code</label>
+                                <p id="show_project_code"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Project Name</label>
+                                <p id="show_project_name"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Project Type</label>
+                                <p id="show_project_type"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Comments</label>
+                                <p id="show_project_comments"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Manager Name</label>
+                                <p id="show_firstname"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Manager Contact Number</label>
+                                <p id="show_UAE_mobile_number"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Client / Company Name</label>
+                                <p id="show_company_name"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Client Contact Number</label>
+                                <p id="show_contact_number"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Consultant Name</label>
+                                <p id="show_consultant_name"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Project Start Date</label>
+                                <p id="show_start_date"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Tentative Project End Date</label>
+                                <p id="show_end_date"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Actual Project End Date</label>
+                                <p id="show_actual_project_end_date"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Project Status</label>
+                                <p id="show_status"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Total Project Cost</label>
+                                <p id="show_total_price_cost"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Advance Amount</label>
+                                <p id="show_advanced_amount"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Retention</label>
+                                <p id="show_retention"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Balance Amount to be Received</label>
+                                <p id="show_amount_to_be_received"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Amount Return</label>
+                                <p id="show_amount_return"></p>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Amount Return Date</label>
+                                <p id="show_amount_return_date"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Amount Return Comments</label>
+                                <p id="show_amount_returns_comment"></p>
+                            </div>
+                            <div class="col-md-4">
+                            <label>Approved Variation Cost</label>
+                            <p id="show_Approved_Variation_Cost"></p>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Advance Variation Amount</label>
+                            <p id="show_Advance_Variation_Amount"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Retention_Variation_Amount</label>
+                            <p id="show_Retention_Variation_Amount"></p>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+                </div>
             </dialog>
 
 
@@ -666,7 +740,7 @@
                                     $(`#show_${key}`).text(value);
                                 }
 
-                                $('#heading_name').text("Project Details").css('font-weight', 'bold');
+                                $('#heading_name').text("View Project Details").css('font-weight', 'bold');
                                 $('#show').css('display', 'block');
                                 $('#form').css('display', 'none');
                                 $('#blur-background').css('display', 'block');
@@ -797,65 +871,63 @@
                 // });
 
                 // auto complete for client from clientmaster
-                // jQuery($ => {
-                //     $(document).on('focus', 'input', "#company_name", function() {
-                //         $("#company_name").autocomplete({
-                //             source: function(request, response) {
-                //                 $.ajax({
-                //                     type: "GET",
-                //                     url: "{{ route('getclientdata') }}",
-                //                     dataType: "json",
-                //                     data: {
-                //                         'company_name': $("#company_name").val()
-                //                     },
-                //                     success: function(data) {
-                //                         result = [];
-                //                         for (var i in data) {
-                //                             result.push(data[i]["company_name"]);
-                //                         }
-                //                         response(result);
-                //                     },
-                //                     fail: function(xhr, textStatus, errorThrown) {
-                //                         alert(errorThrown);
-                //                     }
-                //                 });
-                //             },
-                //             select: function(event, ui) {
-                //                 var selectedCompanyName = ui.item.value;
-                //                 updateCompanyNameValue(selectedCompanyName);
-                //             }
-                //         });
-                //     });
+                jQuery($ => {
+                    $(document).on('focus', 'input', "#company_name", function() {
+                        $("#company_name").autocomplete({
+                            source: function(request, response) {
+                                $.ajax({
+                                    type: "GET",
+                                    url: "{{ route('getclientdata') }}",
+                                    dataType: "json",
+                                    data: {
+                                        'company_name': $("#company_name").val()
+                                    },
+                                    success: function(data) {
+                                        result = [];
+                                        for (var i in data) {
+                                            result.push(data[i]["company_name"]);
+                                        }
+                                        response(result);
+                                    },
+                                    fail: function(xhr, textStatus, errorThrown) {
+                                        alert(errorThrown);
+                                    }
+                                });
+                            },
+                            select: function(event, ui) {
+                                var selectedCompanyName = ui.item.value;
+                                updateCompanyNameValue(selectedCompanyName);
+                            }
+                        });
+                    });
 
-                //     $(document).on('input', '#company_name', function() {
-                //         updateCompanyNameValue($(this).val());
-                //     });
+                    $(document).on('input', '#company_name', function() {
+                        updateCompanyNameValue($(this).val());
+                    });
 
-                //     function updateCompanyNameValue(companyName) {
-                //         $.ajax({
-                //             type: "GET",
-                //             url: "{{ route('getclientdata') }}",
-                //             dataType: "json",
-                //             data: {
-                //                 'company_name': companyName
-                //             },
-                //             success: function(data) {
-                //                 for (var i in data) {
-                //                     $('#client_no').val(data[i]["client_no"]);
-                //                     $('#contact_number').val(data[i]["contact_number"]);
-                //                     $('#name').val(data[i]["name"]);
-                //                 }
-                //             },
-                //             fail: function(xhr, textStatus, errorThrown) {
-                //                 alert(errorThrown);
-                //             }
-                //         });
-                //     }
-                // });
-
-                document.getElementById("print").addEventListener("click", function() {
-                   window.print();
+                    function updateCompanyNameValue(companyName) {
+                        $.ajax({
+                            type: "GET",
+                            url: "{{ route('getclientdata') }}",
+                            dataType: "json",
+                            data: {
+                                'company_name': companyName
+                            },
+                            success: function(data) {
+                                for (var i in data) {
+                                    $('#client_no').val(data[i]["client_no"]);
+                                    $('#contact_number').val(data[i]["contact_number"]);
+                                    $('#name').val(data[i]["name"]);
+                                }
+                            },
+                            fail: function(xhr, textStatus, errorThrown) {
+                                alert(errorThrown);
+                            }
+                        });
+                    }
                 });
+
+
                 // / Initialize form validation
 
                 var project_Name = @json($projectName);

@@ -92,7 +92,7 @@ class ProjectMasterController extends Controller
         {
             $request['retention_type']=null ;
         }
-
+info($request);
         try
         {
 

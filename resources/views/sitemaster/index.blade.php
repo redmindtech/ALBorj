@@ -78,7 +78,7 @@
 
                 <div class="col-md-12">
                
-                     <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
+                     <a class="btn  btn-sm" id="closeButton" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
                      <h4  id='heading_name' style='color:white' align="center"><b>Update Site Details </b></h4>
                 </div>
             </div>
@@ -443,7 +443,9 @@
 });
 
 document.getElementById("print").addEventListener("click", function() {
+    $('#heading_name').css('color', 'black').css('font-weight', 'bold');
         window.print();
+        $('#heading_name').css('color', 'white').css('font-weight', 'bold');
     });
 
         // validation

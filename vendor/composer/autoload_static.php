@@ -331,8 +331,8 @@ class ComposerStaticInitd8d910a6a41ad6cf516738d66d3cb77f
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -585,6 +585,7 @@ class ComposerStaticInitd8d910a6a41ad6cf516738d66d3cb77f
         'App\\Http\\Requests\\MaterialRequest' => __DIR__ . '/../..' . '/app/Http/Requests/MaterialRequest.php',
         'App\\Http\\Requests\\ProjectMasterRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ProjectMasterRequest.php',
         'App\\Http\\Requests\\PurchaseOrderRequest' => __DIR__ . '/../..' . '/app/Http/Requests/PurchaseOrderRequest.php',
+        'App\\Http\\Requests\\PurchaseReturnRequest' => __DIR__ . '/../..' . '/app/Http/Requests/PurchaseReturnRequest.php',
         'App\\Http\\Requests\\SiteRequest' => __DIR__ . '/../..' . '/app/Http/Requests/SiteRequest.php',
         'App\\Http\\Requests\\SupplierRequest' => __DIR__ . '/../..' . '/app/Http/Requests/SupplierRequest.php',
         'App\\Http\\Requests\\TimeSheetRequest' => __DIR__ . '/../..' . '/app/Http/Requests/TimeSheetRequest.php',
@@ -601,10 +602,12 @@ class ComposerStaticInitd8d910a6a41ad6cf516738d66d3cb77f
         'App\\Models\\MaterialIssueItem' => __DIR__ . '/../..' . '/app/Models/MaterialIssueItem.php',
         'App\\Models\\MaterialRequisition' => __DIR__ . '/../..' . '/app/Models/MaterialRequisition.php',
         'App\\Models\\MaterialRequisitionItem' => __DIR__ . '/../..' . '/app/Models/MaterialRequisitionItem.php',
+        'App\\Models\\PayRoll' => __DIR__ . '/../..' . '/app/Models/PayRoll.php',
         'App\\Models\\ProjectMaster' => __DIR__ . '/../..' . '/app/Models/ProjectMaster.php',
         'App\\Models\\PurchaseOrder' => __DIR__ . '/../..' . '/app/Models/PurchaseOrder.php',
         'App\\Models\\PurchaseOrderItem' => __DIR__ . '/../..' . '/app/Models/PurchaseOrderItem.php',
         'App\\Models\\PurchaseReturn' => __DIR__ . '/../..' . '/app/Models/PurchaseReturn.php',
+        'App\\Models\\PurchaseReturnItem' => __DIR__ . '/../..' . '/app/Models/PurchaseReturnItem.php',
         'App\\Models\\SalaryDetails' => __DIR__ . '/../..' . '/app/Models/SalaryDetails.php',
         'App\\Models\\SiteMaster' => __DIR__ . '/../..' . '/app/Models/SiteMaster.php',
         'App\\Models\\SupplierMaster' => __DIR__ . '/../..' . '/app/Models/SupplierMaster.php',
