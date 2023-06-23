@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClientMaster;
+use App\Models\ProjectMasterItem;
 use Illuminate\Http\Request;
 use App\Models\ProjectMaster;
 use App\Models\SiteMaster;
@@ -97,7 +98,22 @@ info($request);
         {
 
             ProjectMaster::create($request->only(ProjectMaster::REQUEST_INPUTS));
-            return response()->json('Project Details Added Successfully', 200);
+            // ProjectMasterItem
+            $project_id=ProjectMaster::max('project_no');
+            info($project_id);
+            for ($i = 0; $i < count($request['item_no']); $i++) {
+                ProjectMasterItem::create([
+                   'proj_no' =>$project_id,
+                    'item_no' => $request['item_no'][$i],
+                    'specification'=>$request['specification'][$i],
+                    'qty' => $request['qty'][$i],
+                    'unit' => $request['unit'][$i],
+                    'rate_per_qty' => $request['rate_per_qty'][$i],                 
+                    'amount' => $request['amount'][$i],
+                  
+                ]);
+            }
+             return response()->json('Project Details Added Successfully', 200);
 
         }
         catch (Exception $e)

@@ -46,8 +46,8 @@
                                     <th>Retention</th>
                                     <th>Amount Return</th>
                                     <th>Approved Variation Cost </th>
-                                            <th>Advance Variation Amount</th>
-                                            <th>Retention Variation Amount</th>
+                                    <th>Advance Variation Amount</th>
+                                    <th>Retention Variation Amount</th>
                                     <th data-orderable="false" class="action notexport">Show</th>
                                     <th data-orderable="false" class="action notexport">Edit</th>
                                     <th data-orderable="false" class="action notexport">Delete</th>
@@ -74,7 +74,7 @@
                                         <td>{{ $projectmaster->amount_return }}</td>
                                         <td>{{$projectmaster->Approved_Variation_Cost}} </td>
                                         <td>{{$projectmaster->Advance_Variation_Amount}}</td>
-                                         <td>{{$projectmaster->Retention_Variation_Amount}}</td>
+                                        <td>{{$projectmaster->Retention_Variation_Amount}}</td>
 
                                         <td>
                                             <a onclick="handleShowAndEdit('{{ $projectmaster->project_no }}','show')"
@@ -107,7 +107,7 @@
                 <div class="row">
 
                     <div class="col-md-12">
-                        <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i
+                        <a class="btn  btn-sm" id="closeButton" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i
                                 class="fas fa-close"></i></a>
                         <h4 id='heading_name' style='color:white' align="center"><b>Update Project Details</b></h4>
                     </div>
@@ -268,16 +268,22 @@
                             <div class="input-group-prepend">
                                 <input type="number" id="total_price_cost" name="total_price_cost"
                                     value="{{ old('total_price_cost') }}" placeholder="Total Project Cost"
-                                    class="form-control" autocomplete="off">
+                                    class="form-control" autocomplete="off">   
                                 <div class="input-group-append ml-1">
-                                    <select class="form-select input-group" id="currency" name="currency">
+                                <a onclick="boq()"
+                                                class="btn btn-primary btn-circle btn-sm ">
+                                                BOQ
+                                            </a>
+                                <!-- <button type="button" class="btn btn-primary btn-sm" id="boq" onclick="boq()">BOQ</button> -->
+                                    <select class="form-select input-group" id="currency" name="currency">                                   
                                         @foreach ($currency as $key => $value)
                                             <option value="{{ $key }}">{{ $value }}</option>
                                         @endforeach
                                     </select>
                                 </div>
+                              
                             </div>
-
+                          
                         </div>
 
 
@@ -315,24 +321,23 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="row">
 
-<div class="form-group col-md-4">
-        <label for="Approved_Variation_Cost" class="form-label fw-bold">Approved Variation Cost</label>
-        <input type="number" id="Approved_Variation_Cost" name="Approved_Variation_Cost" value="{{ old('Approved_Variation_Cost') }}" placeholder="Approved Variation Cost" class="form-control" autocomplete="off">    
-    </div>
-    <div class="form-group col-md-4">
-        <label for="Advance_Variation_Amount" class="form-label fw-bold">Advance Variation Amount</label>
-        <input type="number" id="Advance_Variation_Amount" name="Advance_Variation_Amount" value="{{ old('Advance_Variation_Amount') }}" placeholder="Advance Variation Amount" class="form-control" autocomplete="off">
-        
-    </div>
-    <div class="form-group col-md-4">
-        <label for="Retention_Variation_Amount" class="form-label fw-bold">Retention Variation Amount</label>
-        <input type="number" name="Retention_Variation_Amount" id="Retention_Variation_Amount"  value="{{old('Retention_Variation_Amount')}}" placeholder="Retention Variation Amount"   class="form-control" autocomplete="off">   
-    </div>
-</div>
+                <div class="form-group col-md-4">
+                        <label for="Approved_Variation_Cost" class="form-label fw-bold">Approved Variation Cost</label>
+                        <input type="number" id="Approved_Variation_Cost" name="Approved_Variation_Cost" value="{{ old('Approved_Variation_Cost') }}" placeholder="Approved Variation Cost" class="form-control" autocomplete="off">    
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="Advance_Variation_Amount" class="form-label fw-bold">Advance Variation Amount</label>
+                        <input type="number" id="Advance_Variation_Amount" name="Advance_Variation_Amount" value="{{ old('Advance_Variation_Amount') }}" placeholder="Advance Variation Amount" class="form-control" autocomplete="off">
+                        
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="Retention_Variation_Amount" class="form-label fw-bold">Retention Variation Amount</label>
+                        <input type="number" name="Retention_Variation_Amount" id="Retention_Variation_Amount"  value="{{old('Retention_Variation_Amount')}}" placeholder="Retention Variation Amount"   class="form-control" autocomplete="off">   
+                    </div>
+                </div>
                     <div class="row">
 
                         <div class="form-group col-md-4">
@@ -424,7 +429,6 @@
                             // Percentage calculation
                             var totalCost = parseFloat($('#total_price_cost').val()) || 0;
                             var vatPercentage = parseFloat($('#advanced_amount').val()) || 0;
-
                             var advanced_amount = (vatPercentage / 100) * totalCost;
                             var balance_amount = totalCost - advanced_amount;
                             $('#amount_to_be_received').val(balance_amount.toFixed(2));
@@ -447,130 +451,131 @@
                 </script>
                 <!-- SHOW DIALOG -->
                 <div class="card" id="show" style="display:none">
-                    <div class="card-body" style="background-color:white;width:100%;height:20%;">
-
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Site Name</label>
-                                <p id="show_site_name"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Site No</label>
-                                <p id="show_site_code"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Project code</label>
-                                <p id="show_project_code"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Project Name</label>
-                                <p id="show_project_name"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Project Type</label>
-                                <p id="show_project_type"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Comments</label>
-                                <p id="show_project_comments"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Manager Name</label>
-                                <p id="show_firstname"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Manager Contact Number</label>
-                                <p id="show_UAE_mobile_number"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Client / Company Name</label>
-                                <p id="show_company_name"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Client Contact Number</label>
-                                <p id="show_contact_number"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Consultant Name</label>
-                                <p id="show_consultant_name"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Project Start Date</label>
-                                <p id="show_start_date"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Tentative Project End Date</label>
-                                <p id="show_end_date"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Actual Project End Date</label>
-                                <p id="show_actual_project_end_date"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Project Status</label>
-                                <p id="show_status"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Total Project Cost</label>
-                                <p id="show_total_price_cost"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Advance Amount</label>
-                                <p id="show_advanced_amount"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Retention</label>
-                                <p id="show_retention"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Balance Amount to be Received</label>
-                                <p id="show_amount_to_be_received"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Amount Return</label>
-                                <p id="show_amount_return"></p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>Amount Return Date</label>
-                                <p id="show_amount_return_date"></p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Amount Return Comments</label>
-                                <p id="show_amount_returns_comment"></p>
-                            </div>
-                            <div class="col-md-4">
-                            <label>Approved Variation Cost</label>
-                            <p id="show_Approved_Variation_Cost"></p>
-                        </div>
-                        <div class="col-md-4">
-                            <label>Advance Variation Amount</label>
-                            <p id="show_Advance_Variation_Amount"></p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label>Retention_Variation_Amount</label>
-                            <p id="show_Retention_Variation_Amount"></p>
-                        </div>
-                    </div>
-                        </div>
+    <div class="card-body" style="background-color:white;">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td><label>Site Name</label></td>
+                    <td><p id="show_site_name"></p></td>
+                    <td><label>Site No</label></td>
+                    <td><p id="show_site_code"></p></td>
+                    <td><label>Project code</label></td>
+                    <td><p id="show_project_code"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Project Name</label></td>
+                    <td><p id="show_project_name"></p></td>
+                    <td><label>Project Type</label></td>
+                    <td><p id="show_project_type"></p></td>
+                    <td><label>Comments</label></td>
+                    <td><p id="show_project_comments"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Manager Name</label></td>
+                    <td><p id="show_firstname"></p></td>
+                    <td><label>Manager Contact Number</label></td>
+                    <td><p id="show_UAE_mobile_number"></p></td>
+                    <td><label>Client / Company Name</label></td>
+                    <td><p id="show_company_name"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Client Contact Number</label></td>
+                    <td><p id="show_contact_number"></p></td>
+                    <td><label>Consultant Name</label></td>
+                    <td><p id="show_consultant_name"></p></td>
+                    <td><label>Project Start Date</label></td>
+                    <td><p id="show_start_date"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Tentative Project End Date</label></td>
+                    <td><p id="show_end_date"></p></td>
+                    <td><label>Actual Project End Date</label></td>
+                    <td><p id="show_actual_project_end_date"></p></td>
+                    <td><label>Project Status</label></td>
+                    <td><p id="show_status"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Total Project Cost</label></td>
+                    <td><p id="show_total_price_cost"></p></td>
+                    <td><label>Advance Amount</label></td>
+                    <td><p id="show_advanced_amount"></p></td>
+                    <td><label>Retention</label></td>
+                    <td><p id="show_retention"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Balance Amount to be Received</label></td>
+                    <td><p id="show_amount_to_be_received"></p></td>
+                    <td><label>Amount Return</label></td>
+                    <td><p id="show_amount_return"></p></td>
+                    <td><label>Amount Return Date</label></td>
+                    <td><p id="show_amount_return_date"></p></td>
+                </tr>
+                <tr>
+                    <td><label>Amount Return Comments</label></td>
+                    <td><p id="show_amount_returns_comment"></p></td>
+                    <td><label>Approved Variation Cost</label></td>
+                    <td> <p id="show_Approved_Variation_Cost"></p></td>
+                    <td> <label>Advance Variation Amount</label></td>
+                    <td> <p id="show_Advance_Variation_Amount"></p></td>
+                </tr>
+                <tr><td> <label>Retention_Variation_Amount</label></td>
+                      <td> <p id="show_Retention_Variation_Amount"></p></td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <button type="button" id="print" class="btn btn-primary float-end">Print</button>
+    
+    </div>
+</div>
+</dialog>
+<dialog id="dialog1">              
+    <div class="card" id="show1" style="display:none">
+        <div class="col-md-12" >
+            <a class="btn  btn-sm" onclick="handleClose1()" style="float:right;padding: 10px 10px;">
+                <i class="fas fa-close"></i>
+            </a>
+            <h4 id="heading_name" style="color: white; background-color:#45A6F2;" align="center">
+                <b>BOQ</b>
+            </h4>
+        </div>
+        <div class="container pt-4">
+            <form  enctype="multipart/form-data" id="form1">
+                <div class="table-responsive">
+                    <center>
+                        <table class="table table-bordered" style="width:79%">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">S.No</th>
+                                    <th class="text-center" style="width:35%">Item Name</th>
+                                    <th class="text-center" style="width:35%">Specification</th>
+                                    <th class="text-center" style="width:12%">Quantity</th>
+                                    <th class="text-center" style="width:12%">Unit</th>
+                                    <th class="text-center" style="width:12%">Rate Per Quantity</th>                           
+                                    <th class="text-center" style="width:15%">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody">
+                                <!-- Table rows go here -->
+                            </tbody>
+                        </table>
+                    </center>
+                </div>
+                <div style="text-align: right;">
+                    <div style="margin-top: 8px; margin-right: 106px; display: inline-block;">
+                        <button class="btn btn-md btn-primary" id="addBtn" type="button">Add Row</button>
                     </div>
                 </div>
-            </dialog>
+                <br>
+                <!-- <div style="text-align: center;">
+                    <button class="btn btn-md btn-primary" id="submitButton" type="submit">Submit</button>
+                </div> -->
+            </form>
+        </div>
+    </div>
+</dialog>
+
+          
 
 
             <script type="text/javascript">
@@ -588,6 +593,152 @@
             </script>
             <!--ADD DIALOG  -->
             <script type="text/javascript">
+                var rowIdx = 1;
+    function add_text() 
+    {
+        var html = '';
+        html += '<tr id="row' + rowIdx + '" class="rowtr">';
+        html += '<td>' + rowIdx + '</td>';
+        html += '<td><div class="col-xs-12"><input type="text" id="item_name_' + rowIdx +
+        '"  name="item_name[]" class="item_name form-control" placeholder="Item name"><input type="text"  name="item_no[]" id="item_no_' +
+        rowIdx + '" class="item_no_' + rowIdx + '"  placeholder=" Item no"></div></td>';
+        html += '<td><div class="col-xs-12"><input type="text" name="specification[]"  id="specification_' + rowIdx +
+            '"name="specification[]" class="specification form-control"></div></td>';
+        html += '<td><div class="col-xs-12"><input type="number" name="qty[]"  id="qty_' + rowIdx +
+            '"name="qty[]" class="qty form-control"></div></td>';
+            html += '<td><div class="col-xs-12"><input type="number" name="unit[]"  id="unit_' + rowIdx +
+            '"name="unit[]" class="unit form-control"></div></td>';
+        html += '<td><div class="col-xs-12"><input type="number" name="rate_per_qty[]" id="rate_per_qty_' + rowIdx +
+            '"  name="rate_per_qty[]" class="rate_per_qty form-control"></div></td>';
+        // html += '<td><div class="col-xs-12"><input type="number" name="discount[]" id="discount_' + rowIdx +
+        //     '"  name="discount[]" class="discount form-control"></div></td>';
+        html += '<td><div class="col-xs-12"><input type="text" name="amount[]" id="amount_' + rowIdx +
+            '"  name="amount[]" class="amount form-control"></div></td>';
+      
+        // html += '<td id="tr_qty"><div class="col-xs-12"><input type="text" name="pending_qty[]" id="pending_qty_' + rowIdx +
+        //     '"  name="pending_qty[]" class="pending_qty" ></div></td>';
+        if(rowIdx !=1){
+        html +=
+            '<td><button class="btn btn-danger remove btn-sm" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
+        html += '</tr>';
+        }
+
+        $("#tbody").append(html);
+        rowIdx++;
+    }
+    $('#addBtn').on('click', function() 
+    { add_text();});
+    $('#tbody').on('click', '.remove', function() 
+    {
+        // Getting all the rows next to the row containing the clicked button
+        var child = $(this).closest('tr').nextAll();
+
+        // Iterating across all the rows obtained to change the index
+        child.each(function() 
+        {
+            // Getting <tr> id.
+            var id = $(this).attr('id');
+
+            // Getting the <p> inside the .row-index class.
+            var idx = $(this).children('.row-index').children('p');
+
+            // Gets the row number from <tr> id.
+            var dig = parseInt(id.substring(1));
+
+            // Modifying row index.
+            idx.html(`<input type='text'>`);
+
+            // Modifying row id.
+            $(this).attr('id', `R${dig - 1}`);
+        });
+
+        // Removing the current row.
+        $(this).closest('tr').remove();
+
+        // Decreasing total number of rows by 1.
+        rowIdx--;
+    });
+    $('#tbody').on('input', 'input[id^="qty_"], input[id^="rate_per_qty_"]', function() {
+      var row = $(this).closest('tr');
+      var quantity = parseFloat(row.find('input[id^="qty_"]').val()) || 0;
+      var rate = parseFloat(row.find('input[id^="rate_per_qty_"]').val()) || 0;
+      var itemAmount = quantity * rate;
+      row.find('input[id^="amount_"]').val(itemAmount);
+
+      calculateTotal();
+    //   updateCalculation();
+    });
+
+    function calculateTotal() {
+      var total = 0;
+      $("input[name='amount[]']").each(function() {
+        var val = parseFloat($(this).val());
+        if (!isNaN(val)) {
+          total += val;
+        }
+      });
+      $("#total_price_cost").val(total.toFixed(2));
+    }
+    jQuery($ => {
+    $(document).on('focus click', $("#tbody"), function() {
+        
+        $('#tbody').find('.item_name').autocomplete({
+                source: function( request, response )
+            {
+                $.ajax
+                ({
+                    type:"GET",
+                    url: "{{ route('getitemnamedata') }}",
+                    dataType: "json",
+                    data:
+                    {
+                        'itemname':request.term
+                    },
+                    success: function( data )
+                    {
+                        result = [];
+                        for(var i in data)
+                        {
+                            result.push(data[i]["item_name"]);
+                        }
+                        response(result);
+                    },fail: function(xhr, textStatus, errorThrown)
+                    {
+                        alert(errorThrown);
+                    }
+                });
+            },
+            minLength: 1
+        });
+    
+        });
+        
+    });
+        $(document).on('change', '.item_name', function() 
+        {     
+        var id=rowIdx-1;
+            $.ajax
+            ({
+                type:"GET",
+                url: "{{ route('getitemnamedata') }}",
+                dataType: "json",
+                data:
+                {
+                    'itemname':$(this).val()
+                },
+                success: function( data )
+                { 
+                    result = [];
+                    for(var i in data)
+                    {                    
+                        $('#item_no_'+id).val(data[0]["id"]);
+                        
+                    }
+                },fail: function(xhr, textStatus, errorThrown){
+                alert(errorThrown);
+                }
+            });
+        });
                 function handleDialog() {
                     document.getElementById("myDialog").open = true;
                     window.scrollTo(0, 0);
@@ -600,6 +751,21 @@
                     $('#form').css('display', 'block');
                     $('#blur-background').css('display', 'block');
 
+                }
+                function boq(){
+                    alert('fff');
+                    document.getElementById("dialog1").open = true;
+                    add_text();
+                    window.scrollTo(0, 0);
+                    // $('#method').val("ADD");
+                    // $('#submit').text("ADD");
+                    $('#heading_name').text("Add Project Details").css('font-weight', 'bold');
+                    // $('#project_code').hide();
+                    // $('#code_lable').hide();
+                    $('#show').css('display', 'none');
+                    // $('#form').css('display', 'none');
+                    $('#show1').css('display', 'block');
+                    $('#blur-background').css('display', 'block');  
                 }
                 // DELETE FUNCTION
                 function handleDelete(id) {
@@ -619,6 +785,7 @@
                 // DIALOG CLOSE BUTTON
                 function handleClose() {
                     document.getElementById("myDialog").open = false;
+                    document.getElementById("dialog1").open = false;
                     // Clear the form fields
                     $('#form')[0].reset();
                     // Hide any error messages
@@ -629,44 +796,70 @@
                     // Hide the dialog background
                     $('#blur-background').css('display', 'none');
                 }
+                function handleClose1() {
+                    // document.getElementById("myDialog").open = false;
+                    document.getElementById("dialog1").open = false;
+                    // rowIdx = 0;
+                    // // Clear the form fields
+                    // $('#form')[0].reset();
+                    // // Hide any error messages
+                    // $('.error-msg').removeClass('error-msg');
+                    // $('.has-error').removeClass('has-error');
+                    // // Hide any error messages
+                    // $('error').html('');
+                    // // Hide the dialog background
+                    // $('#blur-background').css('display', 'none');
+                }
                 // DIALOG SUBMIT FOR ADD AND EDIT
                 function handleSubmit() {
-                    event.preventDefault();
-                    var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
-                    //  alert(hiddenErrorElements);
-                    if (hiddenErrorElements === 0) {
-                        let form_data = new FormData(document.getElementById('form'));
-                        let method = $('#method').val();
-                        let url;
-                        let type;
-                        if (method == 'ADD') {
-                            url = '{{ route('projectApi.store') }}';
-                            type = 'POST';
+    event.preventDefault();
+    var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
+    if (hiddenErrorElements === 0) {
+        let form_data = new FormData(document.getElementById('form'));
+        let form_data1 = new FormData(document.getElementById('form1'));
+        console.log(form_data1);
 
-                        } else {
-                            let id = $('#project_no').val();
-                            url = '{{ route('projectApi.update', ':project_no') }}';
-                            url = url.replace(':project_no', id);
-                            type = 'POST';
-                        }
-                        $.ajax({
-                            url: url,
-                            type: type,
-                            data: form_data,
-                            contentType: false,
-                            cache: false,
-                            processData: false,
-                            success: function(message) {
-                                alert(message);
-                                window.location.reload();
-                            },
-                            error: function(message) {
-                                var data = message.responseJSON;
-                            }
-                        })
-                    }
+        // Combine form data from both forms
+        let combined_form_data = new FormData();
+        for (var pair of form_data.entries()) {
+            combined_form_data.append(pair[0], pair[1]);
+        }
+        for (var pair of form_data1.entries()) {
+            combined_form_data.append(pair[0], pair[1]);
+        }
+        console.log(combined_form_data);
 
-                }
+        let method = $('#method').val();
+        let url;
+        let type;
+        if (method == 'ADD') {
+            url = '{{ route('projectApi.store') }}';
+            type = 'POST';
+        } else {
+            let id = $('#project_no').val();
+            url = '{{ route('projectApi.update', ':project_no') }}';
+            url = url.replace(':project_no', id);
+            type = 'POST';
+        }
+
+        $.ajax({
+            url: url,
+            type: type,
+            data: combined_form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (message) {
+                alert(message);
+                window.location.reload();
+            },
+            error: function (message) {
+                var data = message.responseJSON;
+                // Handle error
+            }
+        });
+    }
+}
 
                 //DATA SHOW FOR EDIT AND SHOW
                 var currentProjectName;
@@ -740,7 +933,7 @@
                                     $(`#show_${key}`).text(value);
                                 }
 
-                                $('#heading_name').text("View Project Details").css('font-weight', 'bold');
+                                $('#heading_name').text("Project Details").css('font-weight', 'bold');
                                 $('#show').css('display', 'block');
                                 $('#form').css('display', 'none');
                                 $('#blur-background').css('display', 'block');
@@ -750,6 +943,8 @@
                         },
                     })
                 }
+
+                
 
                 // auto complete for managername from employeemasters
                 jQuery($ => {
@@ -927,7 +1122,11 @@
                     }
                 });
 
-
+                document.getElementById("print").addEventListener("click", function() {
+                    $('#heading_name').css('color', 'black').css('font-weight', 'bold');
+                   window.print();
+                     $('#heading_name').css('color', 'white').css('font-weight', 'bold');
+                });
                 // / Initialize form validation
 
                 var project_Name = @json($projectName);
@@ -965,7 +1164,7 @@
                     return new Date(value) > new Date(startDate);
                 }, "Invalid date");
                 $.validator.addMethod("alphanumeric", function(value, element) {
-                    console.log(value);
+                    
                     return this.optional(element) || /^[A-Za-z ]+$/i.test(value);
                 });
                 var formValidationConfig = {
