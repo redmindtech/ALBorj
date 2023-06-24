@@ -91,7 +91,7 @@ class ProjectMasterController extends Controller
         }
         if($request['retention'] == "")
         {
-            $request['retention_type']=null ;
+            $request['retention_type']='1' ;
         }
 info($request);
         try
@@ -145,6 +145,13 @@ info($request);
             DB::raw('DATE(project_masters.amount_return_date) as amount_return_date'))
             ->where('project_masters.project_no', $project_no)
             ->get();
+            $project_item_details=ProjectMasterItem::
+            join('item_masters', 'project_master_item.item_no', '=', 'item_masters.id')  
+            ->select('item_masters.*','project_master_item.*')   
+            ->where('project_master_item.proj_no', $project_no)
+            ->get();
+           
+
             if ($data) {
                 $data = $data->toArray();
 
@@ -163,8 +170,11 @@ info($request);
                     }
                 });
             }
-
-             return response()->json($data);
+            return response()->json([
+                'data' => $data,
+                'project_item_details' => $project_item_details
+            ]);
+            //  return response()->json($data);
 
         }
         catch (Exception $e)
@@ -189,6 +199,20 @@ info($request);
 
             $project = ProjectMaster::findOrFail($id);
             $project->update($request->only(ProjectMaster::REQUEST_INPUTS));
+
+            $po_delete=ProjectMasterItem::where('proj_no',$id)->delete();
+            for ($i = 0;$i <  count($request['item_no']); $i++) {
+                // info(count($request['item_no']));
+                ProjectMasterItem::create([
+                    'proj_no' =>$id,
+                     'item_no' => $request['item_no'][$i],
+                     'specification'=>$request['specification'][$i],
+                     'qty' => $request['qty'][$i],
+                     'unit' => $request['unit'][$i],
+                     'rate_per_qty' => $request['rate_per_qty'][$i],                 
+                     'amount' => $request['amount'][$i],
+                   
+                 ]);}
             return response()->json('Project Details Updated Successfully', 200);
         } catch (Exception $e) {
             info($e);

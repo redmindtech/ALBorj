@@ -487,8 +487,8 @@
             var html = '';
             html +='<tr id="row'+rowIdx+'" class="rowtr">';
             html += '<td><center>'+rowIdx+'</center></td>';
-            html += '<td><div class="col-xs-12"><input type="text" id="item_name_'+rowIdx+'"  name="item_name[]" class="item_name input-text form-control" placeholder="Start Typing Item name..."></div></td>';
-            html += '<td hidden ><div class="col-xs-12"><input type="text"  id="item_no_'+rowIdx+'"  name="item_no[]" class="item_no_'+rowIdx+'"></div></td>';
+            html += '<td><div class="col-xs-12"><input type="text" id="item_name_'+rowIdx+'"  name="item_name[]" autocomplete="off" class="item_name input-text form-control" placeholder="Start Typing Item name..."></div></td>';
+            html += '<td><div class="col-xs-12"><input type="text"  id="item_no_'+rowIdx+'"  name="item_no[]" class="item_no_'+rowIdx+'"></div></td>';
             html += '<td><center><div class="col-xs-12" id="total_quantity_'+ rowIdx + '" ></div></center></td>';
             html += '<td><div class="col-xs-12"><input type="number" id="quantity_'+rowIdx+'"  name="quantity[]" class="quantity form-control"></div></td>';
             if(rowIdx != 1){
@@ -499,70 +499,128 @@
             rowIdx++;     
         }
     // auto complete function for item name and item no
-    jQuery($ => 
-    {
-        $(document).on('focus', '.item_name', function()
-        {            
-            $('#tbodyMI').find('.item_name').autocomplete(
-            {
-                source: function( request, response )
-                {
-                    $.ajax
-                    ({
-                        type:"GET",
-                        url: "{{ route('getitemnamedata') }}",
-                        dataType: "json",
-                        data:
-                        {
-                            'itemname':request.term
-                        },
-                        success: function( data )
-                        {
-                            result = [];
-                            for(var i in data)
-                            {
-                                result.push(data[i]["item_name"]);
-                            }
-                            response(result);
-                        },
-                        fail: function(xhr, textStatus, errorThrown)
-                        {
-                            alert(errorThrown);
-                        }
-                    });
-                },
-                minLength: 1
-            });
-        });        
-    });
+    // jQuery($ => 
+    // {
+    //     $(document).on('focus', '.item_name', function()
+    //     {            
+    //         $('#tbodyMI').find('.item_name').autocomplete(
+    //         {
+    //             source: function( request, response )
+    //             {
+    //                 $.ajax
+    //                 ({
+    //                     type:"GET",
+    //                     url: "{{ route('getitemnamedata') }}",
+    //                     dataType: "json",
+    //                     data:
+    //                     {
+    //                         'itemname':request.term
+    //                     },
+    //                     success: function( data )
+    //                     {
+    //                         result = [];
+    //                         for(var i in data)
+    //                         {
+    //                             result.push(data[i]["item_name"]);
+    //                         }
+    //                         response(result);
+    //                     },
+    //                     fail: function(xhr, textStatus, errorThrown)
+    //                     {
+    //                         alert(errorThrown);
+    //                     }
+    //                 });
+    //             },
+    //             minLength: 1
+    //         });
+    //     });        
+    // });
         
-    $(document).on('change', '.item_name', function() 
-    {     
-        var id=rowIdx-1;
-        $.ajax
-        ({
-            type:"GET",
-            url: "{{ route('getitemnamedata') }}",
-            dataType: "json",
-            data:
-            {
-                'itemname':$(this).val()
-            },
-            success: function( data )
-            { 
-                result = [];
-                for(var i in data)
-                {                    
-                    $('#item_no_'+id).val(data[0]["id"]);
-                    $('#total_quantity_'+id).text(data[0]["total_quantity"]);       
-                }
-            },
-            fail: function(xhr, textStatus, errorThrown)
-            {
-                alert(errorThrown);
+    // $(document).on('change', 'input.item_name', function() 
+    // {     
+    //     var id=rowIdx-1;
+    //     $.ajax
+    //     ({
+    //         type:"GET",
+    //         url: "{{ route('getitemnamedata') }}",
+    //         dataType: "json",
+    //         data:
+    //         {
+    //             'itemname':$(this).val()
+    //         },
+    //         success: function( data )
+    //         { 
+    //             result = [];
+    //             for(var i in data)
+    //             {                    
+    //                 $('#item_no_'+id).val(data[0]["id"]);
+    //                 $('#total_quantity_'+id).text(data[0]["total_quantity"]);       
+    //             }
+    //         },
+    //         fail: function(xhr, textStatus, errorThrown)
+    //         {
+    //             alert(errorThrown);
+    //         }
+    //     });
+    // });
+    jQuery($ => {
+  $(document).on('focus', 'input.item_name', function() {
+    $('#tbodyMI').find('.item_name').autocomplete({
+      source: function(request, response) {
+        $.ajax({
+          type: "GET",
+          url: "{{ route('getitemnamedata') }}",
+          dataType: "json",
+          data: {
+            'itemname': request.term
+          },
+          success: function(data) {
+            var result = [];
+            for (var i in data) {
+              result.push(data[i]["item_name"]);
             }
+            response(result);
+          },
+          error: function(xhr, textStatus, errorThrown) {
+            alert(errorThrown);
+          }
         });
+      },
+      minLength: 1,
+      select: function(event, ui) {
+        var id = rowIdx - 1;
+        $('#item_no_' + id).val(ui.item.id);
+        $('#total_quantity_' + id).text(ui.item.total_quantity);
+      }
     });
+  });
+});
+
+$(document).on( 'change','input.item_name', function() {
+  handleItemNameChange($(this).val());
+});
+
+function handleItemNameChange(item) {
+  var id = rowIdx - 1;
+  $.ajax({
+    type: "GET",
+    url: "{{ route('getitemnamedata') }}",
+    dataType: "json",
+    data: {
+      'itemname': item
+    },
+    success: function(data) {
+      var result = [];
+      for (var i in data) {
+        $('#item_no_' + id).val(data[i]["id"]);
+        $('#total_quantity_' + id).text(data[i]["total_quantity"]);
+      }
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      alert(errorThrown);
+    }
+  });
+}
 
     // jQuery button click event to add a row
     // let itemNames = []; // Array to store encountered item names           

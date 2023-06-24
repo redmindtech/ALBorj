@@ -433,8 +433,24 @@ input[type=checkbox] {
         #print,#closeButton {
             display: none;
         }
-    }
 
+    }
+/* payroll */
+    .earnings-column {
+    border: 2px solid #9c9999;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px; /* Optional: Add border radius for rounded corners */
+    box-sizing: border-box; /* Optional: Include padding within the element's total width */
+}
+
+.deduction-column {
+    border: 2px solid #9c9999;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px; /* Optional: Add border radius for rounded corners */
+    box-sizing: border-box; /* Optional: Include padding within the element's total width */
+}
     /* end style for table show */
     </style>
 

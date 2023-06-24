@@ -188,6 +188,12 @@
                                 placeholder="OT hours" class="form-control" autocomplete="off" readonly>
                             <p style="color: red" id="error_ot_hours"></p>
                         </div>
+                        <div class="form-group col-md-4">
+                            <label for="wps" class="form-label fw-bold">WPS No</label>
+                            <input type="text" id="wps" name="wps" value="{{ old('wps') }}"
+                                placeholder="WPS No" class="form-control wps" autocomplete="off" readonly>
+
+                        </div>
                     </div>
                     <div class="container pt-4">
                         <div class="row">
@@ -258,14 +264,7 @@
                                                 readonly>
                                             <p style="color: red" id="error_total_earning"></p>
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="deduction" class="form-label fw-bold">Total Deduction</label>
-                                            <input type="text" id="total_deduction" name="total_deduction"
-                                                value="{{ old('total_deduction') }}" placeholder="Total Deduction"
-                                                class="form-control" autocomplete="off" oninput="calculateNetPay()"
-                                                readonly>
-                                            <p style="color: red" id="error_total_deduction"></p>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -287,8 +286,18 @@
                                     </table>
                                 </div>
                                 <button class="btn btn-md btn-primary" id="addBtn" type="button">Add Row</button>
+                                <div class="form-group col-md-6  mt-5">
+                                    <label for="deduction" class="form-label fw-bold">Total Deduction</label>
+                                    <input type="text" id="total_deduction" name="total_deduction"
+                                        value="{{ old('total_deduction') }}" placeholder="Total Deduction"
+                                        class="form-control" autocomplete="off" oninput="calculateNetPay()"
+                                        readonly>
+                                    <p style="color: red" id="error_total_deduction"></p>
+                                </div>
                             </div>
+
                         </div>
+
                     </div>
                     <script>
                         // jQuery button click event to add a row
@@ -344,6 +353,7 @@
                             $("#tbody").append(html);
                             rowIdx++;
                         }
+
                     </script>
 
 
@@ -395,8 +405,7 @@
                 <!-- SHOW DIALOG -->
                 <div class="card" id="show" style="display:none">
                     <div class="card-body" style="background-color:white;width:100%;height:20%;">
-
-                        <div class="row">
+                    <div class="row">
                             <div class="col-md-4">
                                 <label>Employee Name</label>
                                 <p id="show_firstname"></p>
@@ -438,7 +447,12 @@
                                         <p id="show_worked_days"></p>
                                     </div>
                                 </div>
+
                                 <div class="row">
+                                    <div class="col-md-4">
+                                        <label>WPS No</label>
+                                        <p id="show_wps"></p>
+                                    </div>
                                     <div class="col-md-4">
                                         <label>OT hours</label>
                                         <p id="show_ot_hours"></p>
@@ -448,13 +462,14 @@
                                         <p id="show_basic"></p>
                                     </div>
 
+
+                                </div>
+
+                                <div class="row">
                                     <div class="col-md-4">
                                         <label>HRA</label>
                                         <p id="show_hra"></p>
                                     </div>
-                                </div>
-                                <div class="row">
-
                                     <div class="col-md-4">
                                         <label>Convenance Allowance</label>
                                         <p id="show_conveyance"></p>
@@ -463,13 +478,13 @@
                                         <label>Medical Allowance</label>
                                         <p id="show_medical"></p>
                                     </div>
+
+                                </div>
+                                <div class="row">
                                     <div class="col-md-4">
                                         <label>Special Allowance</label>
                                         <p id="show_special"></p>
                                     </div>
-                                </div>
-                                <div class="row">
-
                                     <div class="col-md-4">
                                         <label>OT</label>
                                         <p id="show_ot"></p>
@@ -478,20 +493,16 @@
                                         <label>Net Pay</label>
                                         <p id="show_netpay"></p>
                                     </div>
+
+                                </div>
+                                <div class="row">
                                     <div class="col-md-4">
                                         <label>Amount in words</label>
                                         <p id="show_amount_words"></p>
                                     </div>
-                                </div>
-                                <div class="row">
-
                                     <div class="col-md-4">
                                         <label>Mode Of Payment</label>
                                         <p id="show_payment_mode"></p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Total Net payable</label>
-                                        <p id="show_total_payable"></p>
                                     </div>
                                 </div>
                                 <div id="item_details_show"></div>
@@ -504,6 +515,84 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
+
+                 // Create a separate function for the AJAX call
+function updatePayData() {
+    $.ajax({
+        type: "GET",
+        url: "{{ route('getpaydata') }}",
+        dataType: "json",
+        data: {
+            'employee_id': $('#employee_id').val(),
+            'month': $('#month').val(),
+            'year': $('#year').val()
+        },
+        success: function(data) {
+                            if (data.data.length > 0 && data.data[0] !== null) {
+                                console.log(data.data[0].basic);
+                                console.log(data.data[0].hra);
+
+                                var month = parseInt($('#month').val()); // Get the selected month
+                                var year = parseInt($('#year').val()); // Get the selected year
+
+                                var medicalAllowance = parseFloat($('#medical').val()) || 0;
+                                var specialAllowance = parseFloat($('#special').val()) || 0;
+                                var conveyanceAllowance = parseFloat($('#conveyance').val()) || 0;
+
+                                var daysInMonth;
+                                if (month === 2) {
+                                    // February
+                                    if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+                                        // Leap year, February has 29 days
+                                        daysInMonth = 29;
+                                    } else {
+                                        // Non-leap year, February has 28 days
+                                        daysInMonth = 28;
+                                    }
+                                } else if ([4, 6, 9, 11].includes(month)) {
+                                    // April, June, September, November have 30 days
+                                    daysInMonth = 30;
+                                } else {
+                                    // All other months have 31 days
+                                    daysInMonth = 31;
+                                }
+
+                                var basic = data.data[0].basic - (data.data1[0].leave * (data.data[0].basic /
+                                    daysInMonth));
+                                var hra = data.data[0].hra - (data.data1[0].leave * (data.data[0].hra /
+                                    daysInMonth));
+                                var ot_cal = data.data2[0].ot * 5; // Multiply OT hours by 5
+                                var totalEarning = basic + hra + ot_cal + medicalAllowance + specialAllowance +
+                                    conveyanceAllowance;
+
+                                $('#worked_days').val(data.data[0].count);
+                                $('#lop_days').val(data.data1[0].leave);
+                                $('#ot_hours').val(data.data2[0].ot);
+                                $('#basic').val(basic);
+                                $('#hra').val(hra);
+                                $('#ot').val(ot_cal);
+                                $('#total_earning').val(totalEarning);
+                            } else {
+                // Clear the fields when there is no data
+                $('#worked_days').val('');
+                $('#lop_days').val('');
+                $('#ot_hours').val('');
+                $('#basic').val('');
+                $('#hra').val('');
+                $('#ot').val('');
+                $('#total_earning').val('');
+            }
+                        },
+        fail: function(xhr, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+}
+
+// Bind the function to the change event of input fields
+$(document).on('input', '#employee_id, #month, #year, .medical, .special, .conveyance', function() {
+    updatePayData();
+});
             </script>
 
 
@@ -611,6 +700,7 @@
                             console.log(message.payrolls);
                             console.log(message.payroll_deduction);
                             if (action == 'edit') {
+
                                 $('#heading_name').text("Update Payroll Details").css('font-weight', 'bold');
                                 $('#show').css('display', 'none');
                                 $('#form').css('display', 'block');
@@ -664,71 +754,8 @@
                     })
                 }
 
-                // auto complete function for item name and item no
-                $(document).on('input', '.employee_id, .month, .year,.medical,.special,.conveyance', function() {
-                    $.ajax({
-                        type: "GET",
-                        url: "{{ route('getpaydata') }}",
-                        dataType: "json",
-                        data: {
-                            'employee_id': $('#employee_id').val(),
-                            'month': $('#month').val(),
-                            'year': $('#year').val()
-                        },
-                        success: function(data) {
-                            if (data.data.length > 0 && data.data[0] !== null) {
-                                console.log(data.data[0].basic);
-                                console.log(data.data[0].hra);
 
-                                var month = parseInt($('#month').val()); // Get the selected month
-                                var year = parseInt($('#year').val()); // Get the selected year
 
-                                var medicalAllowance = parseFloat($('#medical').val()) || 0;
-                                var specialAllowance = parseFloat($('#special').val()) || 0;
-                                var conveyanceAllowance = parseFloat($('#conveyance').val()) || 0;
-
-                                var daysInMonth;
-                                if (month === 2) {
-                                    // February
-                                    if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
-                                        // Leap year, February has 29 days
-                                        daysInMonth = 29;
-                                    } else {
-                                        // Non-leap year, February has 28 days
-                                        daysInMonth = 28;
-                                    }
-                                } else if ([4, 6, 9, 11].includes(month)) {
-                                    // April, June, September, November have 30 days
-                                    daysInMonth = 30;
-                                } else {
-                                    // All other months have 31 days
-                                    daysInMonth = 31;
-                                }
-
-                                var basic = data.data[0].basic - (data.data1[0].leave * (data.data[0].basic /
-                                    daysInMonth));
-                                var hra = data.data[0].hra - (data.data1[0].leave * (data.data[0].hra /
-                                    daysInMonth));
-                                var ot_cal = data.data2[0].ot * 5; // Multiply OT hours by 5
-                                var totalEarning = basic + hra + ot_cal + medicalAllowance + specialAllowance +
-                                    conveyanceAllowance;
-
-                                $('#worked_days').val(data.data[0].count);
-                                $('#lop_days').val(data.data1[0].leave);
-                                $('#ot_hours').val(data.data2[0].ot);
-                                $('#basic').val(basic);
-                                $('#hra').val(hra);
-                                $('#ot').val(ot_cal);
-                                $('#total_earning').val(totalEarning);
-                            } else {
-                                // Handle the case when the data is empty or the object is null
-                            }
-                        },
-                        fail: function(xhr, textStatus, errorThrown) {
-                            alert(errorThrown);
-                        }
-                    });
-                });
                 //total_deduction calculation
                 function calculateNetPay() {
                     var totalDeduction = document.getElementById('total_deduction').value;
@@ -849,6 +876,7 @@
                                 $('#depart').val(data[i]["depart"]);
                                 $('#basic').val(data[i]["basic"]);
                                 $('#hra').val(data[i]["hra"]);
+                                $('#wps').val(data[i]["wps"]);
 
                             }
                         },

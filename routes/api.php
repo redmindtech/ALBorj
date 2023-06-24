@@ -117,12 +117,13 @@ Route::post("/purchaseorder/{po_no}/update", [App\Http\Controllers\PurchaseOrder
 Route::delete("/purchaseorder/{po_no}/delete", [App\Http\Controllers\PurchaseOrderController::class, 'destroy'])->name('purchaseorderApi.delete');
 Route::get("/purchaseorder/{po_no}/show", [App\Http\Controllers\PurchaseOrderController::class, 'show'])->name('purchaseorderApi.show');
 // purchaseReturn
+// purchaseReturn
 Route::post("/purchasereturn", [App\Http\Controllers\PurchaseReturnController::class, 'store'])->name('prApi.store');
 Route::get("/purchasereturn/{pr_no}/show", [App\Http\Controllers\PurchaseReturnController::class, 'show'])->name('prApi.show');
 Route::post("/purchasereturn/{pr_no}/update", [App\Http\Controllers\PurchaseReturnController::class, 'update'])->name('prApi.update');
 Route::delete("/purchasereturn/{pr_no}/delete", [App\Http\Controllers\PurchaseReturnController::class, 'delete'])->name('prApi.delete');
-Route::get("/get_grn_details",[App\Http\Controllers\PurchaseReturnController::class,'get_grn_details'])->name('get_grn_details');
-// date filter
+Route::get("/get_grn_details", [App\Http\Controllers\PurchaseReturnController::class, 'get_grn_details'])->name('get_grn_details');
+Route::get("/grn_no",[App\Http\Controllers\PurchaseReturnController::class, 'grn_no'])->name('grn_no');// date filter
 Route::POST("/clientmaster_datesearch", [App\Http\Controllers\ClientMasterController::class, 'clientmaster_datesearch'])->name('clientmaster_datesearch');
 // Payroll
 Route::post("/payroll", [App\Http\Controllers\PayRollController::class, 'store'])->name('payrollApi.store');

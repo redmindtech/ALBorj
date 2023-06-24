@@ -266,7 +266,7 @@
                             <label for="total_price_cost" class="form-label fw-bold">Total Project Cost<a
                                     style="text-decoration: none;color:red">*</a></label>
                             <div class="input-group-prepend">
-                                <input type="number" id="total_price_cost" name="total_price_cost"
+                                <input type="number" readonly id="total_price_cost" name="total_price_cost"
                                     value="{{ old('total_price_cost') }}" placeholder="Total Project Cost"
                                     class="form-control" autocomplete="off">   
                                 <div class="input-group-append ml-1">
@@ -523,6 +523,7 @@
                 </tr>
             </tbody>
         </table>
+        <div id="item_details_show"></div>
         <br>
         <button type="button" id="print" class="btn btn-primary float-end">Print</button>
     
@@ -543,16 +544,16 @@
             <form  enctype="multipart/form-data" id="form1">
                 <div class="table-responsive">
                     <center>
-                        <table class="table table-bordered" style="width:79%">
+                        <table class="table table-bordered" style="width:100%">
                             <thead>
                                 <tr>
                                     <th class="text-center">S.No</th>
                                     <th class="text-center" style="width:35%">Item Name</th>
-                                    <th class="text-center" style="width:35%">Specification</th>
-                                    <th class="text-center" style="width:12%">Quantity</th>
-                                    <th class="text-center" style="width:12%">Unit</th>
-                                    <th class="text-center" style="width:12%">Rate Per Quantity</th>                           
-                                    <th class="text-center" style="width:15%">Amount</th>
+                                    <th class="text-center" style="width:25%">Specification</th>
+                                    <th class="text-center" style="width:10%">Quantity</th>
+                                    <th class="text-center" style="width:10%">Unit</th>
+                                    <th class="text-center" style="width:10%">Rate Per Quantity</th>                           
+                                    <th class="text-center" style="width:10%">Amount</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody">
@@ -601,7 +602,7 @@
         html += '<td>' + rowIdx + '</td>';
         html += '<td><div class="col-xs-12"><input type="text" id="item_name_' + rowIdx +
         '"  name="item_name[]" class="item_name form-control" placeholder="Item name"><input type="text"  name="item_no[]" id="item_no_' +
-        rowIdx + '" class="item_no_' + rowIdx + '"  placeholder=" Item no"></div></td>';
+        rowIdx + '" class="item_no_' + rowIdx + '" hidden  placeholder=" Item no"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" name="specification[]"  id="specification_' + rowIdx +
             '"name="specification[]" class="specification form-control"></div></td>';
         html += '<td><div class="col-xs-12"><input type="number" name="qty[]"  id="qty_' + rowIdx +
@@ -613,7 +614,7 @@
         // html += '<td><div class="col-xs-12"><input type="number" name="discount[]" id="discount_' + rowIdx +
         //     '"  name="discount[]" class="discount form-control"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" name="amount[]" id="amount_' + rowIdx +
-            '"  name="amount[]" class="amount form-control"></div></td>';
+            '"  name="amount[]" class="amount form-control" readonly></div></td>';
       
         // html += '<td id="tr_qty"><div class="col-xs-12"><input type="text" name="pending_qty[]" id="pending_qty_' + rowIdx +
         //     '"  name="pending_qty[]" class="pending_qty" ></div></td>';
@@ -632,7 +633,7 @@
     {
         // Getting all the rows next to the row containing the clicked button
         var child = $(this).closest('tr').nextAll();
-
+        
         // Iterating across all the rows obtained to change the index
         child.each(function() 
         {
@@ -657,6 +658,7 @@
 
         // Decreasing total number of rows by 1.
         rowIdx--;
+        calculateTotal();
     });
     $('#tbody').on('input', 'input[id^="qty_"], input[id^="rate_per_qty_"]', function() {
       var row = $(this).closest('tr');
@@ -755,7 +757,9 @@
                 function boq(){
                     alert('fff');
                     document.getElementById("dialog1").open = true;
+                    if($('#method').val() == 'ADD'){
                     add_text();
+                    }
                     window.scrollTo(0, 0);
                     // $('#method').val("ADD");
                     // $('#submit').text("ADD");
@@ -813,8 +817,44 @@
                 // DIALOG SUBMIT FOR ADD AND EDIT
                 function handleSubmit() {
     event.preventDefault();
+    var hasError = false;
+    $('.rowtr').each(function() {
+    // Get the row index
+    var rowIdx = $(this).attr('id').replace('row', '');
+
+    // Get the receiving quantity value for the current row
+    
+
+    // Get the item name value for the current row
+    var itemName = $('#item_name_' + rowIdx).val(); // Assuming it's an input field
+    var qty=$('#qty_' + rowIdx).val();
+    var rate_per_qty=$('#rate_per_qty_' + rowIdx).val();
+    
+    // Check if item name is null or empty
+    if (itemName === '') {
+        alert('Please enter an item name in row ' + rowIdx);
+        document.getElementById("dialog1").open = true;
+        hasError = true;
+        return false; // Exit the loop
+    }
+    if (qty === '') {
+        alert('Please enter quantity in row ' + rowIdx);
+        document.getElementById("dialog1").open = true;
+        hasError = true;
+        return false; // Exit the loop
+    }
+    if (rate_per_qty === '') {
+        alert('Please enter rate per qty in row ' + rowIdx);
+        document.getElementById("dialog1").open = true;
+        hasError = true;
+        return false; // Exit the loop
+    }
+});
+    if(!hasError) {
     var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
     if (hiddenErrorElements === 0) {
+        document.getElementById("dialog1").open = false;
+        event.preventDefault();
         let form_data = new FormData(document.getElementById('form'));
         let form_data1 = new FormData(document.getElementById('form1'));
         console.log(form_data1);
@@ -860,6 +900,7 @@
         });
     }
 }
+}
 
                 //DATA SHOW FOR EDIT AND SHOW
                 var currentProjectName;
@@ -875,23 +916,24 @@
                         cache: false,
                         processData: false,
                         success: function(message) {
+                            console.log(message);
                             if (action == 'edit') {
                                 $('#heading_name').text("Update Project Details").css('font-weight', 'bold');
                                 $('#show').css('display', 'none');
                                 $('#form').css('display', 'block');
                                 $('#blur-background').css('display', 'block');
 
-                                for (const [key, value] of Object.entries(message[0])) {
+                                for (const [key, value] of Object.entries(message.data[0])) {
                                     $(`#${key}`).val(value);
                                 }
                                 $('#amount_type').prop('checked', true);
-                                console.log(message[0].amount_type);
-                                if (message[0].amount_type == '0') {
+                                // console.log(message.data[0].amount_type);
+                                if (message.data[0].amount_type == '0') {
                                     $('#amount_type').val('0');
                                     $('#amount_type').prop('checked', false);
                                     $('.toggle').addClass('on').addClass('checked');
                                     $('.toggle .label').text('%');
-                                } else if (message[0].amount_type == '1') {
+                                } else if (message.data[0].amount_type == '1') {
                                     $('#amount_type').val('1');
                                     $('#amount_type').prop('checked', true);
                                     $('.toggle').removeClass('on').removeClass('checked');
@@ -899,23 +941,39 @@
                                 }
                                 //rentention
                                 $('#retention_type').prop('checked', true);
-                                console.log(message[0].retention_type);
-                                if (message[0].retention_type == '0') {
+                                // console.log(message.data[0].retention_type);
+                                if (message.data[0].retention_type == '0') {
                                     $('#retention_type').val('0');
                                     $('#retention_type').prop('checked', false);
                                     $('.toggle-retention').addClass('on').addClass('checked');
                                     $('.toggle-retention .label').text('%');
-                                } else if (message[0].retention_type == '1') {
+                                } else if (message.data[0].retention_type == '1') {
                                     $('#retention_type').val('1');
                                     $('#retention_type').prop('checked', true);
                                     $('.toggle-retention').removeClass('on').removeClass('checked');
                                     $('.toggle-retention .label').text('AED');
                                 }
-                                currentProjectName = message[0].project_name.toLowerCase().replace(/ /g, '');
+                                currentProjectName = message.data[0].project_name.toLowerCase().replace(/ /g, '');
+                               console.log( message.project_item_details[0]);
+                               var rowid=1;
+                    for (const item of message.project_item_details) 
+                    {
+                        console.log(item.total_quantity);
+                        add_text(); // add a new row to the table
+                        $('#item_name_' + rowid).val(item.item_name);
+                        $('#item_no_' + rowid).val(item.item_no);
+                        $('#specification_'+ rowid).text(item.specification);
+                        $('#qty_'+ rowid).val(item.qty);
+                        $('#unit_'+ rowid).val(item.unit);
+                        $('#rate_per_qty_'+ rowid).val(item.rate_per_qty);
+                        $('#amount_'+ rowid).val(item.amount);
+
+                        rowid++;
+                    }
                                 $('#method').val('UPDATE');
                                 $('#submit').text('UPDATE');
                             } else {
-                                for (let [key, value] of Object.entries(message[0])) {
+                                for (let [key, value] of Object.entries(message.data[0])) {
                                     if (key === "start_date" || key === "end_date" || key ===
                                         "actual_project_end_date" || key === "amount_return_date") {
                                         if (value == null) {
@@ -931,8 +989,25 @@
                                         }
                                     }
                                     $(`#show_${key}`).text(value);
+                                    
                                 }
-
+                                        let script = '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Specification</th><th>Quantity</th><th>Unit</th><th>Rate per Quantity</th><th>Amount</th></tr></thead><tbody>';
+                                        for (const item of message.project_item_details) {
+                                    script += '<tr>';
+                                    script += '<td>' + item.item_name + '</td>';
+                                    if(item.pack_specification == null){
+                                        item.pack_specification ='';}
+                                        
+                                    script += '<td>' + item.specification + '</td>';
+                                    script += '<td>' + item.qty+ '</td>';
+                                    script += '<td>' + item.unit+ '</td>';
+                                    script += '<td>' + item.rate_per_qty + '</td>';
+                                    script += '<td>' + item.amount + '</td>';
+                                    script += '</tr>';
+                                    }
+                                script+= '</tbody></table>';
+                                $('show_table').remove();
+                                $('#item_details_show').append(script);
                                 $('#heading_name').text("Project Details").css('font-weight', 'bold');
                                 $('#show').css('display', 'block');
                                 $('#form').css('display', 'none');
@@ -1218,7 +1293,12 @@
                         amount_return: {
 
                             number: true
-                        },
+                        }, 
+                        "item_name[]":
+                        {
+                            required: true,
+                            // ItemName: "Please enter a valid item name"
+                        }
                     },
                     messages: {
                         project_name: {
@@ -1266,7 +1346,12 @@
                         },
                         amount_return: {
                             number: "The amount return must be a number."
-                        },
+                        }, 
+                        "item_name[]":
+{
+    required: "Please enter the item name",
+    // ItemName: "Please enter a valid item name"
+},
                     },
                     errorElement: "error",
                     errorClass: "error-msg",
