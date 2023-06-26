@@ -488,7 +488,7 @@
             html +='<tr id="row'+rowIdx+'" class="rowtr">';
             html += '<td><center>'+rowIdx+'</center></td>';
             html += '<td><div class="col-xs-12"><input type="text" id="item_name_'+rowIdx+'"  name="item_name[]" autocomplete="off" class="item_name input-text form-control" placeholder="Start Typing Item name..."></div></td>';
-            html += '<td><div class="col-xs-12"><input type="text"  id="item_no_'+rowIdx+'"  name="item_no[]" class="item_no_'+rowIdx+'"></div></td>';
+            html += '<td hidden ><div class="col-xs-12"><input type="text"  id="item_no_'+rowIdx+'"  name="item_no[]" class="item_no_'+rowIdx+'"></div></td>';
             html += '<td><center><div class="col-xs-12" id="total_quantity_'+ rowIdx + '" ></div></center></td>';
             html += '<td><div class="col-xs-12"><input type="number" id="quantity_'+rowIdx+'"  name="quantity[]" class="quantity form-control"></div></td>';
             if(rowIdx != 1){
