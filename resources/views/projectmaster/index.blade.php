@@ -266,24 +266,22 @@
                             <label for="total_price_cost" class="form-label fw-bold">Total Project Cost<a
                                     style="text-decoration: none;color:red">*</a></label>
                             <div class="input-group-prepend">
-                                <input type="number" readonly id="total_price_cost" name="total_price_cost"
+                                <input type="number" readonly style="width: 175px;"id="total_price_cost" name="total_price_cost"
                                     value="{{ old('total_price_cost') }}" placeholder="Total Project Cost"
                                     class="form-control" autocomplete="off">   
-                                <div class="input-group-append ml-1">
-                                <a onclick="boq()"
-                                                class="btn btn-primary btn-circle btn-sm ">
-                                                BOQ
-                                            </a>
+                                <div class="input-group-append">                              
                                 <!-- <button type="button" class="btn btn-primary btn-sm" id="boq" onclick="boq()">BOQ</button> -->
                                     <select class="form-select input-group" id="currency" name="currency">                                   
                                         @foreach ($currency as $key => $value)
                                             <option value="{{ $key }}">{{ $value }}</option>
                                         @endforeach
                                     </select>
-                                </div>
-                              
-                            </div>
-                          
+                                    <a onclick="boq()"
+                                                class="btn btn-primary btn-circle btn-sm ">
+                                                BOQ
+                                            </a>  
+                                 </div>                              
+                            </div>                          
                         </div>
 
 
@@ -311,7 +309,7 @@
                                 <input type="number" id="retention" name="retention" value="{{ old('retention') }}"
                                     placeholder="Retention" class="form-control" autocomplete="off">
                                 <div class="input-group-append">
-                                    <div class="toggle-retention focus">
+                                    <div class="toggle-retention focus" style="margin-top:33% !important;">
                                         <input type="checkbox" class="st retention" name="retention_type"
                                             id="retention_type" value="1"
                                             {{ old('retention_type') ? 'checked' : '' }}>
@@ -530,6 +528,7 @@
     </div>
 </div>
 </dialog>
+<!-- BOQ popup -->
 <dialog id="dialog1">              
     <div class="card" id="show1" style="display:none">
         <div class="col-md-12" >
@@ -567,16 +566,14 @@
                         <button class="btn btn-md btn-primary" id="addBtn" type="button">Add Row</button>
                     </div>
                 </div>
-                <br>
-                <!-- <div style="text-align: center;">
-                    <button class="btn btn-md btn-primary" id="submitButton" type="submit">Submit</button>
-                </div> -->
+                
+                <div style="text-align: center;">
+                    <button class="btn btn-md btn-primary" id="submitButton" onclick="handlesubmit1()" type="submit">Submit</button>
+                </div>
             </form>
         </div>
     </div>
-</dialog>
-
-          
+</dialog>   
 
 
             <script type="text/javascript">
@@ -627,8 +624,11 @@
         $("#tbody").append(html);
         rowIdx++;
     }
+    // add row
     $('#addBtn').on('click', function() 
-    { add_text();});
+    { add_text();
+    });
+// delete row
     $('#tbody').on('click', '.remove', function() 
     {
         // Getting all the rows next to the row containing the clicked button
@@ -657,7 +657,7 @@
         $(this).closest('tr').remove();
 
         // Decreasing total number of rows by 1.
-        rowIdx--;
+        // rowIdx--;
         calculateTotal();
     });
     $('#tbody').on('input', 'input[id^="qty_"], input[id^="rate_per_qty_"]', function() {
@@ -666,11 +666,10 @@
       var rate = parseFloat(row.find('input[id^="rate_per_qty_"]').val()) || 0;
       var itemAmount = quantity * rate;
       row.find('input[id^="amount_"]').val(itemAmount);
-
       calculateTotal();
-    //   updateCalculation();
+    
     });
-
+// calculation
     function calculateTotal() {
       var total = 0;
       $("input[name='amount[]']").each(function() {
@@ -755,19 +754,21 @@
 
                 }
                 function boq(){
-                    alert('fff');
-                    document.getElementById("dialog1").open = true;
+                    // alert('fff');
                     if($('#method').val() == 'ADD'){
-                    add_text();
+                        document.getElementById("dialog1").open = true;
+                        var tbody = document.getElementById("tbody");
+                        if (tbody && tbody.childElementCount === 0) {
+                        document.getElementById("dialog1").open = true;
+                        add_text();
+                        }
+
                     }
-                    window.scrollTo(0, 0);
-                    // $('#method').val("ADD");
-                    // $('#submit').text("ADD");
-                    $('#heading_name').text("Add Project Details").css('font-weight', 'bold');
-                    // $('#project_code').hide();
-                    // $('#code_lable').hide();
-                    $('#show').css('display', 'none');
-                    // $('#form').css('display', 'none');
+                    else{
+                        document.getElementById("dialog1").open = true; 
+                    }
+                    window.scrollTo(0, 0);                    
+                    $('#show').css('display', 'none');                 
                     $('#show1').css('display', 'block');
                     $('#blur-background').css('display', 'block');  
                 }
@@ -790,6 +791,13 @@
                 function handleClose() {
                     document.getElementById("myDialog").open = false;
                     document.getElementById("dialog1").open = false;
+                    var tbody = document.getElementById("tbody");
+                        if (tbody) {
+                            while (tbody.firstChild) {
+                            tbody.firstChild.remove();
+                            }
+                        }                        
+                        rowIdx = 1;
                     // Clear the form fields
                     $('#form')[0].reset();
                     // Hide any error messages
@@ -801,106 +809,164 @@
                     $('#blur-background').css('display', 'none');
                 }
                 function handleClose1() {
-                    // document.getElementById("myDialog").open = false;
-                    document.getElementById("dialog1").open = false;
-                    // rowIdx = 0;
-                    // // Clear the form fields
-                    // $('#form')[0].reset();
-                    // // Hide any error messages
-                    // $('.error-msg').removeClass('error-msg');
-                    // $('.has-error').removeClass('has-error');
-                    // // Hide any error messages
-                    // $('error').html('');
-                    // // Hide the dialog background
-                    // $('#blur-background').css('display', 'none');
+                // Close the dialog
+                if($('#method').val() == 'ADD'){
+                    var tbody = document.getElementById("tbody");
+                        if (tbody) {
+                            while (tbody.firstChild) {
+                            tbody.firstChild.remove();
+                            }
+                        }
+                        rowIdx = 1;
+                        $('#total_price_cost').val("");
+                     document.getElementById("dialog1").open = false;
                 }
+                else{
+                document.getElementById("dialog1").open = false;
+                
+                }
+                }
+// In this code, after closing the dialog, we locate the tbody element using getElementById. Then, we retrieve all the rows with the class name "rowtr" using getElement
+                function handlesubmit1()
+                { 
+                    event.preventDefault();
+                     var hasError = false;
+                     var itemNames = [];
+                   $('.rowtr').each(function() {
+                    // Get the row index
+                    var rowIdx = $(this).attr('id').replace('row', '');
+                    // Get the item name value for the current row
+                    var itemName = $('#item_name_' + rowIdx).val(); // Assuming it's an input field
+                    var qty=$('#qty_' + rowIdx).val();
+                    var rate_per_qty=$('#rate_per_qty_' + rowIdx).val();    
+                    // Check if item name is null or empty
+                    if (itemName === '') {
+                        alert('Please enter an item name in row ' + rowIdx);
+                        document.getElementById("dialog1").open = true;
+                        hasError = true;
+                        return false; // Exit the loop
+                    }
+
+                    if (itemNames.includes(itemName)) {
+                        alert('Item name "' + itemName + '" already exists in another row.');
+                        document.getElementById("dialog1").open = true;
+                        hasError = true;
+                        return false; // Exit the loop
+                    }
+
+                    itemNames.push(itemName);
+                    if (qty === '') {
+                        alert('Please enter quantity in row ' + rowIdx);
+                        document.getElementById("dialog1").open = true;
+                        hasError = true;
+                        return false; // Exit the loop
+                    }
+                    if (!/^\d+(\.\d+)?$/.test(qty)) {
+                            alert('Quantity must be a valid number in row ' + rowIdx);
+                            document.getElementById("dialog1").open = true;
+                            hasError = true;
+                            return false; // Exit the loop
+                        }
+                    if (rate_per_qty === '') {
+                        alert('Please enter rate per qty in row ' + rowIdx);
+                        document.getElementById("dialog1").open = true;
+                        hasError = true;
+                        return false; // Exit the loop
+                    }
+                    if (!/^\d+(\.\d+)?$/.test(rate_per_qty)) {
+                            alert('Rate Per Qty must be a valid number in row ' + rowIdx);
+                            document.getElementById("dialog1").open = true;
+                            hasError = true;
+                            return false; // Exit the loop
+                        }
+                });
+                    if(!hasError) {
+                        document.getElementById("dialog1").open = false;
+                                }
+                 }
+
                 // DIALOG SUBMIT FOR ADD AND EDIT
                 function handleSubmit() {
-    event.preventDefault();
-    var hasError = false;
-    $('.rowtr').each(function() {
-    // Get the row index
-    var rowIdx = $(this).attr('id').replace('row', '');
+                    event.preventDefault();
+                    var hasError = false;
+                    $('.rowtr').each(function() {
+                    // Get the row index
+                    var rowIdx = $(this).attr('id').replace('row', '');
+                    // Get the item name value for the current row
+                    var itemName = $('#item_name_' + rowIdx).val(); // Assuming it's an input field
+                    var qty=$('#qty_' + rowIdx).val();
+                    var rate_per_qty=$('#rate_per_qty_' + rowIdx).val();    
+                    // Check if item name is null or empty
+                    if (itemName === '') {
+                        alert('Please enter an item name in row ' + rowIdx);
+                        document.getElementById("dialog1").open = true;
+                        hasError = true;
+                        return false; // Exit the loop
+                    }
+                    if (qty === '') {
+                        alert('Please enter quantity in row ' + rowIdx);
+                        document.getElementById("dialog1").open = true;
+                        hasError = true;
+                        return false; // Exit the loop
+                    }
+                    if (rate_per_qty === '') {
+                        alert('Please enter rate per qty in row ' + rowIdx);
+                        document.getElementById("dialog1").open = true;
+                        hasError = true;
+                        return false; // Exit the loop
+                    }
+                });
+                    if(!hasError) {
+                    var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
+                    if (hiddenErrorElements === 0) {
+                        document.getElementById("dialog1").open = false;
+                        event.preventDefault();
+                        let form_data = new FormData(document.getElementById('form'));
+                        let form_data1 = new FormData(document.getElementById('form1'));
+                        console.log(form_data1);
 
-    // Get the receiving quantity value for the current row
-    
+                        // Combine form data from both forms
+                        let combined_form_data = new FormData();
+                        for (var pair of form_data.entries()) {
+                            combined_form_data.append(pair[0], pair[1]);
+                        }
+                        for (var pair of form_data1.entries()) {
+                            combined_form_data.append(pair[0], pair[1]);
+                        }
+                        console.log(combined_form_data);
 
-    // Get the item name value for the current row
-    var itemName = $('#item_name_' + rowIdx).val(); // Assuming it's an input field
-    var qty=$('#qty_' + rowIdx).val();
-    var rate_per_qty=$('#rate_per_qty_' + rowIdx).val();
-    
-    // Check if item name is null or empty
-    if (itemName === '') {
-        alert('Please enter an item name in row ' + rowIdx);
-        document.getElementById("dialog1").open = true;
-        hasError = true;
-        return false; // Exit the loop
-    }
-    if (qty === '') {
-        alert('Please enter quantity in row ' + rowIdx);
-        document.getElementById("dialog1").open = true;
-        hasError = true;
-        return false; // Exit the loop
-    }
-    if (rate_per_qty === '') {
-        alert('Please enter rate per qty in row ' + rowIdx);
-        document.getElementById("dialog1").open = true;
-        hasError = true;
-        return false; // Exit the loop
-    }
-});
-    if(!hasError) {
-    var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
-    if (hiddenErrorElements === 0) {
-        document.getElementById("dialog1").open = false;
-        event.preventDefault();
-        let form_data = new FormData(document.getElementById('form'));
-        let form_data1 = new FormData(document.getElementById('form1'));
-        console.log(form_data1);
+                        let method = $('#method').val();
+                        let url;
+                        let type;
+                        if (method == 'ADD') {
+                            url = '{{ route('projectApi.store') }}';
+                            type = 'POST';
+                        } else {
+                            let id = $('#project_no').val();
+                            url = '{{ route('projectApi.update', ':project_no') }}';
+                            url = url.replace(':project_no', id);
+                            type = 'POST';
+                        }
 
-        // Combine form data from both forms
-        let combined_form_data = new FormData();
-        for (var pair of form_data.entries()) {
-            combined_form_data.append(pair[0], pair[1]);
-        }
-        for (var pair of form_data1.entries()) {
-            combined_form_data.append(pair[0], pair[1]);
-        }
-        console.log(combined_form_data);
-
-        let method = $('#method').val();
-        let url;
-        let type;
-        if (method == 'ADD') {
-            url = '{{ route('projectApi.store') }}';
-            type = 'POST';
-        } else {
-            let id = $('#project_no').val();
-            url = '{{ route('projectApi.update', ':project_no') }}';
-            url = url.replace(':project_no', id);
-            type = 'POST';
-        }
-
-        $.ajax({
-            url: url,
-            type: type,
-            data: combined_form_data,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function (message) {
-                alert(message);
-                window.location.reload();
-            },
-            error: function (message) {
-                var data = message.responseJSON;
-                // Handle error
-            }
-        });
-    }
-}
-}
+                        $.ajax({
+                            url: url,
+                            type: type,
+                            data: combined_form_data,
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            success: function (message) {
+                                alert(message);
+                                window.location.reload();
+                            },
+                            error: function (message) {
+                                var data = message.responseJSON;
+                                // Handle error
+                            }
+                        });
+                    }
+                }
+                }
 
                 //DATA SHOW FOR EDIT AND SHOW
                 var currentProjectName;
@@ -1334,7 +1400,7 @@
                         },
                         status: "Please select the project status",
                         total_price_cost: {
-                            required: "Please enter the total project cost",
+                            required: "Please enter the BOQ details",
                             number: "The total project cost must be a number."
                         },
                         advanced_amount: {

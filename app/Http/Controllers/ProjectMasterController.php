@@ -232,6 +232,7 @@ info($request);
         try
         {
             $site = ProjectMaster::findOrFail($project_no);
+            ProjectMasterItem::where('proj_no',$project_no)->delete();
             $site->delete();
             return response()->json('Project Details Deleted Successfully', 200);
 

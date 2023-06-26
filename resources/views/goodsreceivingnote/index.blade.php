@@ -370,7 +370,7 @@
 <script> 
 
 
-  $(document).ready(function() {
+//   $(document).ready(function() {
     // Toggle checkbox event
      
     $('.toggle input[type="checkbox"]').on('click', function() {
@@ -431,7 +431,7 @@
       $('#gross_amount').val(gross_amount.toFixed(2));
       $('.toggle .label').text(isChecked ? '%' : 'AED');
     }
-  });
+//   });
     // delete attachment
         document.getElementById("deleteButton").addEventListener("click", function() {
             if (confirm("Are you sure you want to delete this attachment?"))
@@ -442,27 +442,6 @@
             }
         });
 
-        // jQuery button click event to add a row
-        // $('#addBtn').on('click', function () {               
-        //    var row=rowIdx-1;
-        //                 if ($('#item_name_'+row).val() == '') {
-        //             alert("Please enter item name.");
-        //         } else if (!/^[a-zA-Z]+$/.test($('#item_name_'+row).val())) {
-        //             alert("Item name should only contain alphabets.");
-        //         } else if ($('#receiving_qty_'+row).val() == '') {
-        //             alert("Please enter receiving quantity.");
-        //         } else if (!/^\d+(\.\d+)?$/.test($('#receiving_qty_'+row).val())) {
-        //             alert("Receiving quantity should only contain numbers.");
-        //         } else if ($('#rate_per_qty_'+row).val() == '') {
-        //             alert("Please enter rate per quantity.");
-        //         } else if (!/^\d+(\.\d+)?$/.test($('#rate_per_qty_'+row).val())) {
-        //             alert("Rate per quantity should only contain numbers.");
-        //         } else{            
-
-        //    add_text();
-        //          }                               
-                 
-        //     });
             // delete row in dynamically created table
             $('#tbody1').on('click', '.remove', function() {
                                  // Getting all the rows next to the row containing the clicked button
@@ -488,9 +467,10 @@
 
                                  // Removing the current row.
                                  $(this).closest('tr').remove();
-
+                                 calculateTotal() ;
+                                 updateCalculation();
                                  // Decreasing total number of rows by 1.
-                                 rowIdx--;
+                                //  rowIdx--;
                              });
         
     // dynamic table creation
