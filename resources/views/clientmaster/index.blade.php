@@ -19,6 +19,9 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
                                 <h4 class="font-weight-bold text-dark py">CLIENT MASTER</h4>
+                            <!-- <label for="startDate">Start Date:</label> <input type="date" id="startDate">
+     <label for="endDate">End Date:</label> <input type="date" id="endDate"> -->
+    
                                 <div style="width:120px">
                                     <button type="button" class="btn btn-block btn-primary" onclick="handleDialog()">Add</button>
                                 </div>
@@ -37,7 +40,7 @@
                                             <th>Contact Number</th>
                                             <th>Address</th>
                                             <th>Website</th>
-                                            <th>date</th>
+                                            <th hidden>date</th>
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
@@ -48,13 +51,15 @@
                                         @foreach ($clients as $key => $client)
                                             <tr class="text-center">
                                                 <!-- <td>{{$client->client_no}}</td> -->
+                                               
                                                 <td>{{$client->client_code}}</td>
                                                 <td>{{$client->name}}</td>
                                                 <td>{{$client->company_name}}</td>
                                                 <td>{{$client->contact_number}}</td>
                                                 <td>{{$client->address}}</td>
                                                 <td>{{$client->website}}</td>
-                                                <td>{{ $client->created_at->format('Y-m-d') }}</td>
+                                                <td hidden>{{ $client->created_at->format('Y-m-d') }}</td>
+                                               
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$client->client_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >
@@ -489,7 +494,60 @@ $.validator.addMethod("alphanumeric_trn", function(value, element) {
       }
   };
 
+//   @php
+//     $currentUrl = url()->current();
+// @endphp
 
   $("#form").validate(formValidationConfig);
+//   $('#startDate, #endDate').on('change', function() {
+//         var startDate = $('#startDate').val();
+//         var endDate = $('#endDate').val();
+//         alert(startDate )
+//         alert(endDate);
+//         var currentUrl = "{{ $currentUrl }}";    
+//         console.log("Current URL: " + currentUrl);
+//         var lastSegment = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+//         console.log("Last Segment: " + lastSegment);
+//         var searchUrl = lastSegment + '_datesearch';
+// console.log("Search URL: " + searchUrl);
+// $.ajax({
+//     url: "{{ route('clientmaster_datesearch') }}",
+//     method: 'POST',
+//     data: {
+//         startDate: startDate,
+//         endDate: endDate
+//     },
+//     success: function(data) {
+//         console.log(data.clients);
+//         var tableBody = $('#myTable tbody');
+//         tableBody.empty(); // Clear existing table rows
+        
+//         // Append new table rows with the response data
+//         $.each(data.clients, function(index, client) {
+//             var row = $('<tr class="text-center">');
+//             row.append('<td>' + client.client_code + '</td>');
+//             row.append('<td>' + client.name + '</td>');
+//             row.append('<td>' + client.company_name + '</td>');
+//             row.append('<td>' + client.contact_number + '</td>');
+//             row.append('<td>' + client.address + '</td>');
+//             row.append('<td>' + client.website + '</td>');
+//             row.append('<td>' + client.created_at + '</td>');
+//             row.append('<td><a onclick="handleShowAndEdit(\'' + client.client_no + '\',\'show\')" class="btn btn-primary btn-circle btn-sm"><i class="fas fa-flag"></i></a></td>');
+//             row.append('<td><a onclick="handleShowAndEdit(\'' + client.client_no + '\',\'edit\')" class="btn btn-info btn-circle btn-sm mx-2"><i class="fas fa-check"></i></a></td>');
+//             row.append('<td><button type="submit" class="btn btn-sm btn-danger" onclick="handleDelete(\'' + client.client_no + '\')"><i class="fa fa-trash"></i></button></td>');
+            
+//             tableBody.append(row);
+//         });
+//     },
+//     error: function(xhr, textStatus, errorThrown) {
+//         // Handle any error that occurs during the AJAX request
+//     }
+// });
+
+
+
+//         // table.columns(0).search(startDate + '|' + endDate, true).draw();
+
+// });
 </script>
 @stop

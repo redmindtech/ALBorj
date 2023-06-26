@@ -58,9 +58,9 @@
 
 
 
-@php
+<!-- @php
     $currentUrl = url()->current();
-@endphp
+@endphp -->
 
  <!-- DATA TABLE FILTERS -->
  <script>
@@ -118,38 +118,87 @@
     table.buttons().container().appendTo('#myTable_wrapper .col-md-6:eq(0)');
 
     // Add date range filter
-//     $('<label for="startDate">Start Date:</label> <input type="date" id="startDate">').appendTo('#myTable_wrapper .col-md-6:eq(0)');
-//     $('<label for="endDate">End Date:</label> <input type="date" id="endDate">').appendTo('#myTable_wrapper .col-md-6:eq(0)');
-    
+    $('<label for="startDate">Start Date:</label> <input type="date" id="startDate">').appendTo('#myTable_wrapper .col-md-6:eq(0)');
+    $('<label for="endDate">End Date:</label> <input type="date" id="endDate">').appendTo('#myTable_wrapper .col-md-6:eq(0)');
+    $('#startDate, #endDate').on('change', function() {
+    var startDate = $('#startDate').val();
+    var endDate = $('#endDate').val();
+
+    $.fn.dataTable.ext.search.push(
+        function(settings, data, dataIndex) {
+            var currentDate = data[data.length - 4]; // Assuming the date column is at index 0
+            console.log(data.length-3 );
+            if (startDate && endDate) {
+                return (currentDate >= startDate && currentDate <= endDate);
+            } else if (startDate) {
+                return (currentDate >= startDate);
+            } else if (endDate) {
+                return (currentDate <= endDate);
+            }
+            
+            return true;
+        }
+    );
+
+    var table = $('#myTable').DataTable();
+    table.draw();
+
+    $.fn.dataTable.ext.search.pop();
+});
+
 //     $('#startDate, #endDate').on('change', function() {
 //         var startDate = $('#startDate').val();
 //         var endDate = $('#endDate').val();
-//         alert(startDate , endDate);
+//         alert(startDate) ;
+//         alert (endDate);
 //         var currentUrl = "{{ $currentUrl }}";    
 //         console.log("Current URL: " + currentUrl);
 //         var lastSegment = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
 //         console.log("Last Segment: " + lastSegment);
 //         var searchUrl = lastSegment + '_datesearch';
 // console.log("Search URL: " + searchUrl);
-        
-        // $.ajax({
-        //         url: "{{ route('clientmaster_datesearch') }}",
-        //         method: 'POST',
-        //         data: {
-        //             startDate: startDate,
-        //             endDate: endDate
-        //         },
-        //         success: function() {
-        //             console.log("fff");
-        //         },
-        //         error: function(xhr, textStatus, errorThrown) {
-        //             // Handle any error that occurs during the AJAX request
-        //         }
-        //     });
+// var startDate = $('#startDate').val();
+//     var endDate = $('#endDate').val();
 
+//     $.fn.dataTable.ext.search.push(
+//         function(settings, data, dataIndex) {
+//             var currentDate = data[0]; // Assuming the date column is at index 0
+            
+//             if (startDate && endDate) {
+//                 return (currentDate >= startDate && currentDate <= endDate);
+//             } else if (startDate) {
+//                 return (currentDate >= startDate);
+//             } else if (endDate) {
+//                 return (currentDate <= endDate);
+//             }
+            
+//             return true;
+//         }
+//     );
 
-        // table.columns(0).search(startDate + '|' + endDate, true).draw();
-    // });
+//     var table = $('#myTable').DataTable();
+//     table.draw();
+
+//     $.fn.dataTable.ext.search.pop();
+//         // $.ajax({
+//         //         url: "{{ route('clientmaster_datesearch') }}",
+//         //         method: 'POST',
+//         //         data: {
+//         //             startDate: startDate,
+//         //             endDate: endDate
+//         //         },
+//         //         success: function() {
+//         //           console.log('j');
+//         //         },
+//         //         error: function(xhr, textStatus, errorThrown) {
+//         //             // Handle any error that occurs during the AJAX request
+//         //         }
+//         //     });
+//         // table.columns(0).search('^' + startDate + '$', true, false).draw();
+//     // table.columns(0).search('^' + startDate + '|-' + endDate + '$', true, false).draw();
+
+//         //  table.columns(0).search(startDate + '|' + endDate, true).draw();
+//     });
 });
 
 

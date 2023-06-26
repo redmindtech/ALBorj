@@ -20,7 +20,7 @@ class ClientMasterController extends Controller
     {
         try {
             $emirates =SITELOCATION;
-            if ($request->session()->has('user')) {
+            if (session()->has('user')) {
             $clients = ClientMaster::all();
             $clientNames = $clients->pluck('name')->map(function ($name) {
                 return strtolower(str_replace(' ', '', $name));
@@ -199,12 +199,14 @@ public function update(Request $request, $client_no)
             return strtolower(str_replace(' ', '', $name));
         });
         $contact_number= $clients->pluck('contact_number');
-         return view('clientmaster.index')->with([
+         return response()->json([
             'clients' => $clients,
             'emirates'=> $emirates,
              'clientNames'=> $clientNames,
              'contact_number'=> $contact_number
-        ]);
+         ]);
+          
+       
     }
     catch (Exception $e) {
         info($e);
