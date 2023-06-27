@@ -40,7 +40,7 @@
                                             <th>Contact Number</th>
                                             <th>Address</th>
                                             <th>Website</th>
-                                            <th hidden>date</th>
+                                            <th>date</th>
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
@@ -58,7 +58,7 @@
                                                 <td>{{$client->contact_number}}</td>
                                                 <td>{{$client->address}}</td>
                                                 <td>{{$client->website}}</td>
-                                                <td hidden>{{ $client->created_at->format('Y-m-d') }}</td>
+                                                <td>{{ $client->created_at->format('Y-m-d') }}</td>
                                                
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$client->client_no}}','show')"
