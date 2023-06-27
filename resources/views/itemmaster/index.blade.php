@@ -32,6 +32,7 @@
                                     <th>Item Subcategory</th>
                                     <th>Item Type</th>
                                     <th>Item Quantity</th>
+                                    <th>Date</th>
                                     <th data-orderable="false" class="action notexport">Show</th>
                                     <th data-orderable="false" class="action notexport">Edit</th>
                                     <th data-orderable="false" class="action notexport">Delete</th>
@@ -52,6 +53,8 @@
 
                                         <td>{{ $item->item_type }}</td>
                                         <td>{{ $item->total_quantity }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($item->created_at)) }}</td>
+
 
                                         <td>
                                             <a onclick="handleShowAndEdit('{{ $item->id }}','show')"
@@ -121,7 +124,7 @@
                         </div>
                         </div>
                         <div class="row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label for="stock_type" class="form-label fw-bold">Stock Type<a
                                     style="text-decoration: none;color:red">*</a></label>
                             <select id="stock_type" name="stock_type" class="form-control form-select" autocomplete="off">
@@ -131,7 +134,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label for="item_type" class="form-label fw-bold">Item Type<a
                                     style="text-decoration: none;color:red">*</a></label>
                             <select id="item_type" name="item_type" class="form-control form-select" autocomplete="off">
@@ -140,6 +143,12 @@
                                     <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="item_unit" class="form-label fw-bold">Unit<a
+                                    style="text-decoration: none;color:red">*</a></label>
+                            <input type="text" id="item_unit" name="item_unit" value="{{ old('item_unit') }}"
+                                placeholder="Item Unit" class="form-control" autocomplete="off">
                         </div>
                     </div>
                     <div class="row">
@@ -161,6 +170,7 @@
                                 autocomplete="off">
                                 <div id="quantity-error" class="error-msg" style="display: none; color: red;"></div>
                         </div>
+                        
                         <div class="form-group col-md-4">
                             <label for="supplier_code" class="form-label fw-bold">Supplier Code</label>
                             <input type="text" id="code" name="code" value="{{ old('code') }}"
@@ -180,6 +190,8 @@
                 <tr>
                     <td><label>Item Name</label></td>
                     <td><p id="show_item_name"></p></td>
+                    <td><label>Item Unit</label></td>
+                    <td><p id="show_item_unit"></p></td>
                     <td><label>Item Category</label></td>
                     <td><p id="show_item_category"></p></td>
                     <td><label>Item Subcategory</label></td>
@@ -197,8 +209,10 @@
         </table>
         <div id="item_details_show"></div>
     </div>
+        
+    <button type="button" id="print" class="btn btn-primary float-end">Print</button>
 </div>
-        <button type="button" id="print" class="btn btn-primary float-end">Print</button>
+       
             </dialog>
             <script type="text/javascript">
                 $.ajaxSetup({
@@ -593,6 +607,7 @@ jQuery($ => {
                 required: true,
                 uniqueItemName:true
             },
+           item_unit:"required",
             item_category:"required",
             item_subcategory:"required",
             stock_type:"required",
@@ -608,6 +623,7 @@ jQuery($ => {
             required: "Please enter the item name",
             uniqueItemName: "This item name already exists. Please enter a different item name."
         },
+        item_unit:"Please enter the item unit",
         item_category: "Please select the item category",
         item_subcategory: "Please select the item subcategory",
         stock_type: "Please select the stock type",

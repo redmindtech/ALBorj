@@ -43,6 +43,7 @@ class ItemMasterController extends Controller
             });
             $items = DB::table('item_masters')
             ->get();
+            info($items);
 
                 // info($items);
                 return view('itemmaster.index')->with([

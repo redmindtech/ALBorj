@@ -728,7 +728,7 @@
                 if(daysDifference >= num)
                 {
                     console.log( 'hi');
-                    alert("not allowed");
+                    alert("Purchase return can be done only within 15 days of GRN date");
                     $('#submit').prop('disabled', true);
                 }
                 else

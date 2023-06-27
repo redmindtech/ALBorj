@@ -7,6 +7,7 @@ use App\Models\ClientMaster;
 use App\Models\EmployeeMaster;
 use App\Models\ItemMaster;
 use App\Models\ProjectMaster;
+use App\Models\ProjectMasterItem;
 use App\Models\PurchaseOrder;
 use App\Models\SiteMaster;
 use App\Models\SupplierMaster;
@@ -186,7 +187,6 @@ public function  getlocdata(){
 
   $projectname = $_GET['projectname'];
   $data = ProjectMaster::where('project_name','LIKE',$projectname.'%')->get();
-
   return $data;
 }
 // auto complete for itemmaster for supplier_name
@@ -350,4 +350,12 @@ info($empTimesheets);
         'data2' => $data2
     ]);
 }
+public function  get_project_boq(){
+
+    $projectname = $_GET['projectname'];
+    $dat = ProjectMaster::where('project_name','LIKE',$projectname.'%')->value('project_no');
+    $data = ProjectMasterItem::where('proj_nO',$dat)->get();
+    return response()->json([
+        'data' => $data,]);
+  }
 }

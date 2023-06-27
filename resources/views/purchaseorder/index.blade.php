@@ -693,6 +693,12 @@
 
         // Decreasing total number of rows by 1.
         rowIdx--;
+        calculateRowTotal();
+        calculateSubtotal();
+        calculateTotalAmount();
+        calculateTotalDiscount();
+        calculateVATAmount();
+        calculateGrandTotal();
     });
 
             // table body
@@ -1562,133 +1568,99 @@
         const discountInput = document.getElementById('discount');
         const totalAmountInput = document.getElementById('total_amount');
         const totalDiscountInput = document.getElementById('total_discount');
-                
-        discountToggle.addEventListener('change', function() 
+        const grandTotalInput = document.getElementById('gross_amount');
+        const vatAmountInput = document.getElementById('total_vat');
+        const miscExpensesInput = document.getElementById('misc_expenses');
+        const freightInput = document.getElementById('freight');
+
+        discountToggle.addEventListener('change', function()
         {
-            if (discountToggle.checked) 
-            {
+            if (discountToggle.checked) {
                 toggleSymbol.textContent = '%';
-            } 
-            else 
-            {
+            } else {
                 toggleSymbol.textContent = 'AED';
             }
-            // calculateTotalAmount();
-        });
-            // CALCULATION  START HEAR     
-        $(document).ready(function() 
-        {
-            const discountToggle = $('#discount-type');
-            const toggleSymbol = $('#toggle-symbol');
-            const discountInput = $('#discount');
-            const totalAmountInput = $('#total_amount');
-            const totalDiscountInput = $('#total_discount');
-            const grandTotalInput = $('#gross_amount');
-            const vatAmount = $('#total_vat');
-            const miscExpensesInput = $('#misc_expenses');
-            const freightInput = $('#freight');
-
-            // Trigger calculation on input change
-            $('#tbody').on('input', 'input[name^="qty"], input[name^="rate_per_qty"]', calculateRowTotal);
-            discountInput.on('input', calculateTotalAmount);
-            discountToggle.on('change', calculateTotalAmount);
-            $('input[name="vat"]').on('change', calculateVATAmount);
-            miscExpensesInput.on('input', calculateGrandTotal);
-            freightInput.on('input', calculateGrandTotal);
-                
-            // Row wise calculation 
-            function calculateRowTotal() 
-            {
-                var row = $(this).closest('tr');
-                var qty = parseInt(row.find('input[name^="qty"]').val()) || 0;
-                var ratePerQuantity = parseFloat(row.find('input[name^="rate_per_qty"]').val()) || 0;
-                var total = qty * ratePerQuantity;
-                row.find('input[name^="item_amount"]').val(total.toFixed(2));
-                calculateTotalAmount();
-            }
-              
-            // Calculate Total Amount
-            function calculateTotalAmount() 
-            {
-                const totalAmount = calculateSubtotal();
-                totalAmountInput.val(totalAmount.toFixed(2)); // Set the total_amount value
-                
-                calculateTotalDiscount(); // Calculate the total discount
-                calculateVATAmount(); // Calculate the VAT amount
-                calculateGrandTotal(); // Calculate the grand total
-            }
-                
-            function calculateSubtotal() 
-            {
-                var subtotal = 0;
-                $('#tbody tr').each(function() 
-                {
-                    var total = parseFloat($(this).find('input[name^="item_amount"]').val()) || 0;
-                    subtotal += total;
-                });
-                    return subtotal;
-            }
-                
-                    // function calculateTotalDiscount() {
-                    //     const totalAmount = parseFloat(totalAmountInput.val()) || 0;
-                    //     const discount = discountInput.val() ? parseFloat(discountInput.val()) : 0;
-                
-                    //     const discountAmount = (totalAmount * discount) / 100;
-                    //     totalDiscountInput.val(discountAmount.toFixed(2)); // Set the total discount value
-                    // }
-            function calculateTotalDiscount() 
-            {
-                const totalAmount = calculateSubtotal();
-                const discount = discountInput.val() ? parseFloat(discountInput.val()) : 0;
-                
-                if (discountToggle.is(':checked')) 
-                {
-                    const discountAmount = (totalAmount * discount) / 100;
-                    const discountPercentage = discount.toFixed(2); // Discount percentage
-                
-                    totalDiscountInput.val(discountAmount.toFixed(2)); // Set the total discount value
-                } 
-                else 
-                {
-                        const discountAmount = discountInput.val() ? parseFloat(discountInput.val()) : 0;
-                        const discountAmountAED = discountAmount.toFixed(2); // Discount amount in AED format
-                
-                        totalDiscountInput.val(discountAmountAED); // Set the total discount value
-                }
-                
-                    calculateGrandTotal(); // Recalculate the grand total
-                }
-                
-                // Calculate VAT Amount 
-            function calculateVATAmount() 
-            {
-                const totalAmount = parseFloat(totalAmountInput.val()) || 0;
-                const discount = parseFloat(totalDiscountInput.val()) || 0;
-                const vatRate = parseFloat($('input[name="vat"]:checked').val()) || 0;
-                
-                const vatAmount = (totalAmount - discount) * (vatRate / 100);
-                $('#total_vat').val(vatAmount.toFixed(2));
-                calculateGrandTotal();
-            }
-                
-                // Calculate Grand Total 
-            function calculateGrandTotal() 
-            {
-                const totalAmount = parseFloat(totalAmountInput.val()) || 0;
-                const totalDiscount = parseFloat(totalDiscountInput.val()) || 0;
-                const miscExpenses = parseFloat(miscExpensesInput.val()) || 0;
-                const freight = parseFloat(freightInput.val()) || 0;
-                const vatAmount = parseFloat($('#total_vat').val()) || 0;
-            
-                const grossAmount = totalAmount - totalDiscount + miscExpenses + freight + vatAmount ;
-                grandTotalInput.val(grossAmount.toFixed(2));
-                    // const grossAmount = totalAmount - totalDiscount + vatAmount;
-                    // grandTotalInput.val(grossAmount.toFixed(2));
-            }
-                
+            calculateTotalAmount();
         });
 
-                    
+        // Trigger calculation on input change
+        $('#tbody').on('input', 'input[name^="qty"], input[name^="rate_per_qty"]', calculateRowTotal);
+        discountInput.oninput = calculateTotalAmount;
+        discountToggle.addEventListener('change', calculateTotalAmount);
+        $('input[name="vat"]').on('change', calculateVATAmount);
+        miscExpensesInput.oninput = calculateGrandTotal;
+        freightInput.oninput = calculateGrandTotal;
+
+// Row wise calculation
+function calculateRowTotal() {
+    var row = $(this).closest('tr');
+    var qty = parseInt(row.find('input[name^="qty"]').val()) || 0;
+    var ratePerQuantity = parseFloat(row.find('input[name^="rate_per_qty"]').val()) || 0;
+    var total = qty * ratePerQuantity;
+    row.find('input[name^="item_amount"]').val(total.toFixed(2));
+    calculateTotalAmount();
+}
+
+// Calculate Total Amount
+function calculateTotalAmount() {
+    const totalAmount = calculateSubtotal();
+    totalAmountInput.value = totalAmount.toFixed(2); // Set the total_amount value
+
+    calculateTotalDiscount(); // Calculate the total discount
+    calculateVATAmount(); // Calculate the VAT amount
+    calculateGrandTotal(); // Calculate the grand total
+}
+
+function calculateSubtotal() {
+    var subtotal = 0;
+    $('#tbody tr').each(function() {
+        var total = parseFloat($(this).find('input[name^="item_amount"]').val()) || 0;
+        subtotal += total;
+    });
+    return subtotal;
+}
+
+function calculateTotalDiscount() {
+    const totalAmount = calculateSubtotal();
+    const discount = discountInput.value ? parseFloat(discountInput.value) : 0;
+
+    if (discountToggle.checked) {
+        const discountAmount = (totalAmount * discount) / 100;
+        const discountPercentage = discount.toFixed(2); // Discount percentage
+
+        totalDiscountInput.value = discountAmount.toFixed(2); // Set the total discount value
+    } else {
+        const discountAmount = discountInput.value ? parseFloat(discountInput.value) : 0;
+        const discountAmountAED = discountAmount.toFixed(2); // Discount amount in AED format
+
+        totalDiscountInput.value = discountAmountAED; // Set the total discount value
+    }
+
+    calculateGrandTotal(); // Recalculate the grand total
+}
+
+// Calculate VAT Amount
+function calculateVATAmount() {
+    const totalAmount = parseFloat(totalAmountInput.value) || 0;
+    const discount = parseFloat(totalDiscountInput.value) || 0;
+    const vatRate = parseFloat($('input[name="vat"]:checked').val()) || 0;
+
+    const vatAmount = (totalAmount - discount) * (vatRate / 100);
+    vatAmountInput.value = vatAmount.toFixed(2);
+    calculateGrandTotal();
+}
+
+// Calculate Grand Total
+function calculateGrandTotal() {
+    const totalAmount = parseFloat(totalAmountInput.value) || 0;
+    const totalDiscount = parseFloat(totalDiscountInput.value) || 0;
+    const miscExpenses = parseFloat(miscExpensesInput.value) || 0;
+    const freight = parseFloat(freightInput.value) || 0;
+    const vatAmount = parseFloat(vatAmountInput.value) || 0;
+
+    const grossAmount = totalAmount - totalDiscount + miscExpenses + freight + vatAmount;
+    grandTotalInput.value = grossAmount.toFixed(2);
+}
 </script>
                 
 @stop

@@ -76,3 +76,4 @@ Route::get('/', function () {
     Route::resource('purchasereturn', 'PurchaseReturnController');
     Route::resource('dashboard', 'DashboardController');
     Route::resource('payroll', 'PayRollController');
+    Route::resource('paymentreceivables', 'PaymentReceivablesController');

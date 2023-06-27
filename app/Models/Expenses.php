@@ -12,7 +12,7 @@ class Expenses extends Model
     use HasFactory;
 
     const REQUEST_INPUTS = ['exp_code','bill_no','bill_date','employee_no','project_no','supplier_no',
-                    'exp_category_no','source', 'bill_amount', 'vat','total_amount', 'attachment','description'];
+                    'exp_category_no','source', 'bill_amount', 'vat','total_amount', 'attachment','description','cheque_date','cheque_no','filename','deleted'];
                                 
 
     protected $table ='expenses';
@@ -20,7 +20,7 @@ class Expenses extends Model
     protected $primaryKey='exp_no  ';
 
     protected $fillable = ['exp_code','bill_no','bill_date','employee_no','project_no','supplier_no',
-                    'exp_category_no','source', 'bill_amount', 'vat','total_amount', 'attachment','description'];
+                    'exp_category_no','source', 'bill_amount', 'vat','total_amount', 'attachment','description','cheque_date','cheque_no','filename','deleted'];
                                 
                                   
 
@@ -32,6 +32,7 @@ class Expenses extends Model
             $currentYear = substr(date('Y'), -2);
             $voucher_no = str_pad($results, 3, '0', STR_PAD_LEFT);
             $expense->exp_code = 'AB' .  $currentYear.'AP'. $voucher_no;
+            $expense->deleted ='0';
         });
     }
 

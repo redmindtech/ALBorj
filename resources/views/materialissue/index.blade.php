@@ -580,9 +580,7 @@ if(rowIdx!=1){
 
                                     rowid++;
                                 }
-
-
-
+                                $('#heading_name').text("Update Material issue/return Details").css('font-weight', 'bold');
                                  $('#method').val('UPDATE');
                                  $('#submit').text('UPDATE');
                              } else {
@@ -759,6 +757,43 @@ if(rowIdx!=1){
                 });
             });
                   //mr no
+                  jQuery($ => 
+                    {
+                        $(document).on('focus click', $("#mr_reference_code"), function() 
+                        {
+                            $("#mr_reference_code").autocomplete(
+                            {
+                                source: function(request, response) 
+                                {
+                                    $.ajax(
+                                    {
+                                        type: "GET",
+                                        url: "{{ route('getmrcode') }}",
+                                        dataType: "json",
+                                        data: 
+                                        {
+                                            'mrcode': $("#mr_reference_code").val()
+                                        },
+                                        success: function(data) 
+                                        {
+
+                                            result = [];
+                                            for (var i in data) 
+                                            {
+                                                result.push(data[i]["mr_reference_code"]);
+                                            }
+                                            response(result);
+                                        },
+                                        fail: function(xhr, textStatus, errorThrown) 
+                                        {
+                                            alert(errorThrown);
+                                        }
+                                    });
+                                },
+                            });
+                        });
+                    });
+
                 $("#mr_reference_code").on('change', function() {
                     var code = $(this).val();
 

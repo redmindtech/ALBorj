@@ -43,7 +43,8 @@ class ProjectMasterController extends Controller
             ->join('client_masters', 'project_masters.client_no', '=', 'client_masters.client_no')
             ->select('site_masters.*', 'employee_masters.*', 'client_masters.*', 'project_masters.*',
             DB::raw('DATE(project_masters.start_date) as start_date'),
-            DB::raw('DATE(project_masters.actual_project_end_date) as actual_project_end_date'))
+            DB::raw('DATE(project_masters.actual_project_end_date) as actual_project_end_date'),
+            DB::raw('DATE(project_masters.created_at) as date'))
             ->get();
             return view('projectmaster.index')->with([
                 'projectmasters' => $projectmaster,

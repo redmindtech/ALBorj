@@ -30,7 +30,8 @@
                                             <th>Site location</th>                                          
                                             <th>Site Manager</th>  
                                             <th>Status</th>  
-                                            <th>Site Address</th>                                            
+                                            <th>Site Address</th>  
+                                            <th>Date</th>                                            
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" clclass="action notexport">Delete</th>
@@ -47,6 +48,7 @@
                                                 <td>{{$sitemaster->firstname}}</td>
                                                 <td>{{$sitemaster->site_status}}</td>
                                                 <td>{{$sitemaster->site_address}}</td>
+                                                <td>{{ date('d-m-Y', strtotime($sitemaster->date)) }}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$sitemaster->site_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >

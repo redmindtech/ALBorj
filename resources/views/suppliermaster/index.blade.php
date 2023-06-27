@@ -34,6 +34,7 @@
                                             <th>Address</th>
                                             <th>Website</th>
                                             <th>Email Id</th>
+                                            <th>Date</th>
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false" class="action notexport">Delete</th>
@@ -50,6 +51,7 @@
                                                 <td>{{$supplier->address}}</td>
                                                 <td>{{$supplier->website}}</td>
                                                 <td>{{$supplier->mail_id}}</td>
+                                                <td>{{ date('d-m-Y', strtotime($supplier->created_at)) }}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$supplier->supplier_no}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >

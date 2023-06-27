@@ -27,8 +27,9 @@
                                         <tr class="text-center">
                                             <!-- <th>ID</th> -->
                                              <th>S.No</th>
-                                            <th>Category Name</th>
+                                            <th>Category Name</th>                                            
                                             <th>Description</th>
+                                            <th>Date</th>
                                             <th data-orderable="false" class="action notexport">Show</th>
                                             <th data-orderable="false" class="action notexport">Edit</th>
                                             <th data-orderable="false"class="action notexport">Delete</th>
@@ -42,6 +43,7 @@
                                                 <td>{{ $key += 1 }}</td>
                                                 <td>{{$expense->category_name}}</td>
                                                 <td>{{$expense->category_description}}</td>
+                                                <td>{{ date('d-m-Y', strtotime($expense->created_at)) }}</td>
                                                 <td>
                                                     <a  onclick="handleShowAndEdit('{{$expense->id}}','show')"
                                                         class="btn btn-primary btn-circle btn-sm"   >

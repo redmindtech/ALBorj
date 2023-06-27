@@ -34,7 +34,7 @@ class SiteMasterController extends Controller
             $site_status = SITESTATUS;    
             $sitemaster = DB::table('site_masters')
             ->join('employee_masters', 'site_masters.site_manager', '=', 'employee_masters.id')
-            ->select('site_masters.*', 'employee_masters.firstname')            
+            ->select('site_masters.*', 'employee_masters.firstname', DB::raw('DATE(site_masters.created_at) as date'))            
             ->get();    
            
             return view('sitemaster.index')->with([

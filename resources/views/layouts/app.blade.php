@@ -118,16 +118,15 @@
     table.buttons().container().appendTo('#myTable_wrapper .col-md-6:eq(0)');
 
     // Add date range filter
-    $('<label for="startDate">Start Date:</label> <input type="date" id="startDate">').appendTo('#myTable_wrapper .col-md-6:eq(0)');
-    $('<label for="endDate">End Date:</label> <input type="date" id="endDate">').appendTo('#myTable_wrapper .col-md-6:eq(0)');
+    $('<div class="d-flex justify-content-around ml-2 mr-2"><div class="d-flex flex-row"><label class="form-control" for="startDate">Start Date:</label> <input class="form-control" type="date" id="startDate"></div><div class="d-flex flex-row"><label class="form-control" for="endDate">End Date:</label> <input class="form-control" type="date" id="endDate"></div></div>').appendTo('#myTable_wrapper .col-md-6:eq(0) .dt-buttons:eq(0)');
     $('#startDate, #endDate').on('change', function() {
-    var startDate = $('#startDate').val();
-    var endDate = $('#endDate').val();
+    var startDate = moment($('#startDate').val()).format('DD-MM-YYYY');
+    
+    var endDate = moment($('#endDate').val()).format('DD-MM-YYYY');
 
     $.fn.dataTable.ext.search.push(
         function(settings, data, dataIndex) {
-            var currentDate = data[data.length - 4]; // Assuming the date column is at index 0
-            console.log(data.length-3 );
+            var currentDate = data[data.length - 4];           
             if (startDate && endDate) {
                 return (currentDate >= startDate && currentDate <= endDate);
             } else if (startDate) {
@@ -145,6 +144,20 @@
 
     $.fn.dataTable.ext.search.pop();
 });
+//date filter alignment above table
+$(document).ready(function() {
+        // Identify the target div
+        var $targetDiv1 = $('#myTable_wrapper .row:eq(0) .col-sm-12');  
+        // Remove the old class name
+        $targetDiv1.removeClass('col-sm-12 col-md-6');
+        
+        // Identify the target div
+        var $targetDiv2 = $('#myTable_wrapper .row:eq(0)');
+        // Remove the old class name
+        $targetDiv2.removeClass('row');
+        // Add the new class name
+        $targetDiv2.addClass('d-flex justify-content-between');
+    });
 
 //     $('#startDate, #endDate').on('change', function() {
 //         var startDate = $('#startDate').val();

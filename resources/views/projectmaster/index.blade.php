@@ -48,6 +48,7 @@
                                     <th>Approved Variation Cost </th>
                                     <th>Advance Variation Amount</th>
                                     <th>Retention Variation Amount</th>
+                                    <th>Date</th>
                                     <th data-orderable="false" class="action notexport">Show</th>
                                     <th data-orderable="false" class="action notexport">Edit</th>
                                     <th data-orderable="false" class="action notexport">Delete</th>
@@ -75,6 +76,7 @@
                                         <td>{{$projectmaster->Approved_Variation_Cost}} </td>
                                         <td>{{$projectmaster->Advance_Variation_Amount}}</td>
                                         <td>{{$projectmaster->Retention_Variation_Amount}}</td>
+                                        <td>{{ date('d-m-Y', strtotime($projectmaster->created_at)) }}</td>
 
                                         <td>
                                             <a onclick="handleShowAndEdit('{{ $projectmaster->project_no }}','show')"

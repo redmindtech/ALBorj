@@ -40,6 +40,8 @@
                                     <th>Account Number</th>
                                     <th>Name of the Bank</th>
                                     <th>WPS</th>
+                                    <th>Date</th>
+                                    
                                     <th data-orderable="false" class="action notexport">Show</th>
                                     <th data-orderable="false"class="action notexport">Edit</th>
                                     <th data-orderable="false" class="action notexport">Delete</th>
@@ -64,6 +66,7 @@
                                         <td>{{$employe->account_no}}</td>
                                         <td>{{$employe->bank_name}}</td>
                                         <td>{{$employe->wps}}</td>
+                                        <td>{{ date('d-m-Y', strtotime($employe->created_at)) }}</td>
                                         <td>
                                             <a onclick="handleShowAndEdit('{{ $employe->id }}','show')"
                                                 class="btn btn-primary btn-circle btn-sm">

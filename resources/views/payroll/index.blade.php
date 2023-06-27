@@ -98,7 +98,7 @@
                             <label for="employee_name" class="form-label fw-bold">Employee Name<a
                                     style="text-decoration: none;color:red">*</a></label>
                             <input type="text" id="firstname" name="firstname" value="{{ old('firstname') }}"
-                                placeholder="Manager Name" class="form-control" autocomplete="off">
+                                placeholder="Employee Name" class="form-control" autocomplete="off">
                             <input type="text" id="employee_id" name="employee_id" hidden
                                 value="{{ old('employee_id') }}" class="form-control employee_id" autocomplete="off">
                             <p style="color: red" id="error_firstname"></p>
@@ -222,15 +222,15 @@
                                         <div class="form-group col-md-6">
                                             <label for="medical" class="form-label fw-bold">Medical Allowance<a
                                                     style="text-decoration: none;color:red">*</a></label>
-                                            <input type="text" id="medical" name="medical"
+                                            <input type="number" id="medical" name="medical"
                                                 value="{{ old('medical') }}" placeholder="Medical Allowance"
                                                 class="form-control medical" autocomplete="off">
                                             <p style="color: red" id="error_medical"></p>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="special" class="form-label fw-bold">Special Allowance<a
+                                            <label for="" class="form-label fw-bold">Special Allowance<a
                                                     style="text-decoration: none;color:red">*</a></label>
-                                            <input type="text" id="special" name="special"
+                                            <input type="number" id="special" name="special"
                                                 value="{{ old('special') }}" placeholder="Special Allowance"
                                                 class="form-control special" autocomplete="off">
                                             <p style="color: red" id="error_special"></p>
@@ -241,7 +241,7 @@
                                         <div class="form-group col-md-6">
                                             <label for="conveyance" class="form-label fw-bold">Conveyance Allowance<a
                                                     style="text-decoration: none;color:red">*</a></label>
-                                            <input type="text" id="conveyance" name="conveyance"
+                                            <input type="number" id="conveyance" name="conveyance"
                                                 value="{{ old('conveyance') }}" placeholder="Conveyance Allowance"
                                                 class="form-control conveyance" autocomplete="off">
                                             <p style="color: red" id="error_conveyance"></p>
@@ -885,8 +885,8 @@ $(document).on('input', '#employee_id, #month, #year, .medical, .special, .conve
                         }
                     });
                 });
-                // Initialize form validation
-                var project_name = @json($project_name);
+              // Initialize form validation
+              var project_name = @json($project_name);
                 var employee = @json($employee);
                 $.validator.addMethod("employeeNameCheck", function(value, element) {
                     return employee.includes(value);
@@ -910,16 +910,12 @@ $(document).on('input', '#employee_id, #month, #year, .medical, .special, .conve
                             required: true,
                             projectNameCheck: true
                         },
-                        lop_days: "required",
-                        worked_days: "required",
-                        ot_hours: "required",
                         conveyance: "required",
                         medical: "required",
                         special: "required",
-                        ot: "required",
-                        netpay: "required",
                         payment_mode: "required",
                         total_payable: "required",
+                        "deduction[]":{required:true}
                     },
                     messages: {
                         firstname: {
@@ -932,16 +928,14 @@ $(document).on('input', '#employee_id, #month, #year, .medical, .special, .conve
                             required: "Please enter the project name",
                             projectNameCheck: "Please enter a valid Project Name. "
                         },
-                        lop_days: "Please enter the LOP Days",
-                        worked_days: "Please enter the Worked Days",
-                        ot_hours: "Please enter the OT Hours",
                         conveyance: "Please enter the Convenance Allowance",
                         medical: "Please enter the Medical Allowance",
                         special: "Please enter the Special Allowance",
-                        ot: "Please enter the OT",
-                        netpay: "Please enter the Net Pay",
                         payment_mode: "Please select payment mode",
                         total_payable: "Please enter the Total Pay",
+                        "deduction[]":{
+                            required:"Please Enter the deduction"
+                        }
 
                     },
                     errorElement: "error",
