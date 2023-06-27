@@ -263,7 +263,7 @@ return [
                     'icon' => 'nav-icon fas fa-fw fa-tag',
                 ],
                 [
-                    'text' => 'Daily Expenses-Payment Voucher',
+                    'text' => 'Daily Expenses',
                     'url'  => 'expenses',
                     'icon' => 'nav-icon fas fa-fw fa-shopping-bag',
                 ],
@@ -287,7 +287,7 @@ return [
 
                 ],
                 [
-                    'text' => 'Payroll Option-Salary Employee Wise',
+                    'text' => 'Employee Payroll',
                     'url'  => 'payroll',
                     'icon' => 'nav-icon fas fa-money-bill',
 
