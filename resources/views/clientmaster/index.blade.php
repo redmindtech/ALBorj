@@ -493,61 +493,9 @@ $.validator.addMethod("alphanumeric_trn", function(value, element) {
 
       }
   };
-
-//   @php
-//     $currentUrl = url()->current();
-// @endphp
-
   $("#form").validate(formValidationConfig);
-//   $('#startDate, #endDate').on('change', function() {
-//         var startDate = $('#startDate').val();
-//         var endDate = $('#endDate').val();
-//         alert(startDate )
-//         alert(endDate);
-//         var currentUrl = "{{ $currentUrl }}";    
-//         console.log("Current URL: " + currentUrl);
-//         var lastSegment = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
-//         console.log("Last Segment: " + lastSegment);
-//         var searchUrl = lastSegment + '_datesearch';
-// console.log("Search URL: " + searchUrl);
-// $.ajax({
-//     url: "{{ route('clientmaster_datesearch') }}",
-//     method: 'POST',
-//     data: {
-//         startDate: startDate,
-//         endDate: endDate
-//     },
-//     success: function(data) {
-//         console.log(data.clients);
-//         var tableBody = $('#myTable tbody');
-//         tableBody.empty(); // Clear existing table rows
-        
-//         // Append new table rows with the response data
-//         $.each(data.clients, function(index, client) {
-//             var row = $('<tr class="text-center">');
-//             row.append('<td>' + client.client_code + '</td>');
-//             row.append('<td>' + client.name + '</td>');
-//             row.append('<td>' + client.company_name + '</td>');
-//             row.append('<td>' + client.contact_number + '</td>');
-//             row.append('<td>' + client.address + '</td>');
-//             row.append('<td>' + client.website + '</td>');
-//             row.append('<td>' + client.created_at + '</td>');
-//             row.append('<td><a onclick="handleShowAndEdit(\'' + client.client_no + '\',\'show\')" class="btn btn-primary btn-circle btn-sm"><i class="fas fa-flag"></i></a></td>');
-//             row.append('<td><a onclick="handleShowAndEdit(\'' + client.client_no + '\',\'edit\')" class="btn btn-info btn-circle btn-sm mx-2"><i class="fas fa-check"></i></a></td>');
-//             row.append('<td><button type="submit" class="btn btn-sm btn-danger" onclick="handleDelete(\'' + client.client_no + '\')"><i class="fa fa-trash"></i></button></td>');
-            
-//             tableBody.append(row);
-//         });
-//     },
-//     error: function(xhr, textStatus, errorThrown) {
-//         // Handle any error that occurs during the AJAX request
-//     }
-// });
 
 
 
-//         // table.columns(0).search(startDate + '|' + endDate, true).draw();
-
-// });
 </script>
 @stop
