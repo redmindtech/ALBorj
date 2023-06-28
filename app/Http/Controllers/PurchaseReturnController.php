@@ -85,7 +85,7 @@ class PurchaseReturnController extends Controller
 
                $grn_items = DB::table('goods_received_note_item')
                    ->join('item_masters', 'goods_received_note_item.item_no', '=', 'item_masters.id')
-                   ->select('goods_received_note_item.*', 'item_masters.item_name')
+                   ->select('goods_received_note_item.*', 'item_masters.item_name','item_masters.item_unit')
                    ->where('grn_no', $grn_no)
                    ->get();
 

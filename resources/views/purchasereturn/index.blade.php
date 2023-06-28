@@ -95,7 +95,7 @@
 
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="project_name" class="form-label fw-bold">Project Nam</label>
+                        <label for="project_name" class="form-label fw-bold">Project Name</label>
                         <input type="text" id="project_name" readonly name="project_name"  value="{{ old('project_name') }}" placeholder="Project Name" class="form-control" autocomplete="off">
                         <input type="text" id="project_no" name="project_no" hidden value="{{ old('project_no') }}"  class="form-control" autocomplete="off">
 
@@ -135,7 +135,7 @@
                         <input type="text" readonly id="grn_date" name="grn_date"  value="{{ old('grn_date') }}" placeholder="Grn Date" class="form-control" autocomplete="off">
                     </div>
                     <div class="form-group col-md-4">
-                        <label for="date" class="form-label fw-bold">Date<a style="text-decoration: none;color:red">*</a></label>
+                        <label for="date" class="form-label fw-bold">Return Date<a style="text-decoration: none;color:red">*</a></label>
                         <input type="date" id="date" name="date"  value="{{ old('date') }}" placeholder="Purchase Date" class="form-control" autocomplete="off">
                     </div>
 
@@ -146,19 +146,20 @@
                 </div>
                 <div class="container pt-4">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="register">
+                    <table class="table table-bordered" id="register">
                             <thead>
                                 <tr>
-                                    <th>S.No</th>
+                                    <th style="width:1%">S.No</th>
                                     <th style="width:15%">Item Name</th>
                                     <th hidden>item_id</th>
-                                    <th >Pack Specification</th>
-                                    <th>Qty</th>
-                                    <th>Received Qty</th>
-                                    <th>Return Qty</th>
-                                    <th>Rate per Qty</th>
-                                    <th>Total</th>
-                                    <th>Delete</th>
+                                    <th style="width:5%">Pack Specification</th>
+                                    <th style="width:5%">Qty</th>
+                                    <th style="width:5%">Received Qty</th>
+                                    <th style="width:5%">Return Qty</th>
+                                    <th style="width:5%">Rate per Qty</th>
+                                    <th style="width:2%">unit</th>
+                                    <th style="width:5%">Total</th>
+                                    <th style="width:0.5%">Delete</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody1">
@@ -302,10 +303,11 @@
         html += '<td><div class="col-xs-12" ><input type="text"  id="item_name_' +rowIdx+'"  name="item_name[]" class="item_name form-control" placeholder="Item name"></div></td>';
         html += '<td hidden ><div class="col-xs-12"><input type="text"  id="item_no_'+rowIdx+'"  name="item_no[]" class="item_no_'+rowIdx+'"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="pack_specification_'+rowIdx+'"  name="pack_specification[]" class="pack_specification form-control"></div></td>';
-        html += '<td><div class="col-xs-12"><input type="text" id="quantity_'+rowIdx+'" name="quantity[]" class="quantity form-control"></div></td>';
-        html += '<td><div class="col-xs-12"><input type="text" id="receiving_qty_'+rowIdx+'" name="receiving_qty[]" class="receiving_qty form-control"></div></td>';
+        html += '<td><div class="col-xs-12"><input type="text" id="quantity_'+rowIdx+'" name="quantity[]" class="quantity form-control" readonly></div></td>';
+        html += '<td><div class="col-xs-12"><input type="text" id="receiving_qty_'+rowIdx+'" name="receiving_qty[]" class="receiving_qty form-control" readonly></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="return_qty_'+rowIdx+'" name="return_qty[]" class="return_qty form-control"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="rate_per_qty_'+rowIdx+'"  name="rate_per_qty[]"class="rate_per_qty form-control"></div></td>';
+        html += '<td><center><div class="col-xs-12" id="item_unit_'+ rowIdx + '" ></div></center>';
         html += '<td><div class="col-xs-12"><input type="text"  id="item_amount_'+rowIdx+'"name="item_amount[]" class="item_amount form-control"></div></td>';
         html += '<td><button class="btn btn-danger remove  btn-sm" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
         html += '</tr>';
@@ -584,6 +586,7 @@
                             $('#receiving_qty_'+create_id).val(item.receiving_qty);
                             $('#return_qty_'+create_id).val(item.return_qty);
                             $('#rate_per_qty_'+create_id).val(item.rate_per_qty);
+                            $('#item_unit_'+create_id).text(item.item_unit);
                             $('#item_amount_'+create_id).val(item.item_amount);
                             totalitem += parseFloat(item.item_amount);
                             create_id++;
@@ -619,15 +622,16 @@
 
                     }
                     let script =
-                        '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Pack Specification</th><th>Qty</th><th>Received Qty</th><th>Return Qty</th><th>Rate per Qty</th><th>Total</th></tr></thead><tbody>';
+                    '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Pack Specification</th><th>Qty</th><th>Received Qty</th><th>Return Qty</th><th>Rate per Qty</th><th>Unit</th><th>Total</th></tr></thead><tbody>';
                     for (const item of message.pr_item) {
                         script += '<tr>';
                         script += '<td>' + item.item_name + '</td>';
-                        script += '<td>' + item.pack_specification + '</td>';
+                        script += '<td style="text-align: center;">' + (item.pack_specification || '-') + '</td>';
                         script += '<td>' + item.quantity + '</td>';
                         script += '<td>' + item.receiving_qty+ '</td>';
                         script += '<td>' + item.return_qty +'</td>';
                         script += '<td>' + item.rate_per_qty + '</td>';
+                        script += '<td>' + item.item_unit + '</td>';
                         script += '<td >' + item.item_amount + '</td>';
 
                         script += '</tr>';
@@ -746,6 +750,7 @@
                         $('#quantity_'+create_id).val(item.quantity);
                         $('#receiving_qty_'+create_id).val(item.receiving_qty);
                         $('#rate_per_qty_'+create_id).val(item.rate_per_qty);
+                        $('#item_unit_'+ create_id).text(item.item_unit);
                         create_id++;
                     }
 

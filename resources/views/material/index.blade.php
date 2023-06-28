@@ -134,14 +134,17 @@
                     <!-- inline table head -->
                     <div class="container pt-4">
                         <div class="table-responsive">
-                            <center><table class="table table-bordered" id="register" style="width: 85%;">
+                        <center>
+                            <table class="table table-bordered" id="register" style="width: 79%;">
                                 <thead>
                                     <tr>
                                         <th class="text-center">S.No</th>
-                                        <th class="text-center" style="width: 75%;">Item Name</th>
+                                        <th class="text-center" style="width: 35%;">Item Name</th>
                                         <th hidden>item_id</th>
+                                        <th  class="text-center" style="width: 15%;">Specification</th>
                                         <th class="text-center" style="width: 12%;">Item Stock</th>
-                                        <th class="text-center" style="width: 13%;">Quantity</th>
+                                        <th class="text-center" style="width: 13%;">Qty</th>
+                                        <th class="text-center" style="width: 12%;">Unit</th>
                                         <th class="text-center"></th>
 
                                     </tr>
@@ -149,7 +152,8 @@
                                 <tbody id="tbodyMI">
 
                                 </tbody>
-                            </table></center>
+                            </table>
+                        </center>
                         </div>
                         <div style="margin-top:8px">
                             <button class="btn btn-md btn-primary" id="addBtn" type="button">
@@ -413,8 +417,10 @@
                         add_text(); // add a new row to the table
                         $('#item_name_' + rowid).val(item.item_name);
                         $('#item_no_' + rowid).val(item.item_no);
+                        $('#specification_'+ rowid).val(item.specification);
                         $('#total_quantity_'+ rowid).text(item.total_quantity);
                         $('#quantity_'+ rowid).val(item.quantity);
+                        $('#item_unit_' + rowid).text(item.item_unit);
                         rowid++;
                     }
                         $('#method').val('UPDATE');
@@ -441,13 +447,16 @@
                             }
                             $(`#show_${key}`).text(value);
                         }
-                        let script = '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Item Stock</th><th>Quantity</th></tr></thead><tbody>';
+                        let script = '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th>Specification<th></th><th>Item Stock</th><th>Quantity</th><th>Unit</th></tr></thead><tbody>';
                         for (const item of message.mi_item) 
                         {
                             script += '<tr>';
                             script += '<td>' + item.item_name + '</td>';
+                            script +='<td>' + (item.specification || '-') + '</td>';
+                           
                             script += '<td>' + item.total_quantity + '</td>';
                             script += '<td>' + item.quantity+ '</td>';
+                            script += '<td>' + item.item_unit + '</td>';
                             script += '</tr>';
                         }
                         script+= '</tbody></table>';
@@ -489,8 +498,10 @@
             html += '<td><center>'+rowIdx+'</center></td>';
             html += '<td><div class="col-xs-12"><input type="text" id="item_name_'+rowIdx+'"  name="item_name[]" autocomplete="off" class="item_name input-text form-control" placeholder="Start Typing Item name..."></div></td>';
             html += '<td hidden ><div class="col-xs-12"><input type="text"  id="item_no_'+rowIdx+'"  name="item_no[]" class="item_no_'+rowIdx+'"></div></td>';
+            html +='<td><div class="col-xs-12"><input type="text" id="specification_'+rowIdx+'"  name="specification[]" autocomplete="off" class="specification input-text form-control" placeholder="Specification"></div></td>';
             html += '<td><center><div class="col-xs-12" id="total_quantity_'+ rowIdx + '" ></div></center></td>';
             html += '<td><div class="col-xs-12"><input type="number" id="quantity_'+rowIdx+'"  name="quantity[]" class="quantity form-control"></div></td>';
+            html += '<td><center><div class="col-xs-12" id="item_unit_'+ rowIdx + '" ></div></center></td>';
             if(rowIdx != 1){
             html +='<td><button class="btn btn-danger btn-sm remove" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';     
             html+='</tr>';
@@ -590,6 +601,7 @@
       select: function(event, ui) {
         var id = rowIdx - 1;
         $('#item_no_' + id).val(ui.item.id);
+        $('#item_unit_' + id).text(ui.item.item_unit);
         $('#total_quantity_' + id).text(ui.item.total_quantity);
       }
     });
@@ -613,6 +625,7 @@ function handleItemNameChange(item) {
       var result = [];
       for (var i in data) {
         $('#item_no_' + id).val(data[i]["id"]);
+        $('#item_unit_' + id).text(data[i]["item_unit"]);
         $('#total_quantity_' + id).text(data[i]["total_quantity"]);
       }
     },

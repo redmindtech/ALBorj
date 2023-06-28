@@ -64,6 +64,7 @@ Route::get("/getempdata_supplier_company", [App\Http\Controllers\AutoCompleteCon
 Route::get("/getmrcode",[App\Http\Controllers\AutoCompleteController::class,'getmrcode'])->name('getmrcode');
 Route::get("/po_number",[App\Http\Controllers\AutoCompleteController::class,'po_number'])->name('po_number');
 Route::get("/getpaydata",[App\Http\Controllers\AutoCompleteController::class,'getpaydata'])->name('getpaydata');
+Route::get("/get_project_boq",[App\Http\Controllers\AutoCompleteController::class,'get_project_boq'])->name('get_project_boq');
 
 // item master
 Route::post("/item", [App\Http\Controllers\ItemMasterController::class, 'store'])->name('store');
@@ -131,3 +132,9 @@ Route::post("/payroll", [App\Http\Controllers\PayRollController::class, 'store']
 Route::get("/payroll/{id}/show", [App\Http\Controllers\PayRollController::class, 'show'])->name('payrollApi.show');
 Route::post("/payroll/{id}/update", [App\Http\Controllers\PayRollController::class, 'update'])->name('payrollApi.update');
 Route::delete("/payroll/{id}/delete", [App\Http\Controllers\PayRollController::class, 'destroy'])->name('payrollApi.delete');
+
+// payment receivables
+Route::post("/payrec", [App\Http\Controllers\PaymentReceivablesController::class, 'store'])->name('payrecApi.store');
+Route::get("/payrec{id}/show", [App\Http\Controllers\PaymentReceivablesController::class, 'show'])->name('payrecApi.show');
+Route::post("/payrec/{id}/update", [App\Http\Controllers\PaymentReceivablesController::class, 'update'])->name('payrecApi.update');
+Route::delete("/payrec/{id}/delete", [App\Http\Controllers\PaymentReceivablesController::class, 'destroy'])->name('payrecApi.delete');

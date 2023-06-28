@@ -20,13 +20,13 @@ class GoodsReceivingNoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         try 
         {
             $purchase_type = PROJECTORDERTYPE;
 
-            if ($request->session()->has('user')) {
+            if (session()->has('user')) {
             $item=ItemMaster::all();
             $item_name=$item->pluck('item_name');
             $project = ProjectMaster::all();
@@ -36,7 +36,7 @@ class GoodsReceivingNoteController extends Controller
             $grn = GoodsReceivingNote::join('project_masters', 'goods_received_note.project_no', '=', 'project_masters.project_no')
             ->join('supplier_masters', 'goods_received_note.supplier_no', '=', 'supplier_masters.supplier_no')                 
             ->select('goods_received_note.*', 'project_masters.*', 'supplier_masters.*',
-            DB::raw('DATE(goods_received_note.grn_date) as grn_date'))  
+            )  
             ->where('goods_received_note.deleted','0')          
             ->get();
             return view('goodsreceivingnote.index')

@@ -57,7 +57,7 @@ class AutoCompleteController extends Controller
           // Items get from po_item table
           $po_items = DB::table('purchase_order_item')
               ->join('item_masters', 'purchase_order_item.item_no', '=', 'item_masters.id')
-              ->select('purchase_order_item.*', 'item_masters.item_name')
+              ->select('purchase_order_item.*', 'item_masters.item_name','item_masters.item_unit')
               ->where('po_no', $po_no)
               ->where('purchase_order_item.deleted','0')
                ->where('pending_qty', '!=', 0)
@@ -220,7 +220,7 @@ public function getpopricedata(){
       $itemname = $_GET['itemname'];
       $data = DB::table('item_masters')
           ->select('item_masters.id', 'item_masters.item_name', 'item_supplier.*','item_supplier.supplier_no')
-          ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
+          ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no','item_master.item_unit')
           ->where('item_masters.item_name', 'LIKE', $itemname.'%')
           ->get();
 
@@ -353,9 +353,17 @@ info($empTimesheets);
 public function  get_project_boq(){
 
     $projectname = $_GET['projectname'];
-    $dat = ProjectMaster::where('project_name','LIKE',$projectname.'%')->value('project_no');
-    $data = ProjectMasterItem::where('proj_nO',$dat)->get();
+    $project_name = ProjectMaster::where('project_name','LIKE',$projectname.'%')
+    ->get();
+     $project_no = ProjectMaster::where('project_name',$projectname)->value('project_no');
+     $project_master_item = ProjectMasterItem::where('proj_no',$project_no)
+     ->join('item_masters','item_masters.id','=','project_master_item.item_no')
+     ->select('item_masters.*','project_master_item.*')->get();
+    
     return response()->json([
-        'data' => $data,]);
+         'project_master_item' => $project_master_item,
+        'project_no'=>$project_no,
+        'project_name'=>$project_name
+    ]);
   }
 }

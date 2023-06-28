@@ -249,7 +249,7 @@ return [
                 // ],
                 [
                     'text' => 'Payment Receivables',
-                    'url'  => 'account',
+                    'url'  => 'paymentreceivables',
                     'icon' => 'nav-icon fas fa-fw fa-receipt',
                 ],
                 [

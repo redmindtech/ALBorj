@@ -366,7 +366,8 @@
 
                 <div class="container pt-4">
                     <div class="table-responsive">
-                        <center><table class="table table-bordered" style="width:79%">
+                    <center>
+                        <table class="table table-bordered" style="width:79%">
                             <thead>
                                 <tr>
                                     <th class="text-center">S.No</th>
@@ -376,12 +377,14 @@
                                     <!-- <th>Discount</th> -->
                                     <th class="text-center" style="width:15%">Item Amount</th>
                                     <th class="text-center" style="width:5%">Prior Cost</th>
+                                    <th class="text-center" style="width:5%">Unit</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody id="tbody">
                             </tbody>
-                        </table></center>
+                        </table>
+                    </center>
                     </div>
                 </div>
                 <div style="text-align: right;">
@@ -720,6 +723,7 @@
         html += '<td><div class="col-xs-12"><input type="text" name="item_amount[]" id="item_amount_' + rowIdx +
             '"  name="item_amount[]" class="item_amount form-control" readonly></div></td>';
         html += '<td><center><div class="col-xs-12" id="price_per_qty_'+ rowIdx + '" ></div></center></td>';
+        html += '<td><center><div class="col-xs-12" id="item_unit_'+ rowIdx + '" ></div></center></td>';
         // html += '<td id="tr_qty"><div class="col-xs-12"><input type="text" name="pending_qty[]" id="pending_qty_' + rowIdx +
         //     '"  name="pending_qty[]" class="pending_qty" ></div></td>';
         if(rowIdx !=1){
@@ -784,12 +788,14 @@
             {
                 'itemname': $(this).val(),
                 'price_per_qty': $(this).val() // assuming the price input field has an ID of "price_per_qty"
+                'item_unit': $(this).val()
             },
             success: function(data) 
             {
                 $('#item_no_' + id).val(data[0]["id"]);
                 $('#supplier_no_' + id).val(data[0]["supplier_no"]);
                 $('#price_per_qty_' + id).text(data[0]["price_per_qty"]);
+                $('#item_unit_' + id).text(data[0]["item_unit"]);
             },
             fail: function(xhr, textStatus, errorThrown) 
             {
@@ -1029,6 +1035,7 @@
                         // $('#discount_' + rowid).val(item.discount);
                         $('#item_amount_' + rowid).val(item.item_amount);
                         $('#price_per_qty_' + rowid).text(item.price_per_qty);
+                        $('#item_unit_' + rowid).text(item.item_unit);
                         // $('#pending_qty_' + rowid).val(item.pending_qty);
                         rowid++;
                     }
@@ -1058,8 +1065,8 @@
                         }       
                         $(`#show_${key}`).text(value);
                     }
-                    let script ='<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Item Quantity</th><th>Rate Per Quantity</th><th>Item Amount</th><th>Previous Rate</th></tr></thead><tbody>';
-                    for (const item of message.purchase_orders_item) 
+                    let script ='<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Item Quantity</th><th>Rate Per Quantity</th><th>Item Amount</th><th>Previous Rate</th><th>Unit</th></tr></thead><tbody>';
+                    for (const item of message.purchase_orders_item)
                     {
                         script += '<tr>';
                         script += '<td>' + item.item_name + '</td>';
@@ -1068,6 +1075,7 @@
                             // script += '<td>' + item.discount + '</td>';
                         script += '<td>' + item.item_amount + '</td>';
                         script += '<td >' + item.price_per_qty + '</td>';
+                        script += '<td >' + item.item_unit + '</td>';
                             // script += '<td>' + item.pending_qty + '</td>';
                         script += '</tr>';
                     }
@@ -1356,6 +1364,7 @@
                         $('#item_name_' + create_id).val(item.item_name);
                         $('#item_no_' + create_id).val(item.item_no);
                         $('#qty_'+ create_id).val(item.quantity);
+                        $('#item_unit_'+ create_id).text(item.item_unit);
                         // $('#rate_per_qty_'+ create_id).val(item.rate_per_qty);
                         // $('#discount_' + create_id).val(item.discount);
                         // $('#item_amount_' + create_id).val(item.item_amount);
@@ -1372,6 +1381,7 @@
                         $('#item_name_' + create_id).val(item.item_name);
                         $('#item_no_' + create_id).val(item.item_no);
                         $('#qty_'+ create_id).val(item.quantity);
+                        $('#item_unit_'+ create_id).text(item.item_unit);
                         // $('#rate_per_qty_'+ create_id).val(item.rate_per_qty);
                         // $('#discount_' + create_id).val(item.discount);
                         // $('#item_amount_' + create_id).val(item.item_amount);

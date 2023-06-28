@@ -183,17 +183,17 @@
                     </h4>
                     <div class="container pt-4">
                         <div class="table-responsive">
-                            <center>
-                                <table class="table table-bordered" id="material" style="width: 95%;">
+                        <center>
+                                <table class="table table-bordered" id="material" style="width: 79%;">
                                     <thead>
                                         <tr>
                                             <th class="text-center">S.No</th>
-
-                                            <th class="text-center" style="width: 45%;">Item Name</th>
-                                            <th class="text-center" style="width: 30%;">Store Room</th>
-                                            <th class="text-center" style="width: 20%;">Item Stock</th>
-                                            <th class="text-center" style="width: 20%;">Requested Qty</th>
-                                            <th class="text-center" style="width: 20%;">Qty</th>
+                                            <th class="text-center" style="width: 35%;">Item Name</th>
+                                            <th class="text-center" style="width: 25%;">Store Room</th>
+                                            <th class="text-center" style="width: 5%;">Item Stock</th>
+                                            <th class="text-center" style="width: 5%;">Requested Qty</th>
+                                            <th class="text-center" style="width: 5%;">Qty</th>
+                                            <th class="text-center" style="width: 5%;">Unit</th>
                                             <th class="text-center"></th>
                                         </tr>
                                     </thead>
@@ -353,7 +353,8 @@
                     html += '<td><div class="col-xs-12 requesting_qty" id="requesting_qty_' + rowIdx + '"></div></td>';
                     html += '<td><div class="col-xs-12"><input type="text" name="item_quantity[]"  id="item_quantity_' + rowIdx +
                         '"name="item_quantity[]" class="item_quantity form-control" style="width: 100px;"></div></td>';
-if(rowIdx!=1){
+                    html += '<td><center><div class="col-xs-12" id="item_unit_' + rowIdx + '" ></div></center></td>';
+                    if(rowIdx!=1){
                     html +=
                         '<td><button class="btn btn-danger remove" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
                     html += '</tr>';}
@@ -415,6 +416,7 @@ if(rowIdx!=1){
 
                                  $('#item_no_' + id).val(data[0]["id"]);
                                  $('#total_quantity_' + id).text(data[0]["total_quantity"]);
+                                 $('#item_unit_' + id).text(data[0]["item_unit"]);
                              }
                          },
                          fail: function(xhr, textStatus, errorThrown) {
@@ -577,6 +579,7 @@ if(rowIdx!=1){
                                     $('#store_room_' + rowid).val(item.store_room);
                                     $('#item_quantity_' + rowid).val(item.item_quantity);
                                     $('#requesting_qty_' + rowid).text(item.quantity);
+                                    $('#item_unit_' + rowid).text(item.item_unit);
 
                                     rowid++;
                                 }
@@ -596,14 +599,16 @@ if(rowIdx!=1){
                                      $(`#show_${key}`).text(value);
                                  }
                                  let script =
-                                    '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Store Room</th><th>Item in stock</th><th>Requesting qty</th><th>Item Quantity</th></tr></thead><tbody>';
-                                for (const item of message.material_issues_item) {
+                                 '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Store Room</th><th>Item in stock</th><th>Requesting qty</th><th>Item Quantity</th><th>Unit</th></tr></thead><tbody>';
+                                for (const item of message.material_issues_item)
+                                {
                                     script += '<tr>';
                                     script += '<td>' + item.item_name + '</td>';
-                                    script += '<td>' + (item.store_room || '-') + '</td>';
+                                    script += '<td style="text-align: center;">' + (item.store_room || '-') + '</td>';
                                     script += '<td>' + (item.total_quantity || '-') + '</td>';
                                     script += '<td>' + (item.quantity || '-') + '</td>';
                                     script += '<td>' + item.item_quantity + '</td>';
+                                    script += '<td>' + item.item_unit + '</td>';
                                     script += '</tr>';
                                 }
                                  script += '</tbody></table>';
@@ -824,6 +829,7 @@ if(rowIdx!=1){
                                     $('#total_quantity_' + create_id).text(item.total_quantity);
                                     $('#item_quantity_' + create_id).val(item.item_qty);
                                     $('#requesting_qty_' + create_id).text(item.quantity);
+                                    $('#item_unit_' + create_id).text(item.item_unit);
 
                                 }
                             } else {
@@ -836,6 +842,7 @@ if(rowIdx!=1){
                                     $('#item_quantity_' + create_id).val(item.item_qty);
                                     $('#store_room_' + create_id).val(item.store_room);
                                     $('#requesting_qty_' + create_id).text(item.quantity);
+                                    $('#item_unit_' + create_id).text(item.item_unit);
 
                                     create_id++;
                                 }

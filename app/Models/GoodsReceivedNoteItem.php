@@ -13,8 +13,7 @@ class GoodsReceivedNoteItem extends Model
         "grn_no",
         "item_no",
         "quantity",
-        "rate_per_qty",    
-        
+        "rate_per_qty",
         "pending_qty",
         "receiving_qty",
         "item_amount",
@@ -29,8 +28,7 @@ class GoodsReceivedNoteItem extends Model
         "grn_no",
         "item_no",
         "quantity",
-        "rate_per_qty",    
-       
+        "rate_per_qty",
         "item_amount",
         "pending_qty",
         "receiving_qty",
