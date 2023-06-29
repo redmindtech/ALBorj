@@ -15,19 +15,14 @@ use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use App\Models\MaterialRequisition;
-
-
 class AutoCompleteController extends Controller
 {
   // to populate date from po in grn
   public function get_po_details(){
     try {
-
-
-// DB::enableQueryLog();
       // For po_id get from po table
       $po_code = $_GET['po_code'];
-      info($po_code);
+      
       $po_info = DB::table('purchase_order')
       ->join('supplier_masters', 'purchase_order.supplier_no', '=', 'supplier_masters.supplier_no')
       ->select('purchase_order.po_no', 'purchase_order.po_date', 'purchase_order.supplier_no', 'supplier_masters.name','purchase_order.po_type',
@@ -38,8 +33,7 @@ class AutoCompleteController extends Controller
       ->where('purchase_order.po_code', $po_code)
       ->first();
       
-      if ($po_info) {
-        
+      if ($po_info) {        
           $po_no = $po_info->po_no;
           $po_date = $po_info->po_date;
           $supplier_name=$po_info->name;
@@ -51,9 +45,6 @@ class AutoCompleteController extends Controller
           $discount_type=$po_info->discount_type;
           $vat=$po_info->vat;
           $total_vat=$po_info->total_vat;
-
-
-
           // Items get from po_item table
           $po_items = DB::table('purchase_order_item')
               ->join('item_masters', 'purchase_order_item.item_no', '=', 'item_masters.id')
@@ -62,7 +53,6 @@ class AutoCompleteController extends Controller
               ->where('purchase_order_item.deleted','0')
                ->where('pending_qty', '!=', 0)
               ->get();
-
           return response()->json([
               'po_no' => $po_no,
               'po_date' => $po_date, // Include po_date in the response
@@ -75,9 +65,7 @@ class AutoCompleteController extends Controller
               'discount'=>$discount,
               'discount_type'=>$discount_type,
               'total_vat'=>$total_vat,
-              'vat'=>$vat
-
-    
+              'vat'=>$vat    
           ]);
 
       } else {
@@ -94,26 +82,67 @@ class AutoCompleteController extends Controller
   }
 
    }
-    //  auto complete data for item name populated in GRN and material issue item name
+    //  auto complete data for item name populated in GRN ,material,project master,material issue item name
      public function  getitemnamedata(){
       try{
           $itemname = $_GET['itemname'];
-          $data = ItemMaster::where('item_name','LIKE',$itemname.'%')->get();
+          $data = ItemMaster::where('deleted', 0)
+          ->where('item_name', 'LIKE', $itemname.'%')
+          ->get();      
           return $data;
       }
        catch (Exception $e) {
           info($e);
-          return response()->json('Error occured in the loading page', 400);
+          return response()->json('Error occured in fetching data', 400);
       }
   }
-  // to get employee firstname used in site master(site manager)
+  // to get employee firstname used in site master(site manager),expenses,material issue, material
+//   payroll,project master,purchase order,timesheeet
   public function  getemployeedata(){
-
+    try
+    {
      $firstname = $_GET['firstname'];
-    // $empname = $_GET['empname'];
-    $data = EmployeeMaster::where('firstname','LIKE',$firstname.'%')
+      $data = EmployeeMaster::where('firstname','LIKE',$firstname.'%')
     ->orwhere('lastname', 'LIKE', $firstname . '%')
     ->where('employee_masters.deleted','0')
+    ->get();
+    if ($data) {
+        $data = $data->toArray();
+        // Convert the data to UTF-8 encoding
+        array_walk_recursive($data, function (&$value) {
+            if (is_object($value)) {
+                $value = (array) $value; // Convert the stdClass object to an array
+            }
+
+            if (is_array($value)) {
+                array_walk_recursive($value, function (&$item) {
+                    if (!mb_check_encoding($item, 'UTF-8')) {
+                        // Handle invalid characters
+                        $item = mb_convert_encoding($item, 'UTF-8', 'UTF-8');
+                    }
+                });
+            } else {
+                if (!mb_check_encoding($value, 'UTF-8')) {
+                    // Handle invalid characters
+                    $value = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+                }
+            }
+        });
+    }
+
+    return $data;
+}
+catch (Exception $e) {
+   info($e);
+   return response()->json('Error occured in fetching data', 400);
+}
+}
+  // autocomplete data for project master form clientnaster( company name)
+  public function  getclientdata(){
+try{
+    $company_name = $_GET['company_name'];
+    $data = ClientMaster::where('deleted', 0)
+    ->where('company_name', 'LIKE', $company_name.'%')
     ->get();
 
     if ($data) {
@@ -140,79 +169,84 @@ class AutoCompleteController extends Controller
             }
         });
     }
-
     return $data;
 }
-  // autocomplete data for project master form clientnaster( company name)
-  public function  getclientdata(){
-
-    $company_name = $_GET['company_name'];
-    $data = ClientMaster::where('company_name','LIKE',$company_name.'%')->get();
-    if ($data) {
-        $data = $data->toArray();
-
-        // Convert the data to UTF-8 encoding
-        array_walk_recursive($data, function (&$value) {
-            if (is_object($value)) {
-                $value = (array) $value; // Convert the stdClass object to an array
-            }
-
-            if (is_array($value)) {
-                array_walk_recursive($value, function (&$item) {
-                    if (!mb_check_encoding($item, 'UTF-8')) {
-                        // Handle invalid characters
-                        $item = mb_convert_encoding($item, 'UTF-8', 'UTF-8');
-                    }
-                });
-            } else {
-                if (!mb_check_encoding($value, 'UTF-8')) {
-                    // Handle invalid characters
-                    $value = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
-                }
-            }
-        });
-    }
-    return $data;
+catch (Exception $e) {
+   info($e);
+   return response()->json('Error occured in fetching data', 400);
 }
-//  autocomplete data for project master form sitmaster(site name)
+}
+//  autocomplete data for project master form sitmaster(site name),timesheet
 public function  getsitedata(){
-
+try{
   $site_name = $_GET['site_name'];
-  $data = SiteMaster::where('site_name','LIKE',$site_name.'%')->get();
-
+  $data = SiteMaster::where('deleted', 0)
+    ->where('site_name', 'LIKE', $site_name.'%')
+    ->get();
   return $data;
 }
-// auto complete for employee master for project current location
+catch (Exception $e) {
+   info($e);
+   return response()->json('Error occured in fetching data', 400);
+}
+}
+// auto complete for employee master for project current location,expenses,GRN,material,material issue,payroll,timesheet
 public function  getlocdata(){
-
+try{
   $projectname = $_GET['projectname'];
-  $data = ProjectMaster::where('project_name','LIKE',$projectname.'%')->get();
+  $data = ProjectMaster::where('deleted', 0)
+  ->where('project_name', 'LIKE', $projectname.'%')
+  ->get();
+
   return $data;
 }
-// auto complete for itemmaster for supplier_name
+catch (Exception $e) {
+   info($e);
+   return response()->json('Error occured in fetching data', 400);
+}
+}
+// auto complete for itemmaster for supplier_name.expense,purchase order
 public function  getempdata(){
-
+try{
   $suppliername = $_GET['suppliername'];
-  $data = SupplierMaster::where('name','LIKE',$suppliername.'%')->get();
-
+  $data = SupplierMaster::where('deleted', 0)
+  ->where('name', 'LIKE', $suppliername.'%')
+  ->get();
   return $data;
 }
+  catch (Exception $e) {
+    info($e);
+    return response()->json('Error occured in fetching data', 400);
+ }
+}
+// in item master for supplier company name
 public function  getempdata_supplier_company(){
-
+try{
     $suppliername = $_GET['suppliername'];
-    $data = SupplierMaster::where('company_name','LIKE',$suppliername.'%')->get();
-
-    return $data;
-  }
+    $data = SupplierMaster::where('deleted', 0)
+    ->where('company_name', 'LIKE', $suppliername.'%')
+    ->get();
+    return $data;  
+}
+catch (Exception $e) {
+  info($e);
+  return response()->json('Error occured in fetching data', 400);
+}
+}
 // sitemaster location for  material issue (location)
 public function  getsitelocationdata(){
-
+try{
   $site_name = $_GET['site_name'];
-
-  $data = SiteMaster::where('site_location','LIKE',$site_name.'%')->get();
-  //info($data);
-
+  $data = SiteMaster::where('deleted', 0)
+  ->where('site_location', 'LIKE', $site_name.'%')
+  ->get();  
   return $data;
+}
+catch (Exception $e) {
+  info($e);
+  return response()->json('Error occured in fetching data', 400);
+}
+
 }
 // purchase order item population for price from item supplier
 public function getpopricedata(){
@@ -220,7 +254,8 @@ public function getpopricedata(){
       $itemname = $_GET['itemname'];
       $data = DB::table('item_masters')
           ->select('item_masters.id', 'item_masters.item_name', 'item_supplier.*','item_supplier.supplier_no')
-          ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no','item_master.item_unit')
+          ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no','item_masters.item_unit')
+          ->where('item_masters.deleted', 0)
           ->where('item_masters.item_name', 'LIKE', $itemname.'%')
           ->get();
 
@@ -235,53 +270,40 @@ public function getpopricedata(){
   }
 
 }
-// item auto complete for purchase return
-public function purchase_return_data(){
-  try {
-      $itemname = $_GET['itemname'];
-      $supplier_id = $_GET['supplier_id'];
-      $data = ItemMaster::
-          join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
-          ->select('item_masters.', 'item_supplier.')
-          ->where('item_masters.item_name', 'LIKE', $itemname.'%')
-          ->where('item_supplier.supplier_no', '=', $supplier_id)
-          ->get();
 
-      if (count($data) == 0) {
-          return response()->json('No data found', 404);
-      }
-
-      return $data;
-  } catch (Exception $e) {
-      info($e);
-      return response()->json('Error occurred in the loading page', 400);
-  }
-
-}
-//get MR code from MaterialRequisition
+//get MR code from MaterialRequisition, purchase order
 public function  getmrcode(){
-
+try{
     $mrcode = $_GET['mrcode'];
     $data = MaterialRequisition::where('mr_reference_code','LIKE',$mrcode.'%')
     ->where('deleted','=', '0')
     ->get();
   
     return $data;
+} catch (Exception $e) {
+    info($e);
+    return response()->json('Error occurred in the loading page', 400);
+}
     
   }
-//   auto complete for po number
+//   auto complete for po number in GRN
 public function po_number()
 {
+    try{
     $pocode = $_GET['po_code'];
     $data = PurchaseOrder::where('po_code','LIKE',$pocode.'%')
     ->where('po_status', '=', '0')
     ->where('deleted', '=', '0')->get();
     return $data;
+} catch (Exception $e) {
+    info($e);
+    return response()->json('Error occurred in the loading page', 400);
+}
 }
   
-//auto complete for payroll
+//auto complete for payroll ask gowtham
 public function getpaydata(Request $request)
-{
+{ try{
     $month = $request->input('month');
     $year = $request->input('year');
     $employee_id = $request->input('employee_id');
@@ -291,9 +313,9 @@ public function getpaydata(Request $request)
         ->whereMonth('emp_timesheets.from_date', '=', $month)
         ->pluck('id')
         ->toArray();
-info($empTimesheets);
+
     $emp = count($empTimesheets);
-    info($emp);
+
 
     $data = [];
     $data1 = [];
@@ -342,6 +364,7 @@ info($empTimesheets);
             $data1[] = $leaveData;
             $data2[] = $otData;
         }
+        
     }
 
     return response()->json([
@@ -349,21 +372,40 @@ info($empTimesheets);
         'data1' => $data1,
         'data2' => $data2
     ]);
+} catch (Exception $e) {
+    info($e);
+    return response()->json('Error occurred in the loading page', 400);
 }
+}
+// Project master for BOQ
 public function  get_project_boq(){
-
+try{
     $projectname = $_GET['projectname'];
-    $project_name = ProjectMaster::where('project_name','LIKE',$projectname.'%')
+    $project_name = ProjectMaster::where('deleted', 0)
+    ->where('project_name', 'LIKE', $projectname.'%')
     ->get();
-     $project_no = ProjectMaster::where('project_name',$projectname)->value('project_no');
-     $project_master_item = ProjectMasterItem::where('proj_no',$project_no)
-     ->join('item_masters','item_masters.id','=','project_master_item.item_no')
-     ->select('item_masters.*','project_master_item.*')->get();
+
+    $project_no = ProjectMaster::where('deleted', 0)
+    ->where('project_name', $projectname)
+    ->value('project_no');
+
+    $project_master_item = ProjectMasterItem::where('deleted', 0)
+    ->where('proj_no', $project_no)
+    ->join('item_masters', 'item_masters.id', '=', 'project_master_item.item_no')
+    ->select('item_masters.*', 'project_master_item.*')
+    ->get();
+
     
     return response()->json([
          'project_master_item' => $project_master_item,
         'project_no'=>$project_no,
         'project_name'=>$project_name
     ]);
-  }
+  
+} catch (Exception $e) {
+    info($e);
+    return response()->json('Error occurred in the loading page', 400);
+}
+}
+  
 }

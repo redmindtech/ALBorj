@@ -341,16 +341,12 @@
                         cache: false,
                         processData: false,
                         success: function(message) {
-                            console.log(message.items);
-                            console.log(message.itemsupplier);
 
                             if (action == 'edit') {
-                                console.log('edit')
                                 $('#heading_name').text("Update Item Details").css('font-weight', 'bold');
                                 $('#show').css('display', 'none');
                                 $('#form').css('display', 'block');
                                 $('#blur-background').css('display', 'block');
-
                                 $("#item_category").val(message.itemsupplier[0].item_category).attr("selected",
                                     "selected");
                                 itemcategory_load();
@@ -358,20 +354,16 @@
                                     "selected");
                                 for (const [key, value] of Object.entries(message.itemsupplier[0])) {
                                     $(`#${key}`).val(value);
-
                                 }
                                 showQuantityField();
-
                                 document.getElementById("myDialog").open = true;
                                 window.scrollTo(0, 0)
                                 $('#method').val('UPDATE');
                                 $('#submit').text('UPDATE');
                                 currentItemName = message.itemsupplier[0].item_name.toLowerCase().replace(/ /g, '');
                             } else if (action == 'show') {
-                                console.log('show')
                                 for (const [key, value] of Object.entries(message.itemsupplier[0])) {
                                     $(`#show_${key}`).text(value);
-
                                 }
                                 $('#heading_name').text("Item Details").css('font-weight', 'bold');
                                 $('#show').css('display', 'block');
@@ -387,10 +379,7 @@
                                 $('#blur-background').css('display', 'block');
 
                             } else if (action == 'audit') {
-                                console.log("audit")
                                 if (message.items && message.items.length > 0) {
-                                    // console.log("Length of message object:", Object.keys(message.items[0]).length);
-
                                     // Rest of your code inside the 'if' block
                                     for (const [key, value] of Object.entries(message.itemsupplier[0])) {
                                         $(`#show_${key}`).text(value);
@@ -424,7 +413,7 @@
                                     document.getElementById("myDialog").open = true;
                                     window.scrollTo(0, 0)
                                 } else {
-                                    // console.log("No items found in the message object.");
+                                    
                                     for (const [key, value] of Object.entries(message.itemsupplier[0])) {
                                         $(`#show_${key}`).text(value);
                                     }
@@ -534,7 +523,6 @@ jQuery($ => {
 
                 function itemcategory_load() {
                     var selectedCategory = $('#item_category').val();
-                    console.log($('#item_category').val());
                     var subcategoryOptions = '';
                     if (selectedCategory === 'Electrical Works') {
                         @foreach (ITEMSUBCATEGORY['Electrical Items'] as $key => $value)
@@ -681,10 +669,6 @@ jQuery($ => {
     }
 });
   });
-
-
     $("#form").validate(formValidationConfig);
-    
-
 </script>
 @stop

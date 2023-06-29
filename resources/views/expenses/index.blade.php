@@ -415,8 +415,6 @@
                     $('#show').css('display','none');
                     $('#form').css('display','block');
                     $('#blur-background').css('display','block');
-
-                    console.log(message[0]);
                     for (const [key, value] of Object.entries(message[0]))
                     {
                         $(`#${key}`).val(value);
@@ -424,7 +422,6 @@
                         $('#exp_category_no').val(message[0].exp_category_no);
                         $('#exp_category_no').select2({ tags: true }).trigger('change');
                     }
-                    console.log(message.filename);
                     $('#filename').text(message.filename);
                     $('#method').val('UPDATE');
                     $('#submit').text('UPDATE');
@@ -513,13 +510,12 @@
             },
             success: function( data )
             {
-                console.log(data);
                 result = [];
                 for(var i in data)
                 {
                     $('#employee_no').val(data[i]["id"]);
                 }
-                    console.log(result);
+                
             },
             fail: function(xhr, textStatus, errorThrown)
             {
@@ -699,10 +695,6 @@
                     $(document).on('focusout', '.select2-selection', function()
                     {
                         var value = $(this).text();
-                        console.log(value);
-                        console.log($(this).attr('aria-labelledby'));
-
-
                         if ($(this).attr('aria-labelledby') == 'exp_category_no-label')
                         {
                             if (!/^[A-Za-z0-9\s\W]+$/i.test(value)) {

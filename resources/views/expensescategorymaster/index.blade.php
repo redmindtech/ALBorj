@@ -253,7 +253,6 @@
 
                     for (const [key, value] of Object.entries(message))
                     {
-                        console.log(`${key}: ${value}`);
                         $(`#${key}`).val(value);
 
                     }

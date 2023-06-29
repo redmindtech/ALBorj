@@ -20,14 +20,15 @@ class SupplierMaster extends Model
         "contact_number",
         "mail_id",
         "website",
-        "trn_number"
+        "trn_number",
+        "deleted"
     ];
     protected $table ='supplier_masters';
     protected $primaryKey='supplier_no';
     protected $fillable =
     [
          "name","company_name","code","address",
-        "contact_number","mail_id","website","trn_number"
+        "contact_number","mail_id","website","trn_number","deleted"
     ];
     
     protected static function booted()
@@ -37,6 +38,7 @@ class SupplierMaster extends Model
             $results = DB::selectOne("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'supplier_masters'")->AUTO_INCREMENT;
             $supplierCode = substr($supplier->name, 0, 3) . '00' . $results;
             $supplier->code = $supplierCode;
-        });
+            $supplier->deleted='0';
+                });
     }
 }

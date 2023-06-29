@@ -18,12 +18,13 @@ class SiteMaster extends Model
         "site_address",
         "description",
         "site_status",
-        "site_manager"
+        "site_manager",
+        "deleted"
     ];
     protected $table ='site_masters';
     protected $primaryKey='site_no';
 
-    protected $fillable = ['site_name','site_code','site_location','site_building','site_floor','room_number','site_address','description','site_status','site_manager'];
+    protected $fillable = ['site_name','site_code','site_location','site_building','site_floor','room_number','site_address','description','site_status','site_manager','deleted'];
 
     public function EmployeeMaster() {
         return $this->belongsTo(EmployeeMaster::class,'site_manager','id');

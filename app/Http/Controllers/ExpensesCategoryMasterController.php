@@ -7,20 +7,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class ExpensesCategoryMasterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    // FOR LOADING PAGE
+    public function index()
     {
         try
         {
-            if ($request->session()->has('user')) {
-            $expenses = ExpensesCategoryMaster::all();
-            $categoryNames = $expenses->pluck('category_name')->map(function ($name) {
-                return strtolower(str_replace(' ', '', $name));
-            });
+            if (session()->has('user')) {
+                $expenses = ExpensesCategoryMaster::where('deleted', 0)
+                ->get();
+            
+                $categoryNames = $expenses->where('deleted', 0)
+                ->pluck('category_name')
+                ->map(function ($name) {
+                    return strtolower(str_replace(' ', '', $name));
+                });
+            
             return view('expensescategorymaster.index')->with([
                 'expenses' => $expenses,
                 'categoryNames'=>$categoryNames
@@ -38,12 +39,7 @@ class ExpensesCategoryMasterController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     // DATA SAVE IN ADD DIALOG
     public function store(Request $request)
     {
@@ -60,12 +56,7 @@ class ExpensesCategoryMasterController extends Controller
         }
     }
 
-     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+     
     // DATA SHOW WHICH IS USED FOR EDIT AND SHOW
     public function show($id)
     {
@@ -82,20 +73,6 @@ class ExpensesCategoryMasterController extends Controller
         }
     }
 
-   /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     // UPDATE SAVE FUNCTION
     public function update(Request $request, $id)
     {
@@ -113,18 +90,13 @@ class ExpensesCategoryMasterController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // DELETE FUNCTION
     public function destroy($id)
     {
         try 
         {
             $expenses = ExpensesCategoryMaster::findOrFail($id);
-            $expenses->delete();
+            $expenses->update(['deleted' => 1]);
             return response()->json('ExpensesCategory Details Deleted Successfully', 200);
 
         } 

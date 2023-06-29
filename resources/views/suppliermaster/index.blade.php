@@ -125,7 +125,7 @@
         <label for="contact_number" class="form-label fw-bold">Contact Number<a style="text-decoration: none;color:red">*</a></label>
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1">{{+971}}</span>
-            <!-- </div> -->
+         
             <input type="text" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" maxlength="10" placeholder="Contact Number" class="form-control" autocomplete="off">
         </div>
         
@@ -261,7 +261,7 @@
         {
             event.preventDefault();
             var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
-            //  alert(hiddenErrorElements);
+           
             if(hiddenErrorElements === 0)
             {
                 let form_data = new FormData(document.getElementById('form'));
@@ -378,7 +378,7 @@ $.validator.addMethod("alphanumeric_website", function(value, element) {
   return this.optional(element) || /((?:https?|http?\:\/\/|www?\.)(?:[-a-z0-9]+\.)*[-a-z0-9]+.*)/i.test(value);
 });
 $.validator.addMethod("alphanumeric_trn", function(value, element) {
-                    console.log(value);
+                   
                     return this.optional(element) || /^[A-Za-z0-9 ]+$/i.test(value);
                 });
   // Initialize form validation

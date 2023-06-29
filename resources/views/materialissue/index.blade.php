@@ -204,9 +204,11 @@
                                 </table>
                             </center>
                         </div>
-                         <button class="btn btn-md btn-primary" id="addBtn" type="button">
-                             Add Row
-                         </button>
+                        <div  style="text-align: right;">
+                            <div style="margin-top:8px; margin-right: 106px; display: inline-block;">
+                                <button class="btn btn-md btn-primary" id="addBtn" type="button">Add Row</button>
+                            </div>
+                        </div>
                      </div>
                      <div class="row mt-5">
                          <div class="col-md-2">
@@ -599,16 +601,16 @@
                                      $(`#show_${key}`).text(value);
                                  }
                                  let script =
-                                 '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Store Room</th><th>Item in stock</th><th>Requesting qty</th><th>Item Quantity</th><th>Unit</th></tr></thead><tbody>';
+                                 '<table id="show_table" class="table table-striped"><thead style="text-align: center;"><tr><th>Item Name</th><th>Store Room</th><th>Item stock</th><th>Requesting qty</th><th>Item Quantity</th><th>Unit</th></tr></thead><tbody>';
                                 for (const item of message.material_issues_item)
                                 {
                                     script += '<tr>';
                                     script += '<td>' + item.item_name + '</td>';
                                     script += '<td style="text-align: center;">' + (item.store_room || '-') + '</td>';
-                                    script += '<td>' + (item.total_quantity || '-') + '</td>';
-                                    script += '<td>' + (item.quantity || '-') + '</td>';
-                                    script += '<td>' + item.item_quantity + '</td>';
-                                    script += '<td>' + item.item_unit + '</td>';
+                                    script += '<td style="text-align: center;">' + (item.total_quantity || '-') + '</td>';
+                                    script += '<td style="text-align: center;">' + (item.quantity || '-') + '</td>';
+                                    script += '<td style="text-align: center;">' + item.item_quantity + '</td>';
+                                    script += '<td style="text-align: center;">' + (item.item_unit || '-') + '</td>';
                                     script += '</tr>';
                                 }
                                  script += '</tbody></table>';

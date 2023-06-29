@@ -20,32 +20,8 @@ require_once(app_path('constants.php'));
 
 class MaterialIssueController extends Controller
 {
-    public function  getitemnamedata()
-    {
-        try
-        {
-            $itemname = $_GET['itemname'];
-            info($itemname);
-            $data = ItemMaster::where('item_name','LIKE',$itemname.'%')->get();
-            info($data);
-
-            return $data;
-        }
-        catch (Exception $e)
-        {
-            info($e);
-            return response()->json('Error occured in the loading page', 400);
-        }
-    }
-    public function  getsitelocationdata()
-    {
-        $site_name = $_GET['site_name'];
-
-        $data = SiteMaster::where('site_location','LIKE',$site_name.'%')->get();
-        //info($data);
-
-        return $data;
-    }
+   
+   
 
       /**
      * Display a listing of the resource.

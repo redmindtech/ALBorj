@@ -24,15 +24,26 @@ class ClientMaster extends Model
         "emirates",
         "attachments",
         "filename",
+        "deleted"
 
     ];
     protected $table ='client_masters';
     protected $primaryKey='client_no';
     protected $fillable =
     [
-        "name","client_code","company_name","contact_number","address","website", "trn_number",
-        "attachments","mail_id","emirates","filename"
-    ];
+        "name",
+        "client_code",
+        "company_name",
+        "contact_number",
+        "address",
+        "website",
+        "trn_number",
+        "mail_id",
+        "emirates",
+        "attachments",
+        "filename",
+        "deleted"
+   ];
 
     protected static function booted()
     {
@@ -43,6 +54,7 @@ class ClientMaster extends Model
             $results = DB::selectOne("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'client_masters'")->AUTO_INCREMENT;
             $clientNo = str_pad($results, 2, '0', STR_PAD_LEFT);
             $client->client_code = 'AB'.'CL' . $clientNo;
+            $client->deleted ='0';
         });
     }
     public function ProjectMaster()

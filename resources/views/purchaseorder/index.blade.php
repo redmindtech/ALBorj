@@ -372,10 +372,9 @@
                                 <tr>
                                     <th class="text-center">S.No</th>
                                     <th class="text-center" style="width:35%">Item Name</th>
-                                    <th class="text-center" style="width:12%">Quantity</th>
-                                    <th class="text-center" style="width:12%">Rate Per Quantity</th>
-                                    <!-- <th>Discount</th> -->
-                                    <th class="text-center" style="width:15%">Item Amount</th>
+                                    <th class="text-center" style="width:12%">Qty</th>
+                                    <th class="text-center" style="width:12%">Rate Per Qty</th>                                   
+                                    <th class="text-center" style="width:15%">Total</th>
                                     <th class="text-center" style="width:5%">Prior Cost</th>
                                     <th class="text-center" style="width:5%">Unit</th>
                                     <th></th>
@@ -443,7 +442,7 @@
                         <textarea name="remarks" id="remarks" cols="30" rows="4" class="form-control"></textarea>
                     </div>
                     <div class="col-md-2">
-                        <label for="" class="float-end mt-2">Total Amount</label><br>
+                        <label for="" class="float-end mt-2">Item Amount</label><br>
                         <label for="" class="float-end mt-3">Total Discount</label><br>
                         <label for="" class="float-end my-2">VAT Amount</label>
                         <label for=""class="float-end my-3" >Grand Total</label>
@@ -787,7 +786,7 @@
             data: 
             {
                 'itemname': $(this).val(),
-                'price_per_qty': $(this).val() // assuming the price input field has an ID of "price_per_qty"
+                'price_per_qty': $(this).val(),// assuming the price input field has an ID of "price_per_qty"
                 'item_unit': $(this).val()
             },
             success: function(data) 
@@ -1065,18 +1064,16 @@
                         }       
                         $(`#show_${key}`).text(value);
                     }
-                    let script ='<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Item Quantity</th><th>Rate Per Quantity</th><th>Item Amount</th><th>Previous Rate</th><th>Unit</th></tr></thead><tbody>';
+                    let script ='<table id="show_table" class="table table-striped"><thead style="text-align: center;"><tr><th>Item Name</th><th>Quantity</th><th>Rate Per Quantity</th><th>Total</th><th>Previous Rate</th><th>Unit</th></tr></thead><tbody>';
                     for (const item of message.purchase_orders_item)
                     {
                         script += '<tr>';
                         script += '<td>' + item.item_name + '</td>';
-                        script += '<td>' + item.qty + '</td>';
-                        script += '<td>' + item.rate_per_qty + '</td>';
-                            // script += '<td>' + item.discount + '</td>';
-                        script += '<td>' + item.item_amount + '</td>';
-                        script += '<td >' + item.price_per_qty + '</td>';
-                        script += '<td >' + item.item_unit + '</td>';
-                            // script += '<td>' + item.pending_qty + '</td>';
+                        script += '<td style="text-align: center;">' + item.qty + '</td>';
+                        script += '<td style="text-align: center;">' + item.rate_per_qty + '</td>';                           
+                        script += '<td style="text-align: center;">' + item.item_amount + '</td>';
+                        script += '<td style="text-align: center;">' + item.price_per_qty + '</td>';
+                        script += '<td style="text-align: center;">' + (item.item_unit || '-') + '</td>';                          
                         script += '</tr>';
                     }
                     script += '</tbody></table>';

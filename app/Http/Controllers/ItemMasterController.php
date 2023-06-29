@@ -11,46 +11,35 @@ use Illuminate\Support\Facades\DB;
 require_once(app_path('constants.php'));
 class ItemMasterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     // FOR MAIN PAGE
-    public function  getempdata()
-    {
-
-        $suppliername = $_GET['suppliername'];
-        $data = SupplierMaster::where('name','LIKE',$suppliername.'%')->get();
-
-        return $data;
-    }
-
-
-    public function index(Request $request)
-    {
-        
+    public function index()
+    {   
         try{
-            if ($request->session()->has('user')) {
+            if (session()->has('user')) {
             $item_type = ITEMTYPE;
             $item_category = ITEMCATEGORY;
             $item_subcategory = ITEMSUBCATEGORY;
             $stock_type = STOCKTYPE;
-            $supplier_company=SupplierMaster::pluck('company_name');
-            $items=ItemMaster::all();
-            $itemName = $items->pluck('item_name')->map(function ($name) {
+            $supplier_company = SupplierMaster::where('deleted', 0)
+            ->pluck('company_name');
+        
+            $items = ItemMaster::where('deleted', 0)
+            ->get();
+        
+            $itemName = $items->where('deleted', 0)
+            ->pluck('item_name')
+            ->map(function ($name) {
                 return strtolower(str_replace(' ', '', $name));
             });
-            $items = DB::table('item_masters')
+        
+            $items = ItemMaster::where('deleted', 0)
             ->get();
-            info($items);
-
-                // info($items);
-                return view('itemmaster.index')->with([
+            
+            return view('itemmaster.index')->with([
                     'items' => $items,
                     'item_type'=>$item_type,
-                    'item_category'=>$item_category,'
-                    item_subcategory'=>$item_subcategory,
+                    'item_category'=>$item_category,
+                    'item_subcategory'=>$item_subcategory,
                     'stock_type'=>$stock_type,
                     'itemName'=>$itemName,
                     'supplier_company'=>$supplier_company
@@ -66,12 +55,7 @@ class ItemMasterController extends Controller
     }
 
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     // DATA SAVE IN ADD DIALOG
     public function store(Request $request)
     {
@@ -95,12 +79,7 @@ class ItemMasterController extends Controller
             return response()->json('Error occurred in the store', 400);
         }
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     // DATA SHOW WHICH IS USED FOR EDIT AND SHOW
     public function show($id)
     {
@@ -142,13 +121,7 @@ class ItemMasterController extends Controller
     }
 
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     // UPDATE SAVE FUNCTION
     public function update(Request $request, $id)
 {
@@ -214,12 +187,6 @@ class ItemMasterController extends Controller
 }
 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     // DELETE FUNCTION
     public function destroy($id)
     {
@@ -230,11 +197,11 @@ class ItemMasterController extends Controller
             // Find and delete the associated item supplier, if it exists
             $itemSupplier = ItemSupplier::where('item_no', $id)->first();
             if ($itemSupplier !== null) {
-                $itemSupplier->delete();
-            }
-    
+                return response()->json('Cannot delete this item. It is associated with a itemsupplier.',200);
+                // $itemSupplier->update('deleted','1');
+            }           
             // Delete the item master
-            $itemMaster->delete();
+            $itemMaster->update(['deleted'=>'1']);
     
             return response()->json('Item Details Deleted Successfully', 200);
         } catch (Exception $e) {

@@ -8,18 +8,15 @@ use Illuminate\Http\Request;
 
 class SupplierMasterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     // FOR MAIN PAGE
-    public function index(Request $request)
+    public function index()
     {
         try
         {
-            if ($request->session()->has('user')) {
-            $supplier = SupplierMaster::all();
+            if (session()->has('user')) {
+                $supplier = SupplierMaster::where('deleted', 0)
+                ->get();            
             $contact_number= $supplier->pluck('contact_number');
             return view('suppliermaster.index')->with([
                 'suppliers' => $supplier,
@@ -40,12 +37,7 @@ class SupplierMasterController extends Controller
 
 
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     // DATA SAVE IN ADD DIALOG
     public function store(Request $request)
     {
@@ -63,12 +55,7 @@ class SupplierMasterController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     // DATA SHOW WHICH IS USED FOR EDIT AND SHOW
     public function show($id)
     {
@@ -85,23 +72,7 @@ class SupplierMasterController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
- 
-
-
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     // UPDATE SAVE FUNCTION
     public function update(Request $request, $id)
     {
@@ -120,16 +91,10 @@ class SupplierMasterController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     // DELETE FUNCTION
     public function destroy($id)
     {
-        info($id);
+       
 
         try 
         {
@@ -138,7 +103,7 @@ class SupplierMasterController extends Controller
             if ($item) {
                 return response()->json('Cannot delete this supplier. It is associated with a item.', 200);
             }
-            $supplier->delete();
+            $supplier->update(['deleted'=>'1']);
             return response()->json('Supplier Details Deleted Successfully', 200);
            
         } 

@@ -350,7 +350,6 @@
                 processData: false,
                 success: function (message) 
                 {
-                    console.log(message);
                     if(action == 'edit')
                     {
                         $('#heading_name').text("Update Site Details").css('font-weight', 'bold');
@@ -360,7 +359,7 @@
                         for (const [key, value] of Object.entries(message[0])) 
                         {
                             $(`#${key}`).val(value);
-                            console.log( $(`#${key}`).val(value));
+                           
                         }
                         $('#method').val('UPDATE');
                         $('#submit').text('UPDATE');
@@ -432,7 +431,7 @@
                 'firstname': firstName
             },
             success: function(data) {
-                console.log(data);
+        
                 for (var i in data) {
                     $('#site_manager').val(data[i]["id"]);
                 }

@@ -917,17 +917,17 @@ function handleShowAndEdit(id,po_no,action)
                     $(`#show_${key}`).text(value);
 
                     }                   
-                    let script = '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th><th>Pack Specification</th><th>Quantity</th><th>Pendind Quantity</th><th>Rate per Quantity</th><th>Unit</th><th>Total</th></tr></thead><tbody>';
-                    for (const item of message.grn_item) 
+                    let script = '<table id="show_table" class="table table-striped"><thead style="text-align: center;"><tr><th>Item Name</th><th>Pack Specification</th><th>Quantity</th><th>Pendind Quantity</th><th>Rate per Quantity</th><th>Unit</th><th>Total</th></tr></thead><tbody>';
+                    for (const item of message.grn_item)
                     {
                         script += '<tr>';
                         script += '<td>' + item.item_name + '</td>';
                         script += '<td style="text-align: center;">' + (item.pack_specification || '-') + '</td>';
-                        script += '<td>' + item.quantity+ '</td>';
-                        script += '<td>' + item.pending_qty+ '</td>';
-                        script += '<td>' + item.rate_per_qty + '</td>';
-                        script += '<td>' + item.item_unit + '</td>';
-                        script += '<td>' + item.item_amount + '</td>';
+                        script += '<td style="text-align: center;">' + item.quantity+ '</td>';
+                        script += '<td style="text-align: center;">' + item.pending_qty+ '</td>';
+                        script += '<td style="text-align: center;">' + item.rate_per_qty + '</td>';
+                        script += '<td style="text-align: center;">' + (item.item_unit || '-') + '</td>';
+                        script += '<td style="text-align: center;">' + item.item_amount + '</td>';
                         script += '</tr>';
                     }
                script+= '</tbody></table>';

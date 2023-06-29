@@ -12,66 +12,74 @@ require_once(app_path('constants.php'));
 
 class EmployeeMasterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    // FOR LOADING PAGE
+    public function index()
     {
         try
         {
-            if ($request->session()->has('user')) {
-            $project_name=ProjectMaster::pluck('project_name');
-            $category = CATEGORY; 
-            $sponsor  = SPONSOR;
-            $sponsor1 = EmployeeMaster::distinct()->pluck('sponser')->toArray();
-            $array1 = array_combine($sponsor1,$sponsor1);
-            $spo = array_unique(array_merge( $sponsor,$array1));
-    
-            $working_as = WORKING_AS;
-            $working = EmployeeMaster::distinct()->pluck('working_as')->toArray();
-            $array2 = array_combine($working,$working);
-            $work = array_unique(array_merge($working_as,$array2));
-            $department = DEPARTMENT;
-            $status = STATUS;
-            $religion = RELIGIONS;
-            $nationality = NATIONALITY;
-            $location = LOCATION;
-            $visa_status = VISA_STATUS;
-            $pay_group =PAY_GROUP;
-            $accomodation = ACCOMODATION;
-            $desigination= DESIGNATION;
-            $v_des = EmployeeMaster::distinct()->pluck('desigination')->toArray();
-            $array = array_combine($v_des,$v_des);
-            $merged = array_unique(array_merge( $desigination,$array));
-        $employee_uae =EmployeeMaster::pluck('UAE_mobile_number');
-   
-            $employes = EmployeeMaster::join('visa_details', 'employee_masters.id', '=', 'visa_details.employee_id')
-            ->join('salary_details', 'employee_masters.id', '=', 'salary_details.employee_id')
-            ->select('employee_masters.*', 'visa_details.*', 'salary_details.*',
-            DB::raw('DATE(employee_masters.join_date) as join_date'))
-            ->where('employee_masters.deleted','0')
-            ->get();
+            if (session()->has('user')) 
+            {
+                $project_name = ProjectMaster::where('deleted', 0)
+                ->pluck('project_name');            
+                $category = CATEGORY; 
+                $sponsor  = SPONSOR;
+                $sponsor1 = EmployeeMaster::where('deleted', 0)
+                ->distinct()
+                ->pluck('sponser')
+                ->toArray();            
+                $array1 = array_combine($sponsor1,$sponsor1);
+                $spo = array_unique(array_merge( $sponsor,$array1));    
+                $working_as = WORKING_AS;
+                $working = EmployeeMaster::where('deleted', 0)
+                ->distinct()
+                ->pluck('working_as')
+                ->toArray();
+            
+                $array2 = array_combine($working,$working);
+                $work = array_unique(array_merge($working_as,$array2));
+                $department = DEPARTMENT;
+                $status = STATUS;
+                $religion = RELIGIONS;
+                $nationality = NATIONALITY;
+                $location = LOCATION;
+                $visa_status = VISA_STATUS;
+                $pay_group =PAY_GROUP;
+                $accomodation = ACCOMODATION;
+                $desigination= DESIGNATION;
+                $v_des = EmployeeMaster::where('deleted', 0)
+                ->distinct()
+                ->pluck('designation')
+                ->toArray();
+            
+                $array = array_combine($v_des,$v_des);
+                $merged = array_unique(array_merge( $desigination,$array));
+                $employee_uae = EmployeeMaster::where('deleted', 0)
+                ->pluck('UAE_mobile_number');  
+                $employes = EmployeeMaster::join('visa_details', 'employee_masters.id', '=', 'visa_details.employee_id')
+                            ->join('salary_details', 'employee_masters.id', '=', 'salary_details.employee_id')
+                            ->select('employee_masters.*', 'visa_details.*', 'salary_details.*',
+                            DB::raw('DATE(employee_masters.join_date) as join_date'))
+                            ->where('employee_masters.deleted','0')
+                            ->get();
      
-            return view('employeemaster.index')->with([
-                'employes' => $employes,
-                'category' => $category,
-                'sponsor'  => $spo,
-                'working_as'=> $work,
-                'department'=> $department,
-                'status' => $status,
-                'religion' => $religion,
-                'nationality' => $nationality,
-                'location' => $location,
-                'visa_status' => $visa_status,
-                'pay_group' => $pay_group,
-                'accomodation' => $accomodation,
-                'desigination' => $merged,
-                'employee_uae'=>$employee_uae,
-                'project_name'=>$project_name
-                
-            ]);
+                return view('employeemaster.index')->with([
+                    'employes' => $employes,
+                    'category' => $category,
+                    'sponsor'  => $spo,
+                    'working_as'=> $work,
+                    'department'=> $department,
+                    'status' => $status,
+                    'religion' => $religion,
+                    'nationality' => $nationality,
+                    'location' => $location,
+                    'visa_status' => $visa_status,
+                    'pay_group' => $pay_group,
+                    'accomodation' => $accomodation,
+                    'desigination' => $merged,
+                    'employee_uae'=>$employee_uae,
+                    'project_name'=>$project_name
+                    
+                ]);
         }
         else{
             return redirect("/");
@@ -82,26 +90,17 @@ class EmployeeMasterController extends Controller
             return response()->json('Error occured in the loading page', 400);
         }
     }
-    
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+        // TO SAVE DATA
     public function store(Request $request)
     {
-
         if($request['over_time']=='')
         {
             $request['over_time']='0';
         }
         $file = $request->file('attachments');
-        // $data1 = $request->except(['_token']);
+        
         try
         {
-
             $employes=EmployeeMaster::create($request->only(EmployeeMaster::REQUEST_INPUTS));
             $request['employee_id']=EmployeeMaster::max('id');
             SalaryDetails::create($request->only(SalaryDetails::REQUEST_INPUTS));
@@ -111,11 +110,9 @@ class EmployeeMasterController extends Controller
                 $fileName = $file->getClientOriginalName();
       // Save the file data as a BLOB in the database
                 $employes->attachments = $fileData;
-                info($fileName);
                 $employes->filename = $fileName;
                 $employes->save();
             }
-
             return response()->json('Employee Details Added Successfully', 200);
 
         }catch (Exception $e) {
@@ -125,12 +122,7 @@ class EmployeeMasterController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+//    GET DATA FOR EDIT AND SHOW
     public function show($id)
     {
         try
@@ -178,23 +170,7 @@ class EmployeeMasterController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
- 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     *
-     */
-   
+//    UPDATE FUNCTION
      public function update(Request $request, $id)
      {
  
@@ -239,12 +215,7 @@ class EmployeeMasterController extends Controller
          }
  
      }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // DELETE FUNCTION
     public function destroy($id)
     {
         try

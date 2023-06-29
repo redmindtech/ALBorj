@@ -155,12 +155,12 @@
                             </table>
                         </center>
                         </div>
-                        <div style="margin-top:8px">
-                            <button class="btn btn-md btn-primary" id="addBtn" type="button">
-                                Add Row
-                            </button>
+                        <div  style="text-align: right;">
+                            <div style="margin-top:8px; margin-right: 106px; display: inline-block;">
+                                <button class="btn btn-md btn-primary" id="addBtn" type="button">Add Row</button>
+                            </div>
                         </div>
-                    </div>
+                        </div>
                     <!-- inline table head end -->
 
                     <div class="row">
@@ -447,16 +447,15 @@
                             }
                             $(`#show_${key}`).text(value);
                         }
-                        let script = '<table id="show_table" class="table table-striped"><thead><tr><th>Item Name</th>Specification<th></th><th>Item Stock</th><th>Quantity</th><th>Unit</th></tr></thead><tbody>';
-                        for (const item of message.mi_item) 
+                        let script = '<table id="show_table" class="table table-striped"><thead style="text-align: center;"><tr><th>Item Name</th><th>Specification</th><th>Item Stock</th><th>Quantity</th><th>Unit</th></tr></thead><tbody>';
+                        for (const item of message.mi_item)
                         {
                             script += '<tr>';
                             script += '<td>' + item.item_name + '</td>';
-                            script +='<td>' + (item.specification || '-') + '</td>';
-                           
-                            script += '<td>' + item.total_quantity + '</td>';
-                            script += '<td>' + item.quantity+ '</td>';
-                            script += '<td>' + item.item_unit + '</td>';
+                            script += '<td style="text-align: center;">' + (item.specification || '-') + '</td>';
+                            script += '<td style="text-align: center;">' + item.total_quantity + '</td>';
+                            script += '<td style="text-align: center;">' + item.quantity+ '</td>';
+                            script += '<td style="text-align: center;">' + (item.item_unit || '-') + '</td>';
                             script += '</tr>';
                         }
                         script+= '</tbody></table>';
@@ -509,71 +508,6 @@
             $("#tbodyMI").append(html);        
             rowIdx++;     
         }
-    // auto complete function for item name and item no
-    // jQuery($ => 
-    // {
-    //     $(document).on('focus', '.item_name', function()
-    //     {            
-    //         $('#tbodyMI').find('.item_name').autocomplete(
-    //         {
-    //             source: function( request, response )
-    //             {
-    //                 $.ajax
-    //                 ({
-    //                     type:"GET",
-    //                     url: "{{ route('getitemnamedata') }}",
-    //                     dataType: "json",
-    //                     data:
-    //                     {
-    //                         'itemname':request.term
-    //                     },
-    //                     success: function( data )
-    //                     {
-    //                         result = [];
-    //                         for(var i in data)
-    //                         {
-    //                             result.push(data[i]["item_name"]);
-    //                         }
-    //                         response(result);
-    //                     },
-    //                     fail: function(xhr, textStatus, errorThrown)
-    //                     {
-    //                         alert(errorThrown);
-    //                     }
-    //                 });
-    //             },
-    //             minLength: 1
-    //         });
-    //     });        
-    // });
-        
-    // $(document).on('change', 'input.item_name', function() 
-    // {     
-    //     var id=rowIdx-1;
-    //     $.ajax
-    //     ({
-    //         type:"GET",
-    //         url: "{{ route('getitemnamedata') }}",
-    //         dataType: "json",
-    //         data:
-    //         {
-    //             'itemname':$(this).val()
-    //         },
-    //         success: function( data )
-    //         { 
-    //             result = [];
-    //             for(var i in data)
-    //             {                    
-    //                 $('#item_no_'+id).val(data[0]["id"]);
-    //                 $('#total_quantity_'+id).text(data[0]["total_quantity"]);       
-    //             }
-    //         },
-    //         fail: function(xhr, textStatus, errorThrown)
-    //         {
-    //             alert(errorThrown);
-    //         }
-    //     });
-    // });
     jQuery($ => {
   $(document).on('focus', 'input.item_name', function() {
     $('#tbodyMI').find('.item_name').autocomplete({

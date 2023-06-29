@@ -15,11 +15,7 @@ require_once(app_path('constants.php'));
 
 class ExpensesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // FOR LOADING PAGE
     public function index()
     {
         try
@@ -28,7 +24,9 @@ class ExpensesController extends Controller
             $vat = VAT;
             if (session()->has('user'))
             {
-                $exp_category = ExpensesCategoryMaster::select('category_name')->get();
+                $exp_category = ExpensesCategoryMaster::where('deleted', 0)
+                ->select('category_name')
+                ->get();            
                 $expenses = DB::table('expenses')
                 ->join('employee_masters', 'expenses.employee_no', '=', 'employee_masters.id')
                 ->join('supplier_masters', 'expenses.supplier_no', '=', 'supplier_masters.supplier_no')
@@ -37,13 +35,15 @@ class ExpensesController extends Controller
                     DB::raw('DATE(expenses.bill_date) as bill_date'), 
                     DB::raw('DATE(expenses.created_at) as date'))
                 ->where('expenses.deleted', '=', 0)
-                ->get();
-            
-                $employee=EmployeeMaster::all();
+                ->get();            
+                $employee = EmployeeMaster::where('deleted', 0)
+                ->get();            
                 $employee_name=$employee->pluck('firstname');
-                $project = ProjectMaster::all();
+                $project = ProjectMaster::where('deleted', 0)
+                ->get();            
                 $project_name=$project->pluck('project_name');
-                $supplier = SupplierMaster::all();
+                $supplier = SupplierMaster::where('deleted', 0)
+                ->get();            
                 $supplier_name=$supplier->pluck('name');
                 return view('expenses.index')->with([
                     'expenses' => $expenses,
@@ -69,34 +69,18 @@ class ExpensesController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+//    SAVE DATA
     public function store(Request $request)
     {
         $file = $request->file('attachment');
          try {
-
-            $exp_category = ExpensesCategoryMaster::select('category_name')->get();
+            $exp_category = ExpensesCategoryMaster::where('deleted', 0)
+            ->select('category_name')
+            ->get();
             if ($exp_category->contains('category_name', $request['exp_category_no'])) {
                 // the value of $request['exp_category_no'] exists in the $exp_category collection
                 // do something here
                 Expenses::create($request->only(Expenses::REQUEST_INPUTS));
-
-
             } else {
                 // the value of $request['exp_category_no'] does not exist in the $exp_category collection
                 // do something else here
@@ -114,26 +98,20 @@ class ExpensesController extends Controller
                 $fileName = $file->getClientOriginalName();
                      // Save the file data as a BLOB in the database
                 $exp_category->attachment = $fileData;
-                info($fileName);
+                
                 $exp_category->filename = $fileName;
                 $exp_category->save();
             }
 
             return response()->json('Expenses Details Created Successfully', 200);
-            info($exp_category);
+            
 
         } catch (Exception $e) {
             info($e);
             return response()->json('Error occured in the store', 400);
         }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Expenses  $expenses
-     * @return \Illuminate\Http\Response
-     */
+// SHOW AND EDIT DATA
     public function show($exp_no)
     {
         try{
@@ -155,28 +133,10 @@ class ExpensesController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Expenses  $expenses
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Expenses $expenses)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Expenses  $expenses
-     * @return \Illuminate\Http\Response
-     */
+    // UPDATE DATA
     public function update(Request $request,  $exp_no)
     {
-
-        try {
+           try {
             $exp_category = ExpensesCategoryMaster::select('category_name')->get();
             if ($exp_category->contains('category_name', $request['exp_category_no']))
             {
@@ -223,17 +183,12 @@ class ExpensesController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Expenses  $expenses
-     * @return \Illuminate\Http\Response
-     */
+    // DELETE DATA
     public function destroy($exp_no)
     {
         try {
             $expense = Expenses::where('exp_no',$exp_no);
-            $expense->update('deleted','1');
+            $expense->update(['deleted'=>'1']);
             return response()->json('Expense Details Deleted Successfully', 200);
 
         } catch (Exception $e) {

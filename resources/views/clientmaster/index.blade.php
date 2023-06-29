@@ -9,7 +9,6 @@
 
 @section('content')
 
-<!-- Add this code where you want to display the date filter -->
 
 
 <!-- DATA table -->
@@ -19,8 +18,7 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
                                 <h4 class="font-weight-bold text-dark py">CLIENT MASTER</h4>
-                            <!-- <label for="startDate">Start Date:</label> <input type="date" id="startDate">
-     <label for="endDate">End Date:</label> <input type="date" id="endDate"> -->
+                            
     
                                 <div style="width:120px">
                                     <button type="button" class="btn btn-block btn-primary" onclick="handleDialog()">Add</button>
@@ -50,8 +48,6 @@
                                     <tbody>
                                         @foreach ($clients as $key => $client)
                                             <tr class="text-center">
-                                                <!-- <td>{{$client->client_no}}</td> -->
-                                               
                                                 <td>{{$client->client_code}}</td>
                                                 <td>{{$client->name}}</td>
                                                 <td>{{$client->company_name}}</td>
@@ -115,7 +111,6 @@
                                                 <option value="{{ $key }}">{{ $value }}</option>
                                             @endforeach
                                         </select>
-
                                 </div>
 
                             </div>
@@ -139,18 +134,17 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="trn_number" class="form-label fw-bold">TRN Number</label>
                                     <input type="text" id="trn_number" name="trn_number" value="{{ old('trn_number') }}" placeholder="TRN Number" class="form-control " autocomplete="off" >
                                     <p style="color: red" id="error_trn_number"></p>
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="website" class="form-label fw-bold">Website</label>
                                     <input type="website" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control" autocomplete="off">
                                 </div>
-                            </div>
-                                <div class="row">
-                                <div class="form-group col-md-6">
+                           
+                                <div class="form-group col-md-4">
                                     <label for="client_code" id="code_lable"class="form-label fw-bold">Client Code</label>
                                     <input type="text" id="client_code" name="client_code" readonly value="{{ old('client_code') }}" placeholder="Client Code" class="form-control" autocomplete="off">
                                 </div>
@@ -281,7 +275,6 @@
             document.getElementById("myDialog").open = false;
              // Clear the form fields
              $('#form')[0].reset();
-             
              $('.error-msg').removeClass('error-msg');
              $('.has-error').removeClass('has-error');
              // Hide any error messages
@@ -340,7 +333,6 @@ var currentClientName;
 var current_contact_number;
         function handleShowAndEdit(id,action)
         {
-
             let url = '{{route('clientApi.show',":id")}}';
             url = url.replace(':id',id);
             let type= "GET"
@@ -353,8 +345,7 @@ var current_contact_number;
                 processData: false,
                 success: function (message)
                 {
-                    console.log(message);
-                    if(action == 'edit')
+                       if(action == 'edit')
                     {
                         $('#heading_name').text("Update Client Details").css('font-weight', 'bold');
                         $('#show').css('display','none');
@@ -362,10 +353,9 @@ var current_contact_number;
                         $('#blur-background').css('display','block');
                         for (const [key, value] of Object.entries(message))
                         {
-                            console.log(`${key}: ${value}`);
                             $(`#${key}`).val(value);
                         }
-                        console.log(message.filename);
+                        
                         $('#filename').text(message.filename);
                         $('#method').val('UPDATE');
                         $('#submit').text('UPDATE');
@@ -375,8 +365,7 @@ var current_contact_number;
                     }
                     else
                     {
-
-                        for (const [key, value] of Object.entries(message))
+                           for (const [key, value] of Object.entries(message))
                         {
                             $(`#show_${key}`).text(value);
                         }
@@ -399,36 +388,34 @@ var current_contact_number;
 
     });
         // inline validation
-        var clientNames = @json($clientNames);
-       var contact_number=@json($contact_number);
+                var clientNames = @json($clientNames);
+                var contact_number=@json($contact_number);
 
-$.validator.addMethod("uniqueContactNumber", function(value, element) {
-  if ($("#method").val() !== "ADD" && value === current_contact_number) {
-    return true;
-  }
-  return !contact_number.includes(value);
-});
+                $.validator.addMethod("uniqueContactNumber", function(value, element) {
+                if ($("#method").val() !== "ADD" && value === current_contact_number) {
+                    return true;
+                }
+                return !contact_number.includes(value);
+                });
 
-$.validator.addMethod("alphanumeric", function(value, element) {
-  return this.optional(element) || /^[A-Za-z ]+$/i.test(value);
-});
-$.validator.addMethod("alphanumeric_website", function(value, element) {
-  return this.optional(element) || /((?:https?|http?\:\/\/|www?\.)(?:[-a-z0-9]+\.)[-a-z0-9]+.)/i.test(value);
-});
-$.validator.addMethod("alphanumeric_trn", function(value, element) {
-                    console.log(value);
+                $.validator.addMethod("alphanumeric", function(value, element) {
+                return this.optional(element) || /^[A-Za-z ]+$/i.test(value);
+                });
+                $.validator.addMethod("alphanumeric_website", function(value, element) {
+                return this.optional(element) || /((?:https?|http?\:\/\/|www?\.)(?:[-a-z0-9]+\.)[-a-z0-9]+.)/i.test(value);
+                });
+                $.validator.addMethod("alphanumeric_trn", function(value, element) {
                     return this.optional(element) || /^[A-Za-z0-9 ]+$/i.test(value);
                 });
   // Initialize form validation
   var formValidationConfig = {
     rules: {
-        name: {
-    required: true,
-     alphanumeric:true,
-
-  },
+    name: {
+        required: true,
+        alphanumeric:true,
+        },
      company_name: "required",
-      contact_number: {
+     contact_number: {
         required: true,
         digits: true,
         minlength: 9,
@@ -494,8 +481,6 @@ $.validator.addMethod("alphanumeric_trn", function(value, element) {
       }
   };
   $("#form").validate(formValidationConfig);
-
-
 
 </script>
 @stop

@@ -66,25 +66,23 @@ class MaterialRequisitionController extends Controller
     public function store(Request $request)
     {
 
-        try {
-            $data = $request->only(MaterialRequisition::REQUEST_INPUTS);
-            $material = MaterialRequisition::create($data);
-            $material_items = $request->input('item_no') ?? null;
-            $quantity = $request->input('quantity') ?? null;
-            $specification = $request->input('specification') ?? null;
-          
-            if (count($material_items) > 0) {
-                foreach ($material_items as $key => $material_item) {
-                    MaterialRequisitionItem::create([
-                        'mr_no' => $material->mr_id,
-                        'item_no' => $material_item,                      
-                        'quantity' => $quantity[$key],
-                        'specification' => $specification[$key]                      
-                        
-                    ]);
-                }
-            }
+        try
+        {
+            $mr =MaterialRequisition::create($request->only(MaterialRequisition::REQUEST_INPUTS));
+            $id=MaterialRequisition::max('mr_id');
 
+            $item_no=count($request['item_no']);
+
+            for ($i = 0; $i < $item_no ; $i++)
+            {
+                MaterialRequisitionItem::create([
+                    'mr_no'=>$id,
+                    'item_no' => $request['item_no'][$i],
+                    'specification' => $request['specification'][$i],
+                    'quantity'=> $request['quantity'][$i],
+                    ]);
+
+            }
             return response()->json('Material Requisition created Successfully');
 
         } catch (Exception $e) {
@@ -92,7 +90,6 @@ class MaterialRequisitionController extends Controller
             return response()->json('Error occured in material store');
         }
     }
-
     /**
      * Display the specified resource.
      *
@@ -135,16 +132,17 @@ class MaterialRequisitionController extends Controller
     public function update(Request $request, $id)
     {
 
-        try {
-            $grn = MaterialRequisition::where('mr_id', $id)->first();
-            $grn->update($request->only(MaterialRequisition::REQUEST_INPUTS));
+        try
+        {
+            $material = MaterialRequisition::where('mr_id', $id)->first();
+            $material->update($request->only(MaterialRequisition::REQUEST_INPUTS));
             // update the material item data
             $itemCount = count($request['item_no']);
-            $grn_delete = MaterialRequisitionItem::where('mr_no', $id)->delete();
+            $mr_delete = MaterialRequisitionItem::where('mr_no', $id)->delete();
             for ($i = 0; $i < $itemCount; $i++) {
                 MaterialRequisitionItem::create([
                     'mr_no' => $id,
-                    'item_no' => $request['item_no'][$i],                    
+                    'item_no' => $request['item_no'][$i],
                     'quantity' => $request['quantity'][$i],
                     'specification' => $request['specification'][$i]
 

@@ -8,39 +8,36 @@ use Illuminate\Http\Request;
 use App\Models\ProjectMaster;
 use App\Models\SiteMaster;
 use App\Models\EmployeeMaster;
-
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 require_once(app_path('constants.php'));
 
 class ProjectMasterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    // loading page
+    public function index()
     {
         try
         {
-            if ($request->session()->has('user')) {
+            if (session()->has('user')) {
             $project_type = PROJECT_TYPE;
             $currency = CURRENCY;
             $project_status= PROJECT_STATUS;
-            $projectmasters=ProjectMaster::all();
+            $projectmasters = ProjectMaster::where('deleted', 0)->get();
             $projectName = $projectmasters->pluck('project_name')->map(function ($name) {
                 return strtolower(str_replace(' ', '', $name));
             });
-            $siteNames = SiteMaster::pluck('site_name');
-            $site_name = SiteMaster::select('site_name')->get();
-            $client_company=ClientMaster::pluck('company_name');
-            $employee=EmployeeMaster::all();
-            $employee_name=$employee->pluck('firstname');
+            $siteNames = SiteMaster::where('deleted', 0)->pluck('site_name');
+            $site_name = SiteMaster::where('deleted', 0)->select('site_name')->get();
+            $client_company = ClientMaster::where('deleted', 0)->pluck('company_name');
+            $employee = EmployeeMaster::where('deleted', 0)->get();
+            $employee_name = $employee->pluck('firstname');
             $projectmaster = DB::table('project_masters')
             ->join('site_masters', 'project_masters.site_no', '=', 'site_masters.site_no')
             ->join('employee_masters', 'project_masters.employee_no', '=', 'employee_masters.id')
             ->join('client_masters', 'project_masters.client_no', '=', 'client_masters.client_no')
+            ->where('project_masters.deleted', 0)
             ->select('site_masters.*', 'employee_masters.*', 'client_masters.*', 'project_masters.*',
             DB::raw('DATE(project_masters.start_date) as start_date'),
             DB::raw('DATE(project_masters.actual_project_end_date) as actual_project_end_date'),
@@ -69,12 +66,7 @@ class ProjectMasterController extends Controller
         }
 
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    // data save function
     public function store(Request $request)
     {
         if($request['amount_type']=="")
@@ -94,14 +86,14 @@ class ProjectMasterController extends Controller
         {
             $request['retention_type']='1' ;
         }
-info($request);
+
         try
         {
 
             ProjectMaster::create($request->only(ProjectMaster::REQUEST_INPUTS));
             // ProjectMasterItem
             $project_id=ProjectMaster::max('project_no');
-            info($project_id);
+           
             for ($i = 0; $i < count($request['item_no']); $i++) {
                 ProjectMasterItem::create([
                    'proj_no' =>$project_id,
@@ -123,19 +115,11 @@ info($request);
             return response()->json('Error occured in the store', 400);
         }
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $project_no
-     * @return \Illuminate\Http\Response
-     */
+    // show data for edit and show
     public function show($project_no)
     {
-
         try
-        {
-
-            $data = DB::table('project_masters')
+        {   $data = DB::table('project_masters')
             ->join('site_masters', 'project_masters.site_no', '=', 'site_masters.site_no')
             ->join('employee_masters', 'project_masters.employee_no', '=', 'employee_masters.id')
             ->join('client_masters', 'project_masters.client_no', '=', 'client_masters.client_no')
@@ -203,7 +187,7 @@ info($request);
 
             $po_delete=ProjectMasterItem::where('proj_no',$id)->delete();
             for ($i = 0;$i <  count($request['item_no']); $i++) {
-                // info(count($request['item_no']));
+              
                 ProjectMasterItem::create([
                     'proj_no' =>$id,
                      'item_no' => $request['item_no'][$i],
@@ -220,21 +204,17 @@ info($request);
             return response()->json('Error occurred in the update', 400);
         }
     }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $project_no
-     * @return \Illuminate\Http\Response
-     */
+  
     // delete
     public function destroy($project_no)
     {
 
         try
         {
-            $site = ProjectMaster::findOrFail($project_no);
-            ProjectMasterItem::where('proj_no',$project_no)->delete();
-            $site->delete();
+            $project = ProjectMaster::findOrFail($project_no);
+            ProjectMasterItem::where('proj_no',$project_no)->update(['deleted'=>'1']);            ;
+            $project->update(['deleted'=>'1']);
+    
             return response()->json('Project Details Deleted Successfully', 200);
 
         }

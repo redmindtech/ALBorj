@@ -10,22 +10,23 @@ use Illuminate\Http\Request;
 require_once(app_path('constants.php'));
 class ClientMasterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  
     // FOR MAIN PAGE
-    public function index(Request $request)
+    public function index()
     {
         try {
             $emirates =SITELOCATION;
             if (session()->has('user')) {
-            $clients = ClientMaster::all();
-            $clientNames = $clients->pluck('name')->map(function ($name) {
+            $clients = ClientMaster::where('deleted',0)->get();
+            $clientNames = $clients->where('deleted', 0)
+            ->pluck('name')
+            ->map(function ($name) {
                 return strtolower(str_replace(' ', '', $name));
             });
-            $contact_number= $clients->pluck('contact_number');
+        
+            $contact_number = $clients->where('deleted', 0)
+            ->pluck('contact_number');
+        
             return view('clientmaster.index')->with([
                 'clients' => $clients,
                 'clientNames'=> $clientNames,
@@ -44,12 +45,6 @@ class ClientMasterController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     // DATA SAVE IN ADD DIALOG
     public function store(Request $request)
     {
@@ -61,8 +56,7 @@ class ClientMasterController extends Controller
                 $fileData = file_get_contents($file->getRealPath());
                 $fileName = $file->getClientOriginalName();
       // Save the file data as a BLOB in the database
-                $clients->attachments = $fileData;
-                info($fileName);
+                $clients->attachments = $fileData;                
                 $clients->filename = $fileName;
                 $clients->save();
             }
@@ -75,14 +69,8 @@ class ClientMasterController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-     // DATA SHOW WHICH IS USED FOR EDIT AND SHOW
-
+    
+// GET DATA FOR EDIT AND SHOW 
     public function show($client_no)
     {
 
@@ -106,7 +94,7 @@ class ClientMasterController extends Controller
                     }
                 });
             }
-            info($clients);
+            
             return response()->json($clients);
 
         } catch (Exception $e) {
@@ -115,21 +103,9 @@ class ClientMasterController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $client_no
-     * @return \Illuminate\Http\Response
-     */
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $client_no
-     * @return \Illuminate\Http\Response
-     */
-
+    
+    
+// POST DATA FOR UPDATE 
 public function update(Request $request, $client_no)
 {
     try {
@@ -162,12 +138,7 @@ public function update(Request $request, $client_no)
 }
 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $client_no
-     * @return \Illuminate\Http\Response
-     */
+//   DELETE FUNCTION
       public function destroy($client_no)
     {
         try {
@@ -175,9 +146,9 @@ public function update(Request $request, $client_no)
             $clients = ClientMaster::findOrFail($client_no);
             $project = ProjectMaster::where('client_no', $client_no)->first();
             if ($project) {
-            return response()->json('Cannot delete the client. It is associated with a project.', 200);
+            return response()->json('Cannot delete this client. It is associated with a project.', 200);
             }
-            $clients->delete();
+            $clients->update(['deleted'=>'1']);
             return response()->json('Client Details Deleted Successfully', 200);
 
         } catch (Exception $e) {
@@ -185,33 +156,6 @@ public function update(Request $request, $client_no)
             return response()->json('Error occured in the edit', 400);
         }
     }
-    public function clientmaster_datesearch(){
-        try{
-        info('hi');
-        $start = $_POST['startDate'];
-        $end=$_POST['endDate'];
-        info($start);
-        info($end);
-        $clients = ClientMaster::whereBetween('created_at', [$start, $end])->get();
-        $emirates =SITELOCATION;
-         info($clients);
-         $clientNames = $clients->pluck('name')->map(function ($name) {
-            return strtolower(str_replace(' ', '', $name));
-        });
-        $contact_number= $clients->pluck('contact_number');
-         return response()->json([
-            'clients' => $clients,
-            'emirates'=> $emirates,
-             'clientNames'=> $clientNames,
-             'contact_number'=> $contact_number
-         ]);
-          
-       
-    }
-    catch (Exception $e) {
-        info($e);
-        return response()->json('Error occured in the search', 400);
-    }
-    }
+    
 
 }

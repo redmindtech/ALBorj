@@ -10,10 +10,17 @@ use Illuminate\Support\Facades\DB;
 class ExpensesCategoryMaster extends Model
 {
     use HasFactory;
-    const REQUEST_INPUTS = [ "category_name","category_description" ];
+    const REQUEST_INPUTS = [ "category_name","category_description","deleted" ];
 
 
     protected $table ='expenses_category_masters';
     protected $primaryKey='id';
-    protected $fillable =   [   "category_name","category_description" ];
+    protected $fillable =   [   "category_name","category_description","deleted" ];
+    protected static function booted()
+    {
+        parent::boot();
+        static::creating(function ($expense_category) {
+            $expense_category->deleted ='0';
+        });
+    }
 }

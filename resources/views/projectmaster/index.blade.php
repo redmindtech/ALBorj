@@ -127,10 +127,7 @@
                         <div class="form-group col-md-4">
                             <label for="site_name" class="form-label fw-bold">Site Name<a
                                     style="text-decoration: none;color:red">*</a></label>
-                            <!-- <input type="text" id="site_name" name="site_name" value="{{ old('site_name') }}"
-                                placeholder="Site Name" class="form-control" autocomplete="off">
-                            <input type="text" id="site_no" hidden name="site_no" value="{{ old('site_no') }}"
-                                class="form-control" autocomplete="off"> -->
+                          
                                 <select id="site_name" name="site_name" class="form-control form-select" autocomplete="off" style="width:100%">
                                     <option value="">Select Option</option>
                                     @foreach ($site_name as $key => $value)
@@ -272,8 +269,7 @@
                                     value="{{ old('total_price_cost') }}" placeholder="Total Project Cost"
                                     class="form-control" autocomplete="off">   
                                 <div class="input-group-append">                              
-                                <!-- <button type="button" class="btn btn-primary btn-sm" id="boq" onclick="boq()">BOQ</button> -->
-                                    <select class="form-select input-group" id="currency" name="currency">                                   
+                                        <select class="form-select input-group" id="currency" name="currency">                                   
                                         @foreach ($currency as $key => $value)
                                             <option value="{{ $key }}">{{ $value }}</option>
                                         @endforeach
@@ -390,12 +386,6 @@
                         $('.toggle-retention input[type="checkbox"]').click(function() {
 
                             $(this).parent().toggleClass('on');
-
-                            // if ($(this).parent().hasClass('on')) {
-                            //     $('#retention_type').val('1');
-                            // } else {
-                            //     $('#retention_type').val('0');
-                            // }
                             if ($(this).parent().hasClass('on')) {
                                 $('#retention_type').val('0');
                                 $(this).parent().children('.label').text('%');
@@ -610,13 +600,11 @@
             '"name="unit[]" class="unit form-control"></div></td>';
         html += '<td><div class="col-xs-12"><input type="number" name="rate_per_qty[]" id="rate_per_qty_' + rowIdx +
             '"  name="rate_per_qty[]" class="rate_per_qty form-control"></div></td>';
-        // html += '<td><div class="col-xs-12"><input type="number" name="discount[]" id="discount_' + rowIdx +
-        //     '"  name="discount[]" class="discount form-control"></div></td>';
+        
         html += '<td><div class="col-xs-12"><input type="text" name="amount[]" id="amount_' + rowIdx +
             '"  name="amount[]" class="amount form-control" readonly></div></td>';
       
-        // html += '<td id="tr_qty"><div class="col-xs-12"><input type="text" name="pending_qty[]" id="pending_qty_' + rowIdx +
-        //     '"  name="pending_qty[]" class="pending_qty" ></div></td>';
+  
         if(rowIdx !=1){
         html +=
             '<td><button class="btn btn-danger remove btn-sm" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
@@ -756,7 +744,7 @@
 
                 }
                 function boq(){
-                    // alert('fff');
+                   
                     if($('#method').val() == 'ADD'){
                         document.getElementById("dialog1").open = true;
                         var tbody = document.getElementById("tbody");
@@ -925,8 +913,6 @@
                         event.preventDefault();
                         let form_data = new FormData(document.getElementById('form'));
                         let form_data1 = new FormData(document.getElementById('form1'));
-                        console.log(form_data1);
-
                         // Combine form data from both forms
                         let combined_form_data = new FormData();
                         for (var pair of form_data.entries()) {
@@ -935,8 +921,6 @@
                         for (var pair of form_data1.entries()) {
                             combined_form_data.append(pair[0], pair[1]);
                         }
-                        console.log(combined_form_data);
-
                         let method = $('#method').val();
                         let url;
                         let type;
@@ -984,8 +968,7 @@
                         cache: false,
                         processData: false,
                         success: function(message) {
-                            console.log(message);
-                            if (action == 'edit') {
+                                if (action == 'edit') {
                                 $('#heading_name').text("Update Project Details").css('font-weight', 'bold');
                                 $('#show').css('display', 'none');
                                 $('#form').css('display', 'block');
@@ -995,7 +978,7 @@
                                     $(`#${key}`).val(value);
                                 }
                                 $('#amount_type').prop('checked', true);
-                                // console.log(message.data[0].amount_type);
+                              
                                 if (message.data[0].amount_type == '0') {
                                     $('#amount_type').val('0');
                                     $('#amount_type').prop('checked', false);
@@ -1009,7 +992,7 @@
                                 }
                                 //rentention
                                 $('#retention_type').prop('checked', true);
-                                // console.log(message.data[0].retention_type);
+                               
                                 if (message.data[0].retention_type == '0') {
                                     $('#retention_type').val('0');
                                     $('#retention_type').prop('checked', false);
@@ -1022,11 +1005,11 @@
                                     $('.toggle-retention .label').text('AED');
                                 }
                                 currentProjectName = message.data[0].project_name.toLowerCase().replace(/ /g, '');
-                               console.log( message.project_item_details[0]);
+                               
                                var rowid=1;
                     for (const item of message.project_item_details) 
                     {
-                        console.log(item.total_quantity);
+                        
                         add_text(); // add a new row to the table
                         $('#item_name_' + rowid).val(item.item_name);
                         $('#item_no_' + rowid).val(item.item_no);
@@ -1147,39 +1130,7 @@
                 });
 
 
-                // auto complete for sitename from sitemaster
-
-
-                // jQuery($ => {
-                //     $(document).on('focus', 'input', '#site_name', function() {
-                //         $("#site_name").autocomplete({
-                //             source: function(request, response) {
-                //                 $.ajax({
-                //                     type: "GET",
-                //                     url: "{{ route('getsitedata') }}",
-                //                     dataType: "json",
-                //                     data: {
-                //                         'site_name': $("#site_name").val()
-                //                     },
-                //                     success: function(data) {
-                //                         result = [];
-                //                         for (var i in data) {
-                //                             result.push(data[i]["site_name"]);
-                //                         }
-                //                         response(result);
-                //                     },
-                //                     fail: function(xhr, textStatus, errorThrown) {
-                //                         alert(errorThrown);
-                //                     }
-                //                 });
-                //             },
-                //             select: function(event, ui) {
-                //                 var selectedSiteName = ui.item.value;
-                //                 updateSiteManagerValue(selectedSiteName);
-                //             }
-                //         });
-                //     });
-
+                
                     // Site code
                     $(document).on('input', '#site_name', function() {
                         var selectedSiteName = $(this).val();
@@ -1195,7 +1146,7 @@
                                 'site_name': siteName
                             },
                             success: function(data) {
-                                console.log(data);
+                                
                                 for (var i in data) {
                                     $('#site_no').val(data[0]["site_no"]);
                                     $('#site_code').val(data[0]["site_code"]);
@@ -1206,7 +1157,7 @@
                             }
                         });
                     }
-                // });
+                
 
                 // auto complete for client from clientmaster
                 jQuery($ => {
@@ -1365,7 +1316,7 @@
                         "item_name[]":
                         {
                             required: true,
-                            // ItemName: "Please enter a valid item name"
+                            
                         }
                     },
                     messages: {
@@ -1418,7 +1369,7 @@
                         "item_name[]":
 {
     required: "Please enter the item name",
-    // ItemName: "Please enter a valid item name"
+  
 },
                     },
                     errorElement: "error",

@@ -259,8 +259,6 @@
                                     style="text-decoration: none;color:red">*</a></label>
                             <input type="text" id="city" name="city" value="{{ old('city') }}"
                                 placeholder="Project Name" class="form-control" autocomplete="off">
-
-
                         </div>
 
                     </div>
@@ -268,13 +266,10 @@
                         <div class="form-group col-md-6">
                             <label for="phone" class="form-label fw-bold">Home Country Contact Number<a
                                     style="text-decoration: none;color:red">*</a></label><br>
-                            <!-- <input type="phone_number" name="phone" id="phone" value="{{ old('phone') }}" placeholder="Phone No" class="input form-control" autocomplete="off"> -->
                             <input type="hidden" id="country_code" name="country_code"
                                 value="{{ old('country_code') }}" />
                             <input type="tel" id="phone" name="phone" value="{{ old('phone') }}"
                                 class="input form-control" size="60">
-
-                            <!-- <input type="tel" id="phone" name="phone"  value="{{ old('phone') }}" placeholder=" phone" class="form-control phone_number" autocomplete="off"> -->
 
                         </div>
                         <div class="form-group col-md-6">
@@ -282,12 +277,10 @@
                                     style="text-decoration: none;color:red">*</a></label>
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">{{ +971 }}</span>
-                                <!-- </div> -->
                                 <input type="text" id="UAE_mobile_number" name="UAE_mobile_number"
                                     value="{{ old('UAE_mobile_number') }}" placeholder=" UAE_mobile_number"
                                     class="form-control" autocomplete="off">
                             </div>
-
                         </div>
                     </div>
                     <div class="row">
@@ -692,7 +685,7 @@
                         cache: false,
                         processData: false,
                         success: function(message) {
-                            console.log(message);
+                            
                             if (action == 'edit') {
                                 $('#heading_name').text("Update Employee Details").css('font-weight', 'bold');
                                 $('#show').css('display', 'none');
@@ -701,9 +694,9 @@
                                 $('#filename').text(message[0].filename);
                                 $('#over_time').prop('checked', true);
                                 for (const [key, value] of Object.entries(message[0])) {
-                                    console.log($(`#${key}`).val(value));
+                                    
                                     $(`#${key}`).val(value);
-                                    // console.log(message[0].country_code);
+                                    
                                     if (message[0].over_time == '1') {
                                         $('#over_time').prop('checked', true);
                                     } else {
@@ -715,8 +708,7 @@
                                     // set default value to the first option
                                     $('#country').val(message[0].country_code);
 
-                                    // $('#country_code').val(iti.getSelectedCountryData().iso2);
-                                    // console.log(message[0].desigination); // Select the option with a value of '1'
+                                   
                                     $('#desigination').val(message[0].desigination);
                                     $('#desigination').select2({
                                         tags: true
@@ -731,7 +723,7 @@
                                     }).next().find('.select2-selection').attr('aria-labelledby', 'working_as-label');
                                  }
                                 currentMobileNumber = message[0].UAE_mobile_number;
-                                console.log(message[0].filename);
+                                
 
                                 $('#method').val('UPDATE');
                                 $('#submit').text('UPDATE');
@@ -796,7 +788,7 @@
                                         for (var i in data) {
                                             result.push(data[i]["project_name"]);
                                         }
-                                        console.log(result);
+                                        
                                         response(result);
                                     },
                                     fail: function(xhr, textStatus, errorThrown) {
@@ -859,11 +851,11 @@
                     return !employee_uae.includes(value);
                 });
                 $.validator.addMethod("alphanumeric", function(value, element) {
-                    console.log(value);
+                    
                     return this.optional(element) || /^[A-Za-z ]+$/i.test(value);
                 });
                 $.validator.addMethod("alphanumeric_pass", function(value, element) {
-                    console.log(value);
+                    
                     return this.optional(element) || /^[A-Za-z0-9 ]+$/i.test(value);
                 });
 
@@ -886,8 +878,7 @@
                     $(document).on('focusout', '.select2-selection', function()
                     {
                         var value = $(this).text();
-                        console.log(value);
-                        console.log($(this).attr('aria-labelledby'));
+                     
 
 
                         if ($(this).attr('aria-labelledby') == 'working_as-label')
@@ -1004,10 +995,7 @@
                         passport_expiry_date: "required",
                         emirates_id_no: {
                             required: true,
-                            // digits: true,
-                            // minlength: 7,
-                            // maxlength: 7,
-                            emirates_id:true,
+                            emirates_id:true
                         },
                         emirates_id_from_date: "required",
                         emirates_id_to_date: {
@@ -1108,10 +1096,7 @@
                         passport_expiry_date: "Please select the passport expiry date",
                         emirates_id_no: {
                             required: "Please enter the emirates id no",
-                            // digits: "Please enter only numbers",
-                            // minlength: "Emirates id no must be exactly 7 numbers",
-                            // maxlength: "Emirates id no must be exactly 7 numbers",
-                            emirates_id:"Please enter a valid Emirates Id in the format(xxx-xxxx-xxxxxxx-x)",
+                            emirates_id:"Please enter a valid Emirates Id in the format(xxx-xxxx-xxxxxxx-x)"
 
                         },
                         emirates_id_from_date: "Please select the emirates id from date",
@@ -1157,7 +1142,6 @@
 
                 };
                 jQuery($ => {
-                    //   $("#form").validate(formValidationConfig).valid();
                     var form = $("#form");
                     form.validate(formValidationConfig);
 
