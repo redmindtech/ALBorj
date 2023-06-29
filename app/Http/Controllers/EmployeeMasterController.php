@@ -48,7 +48,7 @@ class EmployeeMasterController extends Controller
                 $desigination= DESIGNATION;
                 $v_des = EmployeeMaster::where('deleted', 0)
                 ->distinct()
-                ->pluck('designation')
+                ->pluck('desigination')
                 ->toArray();
             
                 $array = array_combine($v_des,$v_des);
