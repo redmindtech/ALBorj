@@ -28,6 +28,7 @@
                                 <th>Supplier Name</th>
                                 <th>Project Name</th>
                                 <th>Purchase Type</th>
+                                <th>Date</th>
                                 <th data-orderable="false" class="action notexport" >Show</th>
                                 <th data-orderable="false" class="action notexport">Edit</th>
                                 <th data-orderable="false" class="action notexport">Delete</th>
@@ -42,6 +43,7 @@
                                     <td>{{$pr->name}}</td>
                                     <td>{{$pr->project_name}}</td>
                                     <td>{{$pr->pr_purchase_type}}</td>
+                                    <td>{{ date('d-m-Y', strtotime($pr->created_at)) }}</td>
 
                                     <td>
                                         <a  onclick="handleShowAndEdit('{{$pr->pr_no}}','show')" class="btn btn-primary btn-circle btn-sm">

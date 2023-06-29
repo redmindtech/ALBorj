@@ -29,11 +29,11 @@
                                  <tr class="text-center">
                                      <!-- <th>S.NO</th> -->
                                      <th>MIR Code</th>
-                                     <th>Location</th>
-                                     <!-- <th>Issue Date</th> -->
+                                     <th>Location</th>                                     
                                      <th>Project Name</th>
-                                     {{-- <th>Employee Name</th> --}}
+                                     <!-- {{-- <th>Employee Name</th> --}} -->
                                      <th>Type</th>
+                                     <th>Issue Date</th>
                                      <th data-orderable="false" class="action notexport">Show</th>
                                      <th data-orderable="false" class="action notexport">Edit</th>
                                      <th data-orderable="false" class="action notexport">Delete</th>
@@ -47,10 +47,11 @@
                                          <!-- <td>{{ $key += 1 }}</td> -->
                                          <td>{{ $material_issue->mir_code }}</td>
                                          <td>{{ $material_issue->location }}</td>
-                                         {{-- {{ $material_issue->issue_date }}</td>  --}}
+                                        
                                          <td>{{ $material_issue->project_name }}</td>
-                                         {{-- <td>{{ $material_issue->firstname }}</td> --}}
+                                         <!-- {{-- <td>{{ $material_issue->firstname }}</td> --}} -->
                                          <td>{{ $material_issue->type }}</td>
+                                         <td>{{ date('d-m-Y', strtotime($material_issue->issue_date))}}</td> 
                                          <td>
                                              <a onclick="handleShowAndEdit('{{ $material_issue->mir_no }}','show')"
                                                  class="btn btn-primary btn-circle btn-sm">

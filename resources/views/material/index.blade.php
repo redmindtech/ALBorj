@@ -48,11 +48,11 @@
                                     @foreach ($materials as $key => $material)
                                         <tr class="text-center">
                                             <td>{{$material->mr_reference_code}}</td>
-                                            <td>{{ date('d-m-Y', strtotime($material->date))}}</td>
+                                            
                                             <td>{{$material->project_name}}</td>  
                                             <td>{{$material->firstname}}</td>                                      
                                             <td>{{$material->voucher_no}}</td>
-                                            <!-- <td>{{$material->purchase_type}}</td> -->
+                                            <td>{{ date('d-m-Y', strtotime($material->date))}}</td>
                                             <td>
                                                 <a onclick="handleShowAndEdit('{{$material->mr_id}}','show')"
                                                     class="btn btn-primary btn-circle btn-sm"   >

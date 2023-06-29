@@ -214,6 +214,7 @@
                                     <th>Vat</th>
                                     <th>Delivery Terms</th>
                                     <th>PO Prepared By</th>
+                                    <th>Date</th>
                                     <th data-orderable="false" class="action notexport">Show</th>
                                     <th data-orderable="false" class="action notexport">Edit</th>
                                     <th data-orderable="false" class="action notexport">Delete</th>
@@ -231,6 +232,7 @@
                                         <td>{{$purchase_order->vat}}</td>
                                         <td>{{$purchase_order->delivery_terms}}</td>
                                         <td>{{$purchase_order->firstname}}</td>
+                                        <td>{{ date('d-m-Y', strtotime($purchase_order->po_date)) }}</td>
                                         <td>
                                             <a  onclick="handleShowAndEdit('{{$purchase_order->po_no}}','show')"
                                                 class="btn btn-primary btn-circle btn-sm"   >
