@@ -253,12 +253,12 @@ public function getpopricedata(){
   try {
       $itemname = $_GET['itemname'];
       $data = DB::table('item_masters')
-          ->select('item_masters.id', 'item_masters.item_name', 'item_supplier.*','item_supplier.supplier_no')
-          ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no','item_masters.item_unit')
+          ->select('item_masters.id', 'item_masters.item_name', 'item_supplier.*','item_supplier.supplier_no','item_masters.item_unit')
+          ->join('item_supplier', 'item_masters.id', '=', 'item_supplier.item_no')
           ->where('item_masters.deleted', 0)
           ->where('item_masters.item_name', 'LIKE', $itemname.'%')
           ->get();
-
+info($data);
       if (count($data) == 0) {
           return response()->json('No data found', 404);
       }
@@ -388,13 +388,13 @@ try{
     $project_no = ProjectMaster::where('deleted', 0)
     ->where('project_name', $projectname)
     ->value('project_no');
-
-    $project_master_item = ProjectMasterItem::where('deleted', 0)
+    
+    $project_master_item = ProjectMasterItem::where('project_master_item.deleted', 0)
     ->where('proj_no', $project_no)
     ->join('item_masters', 'item_masters.id', '=', 'project_master_item.item_no')
     ->select('item_masters.*', 'project_master_item.*')
     ->get();
-
+  
     
     return response()->json([
          'project_master_item' => $project_master_item,
