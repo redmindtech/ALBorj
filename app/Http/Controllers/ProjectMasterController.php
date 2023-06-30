@@ -95,11 +95,13 @@ class ProjectMasterController extends Controller
             $project_id=ProjectMaster::max('project_no');
            
             for ($i = 0; $i < count($request['item_no']); $i++) {
+
                 ProjectMasterItem::create([
                    'proj_no' =>$project_id,
                     'item_no' => $request['item_no'][$i],
                     'specification'=>$request['specification'][$i],
                     'qty' => $request['qty'][$i],
+                    'pending_qty'=>$request['qty'][$i],
                     'unit' => $request['unit'][$i],
                     'rate_per_qty' => $request['rate_per_qty'][$i],                 
                     'amount' => $request['amount'][$i],
@@ -193,6 +195,7 @@ class ProjectMasterController extends Controller
                      'item_no' => $request['item_no'][$i],
                      'specification'=>$request['specification'][$i],
                      'qty' => $request['qty'][$i],
+                     'pending_qty'=>$request['qty'][$i],
                      'unit' => $request['unit'][$i],
                      'rate_per_qty' => $request['rate_per_qty'][$i],                 
                      'amount' => $request['amount'][$i],

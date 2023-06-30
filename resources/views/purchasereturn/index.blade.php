@@ -27,6 +27,7 @@
                                 <th>Purchase Return Code</th>
                                 <th>Supplier Name</th>
                                 <th>Project Name</th>
+                                <th>Return Amount</th>
                                 <th>Purchase Type</th>
                                 <th>Date</th>
                                 <th data-orderable="false" class="action notexport" >Show</th>
@@ -42,6 +43,7 @@
                                     <td>{{$pr->pr_code}}</td>
                                     <td>{{$pr->name}}</td>
                                     <td>{{$pr->project_name}}</td>
+                                    <td>{{$pr->return_amount}}</td>
                                     <td>{{$pr->pr_purchase_type}}</td>
                                     <td>{{ date('d-m-Y', strtotime($pr->created_at)) }}</td>
 
@@ -156,10 +158,11 @@
                                     <th hidden>item_id</th>
                                     <th style="width:5%">Pack Specification</th>
                                     <th style="width:5%">Qty</th>
+                                    <th style="width:2%">unit</th>
                                     <th style="width:5%">Received Qty</th>
                                     <th style="width:5%">Return Qty</th>
                                     <th style="width:5%">Rate per Qty</th>
-                                    <th style="width:2%">unit</th>
+                                 
                                     <th style="width:5%">Total</th>
                                     <th style="width:0.5%">Delete</th>
                                 </tr>
@@ -306,10 +309,11 @@
         html += '<td hidden ><div class="col-xs-12"><input type="text"  id="item_no_'+rowIdx+'"  name="item_no[]" class="item_no_'+rowIdx+'"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="pack_specification_'+rowIdx+'"  name="pack_specification[]" class="pack_specification form-control"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="quantity_'+rowIdx+'" name="quantity[]" class="quantity form-control" readonly></div></td>';
+        html += '<td><center><div class="col-xs-12" id="item_unit_'+ rowIdx + '" ></div></center>';
         html += '<td><div class="col-xs-12"><input type="text" id="receiving_qty_'+rowIdx+'" name="receiving_qty[]" class="receiving_qty form-control" readonly></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="return_qty_'+rowIdx+'" name="return_qty[]" class="return_qty form-control"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="rate_per_qty_'+rowIdx+'"  name="rate_per_qty[]"class="rate_per_qty form-control"></div></td>';
-        html += '<td><center><div class="col-xs-12" id="item_unit_'+ rowIdx + '" ></div></center>';
+       
         html += '<td><div class="col-xs-12"><input type="text"  id="item_amount_'+rowIdx+'"name="item_amount[]" class="item_amount form-control"></div></td>';
         html += '<td><button class="btn btn-danger remove  btn-sm" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
         html += '</tr>';
@@ -624,16 +628,17 @@
 
                     }
                     let script =
-                    '<table id="show_table" class="table table-striped"><thead style="text-align: center;"><tr><th>Item Name</th><th>Pack Specification</th><th>Quantity</th><th>Received Quantity</th><th>Return Quantity</th><th>Rate per Quantity</th><th>Unit</th><th>Total</th></tr></thead><tbody>';
+                    '<table id="show_table" class="table table-striped"><thead style="text-align: center;"><tr><th>Item Name</th><th>Pack Specification</th><th>Quantity</th><th>Unit</th><th>Received Quantity</th><th>Return Quantity</th><th>Rate per Quantity</th><th>Total</th></tr></thead><tbody>';
                     for (const item of message.pr_item) {
                         script += '<tr>';
                         script += '<td>' + item.item_name + '</td>';
                         script += '<td style="text-align: center;">' + (item.pack_specification || '-') + '</td>';
                         script += '<td style="text-align: center;">' + item.quantity + '</td>';
+                        script += '<td style="text-align: center;">' + (item.item_unit || '-') + '</td>';
                         script += '<td style="text-align: center;">' + item.receiving_qty+ '</td>';
                         script += '<td style="text-align: center;">' + item.return_qty +'</td>';
                         script += '<td style="text-align: center;">' + item.rate_per_qty + '</td>';
-                        script += '<td style="text-align: center;">' + (item.item_unit || '-') + '</td>';
+                       
                         script += '<td style="text-align: center;">' + item.item_amount + '</td>';
                         script += '</tr>';
                     }

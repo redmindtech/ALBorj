@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\PaymentReceivables;
 use App\Http\Controllers\Controller;
 use App\Models\PaymentReceivablesItem;
+use App\Models\ProjectMaster;
+use App\Models\ProjectMasterItem;
 use Illuminate\Http\Request;
-
+require_once(app_path('constants.php'));
 class PaymentReceivablesController extends Controller
 {
     /**
@@ -16,6 +18,11 @@ class PaymentReceivablesController extends Controller
      */
     public function index()
     { try{
+        $source = SOURCE;
+        $projectmasters = ProjectMaster::where('deleted', 0)->get();
+        $projectName = $projectmasters->pluck('project_name')->map(function ($name) {
+            return strtolower(str_replace(' ', '', $name));
+        });
        $payment_recs= PaymentReceivables::join('project_masters','payment_receivables.project_no','=','project_masters.project_no')
         ->where('payment_receivables.deleted','=','0')
         ->select('project_masters.project_no','project_masters.project_name','payment_receivables.*')
@@ -24,6 +31,8 @@ class PaymentReceivablesController extends Controller
         return  view('paymentreceivables.index')
             ->with([
                 'payment_recs' => $payment_recs,
+                'source'=>$source,
+                'projectName'=>$projectName
                 
              ]);
             }
@@ -53,12 +62,33 @@ class PaymentReceivablesController extends Controller
     public function store(Request $request)
     {
         try{
-     
-        $payment_receivables = PaymentReceivables::create($request->only(PaymentReceivables::REQUEST_INPUTS));
-        $id=PaymentReceivables::max('id');
+            
+            // $payment_receivables_id= PaymentReceivables::where('deleted',0)->where('project_no',$request['project_no'])->max('id');
+            // info($payment_receivables_id);
+            // if($payment_receivables_id != "")
+            // {
+            //     $request['opening_bal']= PaymentReceivables::where('deleted',0)->where('id',$payment_receivables_id)->value('closing_bal');
+            
+            // }
+            // else{
+            //     $request['opening_bal']=$request['project_cost'];
+            // }
+            // info($request['opening_bal']);
+            // $request['closing_bal']=$request['opening_bal']-$request['received_amt'];
+
+         $payment_receivables = PaymentReceivables::create($request->only(PaymentReceivables::REQUEST_INPUTS));
+         $id=PaymentReceivables::max('id');
         $item_no=count($request['item_no']);
-      
+       
         for ($i = 0; $i < $item_no ; $i++) {
+            $project=ProjectMasterItem::where('proj_no',$request['project_no'])->where('item_no',$request['item_no'][$i])->value('pending_qty');
+           
+            $pending_qty = $project - $request['used_qty'][$i];
+           
+            ProjectMasterItem::where('proj_no', $request['project_no'])
+                ->where('item_no', $request['item_no'][$i])
+                ->update(['pending_qty' => $pending_qty]);
+            
             PaymentReceivablesItem::create([
                'proj_receiv_no'=>$id,
                'item_no' => $request['item_no'][$i],
@@ -91,15 +121,24 @@ class PaymentReceivablesController extends Controller
     {
         
         $payment_recs= PaymentReceivables::join('project_masters','payment_receivables.project_no','=','project_masters.project_no')
+       
         ->where('payment_receivables.deleted','=','0')
         ->where('payment_receivables.id',$id)
-        ->select('project_masters.project_no','project_masters.project_name','payment_receivables.*')
+        ->select('project_masters.project_no','project_masters.project_name','project_masters.project_name','payment_receivables.*')
         ->first();
-        $payment_item=PaymentReceivablesItem::join('item_masters', 'payment_receivables_item.item_no', '=', 'item_masters.id')
-        ->where('deleted','0')
-        ->where('proj_receiv_no',$id)
-        ->select('item_masters.*','payment_receivables_item.*')
+       
+        $payment_item = PaymentReceivablesItem::join('item_masters', 'payment_receivables_item.item_no', '=', 'item_masters.id')
+        ->join('project_master_item', 'item_masters.id', '=', 'project_master_item.item_no')
+        ->join('payment_receivables', function ($join) {
+            $join->on('project_master_item.proj_no', '=', 'payment_receivables.project_no')
+                ->on('payment_receivables_item.proj_receiv_no', '=', 'payment_receivables.id');
+        })
+        ->where('payment_receivables_item.deleted', '0')
+        ->where('payment_receivables_item.proj_receiv_no', $id)
+        ->select('item_masters.*', 'payment_receivables_item.*', 'project_master_item.pending_qty')
+        ->distinct()
         ->get();
+    
 
         return response()->json([
             'payment_recs' => $payment_recs,
@@ -131,6 +170,8 @@ class PaymentReceivablesController extends Controller
     
         try{
         $payment_receivables = PaymentReceivables::where('id', $id)->first();
+                $request['opening_bal']='0';
+                $request['closing_bal']='0';
         $payment_receivables->update($request->only(PaymentReceivables::REQUEST_INPUTS));
         $item_no=count($request['item_no']);
 

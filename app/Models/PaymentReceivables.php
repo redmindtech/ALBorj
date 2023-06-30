@@ -15,6 +15,11 @@ class PaymentReceivables extends Model
         'project_cost',
         "received_amt",
         "balance_amount",
+        "source",
+        "cheque_no",
+        "cheque_date",
+        "opening_bal",
+        "closing_bal",
         "deleted"
 ];
 protected $table = 'payment_receivables';
@@ -27,6 +32,11 @@ protected $fillable =
         'project_cost',
         "received_amt",
         "balance_amount",
+        "source",
+        "cheque_no",
+        "cheque_date",
+        "opening_bal",
+        "closing_bal",
         "deleted"
     ];
     protected static function booted()

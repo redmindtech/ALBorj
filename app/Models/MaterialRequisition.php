@@ -26,7 +26,7 @@ class MaterialRequisition extends Model
     ];
 
     const REQUEST_INPUTS = [
-          "voucher_no",
+        "voucher_no",
         "date",
         "project_id",
         "user_id",

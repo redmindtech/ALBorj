@@ -375,10 +375,11 @@
                                     <th class="text-center">S.No</th>
                                     <th class="text-center" style="width:35%">Item Name</th>
                                     <th class="text-center" style="width:12%">Qty</th>
+                                    <th class="text-center" style="width:5%">Unit</th>
                                     <th class="text-center" style="width:12%">Rate Per Qty</th>                                   
                                     <th class="text-center" style="width:15%">Total</th>
                                     <th class="text-center" style="width:5%">Prior Cost</th>
-                                    <th class="text-center" style="width:5%">Unit</th>
+                                   
                                     <th></th>
                                 </tr>
                             </thead>
@@ -717,6 +718,7 @@
         rowIdx + '" class="item_no_' + rowIdx + '" hidden placeholder=" Item no"></div></td>';
         html += '<td><div class="col-xs-12"><input type="number" name="qty[]"  id="qty_' + rowIdx +
             '"name="qty[]" class="qty form-control"></div></td>';
+            html += '<td><center><div class="col-xs-12" id="item_unit_'+ rowIdx + '" ></div></center></td>';
         html += '<td><div class="col-xs-12"><input type="number" name="rate_per_qty[]" id="rate_per_qty_' + rowIdx +
             '"  name="rate_per_qty[]" class="rate_per_qty form-control"></div></td>';
         // html += '<td><div class="col-xs-12"><input type="number" name="discount[]" id="discount_' + rowIdx +
@@ -724,7 +726,7 @@
         html += '<td><div class="col-xs-12"><input type="text" name="item_amount[]" id="item_amount_' + rowIdx +
             '"  name="item_amount[]" class="item_amount form-control" readonly></div></td>';
         html += '<td><center><div class="col-xs-12" id="price_per_qty_'+ rowIdx + '" ></div></center></td>';
-        html += '<td><center><div class="col-xs-12" id="item_unit_'+ rowIdx + '" ></div></center></td>';
+       
         // html += '<td id="tr_qty"><div class="col-xs-12"><input type="text" name="pending_qty[]" id="pending_qty_' + rowIdx +
         //     '"  name="pending_qty[]" class="pending_qty" ></div></td>';
         if(rowIdx !=1){
@@ -1066,16 +1068,17 @@
                         }       
                         $(`#show_${key}`).text(value);
                     }
-                    let script ='<table id="show_table" class="table table-striped"><thead style="text-align: center;"><tr><th>Item Name</th><th>Quantity</th><th>Rate Per Quantity</th><th>Total</th><th>Previous Rate</th><th>Unit</th></tr></thead><tbody>';
+                    let script ='<table id="show_table" class="table table-striped"><thead style="text-align: center;"><tr><th>Item Name</th><th>Quantity</th><th>Unit</th><th>Rate Per Quantity</th><th>Total</th><th>Previous Rate</th></tr></thead><tbody>';
                     for (const item of message.purchase_orders_item)
                     {
                         script += '<tr>';
                         script += '<td>' + item.item_name + '</td>';
                         script += '<td style="text-align: center;">' + item.qty + '</td>';
+                        script += '<td style="text-align: center;">' + (item.item_unit || '-') + '</td>';
                         script += '<td style="text-align: center;">' + item.rate_per_qty + '</td>';                           
                         script += '<td style="text-align: center;">' + item.item_amount + '</td>';
                         script += '<td style="text-align: center;">' + item.price_per_qty + '</td>';
-                        script += '<td style="text-align: center;">' + (item.item_unit || '-') + '</td>';                          
+                                                 
                         script += '</tr>';
                     }
                     script += '</tbody></table>';

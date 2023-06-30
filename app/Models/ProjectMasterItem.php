@@ -18,6 +18,7 @@ class ProjectMasterItem extends Model
         "rate_per_qty",
         "amount",
         "deleted",
+        "pending_qty"
        
 ];
 protected $table = 'project_master_item';
@@ -33,6 +34,7 @@ protected $fillable =
         "rate_per_qty",
         "amount",
         "deleted",
+        "pending_qty"
       ];
       protected static function booted()
       {

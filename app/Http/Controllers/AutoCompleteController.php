@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ClientMaster;
 use App\Models\EmployeeMaster;
 use App\Models\ItemMaster;
+use App\Models\PaymentReceivables;
 use App\Models\ProjectMaster;
 use App\Models\ProjectMasterItem;
 use App\Models\PurchaseOrder;
@@ -395,11 +396,27 @@ try{
     ->select('item_masters.*', 'project_master_item.*')
     ->get();
   
-    
+    $payment_receivables_id= PaymentReceivables::where('deleted',0)->where('project_no',$project_no)->max('id');
+           
+            if($payment_receivables_id != "")
+            {
+                $opening_bal= PaymentReceivables::where('deleted',0)->where('id',$payment_receivables_id)->value('closing_bal');
+            
+            }
+            else{
+                $total_price_cost = ProjectMaster::where('deleted', 0)
+                ->where('project_no',$project_no)
+                ->value('total_price_cost');
+                $opening_bal=$total_price_cost;
+            }
+            // info($request['opening_bal']);
+            // $request['closing_bal']=$request['opening_bal']-$request['received_amt'];
+
     return response()->json([
          'project_master_item' => $project_master_item,
         'project_no'=>$project_no,
-        'project_name'=>$project_name
+        'project_name'=>$project_name,
+        'opening_bal'=>$opening_bal
     ]);
   
 } catch (Exception $e) {

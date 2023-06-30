@@ -34,6 +34,7 @@
                                             <th>GRN Code</th>                                            
                                             <th>Project Name</th>
                                             <th>Purchase Type</th>
+                                            <th>Total Amount</th>
                                             <th>Discount</th>
                                             <th>Vat</th>
                                             <th>Purchase Amount</th>                                            
@@ -50,7 +51,8 @@
                                                
                                                 <td>{{$grn->grn_code}}</td>                                                                                               
                                                 <td>{{$grn->project_name}}</td> 
-                                                <td>{{$grn->grn_purchase_type}}</td>   
+                                                <td>{{$grn->grn_purchase_type}}</td>  
+                                                <td>{{$grn->total_amount}}</td>  
                                                 <td>{{$grn->discount_amount}}</td>  
                                                 <td>{{$grn->vat}}</td>    
                                                 <td>{{$grn->gross_amount}}</td>                                                 
@@ -173,10 +175,11 @@
                 <th hidden>item_id</th>
                 <th style="width:4%">Pack Spec.</th>
                 <th style="width:1%">Qty</th>
+                <th style="width:2%">Unit</th>
                 <th style="width:1%">Pending Qty</th>
                 <th style="width:1%">Rec.Qty</th>
                 <th style="width:1%">Rate per Qty</th>
-                <th style="width:2%">Unit</th>
+              
                 <th style="width:2%">Total</th>
                 <th style="width:0.5%">Delete</th>
             </tr>
@@ -484,11 +487,12 @@ function add_text()
         html += '<td><div class="col-xs-12"><input type="text" id="pack_specification_'+rowIdx+'"  name="pack_specification[]" class="pack_specification form-control"></div></td>';
         html += '<td><center><div class="col-xs-12" name="quantity[]" id="quantity1_'+ rowIdx + '" ></div></center>';
         html += '<div class="col-xs-12"><input hidden type="text" id="quantity_'+rowIdx+'" name="quantity[]" class="quantity"></td>';
+        html += '<td><center><div class="col-xs-12" id="item_unit_'+ rowIdx + '" ></div></center>';
         html += '<td><center><div class="col-xs-12 pending_qty1"name="pending_qty[]" id="pending_qty1_'+ rowIdx + '" ></div></center>';
         html += '<div class="col-xs-12"><input type="text" hidden id="pending_qty_'+rowIdx+'" name="pending_qty[]" class="pending_qty"></td>';
         html += '<td><div class="col-xs-12"><input type="number" id="receiving_qty_'+rowIdx+'" name="receiving_qty[]" class="receiving_qty form-control"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" id="rate_per_qty_'+rowIdx+'"  name="rate_per_qty[]"class="rate_per_qty form-control"></div></td>';       
-        html += '<td><center><div class="col-xs-12" id="item_unit_'+ rowIdx + '" ></div></center>';
+       
         html += '<td><div class="col-xs-12"><input type="text"  id="item_amount_'+rowIdx+'"name="item_amount[]" class="item_amount form-control"></div></td>';
         html += '<td><button class="btn btn-danger remove btn-sm" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
         html += '</tr>';
@@ -917,16 +921,17 @@ function handleShowAndEdit(id,po_no,action)
                     $(`#show_${key}`).text(value);
 
                     }                   
-                    let script = '<table id="show_table" class="table table-striped"><thead style="text-align: center;"><tr><th>Item Name</th><th>Pack Specification</th><th>Quantity</th><th>Pendind Quantity</th><th>Rate per Quantity</th><th>Unit</th><th>Total</th></tr></thead><tbody>';
+                    let script = '<table id="show_table" class="table table-striped"><thead style="text-align: center;"><tr><th>Item Name</th><th>Pack Specification</th><th>Quantity</th><th>Unit</th><th>Pendind Quantity</th><th>Rate per Quantity</th><th>Total</th></tr></thead><tbody>';
                     for (const item of message.grn_item)
                     {
                         script += '<tr>';
                         script += '<td>' + item.item_name + '</td>';
                         script += '<td style="text-align: center;">' + (item.pack_specification || '-') + '</td>';
                         script += '<td style="text-align: center;">' + item.quantity+ '</td>';
+                        script += '<td style="text-align: center;">' + (item.item_unit || '-') + '</td>';
                         script += '<td style="text-align: center;">' + item.pending_qty+ '</td>';
                         script += '<td style="text-align: center;">' + item.rate_per_qty + '</td>';
-                        script += '<td style="text-align: center;">' + (item.item_unit || '-') + '</td>';
+                       
                         script += '<td style="text-align: center;">' + item.item_amount + '</td>';
                         script += '</tr>';
                     }
