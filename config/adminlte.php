@@ -254,7 +254,7 @@ return [
                 ],
                 [
                     'text' => 'Payment Payables',
-                    'url'  => 'account',
+                    'url'  => 'paymentpayable',
                     'icon' => 'nav-icon fas fa-fw fa-wallet',
                 ],
                 [

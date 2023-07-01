@@ -16,7 +16,7 @@ use App\Http\Controllers\TimeSheetController;
 use APP\Http\ControllersPurchaseOrderController;
 use App\Http\Controllers\PayRollController;
 use App\Http\Controllers\SiteTimeSheetController;
-
+use App\Http\Controllers\PaymentPayableController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,3 +80,4 @@ Route::get('/', function () {
     Route::resource('payroll', 'PayRollController');
     Route::resource('paymentreceivables', 'PaymentReceivablesController');
     Route::resource('sitetimesheet', 'SiteTimeSheetController');
+    Route::resource('paymentpayable', 'PaymentPayableController');

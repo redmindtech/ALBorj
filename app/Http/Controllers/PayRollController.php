@@ -78,23 +78,29 @@ class PayRollController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            info($request);
+        try
+        {
+            //info($request);
             $payrolls=PayRoll::create($request->only(PayRoll::REQUEST_INPUTS));
             // $id = $payroll->id;
             $id= PayRoll::max('id');
+            info(count($request['deduction']));
               // Create PayrollDeduction records
-              for ($i = 0; $i < count($request['deduction']); $i++) {
-                PayrollDeduction::create([
+            for ($i = 0; $i < count($request['deduction']); $i++)
+            {
+                if($request['deduction'][$i] != null)
+                {
+                    PayrollDeduction::create([
 
-                    'payroll_id' => $id,
-                    'deduction' => $request['deduction'][$i],
-                    'reason' => $request['reason'][$i],
-                ]);
+                        'payroll_id' => $id,
+                        'deduction' => $request['deduction'][$i],
+                        'reason' => $request['reason'][$i],
+                    ]);
+                }
+                // Calculate and set the total deduction
+                $totalDeduction = array_sum($request['deduction']);
+                $payrolls->update(['total_deduction' => $totalDeduction]);
             }
-              // Calculate and set the total deduction
-        $totalDeduction = array_sum($request['deduction']);
-        $payrolls->update(['total_deduction' => $totalDeduction]);
 
             return response()->json('PayRoll Details Created Successfully', 200);
 
@@ -182,7 +188,8 @@ class PayRollController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try {
+        try
+        {
             // info($request);
             $payroll = PayRoll::findOrFail($id);
             $payroll->update($request->only(PayRoll::REQUEST_INPUTS));
@@ -191,24 +198,26 @@ class PayRollController extends Controller
             $pay_delete=PayrollDeduction::where('payroll_id', $id)->delete();
 
             // Create new PayrollDeduction records
-            for ($i = 0; $i < count($request['deduction']); $i++) {
-                PayrollDeduction::create([
-                    'payroll_id' => $id,
-                    'deduction' => $request['deduction'][$i],
-                    'reason' => $request['reason'][$i],
-                ]);
+            for ($i = 0; $i < count($request['deduction']); $i++)
+            {
+                if($request['deduction'][$i] != null)
+                {
+                    PayrollDeduction::create([
+                        'payroll_id' => $id,
+                        'deduction' => $request['deduction'][$i],
+                        'reason' => $request['reason'][$i],
+                    ]);
+                }
+                // Calculate and set the total deduction
+                $totalDeduction = array_sum($request['deduction']);
+                $payroll->update(['total_deduction' => $totalDeduction]);
             }
-              // Calculate and set the total deduction
-        $totalDeduction = array_sum($request['deduction']);
-        $payroll->update(['total_deduction' => $totalDeduction]);
-
             return response()->json('PayRoll Details Updated Successfully', 200);
         } catch (Exception $e) {
             info($e);
             return response()->json('Error occurred during update', 400);
         }
     }
-
 
     /**
      * Remove the specified resource from storage.

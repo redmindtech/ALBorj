@@ -64,6 +64,7 @@ Route::get("/getmrcode",[App\Http\Controllers\AutoCompleteController::class,'get
 Route::get("/po_number",[App\Http\Controllers\AutoCompleteController::class,'po_number'])->name('po_number');
 Route::get("/getpaydata",[App\Http\Controllers\AutoCompleteController::class,'getpaydata'])->name('getpaydata');
 Route::get("/get_project_boq",[App\Http\Controllers\AutoCompleteController::class,'get_project_boq'])->name('get_project_boq');
+Route::get("/get_grn_data",[App\Http\Controllers\AutoCompleteController::class,'get_grn_data'])->name('get_grn_data');
 
 // item master
 Route::post("/item", [App\Http\Controllers\ItemMasterController::class, 'store'])->name('store');
@@ -143,3 +144,9 @@ Route::post("/sitetimesheet",[App\Http\Controllers\SiteTimeSheetController::clas
 Route::post("/sitetimesheet/{sitetimesheet}/update", [App\Http\Controllers\SiteTimeSheetController::class, 'update'])->name('sitetimesheetApi.update');
 Route::delete("/sitetimesheet/{sitetimesheet}/delete", [App\Http\Controllers\SiteTimeSheetController::class, 'destroy'])->name('sitetimesheetApi.delete');
 Route::get("/sitetimesheet/{sitetimesheet}/show", [App\Http\Controllers\SiteTimeSheetController::class, 'show'])->name('sitetimesheetApi.show');
+
+// Payment payable
+Route::post("/paymentpayable", [App\Http\Controllers\PaymentPayableController::class, 'store'])->name('paymentpayableApi.store');
+Route::get("/paymentpayable/{ap_no}/show", [App\Http\Controllers\PaymentPayableController::class, 'show'])->name('paymentpayableApi.show');
+Route::post("/paymentpayable/{ap_no}/update", [App\Http\Controllers\PaymentPayableController::class, 'update'])->name('paymentpayableApi.update');
+Route::delete("/paymentpayable/{ap_no}/delete", [App\Http\Controllers\PaymentPayableController::class, 'destroy'])->name('paymentpayableApi.delete');

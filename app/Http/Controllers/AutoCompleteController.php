@@ -425,5 +425,34 @@ try{
     return response()->json('Error occurred in the loading page', 400);
 }
 }
-  
+
+// payment payable
+public function get_grn_data()
+    {
+        try {
+            $project_no = $_GET['project_no'];
+           info($project_no);
+
+           $grn_info = DB::table('goods_received_note')
+           ->join('supplier_masters', 'goods_received_note.supplier_no', '=', 'supplier_masters.supplier_no')
+            ->select('goods_received_note.grn_code','goods_received_note.grn_no', 'goods_received_note.grn_date', 'goods_received_note.supplier_no', 'goods_received_note.project_no','supplier_masters.name','goods_received_note.grn_purchase_type','goods_received_note.grn_invoice_no','goods_received_note.due_Date','goods_received_note.total_amount')
+            ->where('goods_received_note.pay_status', '0')
+            ->where('goods_received_note.project_no', $project_no)
+            ->where('goods_received_note.deleted', '0')
+            ->get();
+
+           $data1= $grn_info;
+
+               return response()->json([
+                   'project_no' => $project_no,
+                   'data1' => $data1,
+
+               ]);
+
+        } catch (Exception $e) {
+            info($e);
+            return response()->json('Error occurred in the get GRN details', 400);
+        }
+    }
+
 }
