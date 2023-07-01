@@ -38,10 +38,12 @@ Route::get("/getSupplier", [App\Http\Controllers\SupplierMasterController::class
  Route::get("/site/{site_no}/show", [App\Http\Controllers\SiteMasterController::class, 'show'])->name('siteApi.show');
 
 // client master
- Route::post("/client", [App\Http\Controllers\ClientMasterController::class, 'store'])->name('clientApi.store');
+Route::post("/client", [App\Http\Controllers\ClientMasterController::class, 'store'])->name('clientApi.store');
 Route::post("/client/{client}/update", [App\Http\Controllers\ClientMasterController::class, 'update'])->name('clientApi.update');
 Route::delete("/client/{client}/delete", [App\Http\Controllers\ClientMasterController::class, 'destroy'])->name('clientApi.delete');
 Route::get("/client/{client}/show", [App\Http\Controllers\ClientMasterController::class, 'show'])->name('clientApi.show');
+Route::get("/client/{client}/soa", [App\Http\Controllers\ClientMasterController::class, 'soa'])->name('clientApi.soa');
+
 // project master
 Route::post("/project", [App\Http\Controllers\ProjectMasterController::class, 'store'])->name('projectApi.store');
  Route::post("/project/{project_no}/update", [App\Http\Controllers\ProjectMasterController::class, 'update'])->name('projectApi.update');

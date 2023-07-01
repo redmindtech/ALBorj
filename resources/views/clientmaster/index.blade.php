@@ -49,7 +49,7 @@
                                         @foreach ($clients as $key => $client)
                                             <tr class="text-center">
                                                 <td>{{$client->client_code}}</td>
-                                                <td>{{$client->name}}</td>
+                                                <td><a href="#" onclick="soadialog('{{$client->client_no}}')">{{$client->name}}</a></td>
                                                 <td>{{$client->company_name}}</td>
                                                 <td>{{$client->contact_number}}</td>
                                                 <td>{{$client->address}}</td>
@@ -208,6 +208,16 @@
 </div>
 
 </dialog>
+<!-- SOA dialog  -->
+<dialog id="myDialog1">
+    <div class="card" id="soa" style="display:none">
+        <div class="card-body" style="background-color:white;">
+        <a class="btn  btn-sm" id="closeButton" onclick="handleClose1()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
+        <h4  id='heading_name' style='color:white;background-color:#319DD9;' align="center"><b>Client Transcation</b></h4>
+        <div id="item_details_show"></div>
+        </div>
+    </div>
+</dialog>
 
 <script type="text/javascript">
     $.ajaxSetup
@@ -269,6 +279,67 @@
                 })
             }
         }
+
+        // sop dialog
+        function soadialog(id)
+        {           
+            document.getElementById("myDialog1").open = true;
+            $('#soa').css('display','block');
+            let url = '{{route('clientApi.soa',":id")}}';
+            url = url.replace(':id',id);
+            let type= "GET"
+            $.ajax
+            ({
+                url: url,
+                type: type,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (message)
+                { console.log(message);
+                        $('#show').css('display','none');
+                        $('#form').css('display','none');
+                        $('#blur-background').css('display','none');
+                        $('#soa').css('display','block');
+                   
+                        let script = '<table id="show_table" class="table table-striped"><thead style="text-align: center;"><tr><th>Project Name</th><th>Opening bal</th><th>Total amout</th><th>Payment type</th><th>Paid amount</th><th>Closing bal</th></tr></thead><tbody>';
+                    for (const item of message)
+                    {
+                        script += '<tr>';
+                        script += '<td>' + item.project_name + '</td>';
+                        script += '<td style="text-align: center;">' + item.opening_bal + '</td>';
+                        script += '<td style="text-align: center;">' + item.total_amount + '</td>';
+                        script += '<td style="text-align: center;">' + item.source + '</td>';
+                        script += '<td style="text-align: center;">' + item.received_amt+ '</td>';
+                        script += '<td style="text-align: center;">' + item.closing_bal + '</td>';
+                       
+                       
+                        script += '</tr>';
+                    }
+               script+= '</tbody></table>';
+               $('show_table').remove();
+               $('#item_details_show').append(script); 
+               $('#blur-background').css('display','block'); 
+                    document.getElementById("myDialog1").open = true;
+                    window.scrollTo(0, 0);
+
+                },
+            })
+        }
+        // DIALOG CLOSE BUTTON
+        function handleClose1()
+        {
+            document.getElementById("myDialog1").open = false;
+             // Clear the form fields
+             $('#form')[0].reset();
+             $('.error-msg').removeClass('error-msg');
+             $('.has-error').removeClass('has-error');
+             // Hide any error messages
+             $('error').html('');
+             // Hide the dialog background
+             $('#blur-background').css('display','none');
+        }
+        
 // DIALOG CLOSE BUTTON
         function handleClose()
         {

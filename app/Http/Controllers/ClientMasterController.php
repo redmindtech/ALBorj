@@ -156,6 +156,15 @@ public function update(Request $request, $client_no)
             return response()->json('Error occured in the edit', 400);
         }
     }
+
+    // SOA for client from receivables
+    public function soa($id)
+    {   
+        $projectData = ProjectMaster::where('client_no', $id)
+        ->join('payment_receivables', 'project_masters.project_no', '=', 'payment_receivables.project_no')
+        ->get(['project_masters.project_no', 'project_masters.project_name','payment_receivables.*']);
+        return response()->json($projectData);    
     
+    }
 
 }
