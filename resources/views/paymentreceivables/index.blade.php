@@ -302,6 +302,36 @@ function handleClose(){
           function handleSubmit() 
           {
             event.preventDefault();
+            $('.rowtr').each(function() {
+        // Get the row index
+        var rowIdx = $(this).attr('id').replace('row', '');
+
+        // Get the receiving quantity value for the current row
+        var used_Qty = parseFloat($('#used_qty_' + rowIdx).val());
+
+        // Get the pending quantity value for the current row
+        var pendingQty = parseFloat($('#pending_qty_' + rowIdx).val());
+
+
+        if (isNaN(used_Qty) ) {
+            alert('Please enter a valid Receiving quantity in row ' + rowIdx);
+            hasError = true;
+            return false; // Exit the loop
+        }
+                // Check if receiving quantity is greater than pending quantity
+                if (used_Qty > pendingQty) {
+                    // Display an error message or handle the condition as needed
+                    alert('Used quantity cannot be greater than pending quantity for row ' + rowIdx);
+                    hasError = true;
+                    return false; // Exit the loop
+                }
+
+            });
+    
+            var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
+            // alert(hiddenErrorElements);
+            if(hiddenErrorElements === 0)
+            {
             let form_data = new FormData(document.getElementById('form'));
             let method = $('#method').val();
             let url;
@@ -333,6 +363,7 @@ function handleClose(){
                 alert(errorMessage);
                 }
             });
+        }
             }
             function handleShowAndEdit(id, action) {
                     let url = '{{ route('payrecApi.show', ':project_no') }}';
@@ -610,7 +641,13 @@ function updateCalculation() {
 
                     return project_Name.includes(lowercaseValue);
                 });
+                $.validator.addMethod("checkUsedQty", function(value, element) {
+                    var rowIdx = $(element).closest('tr').attr('id').substring(3);
+                    var pendingQty = parseFloat($("#pending_qty_" + rowIdx).val());
+                    var usedQty = parseFloat(value);
 
+                    return usedQty <= pendingQty;
+                });
 
                 var formValidationConfig = {
                     rules: {
@@ -640,6 +677,7 @@ function updateCalculation() {
                         "used_qty[]":
                         {
                             required: true,
+                            checkUsedQty: true
                             
                         }
                     },
@@ -661,7 +699,7 @@ function updateCalculation() {
                        "used_qty[]":
                         {
                             required: "Please enter the used qty",
-                        
+                            checkUsedQty: "Used quantity cannot be greater than pending quantity"
                         },
                     },
                     errorElement: "error",

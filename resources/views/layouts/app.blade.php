@@ -120,25 +120,20 @@
     // Add date range filter
     $('<div class="d-flex justify-content-around ml-2 mr-2"><div class="d-flex flex-row"><label class="form-control" for="startDate">Start Date:</label> <input class="form-control" type="date" id="startDate"></div><div class="d-flex flex-row"><label class="form-control" for="endDate">End Date:</label> <input class="form-control" type="date" id="endDate"></div></div>').appendTo('#myTable_wrapper .col-md-6:eq(0) .dt-buttons:eq(0)');
     $('#startDate, #endDate').on('change', function() {
-    var startDate = moment($('#startDate').val()).format('DD-MM-YYYY');
-    
-    var endDate = moment($('#endDate').val()).format('DD-MM-YYYY');
+        var startDate = moment($('#startDate').val()).startOf('day');
+    var endDate = moment($('#endDate').val()).endOf('day');
 
-    $.fn.dataTable.ext.search.push(
-        function(settings, data, dataIndex) {
-            var currentDate = data[data.length - 4];           
-            if (startDate && endDate) {
-                return (currentDate >= startDate && currentDate <= endDate);
-            } else if (startDate) {
-                return (currentDate >= startDate);
-            } else if (endDate) {
-                return (currentDate <= endDate);
-            }
-            
-            return true;
+    $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+        var currentDate = moment(data[data.length - 4], 'DD-MM-YYYY');
+        if (startDate.isValid() && endDate.isValid()) {
+            return currentDate.isBetween(startDate, endDate, null, '[]');
+        } else if (startDate.isValid()) {
+            return currentDate.isSameOrAfter(startDate);
+        } else if (endDate.isValid()) {
+            return currentDate.isSameOrBefore(endDate);
         }
-    );
-
+        return true;
+    });
     var table = $('#myTable').DataTable();
     table.draw();
 

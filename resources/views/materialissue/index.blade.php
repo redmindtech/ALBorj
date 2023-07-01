@@ -534,11 +534,7 @@
                 },
                 error: function(message) {
                     var data = message.responseJSON;
-                    $('p[id ^= "error_"]').html("");
-                    $.each(data.errors, function(key, val) {
-                        console.log(key, val);
-                        $(`#error_${key}`).html(val[0]);
-                    });
+                 
                 }
             });
         }

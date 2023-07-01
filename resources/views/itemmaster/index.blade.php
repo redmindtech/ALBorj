@@ -386,7 +386,7 @@
                                     }
 
                                     let script =
-                                        '<table id="show_table" class="table table-striped"><thead><tr><th>Supplier Name</th><th>Quantity</th><th>Price</th></tr></thead><tbody>';
+                                        '<table id="show_table" class="table table-striped"><thead><tr><th>Supplier Company Name</th><th>Quantity</th><th>Price</th></tr></thead><tbody>';
 
                                     for (const item of message.items) {
                                         script += '<tr>';
