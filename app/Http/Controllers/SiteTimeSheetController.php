@@ -131,7 +131,7 @@ class SiteTimeSheetController extends Controller
         catch (Exception $e) 
         {
             info($e);
-            return response()->json('Error occured in the index', 400);
+            return response()->json('Error occured in the store', 400);
         }
     }
 
@@ -246,6 +246,6 @@ class SiteTimeSheetController extends Controller
      */
     public function destroy(SiteTimeSheet $siteTimeSheet)
     {
-        //
+        
     }
 }

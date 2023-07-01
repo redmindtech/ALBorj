@@ -241,7 +241,8 @@
         var day = dateObj.getDate();
         var month = dateObj.getMonth() + 1;
         var year = dateObj.getFullYear();
-        var formattedDateNew = ('0' + day).slice(-2) + '/' + ('0' + month).slice(-2) + '/' + year;      
+        // var formattedDateNew = ('0' + day).slice(-2) + '/' + ('0' + month).slice(-2) + '/' + year; 
+        var formattedDateNew = year + '/' + ('0' + month).slice(-2) + '/' + ('0' + day).slice(-2);     
         var rowHtml = '<tr id="R' + i + '">' +
             '<td class="row-index">' +
             '<p><input type="text" class="date small-input" name="date[]" value="' + formattedDateNew + '" id="date_' + i + '" readonly></p>' +
