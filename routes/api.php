@@ -137,3 +137,9 @@ Route::post("/payrec", [App\Http\Controllers\PaymentReceivablesController::class
 Route::get("/payrec{id}/show", [App\Http\Controllers\PaymentReceivablesController::class, 'show'])->name('payrecApi.show');
 Route::post("/payrec/{id}/update", [App\Http\Controllers\PaymentReceivablesController::class, 'update'])->name('payrecApi.update');
 Route::delete("/payrec/{id}/delete", [App\Http\Controllers\PaymentReceivablesController::class, 'destroy'])->name('payrecApi.delete');
+
+// SiteLevel Timesheet
+Route::post("/sitetimesheet",[App\Http\Controllers\SiteTimeSheetController::class, 'store'])->name('sitetimesheetApi.store');
+Route::post("/sitetimesheet/{sitetimesheet}/update", [App\Http\Controllers\SiteTimeSheetController::class, 'update'])->name('sitetimesheetApi.update');
+Route::delete("/sitetimesheet/{sitetimesheet}/delete", [App\Http\Controllers\SiteTimeSheetController::class, 'destroy'])->name('sitetimesheetApi.delete');
+Route::get("/sitetimesheet/{sitetimesheet}/show", [App\Http\Controllers\SiteTimeSheetController::class, 'show'])->name('sitetimesheetApi.show');

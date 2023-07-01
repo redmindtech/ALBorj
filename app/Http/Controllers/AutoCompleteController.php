@@ -181,9 +181,10 @@ catch (Exception $e) {
 public function  getsitedata(){
 try{
   $site_name = $_GET['site_name'];
-  $data = SiteMaster::where('deleted', 0)
-    ->where('site_name', 'LIKE', $site_name.'%')
-    ->get();
+  $data = SiteMaster::join('employee_masters', 'site_masters.site_manager', '=', 'employee_masters.id')
+  ->where('site_name','LIKE',$site_name.'%')
+  ->where('site_masters.deleted', '0')
+  ->get();
   return $data;
 }
 catch (Exception $e) {

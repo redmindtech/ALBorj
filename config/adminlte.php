@@ -281,9 +281,15 @@ return [
 
                 ],
                 [
-                    'text' => 'Timesheet-Sitewise',
+                    'text' => 'Timesheet Sitewise',
                     'url'  => 'timesheet',
                     'icon' => 'nav-icon fas fa-fw fa-clock',
+
+                ],
+                [
+                    'text' => 'Site Timesheet',
+                    'url'  => 'sitetimesheet',
+                    'icon' => 'nav-icon fas fa-calendar-alt',
 
                 ],
                 [

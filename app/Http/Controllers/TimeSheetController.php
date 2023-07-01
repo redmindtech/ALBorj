@@ -28,8 +28,8 @@ class TimeSheetController extends Controller
             $times = DB::table('emp_timesheets')
             ->join('site_masters', 'emp_timesheets.site_no', '=', 'site_masters.site_no')
             ->join('employee_masters', 'emp_timesheets.emp_no', '=', 'employee_masters.id')
-            ->join('project_masters', 'emp_timesheets.project_no', '=', 'project_masters.project_no')
-            ->select('site_masters.*', 'employee_masters.*','project_masters.*','emp_timesheets.*')
+            // ->join('project_masters', 'emp_timesheets.project_no', '=', 'project_masters.project_no')
+            ->select('site_masters.*', 'employee_masters.*','emp_timesheets.*')
             ->get();
             return view('timesheet.index')->with([
                 'times' => $times
@@ -67,12 +67,12 @@ class TimeSheetController extends Controller
             {
                 for ($i = 0; $i < $Count; $i++)
                 {
-                    $date = date_create_from_format('d/m/Y', $request['date'][$i]);
-                    $convertedDate = date_format($date, 'Y-m-d');
+                    // $date = date_create_from_format('d/m/Y', $request['date'][$i]);
+                    // $convertedDate = date_format($date, 'Y-m-d');
 
                     EmployeeAttendanceSheet::create([
                         'timesheet_id'=>$time,
-                        'date'=>$convertedDate,
+                        'date'=>$request['date'][$i],
                         'start_time' => $request['start_time'][$i],
                         'end_time' => $request['end_time'][$i],
                         'total_time' => $request['total_time'][$i],
@@ -143,7 +143,8 @@ class TimeSheetController extends Controller
             }
             
             $time_sheet = DB::table('employee_attendance_sheets')
-            ->select('employee_attendance_sheets.*')
+            ->select('employee_attendance_sheets.*',
+            DB::raw('DATE(employee_attendance_sheets.date) as date'))
             ->where('employee_attendance_sheets.timesheet_id', $id)
             ->get();  
         
