@@ -286,12 +286,12 @@ return [
                     'icon' => 'nav-icon fas fa-fw fa-clock',
 
                 ],
-                [
-                    'text' => 'Site Timesheet',
-                    'url'  => 'sitetimesheet',
-                    'icon' => 'nav-icon fas fa-calendar-alt',
+                // [
+                //     'text' => 'Site Timesheet',
+                //     'url'  => 'sitetimesheet',
+                //     'icon' => 'nav-icon fas fa-calendar-alt',
 
-                ],
+                // ],
                 [
                     'text' => 'Employee Payroll',
                     'url'  => 'payroll',

@@ -15,7 +15,6 @@ use App\Http\Controllers\MaterialRequisitionController;
 use App\Http\Controllers\TimeSheetController;
 use APP\Http\ControllersPurchaseOrderController;
 use App\Http\Controllers\PayRollController;
-use App\Http\Controllers\SiteTimeSheetController;
 use App\Http\Controllers\PaymentPayableController;
 
 /*
@@ -70,14 +69,10 @@ Route::get('/', function () {
     Route::get('/account', function () {
         return view('layouts.account');
     });
-    // Route::get('/timesheet', function () {
-    //     return view('timesheet.index');
-    // });
     Route::resource('timesheet', 'TimeSheetController');
     Route::resource('purchaseorder', 'PurchaseOrderController');
     Route::resource('purchasereturn', 'PurchaseReturnController');
     Route::resource('dashboard', 'DashboardController');
     Route::resource('payroll', 'PayRollController');
     Route::resource('paymentreceivables', 'PaymentReceivablesController');
-    Route::resource('sitetimesheet', 'SiteTimeSheetController');
     Route::resource('paymentpayable', 'PaymentPayableController');

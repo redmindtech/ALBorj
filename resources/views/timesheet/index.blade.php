@@ -15,9 +15,14 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between">
                     <h4 class="font-weight-bold text-dark py">Employee TimeSheet</h4>
-                        <div style="width:120px">
+                    <div class="row">
+                        <div class="col">
                             <button type="button" class="btn btn-block btn-primary" onclick="handleDialog()">Add</button>
                         </div>
+                        <div class="col">
+                        <button type="button" class="btn btn-block btn-primary" onclick="openSitePage()">Site</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card">
@@ -162,7 +167,7 @@
                             <th>Leave Type</th>
                         </tr>
                     </thead>
-                    <tbody id="tbody"></tbody>
+                    <tbody id="emp_tbody"></tbody>
                 </table>
             </div>
         </div>
@@ -282,7 +287,7 @@
             '</td>' +
             '</tr>';
 
-        $('#tbody').append(rowHtml);
+        $('#emp_tbody').append(rowHtml);
     }
     // Function to validate holiday and leave checkboxes
     function validateHolidayLeave() 
@@ -319,7 +324,7 @@
         diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
         // Clear previous rows
-        $('#tbody').empty();
+        $('#emp_tbody').empty();
         // create table
         for(let i = 0; i <= diffDays; i++) 
         {
@@ -454,7 +459,7 @@
         document.getElementById("myDialog").open = false;
         // Clear the form fields
         $('#form')[0].reset();
-        $("#tbody").empty();
+        $("#emp_tbody").empty();
         $('#time_table').hide();
         // Hide any error messages
         i=1;
@@ -858,4 +863,523 @@
 
 </script>
 
+<!-- ADD AND EDIT FORM -->
+<dialog id="Dialog">
+    <div class="row">
+        <div class="col-md-12">
+            <a class="btn btn-sm" onclick="CloseSitePage()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
+            <center><h4  id='Siteheadingname' style='color:white;background-color:#319DD9;height: 50px;text-align: center;padding-top: 10px;' align="center"><b>Add SiteTimeSheet</b></h4></center>
+        </div>
+    </div>
+    <form  class="form-row"  enctype="multipart/form-data" style="display:block" id="formsite" onsubmit="SubmitSitePage()">
+        <input type="hidden" id="sitemethod" value="ADDSITE"/>
+        <input type="hidden" id="id" name="id" value=""/><br>
+
+        {!! csrf_field() !!}
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="site_name" class="form-label fw-bold">Site Name<a style="text-decoration: none;color:red">*</a></label>
+                    <input type="text" id="sitename" name="site_name" value="{{ old('site_name') }}" placeholder="Site Name" class="form-control" autocomplete="off">
+                    <input type="text" id="siteno" name="site_no" hidden  value="{{ old('site_no') }}" class="form-control" autocomplete="off"> 
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="site_manager" class="form-label fw-bold">Site Incharge</label>
+                    <input type="text" id="site_manager" readonly value="{{ old('site_manager') }}" placeholder="Site Incharge" class="form-control" autocomplete="off">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="site_location" class="form-label fw-bold">Location</label>
+                    <input type="text" id="site_location" readonly name="site_location" value="{{ old('site_location') }}" placeholder="Site Location" class="form-control" autocomplete="off">
+                  
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="join_date" class="form-label fw-bold">From Date<a style="text-decoration: none;color:red">*</a></label>
+                    <input type="date" id="fromdate" name="from_date" value="{{ old('date') }}" placeholder="date" class="form-control" autocomplete="off">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="join_date" class="form-label fw-bold">To Date<a style="text-decoration: none;color:red">*</a></label>
+                    <input type="date" id="todate" name="to_date" value="{{ old('date') }}" placeholder="date" class="form-control" autocomplete="off">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="employee_name" class="form-label fw-bold">Employee Name<a style="text-decoration: none;color:red">*</a></label>
+                        <div class="input-group">
+                            <input type="text" id="first_name" value="{{ old('firstname') }}" placeholder="Manager Name" class="form-control" autocomplete="off">
+                            <button type="button" class="btn btn-primary" onclick="addEmployeeName()">ADD</button>
+                        </div>
+                        <input type="text" id="empno" name="emp_no" hidden value="{{ old('emp_no') }}" class="form-control" autocomplete="off">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">Employee Names</label>
+                    <textarea class="form-control" id="remarks" cols="30" rows="5" name="remarks" autocomplete="off"></textarea>
+                </div>
+            </div>
+            <script>
+                    
+                var employee = [];
+                function addEmployeeName() 
+                {
+                    var firstname = document.getElementById('first_name').value;
+                    var empNo = document.getElementById('empno').value; // Retrieve emp_no value
+                    var remarks = document.getElementById('remarks');
+                    // Append the entered name to the textarea
+                    remarks.value += firstname + "\n";
+                    // Add emp_no to the employee array
+                    employee.push(empNo);
+
+                    // Clear the input fields
+                    document.getElementById('first_name').value = '';
+                    document.getElementById('empno').value = '';
+                    console.log(employee);
+                }
+            </script>
+
+
+             <!-- ADD & Remove table Employee Attendance Table Heading -->
+            <div class="container pt-4">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead id="sitetime_table">
+                            <tr>
+                                <th>Date</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Total Hours</th>
+                                <th>OT Start Time</th>
+                                <th>OT End Time</th>
+                                <th>OT Total Hours</th>
+                                <th>Holiday</th>
+                                <th>Leave</th>
+                                <th>Leave Type</th>
+                            </tr>
+                        </thead>
+                        <tbody id="site_tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- End Employee Attendance Table Heading -->
+            
+            <div class="row mt-3">
+                <div class="form-group col-md-12">
+                    <button type="submit" id="submitsite"  class="btn btn-primary mx-3 mt-3 ">SAVE</button>
+                </div>
+            </div>
+    </form>
+    
+</dialog>
+<!-- Employee Attendance Sheet Calculations -->
+<script>
+    $('#sitetime_table').hide();
+    // Set the start and end dates
+    var sitestartDate;
+    var siteendDate;
+    var sitediffDays;
+    function add_sitetext(i, formattedDate) 
+    {
+        var dateObj = new Date(formattedDate);
+        var day = dateObj.getDate();
+        var month = dateObj.getMonth() + 1;
+        var year = dateObj.getFullYear();
+        var formattedDateNew = year + '/' + ('0' + month).slice(-2) + '/' + ('0' + day).slice(-2);
+        // var formattedDateNew = ('0' + day).slice(-2) + '/' + ('0' + month).slice(-2) + '/' + year;      
+        var rowHtml = '<tr id="R' + i + '">' +
+            '<td class="row-index">' +
+            '<p><input type="text" class="date small-input" name="date[]" value="' + formattedDateNew + '" id="date_' + i + '" readonly></p>' +
+            '</td>' +
+            '<td class="row-index">' +
+            '<p><input type="time" class="start_time" name="start_time[]" id="start_time_' + i + '"></p>' +
+            '</td>' +
+            '<td class="row-index">' +
+            '<p><input type="time" class="end_time" name="end_time[]" id="end_time_' + i + '"></p>' +
+            '</td>' +
+            '<td class="row-index">' +
+            '<p><input type="text" class="total_time small-input" name="total_time[]" id="total_time_' + i + '" readonly></p>' +
+            '</td>' +
+            '<td class="row-index">' +
+            '<p><input type="time" class="ot_start_time" name="ot_start_time[]" id="ot_start_time_' + i + '"></p>' +
+            '</td>' +
+            '<td class="row-index">' +
+            '<p><input type="time" class="ot_end_time" name="ot_end_time[]" id="ot_end_time_' + i + '"></p>' +
+            '</td>' +
+            '<td class="row-index">' +
+            '<p><input type="text" class="ot_total_time small-input" name="ot_total_time[]" id="ot_total_time_' + i + '" readonly></p>' +
+            '</td>' +
+            '<td class="row-index">' +
+            '<p><input type="checkbox" class="holiday" name="holiday[]" id="holiday_' + i + '" ></p>' +
+            '</td>' +
+            '<td class="row-index">' +
+            '<p><input type="checkbox" class="leave" name="leave[]" id="leave_' + i + '" ></p>' +
+            '</td>' +
+            '<td class="row-index">' +
+            '<p><input type="text" class="leave_type" name="leave_type[]" id="leave_type_' + i + '"></p>' +
+            '</td>' +
+            '<td class="row-index" hidden>' +
+            '<p><input type="text" class="holiday_ref" name="holiday_ref[]" id="holiday_ref_' + i + '" value="0"></p>' +
+            '</td>' +
+            '<td class="row-index" hidden>' +
+            '<p><input type="text" class="leave_ref" name="leave_ref[]" id="leave_ref_' + i + '" value="0"></p>' +
+            '</td>' +
+            '</tr>';
+
+        $('#site_tbody').append(rowHtml);
+    }
+    // Function to validate holiday and leave checkboxes
+    function sitevalidateHolidayLeave() 
+    {
+        $('.holiday').on('change', function() 
+        {
+            if ($(this).is(':checked')) 
+            {
+                var rowId = $(this).attr('id').split('_')[1];
+                $('#leave_' + rowId).prop('checked', false);
+                $('input[name="holiday_ref[]"]').eq(rowId).val(1);
+                $('input[name="leave_ref[]"]').eq(rowId).val(0);
+            }
+        });
+        $('.leave').on('change', function() 
+        {
+            if ($(this).is(':checked')) 
+            {
+                var rowId = $(this).attr('id').split('_')[1];
+                $('#holiday_' + rowId).prop('checked', false);
+                $('input[name="leave_ref[]"]').eq(rowId).val(1);
+                $('input[name="holiday_ref[]"]').eq(rowId).val(0);
+             }
+        });
+    }
+    // function to calculate and populate table rows
+    function sitedateCal() 
+    {
+        sitestartDate = new Date($('#fromdate').val());
+        siteendDate = new Date($('#todate').val());
+
+        // Calculate the number of days between the two dates
+        var timeDiff = Math.abs(siteendDate.getTime() - sitestartDate.getTime());
+        sitediffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+        // Clear previous rows
+        $('#site_tbody').empty();
+        // create table
+        for(let i = 0; i <= sitediffDays; i++) 
+        {
+            let currentDate = new Date(sitestartDate.getTime() + (i * 24 * 60 * 60 * 1000));
+            let formattedDate = currentDate.toISOString().split('T')[0];
+            add_sitetext(i, formattedDate);
+        }
+
+        // Validate holiday and leave checkboxes
+        sitevalidateHolidayLeave();
+    }
+    // table head show
+    $('#todate').on('change', function() 
+    {
+        sitedateCal();
+        $('#sitetime_table').show();
+    });
+
+        
+    // jQuery function to calculate total hours
+    function sitecalculateTotalHours() 
+    {
+        $('input[name="end_time[]"]').each(function(index) 
+        {
+            var row = $(this).closest('tr');
+            var sitestartTime = row.find('input[name="start_time[]"]').val();
+            var siteendTime = row.find('input[name="end_time[]"]').val();
+            var totalHours = 0;
+
+            if (sitestartTime && siteendTime) 
+            {
+                var start = moment(sitestartTime, 'HH:mm');
+                var end = moment(siteendTime, 'HH:mm');
+
+                if (end.isBefore(start)) 
+                {
+                    end.add(1, 'day');
+                }
+                totalHours = end.diff(start, 'hours', true);
+            }
+            $('input[name="total_time[]"]').eq(index).val(totalHours.toFixed(2) + " hours");
+        });
+    }
+
+    // Call the function on change of start and end time inputs
+    $('body').on('change', 'input[name="end_time[]"]', function() 
+    {
+        sitecalculateTotalHours();
+    });
+
+    // Call the function on page load
+    function sitecalculateTotalHours1()
+    {
+        $('input[name="ot_end_time[]"]').each(function(index) 
+        {
+            var row = $(this).closest('tr');
+            var sitestartTime = row.find('input[name="ot_start_time[]"]').val();
+            var siteendTime = row.find('input[name="ot_end_time[]"]').val();
+            var totalHours = 0;
+
+            if (sitestartTime && siteendTime) 
+            {
+                var start = moment(sitestartTime, 'HH:mm');
+                var end = moment(siteendTime, 'HH:mm');
+
+                if (end.isBefore(start)) 
+                {
+                    end.add(1, 'day');
+                }
+                totalHours = end.diff(start, 'hours', true);
+            }
+            $('input[name="ot_total_time[]"]').eq(index).val(totalHours.toFixed(2) + " hours");
+        });
+    }
+
+    // Call the function on change of start and end time inputs
+    $('body').on('change', 'input[name="ot_end_time[]"]', function() 
+    {
+        sitecalculateTotalHours1();
+    });
+</script>
+
+<script type="text/javascript">
+    $.ajaxSetup
+    ({
+        headers: 
+        {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+       
+    //  <!--ADD DIALOG  -->         
+    function openSitePage()
+    {
+        document.getElementById("Dialog").open = true;
+        window.scrollTo(0, 0);
+        $('#sitemethod').val("ADDSITE");
+        $('#submitsite').text("ADDSITE");
+        $('#Siteheadingname').text("Add SiteTimesheet Details").css('font-weight', 'bold');
+        $('#formsite').css('display','block');
+        $('#blur-background').css('display','block');
+    }
+
+    // DIALOG CLOSE BUTTON
+    function CloseSitePage()
+    {
+        document.getElementById("Dialog").open = false;
+        // Clear the form fields
+        $('#formsite')[0].reset();
+        $("#site_tbody").empty();
+        $('#sitetime_table').hide();
+        // Hide any error messages
+        i=1;
+        // Hide any error messages
+        $('p[id^="error_"]').html('');
+        // Hide the dialog background
+        $('#blur-background').css('display','none');
+    }
+
+    // DIALOG SUBMIT FOR ADD AND EDIT
+  
+    function SubmitSitePage() 
+    {
+        event.preventDefault(); 
+
+        let form_data = new FormData(document.getElementById('formsite'));
+        let method = $('#sitemethod').val();
+        let url;
+        let type;
+
+        if (method == 'ADDSITE') 
+        {
+            url = '{{route('sitetimesheetApi.store')}}';
+            type = 'POST';
+        } 
+        form_data.append('employee', JSON.stringify(employee));
+        console.log(employee);
+        $.ajax(
+        {
+            url: url,
+            type: type,
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (message) 
+            {
+                alert(message);
+                window.location.reload();
+            },
+            error: function (message) 
+            {
+                var data = message.responseJSON;
+                $('p[id ^= "error_"]').html("");
+                $.each(data.errors, function (key, val) 
+                {
+                    $(`#error_${key}`).html(val[0]);
+                });
+            }
+        });
+    }
+
+
+    
+        // auto complete from employeemaster
+    jQuery($ => 
+    {
+        $(document).on('focus', 'input',"#first_name", function() 
+        {
+            $("#first_name").autocomplete(
+            {
+                source: function(request, response) 
+                {
+                    $.ajax(
+                    {
+                        type: "GET",
+                        url: "{{ route('getemployeedata') }}",
+                        dataType: "json",
+                        data: 
+                        {
+                            'firstname': $("#first_name").val()
+                        },
+                        success: function(data) 
+                        {
+                            result = [];
+                            for (var i in data) 
+                            {
+                                result.push(data[i]["firstname"]);
+                            }
+                            response(result);
+                        },
+                        fail: function(xhr, textStatus, errorThrown) 
+                        {
+                            alert(errorThrown);
+                        }
+                    });
+                },
+                select: function(event, ui) 
+                {
+                    $('#empno').val(null);
+                    var selectedFirstName = ui.item.value;
+                    updateEmployeeValue(selectedFirstName);
+                }
+            });
+        });
+
+        // EMPLOYEE CODE
+        $("#firstname").on('input', function() 
+        {
+            $('#emp_no').val(null);
+            var selectedFirstName = $(this).val();
+            updateEmployeeValue(selectedFirstName);
+        });
+
+        function updateEmployeeValue(firstName) 
+        {
+            $.ajax(
+            {
+                type: "GET",
+                url: "{{ route('getemployeedata') }}",
+                dataType: "json",
+                data: 
+                {
+                    'firstname': firstName
+                },
+                success: function(data) 
+                {
+                    for (var i in data) 
+                    {
+                        $('#empno').val(data[i]["id"]);
+                    }
+                },
+                fail: function(xhr, textStatus, errorThrown) 
+                {
+                    alert(errorThrown);
+                }
+            });
+        }
+    });
+
+
+        // auto complete for sitename from sitemaster
+        jQuery($ => 
+        {
+            $(document).on('focus click', $("#sitename"), function() 
+            {
+                $("#sitename").autocomplete(
+                {
+                    source: function( request, response ) 
+                    {
+                        $.ajax
+                        ({
+                            type:"GET",
+                            url: "{{ route('getsitedata') }}",
+                            dataType: "json",
+                            data:
+                            {
+                                'site_name':$("#sitename").val()
+                            },
+                            success: function( data ) 
+                            {
+                                result = [];
+                                for(var i in data)
+                                {
+                                    result.push(data[i]["site_name"]);
+                                }
+                                response(result);
+                            },
+                            fail: function(xhr, textStatus, errorThrown)
+                            {
+                                alert(errorThrown);
+                            }
+                        });
+                    },
+                    select: function(event, ui) 
+                    {
+                        $('#siteno').val(null);
+                        var selectedSiteName = ui.item.value;
+                        updateSiteNoValue(selectedSiteName);
+                    }
+                });
+            });
+       
+        // site code
+        $("#sitename").on('input', function() 
+        {
+            $('#siteno').val(null);
+            var selectedSiteName = $(this).val();
+            updateSiteNoValue(selectedSiteName);
+        });
+        function updateSiteNoValue(SiteName) 
+        {
+            $.ajax
+            ({
+                type:"GET",
+                url: "{{ route('getsitedata') }}",
+                dataType: "json",
+                data:
+                {
+                    'site_name':SiteName
+                },
+                success: function( data ) 
+                {
+                    for(var i in data)
+                    {
+                        $('#siteno').val(data[i]["site_no"]);
+                        $('#site_manager').val(data[i]["firstname"]);
+                        $('#site_location').val(data[i]["site_location"]);
+                    }
+                },
+                fail: function(xhr, textStatus, errorThrown)
+                {
+                     alert(errorThrown);
+                }
+            });
+        }
+    });
+
+
+</script>
 @stop                           

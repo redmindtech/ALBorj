@@ -17,7 +17,7 @@ class Expenses extends Model
 
     protected $table ='expenses';
 
-    protected $primaryKey='exp_no  ';
+    protected $primaryKey='exp_no';
 
     protected $fillable = ['exp_code','bill_no','bill_date','employee_no','project_no','supplier_no',
                     'exp_category_no','source', 'bill_amount', 'vat','total_amount', 'attachment','description','cheque_date','cheque_no','filename','deleted'];

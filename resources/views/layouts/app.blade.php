@@ -437,7 +437,7 @@ input[type=checkbox] {
     top: 75%;
     left: 1%;
 }
- #desigination-error, #visa_status-error, #category-error, #sponser-error, #working_as-error, #depart-error {
+ #desigination-error, #visa_status-error, #category-error, #sponser-error, #working_as-error, #depart-error,#exp_category_no-error {
     position: absolute;
     top: 95%;
     left: 1%;

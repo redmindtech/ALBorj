@@ -28,7 +28,6 @@ class TimeSheetController extends Controller
             $times = DB::table('emp_timesheets')
             ->join('site_masters', 'emp_timesheets.site_no', '=', 'site_masters.site_no')
             ->join('employee_masters', 'emp_timesheets.emp_no', '=', 'employee_masters.id')
-            // ->join('project_masters', 'emp_timesheets.project_no', '=', 'project_masters.project_no')
             ->select('site_masters.*', 'employee_masters.*','emp_timesheets.*')
             ->get();
             return view('timesheet.index')->with([
@@ -111,8 +110,7 @@ class TimeSheetController extends Controller
             $time = DB::table('emp_timesheets')
             ->join('site_masters', 'emp_timesheets.site_no', '=', 'site_masters.site_no')
             ->join('employee_masters', 'emp_timesheets.emp_no', '=', 'employee_masters.id')
-            ->join('project_masters', 'emp_timesheets.project_no', '=', 'project_masters.project_no')
-            ->select('site_masters.*', 'employee_masters.*', 'project_masters.*', 'emp_timesheets.*',
+            ->select('site_masters.site_no','site_masters.site_name','site_masters.site_manager','site_masters.site_location', 'employee_masters.*', 'emp_timesheets.*',
             DB::raw('DATE(emp_timesheets.from_date) as from_date'),
             DB::raw('DATE(emp_timesheets.to_date) as to_date'))
             ->where('emp_timesheets.id', $id)
