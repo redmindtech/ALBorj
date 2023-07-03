@@ -597,7 +597,7 @@ function handleClose(){
   
   $('#tbody').on('input', 'input[id^="used_qty_"], input[id^="rate_per_qty_"]', function() {
   var row = $(this).closest('tr');
-  var quantity = parseFloat(row.find('input[id^="qty_"]').val()) || 0;
+  var quantity = parseFloat(row.find('input[id^="pending_qty_"]').val()) || 0;
   var usedQuantity = parseFloat(row.find('input[id^="used_qty_"]').val()) || 0;
   var rate = parseFloat(row.find('input[id^="rate_per_qty_"]').val()) || 0;
   var itemAmount = usedQuantity * rate;
