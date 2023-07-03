@@ -153,15 +153,15 @@
                         <ul>
                             <h6 class="text-bold">PROJECTS:</h6>
                               <ul>
-                                <li>Ongoing projects: 5</li>
-                                <li>Completed projects : 8</li>
+                              <li>Ongoing projects: <a href="``````````````````````````````{{ route('ongoing-projects') }}``````````````````````````````">{{ $ApipiechartData[0]->ongoing_pro }}</a></li>
+                                <li>Completed projects :{{$complete[0]->complete}}</li>
                                 <li>Overall invoice pending amount: AED 10,000.00</li>
                               </ul>
                               <h6 class="text-bold">EMPLOYEES:</h6>
                               <ul>
-                                <li>Active employees: 51</li>
-                                <li>Inactive employees: 3</li>
-                                <li>Document expire: 4</li>
+                                <li>Active employees: {{$emp_active[0]->Working}}</li>
+                                <li>Inactive employees:{{$emp_inactive[0]->inactive}}</li>
+                                <li>Document expire: {{$visa_date[0]->expiry_date}}</li>
                               </ul>
                               <h6 class="text-bold">PURCHASE:</h6>
                               <ul>

@@ -152,3 +152,5 @@ Route::post("/paymentpayable", [App\Http\Controllers\PaymentPayableController::c
 Route::get("/paymentpayable/{ap_no}/show", [App\Http\Controllers\PaymentPayableController::class, 'show'])->name('paymentpayableApi.show');
 Route::post("/paymentpayable/{ap_no}/update", [App\Http\Controllers\PaymentPayableController::class, 'update'])->name('paymentpayableApi.update');
 Route::delete("/paymentpayable/{ap_no}/delete", [App\Http\Controllers\PaymentPayableController::class, 'destroy'])->name('paymentpayableApi.delete');
+// ongoing-projects
+Route::get("/ongoing-projects", [App\Http\Controllers\ReportController::class, 'index'])->name('ongoing-projects');

@@ -213,8 +213,20 @@
     <div class="card" id="soa" style="display:none">
         <div class="card-body" style="background-color:white;">
         <a class="btn  btn-sm" id="closeButton" onclick="handleClose1()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
-        <h4  id='heading_name' style='color:white;background-color:#319DD9;' align="center"><b>Client Transcation</b></h4>
-        <div id="item_details_show"></div>
+        <h4  id='heading_name' style='color:white;background-color:#319DD9;' align="center"><b>Client Transcation</b></h4>        
+
+        <table class="table table-striped">
+            <thead style="text-align: center;">
+            <tr><th>Project Name</th>
+            <th>Opening bal</th>
+            <th>Total amout</th>
+            <th>Payment type</th>
+            <th>Paid amount</th>
+            <th>Closing bal</th></tr></thead>
+            <tbody id="item_details_show">
+            
+</tbody>
+</table>                
         </div>
     </div>
 </dialog>
@@ -282,8 +294,9 @@
 
         // sop dialog
         function soadialog(id)
-        {           
-            document.getElementById("myDialog1").open = true;
+        {        
+                document.getElementById("myDialog1").open = true;
+                $('#item_details_show').empty();
             $('#soa').css('display','block');
             let url = '{{route('clientApi.soa',":id")}}';
             url = url.replace(':id',id);
@@ -296,14 +309,15 @@
                 cache: false,
                 processData: false,
                 success: function (message)
-                { console.log(message);
+                { console.log(message.length);
                         $('#show').css('display','none');
-                        $('#form').css('display','none');
-                        $('#blur-background').css('display','none');
+                        $('#form').css('display','none');                      
                         $('#soa').css('display','block');
-                   
-                        let script = '<table id="show_table" class="table table-striped"><thead style="text-align: center;"><tr><th>Project Name</th><th>Opening bal</th><th>Total amout</th><th>Payment type</th><th>Paid amount</th><th>Closing bal</th></tr></thead><tbody>';
-                    for (const item of message)
+                        $('#blur-background').css('display','block'); 
+                   let script ="";
+                     
+            if (message.length > 0) {
+                     for (const item of message)
                     {
                         script += '<tr>';
                         script += '<td>' + item.project_name + '</td>';
@@ -311,18 +325,15 @@
                         script += '<td style="text-align: center;">' + item.total_amount + '</td>';
                         script += '<td style="text-align: center;">' + item.source + '</td>';
                         script += '<td style="text-align: center;">' + item.received_amt+ '</td>';
-                        script += '<td style="text-align: center;">' + item.closing_bal + '</td>';
-                       
-                       
+                        script += '<td style="text-align: center;">' + item.closing_bal + '</td>';                     
                         script += '</tr>';
-                    }
-               script+= '</tbody></table>';
-               $('show_table').remove();
-               $('#item_details_show').append(script); 
-               $('#blur-background').css('display','block'); 
-                    document.getElementById("myDialog1").open = true;
-                    window.scrollTo(0, 0);
-
+                    }           
+                } else {
+                script = '<tr><td colspan="6" style="text-align: center;">No data found</td></tr>';
+            }
+                            
+               $('#item_details_show').empty().append(script);     
+                   window.scrollTo(0, 0);
                 },
             })
         }
@@ -331,6 +342,7 @@
         {
             document.getElementById("myDialog1").open = false;
              // Clear the form fields
+            
              $('#form')[0].reset();
              $('.error-msg').removeClass('error-msg');
              $('.has-error').removeClass('has-error');

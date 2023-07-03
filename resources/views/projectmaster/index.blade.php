@@ -597,13 +597,11 @@
         html += '<td><div class="col-xs-12"><input type="number" name="qty[]"  id="qty_' + rowIdx +
             '"name="qty[]" class="qty form-control"></div></td>';
             html += '<td><div class="col-xs-12"><input type="number" name="unit[]"  id="unit_' + rowIdx +
-            '"name="unit[]" class="unit form-control"></div></td>';
+            '"name="unit[]" class="unit form-control" readonly></div></td>';
         html += '<td><div class="col-xs-12"><input type="number" name="rate_per_qty[]" id="rate_per_qty_' + rowIdx +
-            '"  name="rate_per_qty[]" class="rate_per_qty form-control"></div></td>';
-        
+            '"  name="rate_per_qty[]" class="rate_per_qty form-control"></div></td>';        
         html += '<td><div class="col-xs-12"><input type="text" name="amount[]" id="amount_' + rowIdx +
-            '"  name="amount[]" class="amount form-control" readonly></div></td>';
-      
+            '"  name="amount[]" class="amount form-control" readonly></div></td>';      
   
         if(rowIdx !=1){
         html +=
