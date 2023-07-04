@@ -34,7 +34,6 @@
                                 <th>Site Name</th>
                                 <th>From Date</th>
                                 <th>To Date</th>
-                                <!-- <th>Total WorkingDays</th> -->
                                 <th>Date</th>
                                 <th data-orderable="false" class="action notexport">Show</th>
                                 <th data-orderable="false" class="action notexport">Edit</th>
