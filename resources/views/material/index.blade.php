@@ -33,11 +33,10 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>MRno</th>
-                                    <th>Date</th>
                                     <th>Project Name</th>   
                                     <th>Employee Name</th>                                        
                                     <th>Invoice No</th>
-                                    <!-- <th>Purchase Type</th> -->
+                                    <th>Date</th>
                                     <th data-orderable="false" class="action notexport">Show</th>
                                     <th data-orderable="false" class="action notexport">Edit</th>
                                     <th data-orderable="false" class="action notexport">Delete</th>
@@ -47,8 +46,7 @@
                                 <tbody>
                                     @foreach ($materials as $key => $material)
                                         <tr class="text-center">
-                                            <td>{{$material->mr_reference_code}}</td>
-                                            
+                                            <td>{{$material->mr_reference_code}}</td>  
                                             <td>{{$material->project_name}}</td>  
                                             <td>{{$material->firstname}}</td>                                      
                                             <td>{{$material->voucher_no}}</td>

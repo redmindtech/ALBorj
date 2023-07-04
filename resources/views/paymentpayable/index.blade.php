@@ -47,8 +47,7 @@
                                         <td>{{ $payment_payable->name }}</td>
                                         <td>{{ $payment_payable->project_name }}</td>
                                         <td>{{ $payment_payable->invoice_amount }}</td>
-                                        {{-- <td>{{ $payment_payable->payable_amount }}</td> --}}
-                                        <td>{{ $payment_payable->created_at }}</td>
+                                        <td>{{date('d-m-Y',  strtotime($payment_payable->created_at))}}</td>
                                         <td>
                                             <a onclick="handleShowAndEdit('{{ $payment_payable->ap_no }}','show')"
                                                 class="btn btn-primary btn-circle btn-sm" id="method" value="SHOW">
@@ -109,8 +108,9 @@
                             <input type="text" id="name" name="name" value="{{ old('name') }}"
                                 placeholder="Supplier Name" class="form-control" autocomplete="off"
                                 onchange="showQuantityField()" readonly>
-                            <input type="text" hidden id="supplier_no" name="supplier_no" value="{{ old('supplier_no') }}"
-                                placeholder="Supplier Id" class="form-control" autocomplete="off">
+                            <input type="text" hidden id="supplier_no" name="supplier_no"
+                                value="{{ old('supplier_no') }}" placeholder="Supplier Id" class="form-control"
+                                autocomplete="off">
                         </div>
                     </div>
 
@@ -193,11 +193,11 @@
                     html += '<tr id="row' + rowIdx + '" class="rowtr">';
                     html += '<td>' + rowIdx + '</td>';
                     html += '<td><div class="col-xs-12"><input type="text" id="grn_date_' + rowIdx +
-                        '" name="grn_date[]" class="grn_date form-control" placeholder="Grn date"></div></td>';
+                        '" name="grn_date[]" readonly class="grn_date form-control" placeholder="Grn date"></div></td>';
                     html += '<td hidden><div class="col-xs-12"><input type="text" id="grn_no_' + rowIdx +
                         '" name="grn_no[]" class="grn_no form-control" required></div></td>';
                     html += '<td><div class="col-xs-12"><input type="text" id="grn_code_' + rowIdx +
-                        '" name="grn_code[]" class="grn_code form-control"></div></td>';
+                        '" name="grn_code[]" readonly class="grn_code form-control"></div></td>';
                     html += '<td><div class="col-xs-12"><input type="text" id="invoice_amount_' + rowIdx +
                         '" name="invoice_amount[]" readonly class="invoice_amount form-control"></div></td>';
                     // html += '<td><div class="col-xs-12"><input type="text" id="payable_amount_' + rowIdx +
@@ -205,7 +205,8 @@
                     html += '<td><div class="col-xs-12"><select id="payment_mode_' + rowIdx +
                         '" name="payment_mode[]" class="payment_mode form-control" onchange="toggleChequeFields(' + rowIdx +
                         ', this)"><option value="">Select Option</option><option value="cheque">Cheque</option><option value="cash">Cash</option></select></div></td>';
-                    html += '<td><button id="submit' + rowIdx + '" class="btn btn-primary mx-3 mt-3 pay-button" onclick="handleSubmit(' + rowIdx + ')">Pay</button></td>';
+                    html += '<td><button id="submit' + rowIdx +
+                        '" class="btn btn-primary mx-3 mt-3 pay-button" onclick="handleSubmit(' + rowIdx + ')">Pay</button></td>';
                     html += '</tr>';
 
                     html += '<tr id="cheque_row_' + rowIdx + '" class="rowtr cheque-row" style="display: none;">';
@@ -270,7 +271,7 @@
                         location.reload(false);
                     }
 
-               }
+                }
 
 
                 // DELETE FUNCTION
@@ -341,7 +342,7 @@
                     form_data.append('project_no', $('#project_no').val());
                     form_data.append('supplier_no', $('#supplier_no').val()); // Access project_no directly
 
-                    if (method == 'ADD') {
+                    if (method === 'ADD') {
                         url = '{{ route('paymentpayableApi.store') }}';
                         type = 'POST';
                     } else {
@@ -360,16 +361,17 @@
                         processData: false,
                         success: function(message) {
                             alert(message);
-                            // handleClose(); // Close the dialog
-                            // window.location.reload();
-                            var clickedButtonId = 'submit' + rowIdx;
-                            $('#' + clickedButtonId).prop('disabled', true);
-
-
+                            console.log(method)
+                            if (method === 'ADD') {
+                                var clickedButtonId = 'submit' + rowIdx;
+                                $('#' + clickedButtonId).prop('disabled', true);
+                            } else if (method === 'UPDATE') {
+                                window.location.reload();
+                            }
                         },
-
-                        error: function(message) {
-                            var data = message.responseJSON;
+                        error: function(xhr, status, error) {
+                            console.log(xhr.responseText); // Log the error response
+                            alert('An error occurred during the AJAX request.');
                         }
                     });
                 }
@@ -395,6 +397,7 @@
                                 $('#form').css('display', 'block');
                                 $('#blur-background').css('display', 'block');
                                 add_text();
+                                $("#project_name").prop("readonly", true);
 
                                 // Assuming you have retrieved the payment_mode value from somewhere
                                 var paymentMode = message.payment_payables[0].payment_mode;
@@ -533,23 +536,27 @@
                                     'project_no': $('#project_no').val(),
                                 },
                                 success: function(data) {
-                                    $('#supplier_no').val(data.data1[0].supplier_no);
-                                    $('#name').val(data.data1[0].name);
+                                    console.log(data.data1.length);
+                                    if (data.data1.length === 0) {
+                                        alert('No data available.');
+                                    } else {
+                                        $('#supplier_no').val(data.data1[0].supplier_no);
+                                        $('#name').val(data.data1[0].name);
 
-                                    var create_id = 1;
-                                    for (const item of data.data1) {
-                                        add_text();
-                                        console.log(data.data1);
+                                        var create_id = 1;
+                                        for (const item of data.data1) {
+                                            add_text();
+                                            console.log(data.data1);
 
-
-                                        $('#grn_date_' + create_id).val(item.grn_date);
-                                        $('#grn_code_' + create_id).val(item.grn_code);
-                                        $('#grn_no_' + create_id).val(item.grn_no);
-                                        $('#invoice_amount_' + create_id).val(item
-                                        .total_amount);
-                                        create_id++;
+                                            $('#grn_date_' + create_id).val(item.grn_date);
+                                            $('#grn_code_' + create_id).val(item.grn_code);
+                                            $('#grn_no_' + create_id).val(item.grn_no);
+                                            $('#invoice_amount_' + create_id).val(item
+                                                .total_amount);
+                                            create_id++;
+                                        }
+                                        rowIdx = 1;
                                     }
-                                    rowIdx = 1;
                                 },
                                 error: function(xhr, textStatus, errorThrown) {
                                     alert(errorThrown);

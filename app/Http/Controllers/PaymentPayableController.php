@@ -141,7 +141,6 @@ class PaymentPayableController extends Controller
                 'grn_date' => $grnDate,
                 'grn_no' => $grnNo,
                 'invoice_amount' => $invoiceAmount,
-                // 'payable_amount' => $payableAmount,
                 'payment_mode' => $paymentType,
                 'cheque_no' => $chequeNo,
                 'cheque_date' => $chequeDate,
@@ -244,7 +243,6 @@ public function update(Request $request, $id)
         $requestedAmount = $request->input('invoice_amount');
         $closingBalance = $openingBalance - $requestedAmount;
 
-        $paymentPayable->payable_amount = $requestedAmount;
         $paymentPayable->opening_balance = $openingBalance;
         $paymentPayable->closing_balance = $closingBalance;
 
