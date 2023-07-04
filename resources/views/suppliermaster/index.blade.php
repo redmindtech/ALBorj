@@ -29,7 +29,7 @@
                                         <tr class="text-center">
                                             <th>Supplier Code</th>
                                             <th>Supplier Name</th>
-                                            <th>Company Name</th>                                          
+                                            <th>Company Name</th>
                                             <th>Contact No</th>
                                             <th>Address</th>
                                             <th>Website</th>
@@ -45,7 +45,7 @@
                                         @foreach ($suppliers as $key => $supplier)
                                             <tr class="text-center">
                                                 <td>{{$supplier->code}}</td>
-                                                <td>{{$supplier->name}}</td>
+                                                <td><a href="#" onclick="soadialog('{{$supplier->supplier_no}}')">{{$supplier->name}}</a></td>
                                                 <td>{{$supplier->company_name}}</td>
                                                 <td>{{$supplier->contact_number}}</td>
                                                 <td>{{$supplier->address}}</td>
@@ -82,42 +82,42 @@
             <div class="row">
 
                 <div class="col-md-12">
-               
+
                      <a class="btn  btn-sm" id="closeButton" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
                      <h4  id='heading_name' style='color:white' align="center"><b>Update Supplier </b></h4>
                 </div>
             </div>
-            
 
- 
+
+
             <form  class="form-row"  enctype="multipart/form-data" style="display:block" id="form" onsubmit="handleSubmit()">
                 <input type="hidden" id="method" value="ADD"/>
                 <input type="hidden" id="supplier_no" name="supplier_no" value=""/><br>
-               
+
 {!! csrf_field() !!}
 <div class="row">
   <div class="form-group col-md-6">
         <label for="name" class="form-label fw-bold">Supplier Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="name"  name="name" value="{{ old('name') }}" placeholder="Supplier Name" class="form-control" autocomplete="off">
-        
+
     </div>
 
     <div class="form-group col-md-6">
         <label for="company_name" class="form-label fw-bold">Company Name<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="company_name" name="company_name" value="{{ old('company_name') }}" placeholder="Company Name" class="form-control" autocomplete="off">
-        
+
     </div>
 </div>
 <div class="row">
     <div class="form-group col-md-6">
         <label for="website" class="form-label fw-bold">Website</label>
         <input type="website" id="website" name="website" value="{{ old('website') }}" placeholder="Website" class="form-control" autocomplete="off">
-        
+
     </div>
     <div class="form-group col-md-6">
         <label for="address" class="form-label fw-bold">Address<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="address" name="address" value="{{ old('address') }}" placeholder="Address" class="form-control" autocomplete="off">
-        
+
     </div>
 </div>
 <div class="row">
@@ -125,15 +125,15 @@
         <label for="contact_number" class="form-label fw-bold">Contact Number<a style="text-decoration: none;color:red">*</a></label>
         <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1">{{+971}}</span>
-         
+
             <input type="text" id="contact_number" name="contact_number" value="{{ old('contact_number') }}" maxlength="10" placeholder="Contact Number" class="form-control" autocomplete="off">
         </div>
-        
+
     </div>
     <div class="form-group col-md-6">
         <label for="mail_id" class="form-label fw-bold">Email Id<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="mail_id" name="mail_id" value="{{ old('mail_id') }}" placeholder="Email Id" class="form-control" autocomplete="off">
-        
+
     </div>
 </div>
 <div class="row">
@@ -141,11 +141,11 @@
 <div class="form-group col-md-6">
     <label for="trn_number" class="form-label fw-bold">TRN Number</label>
     <input type="text" id="trn_number" name="trn_number" value="{{ old('trn_number') }}" placeholder="TRN Number" class="form-control " autocomplete="off" >
-</div>  
+</div>
 <div class="form-group col-md-6">
         <label for="code" id="code_lable"class="form-label fw-bold">Supplier Code<a style="text-decoration: none;color:red">*</a></label>
         <input type="text" id="code" name="code" readonly value="{{ old('code') }}" placeholder="Supplier Code" class="form-control" autocomplete="off">
-        
+
     </div>
 </div>
     <div class="form-group col-md-12">
@@ -162,20 +162,20 @@
                 <tr>
                     <td><label>Supplier Name</label></td>
                     <td><p id="show_name"></p></td>
-                
+
                     <td><label>Company Name</label></td>
                     <td><p id="show_company_name"></p></td>
-              
+
                     <td><label>Supplier Code</label></td>
                     <td><p id="show_code"></p></td>
                 </tr>
                 <tr>
                     <td><label>Address</label></td>
                     <td><p id="show_address"></p></td>
-             
+
                     <td><label>Contact Number</label></td>
                     <td><p id="show_contact_number"></p></td>
-                
+
                     <td><label>Email Id</label></td>
                     <td><p id="show_mail_id"></p></td>
                 </tr>
@@ -191,10 +191,34 @@
 </div>
 </div>
           </dialog>
+
+<!-- SOA dialog  -->
+<dialog id="myDialog1">
+    <div class="card" id="soa" style="display:none">
+        <div class="card-body" style="background-color:white;">
+        <a class="btn  btn-sm" id="closeButton" onclick="handleClose1()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
+        <h4  id='heading_name' style='color:white;background-color:#319DD9;' align="center"><b>Suppier Transcation</b></h4>
+
+        <table class="table table-striped">
+            <thead style="text-align: center;">
+            <tr><th>Supplier Name</th>
+            <th>Opening bal</th>
+            <th>Total amout</th>
+            <th>Payment type</th>
+            {{-- <th>Paid amount</th> --}}
+            <th>Closing bal</th></tr></thead>
+            <tbody id="item_details_show">
+
+</tbody>
+</table>
+        </div>
+    </div>
+</dialog>
+
 <script type="text/javascript">
     $.ajaxSetup
     ({
-        headers: 
+        headers:
         {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
@@ -202,11 +226,11 @@
 </script>
 
 <script>
-        $(function () 
+        $(function ()
         {
             $("#myTable").DataTable();
         });
-</script>    
+</script>
      <!--ADD DIALOG  -->
 <script type="text/javascript">
         function handleDialog()
@@ -234,7 +258,7 @@
                 ({
                     url: url,
                     type: 'DELETE',
-                    success: function (message) 
+                    success: function (message)
                     {
                         alert(message);
                         window.location.reload();
@@ -242,6 +266,67 @@
                 })
             }
         }
+
+        // sop dialog
+        function soadialog(id)
+        {
+                document.getElementById("myDialog1").open = true;
+                $('#item_details_show').empty();
+            $('#soa').css('display','block');
+            let url = '{{route('supplierApi.soa',":id")}}';
+            url = url.replace(':id',id);
+            let type= "GET"
+            $.ajax
+            ({
+                url: url,
+                type: type,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (message)
+                { console.log(message);
+                        $('#show').css('display','none');
+                        $('#form').css('display','none');
+                        $('#soa').css('display','block');
+                        $('#blur-background').css('display','block');
+                   let script ="";
+
+            if (message.length > 0) {
+                     for (const item of message)
+                    {
+                        script += '<tr>';
+                        script += '<td>' + item.name + '</td>';
+                        script += '<td style="text-align: center;">' + item.opening_balance + '</td>';
+                        script += '<td style="text-align: center;">' + item.total_amount + '</td>';
+                        script += '<td style="text-align: center;">' + item.payment_mode + '</td>';
+                        // script += '<td style="text-align: center;">' + item.received_amt+ '</td>';
+                        script += '<td style="text-align: center;">' + item.closing_balance + '</td>';
+                        script += '</tr>';
+                    }
+                } else {
+                script = '<tr><td colspan="6" style="text-align: center;">No data found</td></tr>';
+            }
+
+               $('#item_details_show').empty().append(script);
+                   window.scrollTo(0, 0);
+                },
+            })
+        }
+        // DIALOG CLOSE BUTTON
+        function handleClose1()
+        {
+            document.getElementById("myDialog1").open = false;
+             // Clear the form fields
+
+             $('#form')[0].reset();
+             $('.error-msg').removeClass('error-msg');
+             $('.has-error').removeClass('has-error');
+             // Hide any error messages
+             $('error').html('');
+             // Hide the dialog background
+             $('#blur-background').css('display','none');
+        }
+
     // DIALOG CLOSE BUTTON
         function handleClose()
         {
@@ -261,7 +346,7 @@
         {
             event.preventDefault();
             var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
-           
+
             if(hiddenErrorElements === 0)
             {
                 let form_data = new FormData(document.getElementById('form'));
@@ -272,15 +357,15 @@
                 {
                     url = '{{route('supplierApi.store')}}';
                     type  = 'POST';
-                } 
-                else 
+                }
+                else
                 {
                     let id = $('#supplier_no').val();
                     url = '{{route('supplierApi.update',":id")}}';
                     url= url.replace(':id',id);
                     type = 'POST';
                 }
-                    $.ajax  
+                    $.ajax
                     ({
                         url: url,
                         type: type,
@@ -288,21 +373,21 @@
                         contentType: false,
                         cache: false,
                         processData: false,
-                        success: function (message) 
+                        success: function (message)
                         {
                             alert(message);
                             window.location.reload();
                         },
-                        error: function (message) 
+                        error: function (message)
                         {
                             var data = message.responseJSON;
                         }
                     })
                 }
             }
-            
 
-        //DATA SHOW FOR EDIT AND SHOW 
+
+        //DATA SHOW FOR EDIT AND SHOW
         var current_contact_number;
         function handleShowAndEdit(id,action)
         {
@@ -316,14 +401,14 @@
                 contentType: false,
                 cache: false,
                 processData: false,
-                success: function (message) 
+                success: function (message)
                 {
                     if(action == 'edit')
                     {
                         $('#heading_name').text("Update Supplier Details").css('font-weight', 'bold');
                         $('#show').css('display','none');
                         $('#form').css('display','block');
-                        for (const [key, value] of Object.entries(message)) 
+                        for (const [key, value] of Object.entries(message))
                         {
                              $(`#${key}`).val(value);
                         }
@@ -331,8 +416,8 @@
                         $('#submit').text('UPDATE');
                         $('#blur-background').css('display','block');
                         current_contact_number=message.contact_number;
-                    } 
-                    else 
+                    }
+                    else
                     {
                         for (const [key, value] of Object.entries(message))
                         {
@@ -346,11 +431,11 @@
                     }
                     document.getElementById("myDialog").open = true;
                     window.scrollTo(0, 0);
-                    
+
                 },
             })
         }
-        
+
     document.getElementById("print").addEventListener("click", function() {
         $('#heading_name').css('color', 'black').css('font-weight', 'bold');
         window.print();
@@ -375,10 +460,10 @@ $.validator.addMethod("email", function(value, element) {
   return this.optional(element) || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i.test(value);
 });
 $.validator.addMethod("alphanumeric_website", function(value, element) {
-  return this.optional(element) || /((?:https?|http?\:\/\/|www?\.)(?:[-a-z0-9]+\.)*[-a-z0-9]+.*)/i.test(value);
+  return this.optional(element) || /((?:https?|http?\:\/\/|www?\.)(?:[-a-z0-9]+\.)[-a-z0-9]+.)/i.test(value);
 });
 $.validator.addMethod("alphanumeric_trn", function(value, element) {
-                   
+
                     return this.optional(element) || /^[A-Za-z0-9 ]+$/i.test(value);
                 });
   // Initialize form validation
@@ -387,7 +472,7 @@ $.validator.addMethod("alphanumeric_trn", function(value, element) {
         name: {
     required: true,
      alphanumeric:true,
-    
+
   },
      company_name: "required",
       contact_number: {
@@ -417,7 +502,7 @@ $.validator.addMethod("alphanumeric_trn", function(value, element) {
         name: {
     required: "Please enter the supplier name",
      alphanumeric: "Supplier name allows only alphabets",
-     
+
   },
        company_name: "Please enter the company name",
       contact_number: {
@@ -428,7 +513,7 @@ $.validator.addMethod("alphanumeric_trn", function(value, element) {
         uniqueContactNumber:"This Contact Number is already exists.Please enter new number"
       },
       address: "Please enter the address",
-      website:{ 
+      website:{
         alphanumeric_website:"Please enter a valid website",
       },
       mail_id:
@@ -446,14 +531,14 @@ $.validator.addMethod("alphanumeric_trn", function(value, element) {
       highlight: function(element, errorClass, validClass) {
         $(element).addClass(errorClass).removeClass(validClass);
         $(element).closest('.form-group').addClass('has-error');
-       
+
       },
       unhighlight: function(element, errorClass, validClass) {
         $(element).removeClass(errorClass).addClass(validClass);
         $(element).closest('.form-group').removeClass('has-error');
-        
+
       },
-     
+
   };
   $("#form").validate(formValidationConfig);
 </script>

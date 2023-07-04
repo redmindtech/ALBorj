@@ -30,7 +30,7 @@
                                     <th>Supplier Name</th>
                                     <th>Project Name</th>
                                     <th>Amount</th>
-                                    <th>Payable Amount</th>
+                                    {{-- <th>Payable Amount</th> --}}
                                     <th>Created At</th>
                                     <th data-orderable="false" class="action notexport">Show</th>
                                     <th data-orderable="false" class="action notexport">Edit</th>
@@ -47,11 +47,11 @@
                                         <td>{{ $payment_payable->name }}</td>
                                         <td>{{ $payment_payable->project_name }}</td>
                                         <td>{{ $payment_payable->invoice_amount }}</td>
-                                        <td>{{ $payment_payable->payable_amount }}</td>
+                                        {{-- <td>{{ $payment_payable->payable_amount }}</td> --}}
                                         <td>{{ $payment_payable->created_at }}</td>
                                         <td>
                                             <a onclick="handleShowAndEdit('{{ $payment_payable->ap_no }}','show')"
-                                                class="btn btn-primary btn-circle btn-sm">
+                                                class="btn btn-primary btn-circle btn-sm" id="method" value="SHOW">
                                                 <i class="fas fa-flag"></i>
                                             </a>
                                         </td>
@@ -109,7 +109,7 @@
                             <input type="text" id="name" name="name" value="{{ old('name') }}"
                                 placeholder="Supplier Name" class="form-control" autocomplete="off"
                                 onchange="showQuantityField()" readonly>
-                            <input type="hidden" id="supplier_no" name="supplier_no" value="{{ old('supplier_no') }}"
+                            <input type="text" hidden id="supplier_no" name="supplier_no" value="{{ old('supplier_no') }}"
                                 placeholder="Supplier Id" class="form-control" autocomplete="off">
                         </div>
                     </div>
@@ -123,7 +123,7 @@
                                         <th style="width:15%">Date</th>
                                         <th>Grn No</th>
                                         <th>Amount</th>
-                                        <th>Payable Amount</th>
+                                        {{-- <th>Payable Amount</th> --}}
                                         <th>Payment Type</th>
                                         <th></th>
                                     </tr>
@@ -166,10 +166,7 @@
                                 <label>Invoice Amount</label>
                                 <p id="show_invoice_amount"></p>
                             </div>
-                            <div class="col-md-4">
-                                <label>Payable Amount</label>
-                                <p id="show_payable_amount"></p>
-                            </div>
+
                             <div class="col-md-4">
                                 <label>Payment Mode</label>
                                 <p id="show_payment_mode"></p>
@@ -203,13 +200,12 @@
                         '" name="grn_code[]" class="grn_code form-control"></div></td>';
                     html += '<td><div class="col-xs-12"><input type="text" id="invoice_amount_' + rowIdx +
                         '" name="invoice_amount[]" readonly class="invoice_amount form-control"></div></td>';
-                    html += '<td><div class="col-xs-12"><input type="text" id="payable_amount_' + rowIdx +
-                        '" name="payable_amount[]"  class="payable_amount form-control"></div></td>';
+                    // html += '<td><div class="col-xs-12"><input type="text" id="payable_amount_' + rowIdx +
+                    //     '" name="payable_amount[]"  class="payable_amount form-control"></div></td>';
                     html += '<td><div class="col-xs-12"><select id="payment_mode_' + rowIdx +
                         '" name="payment_mode[]" class="payment_mode form-control" onchange="toggleChequeFields(' + rowIdx +
                         ', this)"><option value="">Select Option</option><option value="cheque">Cheque</option><option value="cash">Cash</option></select></div></td>';
-                    html += '<td><button id="submit" class="btn btn-primary mx-3 mt-3" onclick="handleSubmit(' + rowIdx +
-                        ')">Pay</button></td>';
+                    html += '<td><button id="submit' + rowIdx + '" class="btn btn-primary mx-3 mt-3 pay-button" onclick="handleSubmit(' + rowIdx + ')">Pay</button></td>';
                     html += '</tr>';
 
                     html += '<tr id="cheque_row_' + rowIdx + '" class="rowtr cheque-row" style="display: none;">';
@@ -255,8 +251,9 @@
                     document.getElementById("myDialog").open = false;
                     $("#myDialog").load(location.href + " #myDialog > *");
                     rowIdx = 1;
-                    // Clear the form fields
+                    // // Clear the form fields
                     $('#form')[0].reset();
+
 
                     // Hide any error messages
                     $('.error-msg').removeClass('error-msg');
@@ -265,7 +262,15 @@
                     $('error').html('');
                     // Hide the dialog background
                     $('#blur-background').css('display', 'none');
-                }
+                    // Refresh the page if the method is 'ADD'
+                    if ($('#method').val() === 'ADD') {
+                        window.location.reload();
+                    }
+                    if ($('#method').val() === 'SHOW') {
+                        location.reload(false);
+                    }
+
+               }
 
 
                 // DELETE FUNCTION
@@ -294,21 +299,12 @@
 
                     // Validate the form fields before submitting
 
-                    var payableAmount = $('#payable_amount_' + rowIdx).val();
+                    // var payableAmount = $('#payable_amount_' + rowIdx).val();
                     var paymentMode = $('#payment_mode_' + rowIdx).val();
                     var chequeNo = $('#cheque_no_' + rowIdx).val();
                     var chequeDate = $('#cheque_date_' + rowIdx).val();
 
 
-                    if (payableAmount === '') {
-                        alert('Please enter a payable amount in row ' + rowIdx);
-                        return;
-                    }
-
-                    if (!/^\d+(\.\d+)?$/.test(payableAmount)) {
-                        alert('Payable amount should only contain numbers in row ' + rowIdx);
-                        return;
-                    }
 
                     if (paymentMode === '') {
                         alert('Please select a payment mode in row ' + rowIdx);
@@ -331,18 +327,19 @@
                     form_data.append('grn_date', $('#grn_date_' + rowIdx).val());
                     form_data.append('grn_no', $('#grn_no_' + rowIdx).val());
                     form_data.append('invoice_amount', $('#invoice_amount_' + rowIdx).val());
-                    form_data.append('payable_amount', $('#payable_amount_' + rowIdx).val());
+                    // form_data.append('payable_amount', $('#payable_amount_' + rowIdx).val());
                     form_data.append('payment_mode', $('#payment_mode_' + rowIdx).val());
 
                     // Check the payment mode to add additional data if necessary
-                    // let paymentMode = $('#payment_mode_' + rowIdx).val();
+
                     if (paymentMode === 'cheque') {
                         form_data.append('cheque_no', $('#cheque_no_' + rowIdx).val());
                         form_data.append('cheque_date', $('#cheque_date_' + rowIdx).val());
                     }
 
                     // Add the project_no to the form_data
-                    form_data.append('project_no', $('#project_no').val()); // Access project_no directly
+                    form_data.append('project_no', $('#project_no').val());
+                    form_data.append('supplier_no', $('#supplier_no').val()); // Access project_no directly
 
                     if (method == 'ADD') {
                         url = '{{ route('paymentpayableApi.store') }}';
@@ -363,8 +360,12 @@
                         processData: false,
                         success: function(message) {
                             alert(message);
-                            handleClose(); // Close the dialog
-                            window.location.reload();
+                            // handleClose(); // Close the dialog
+                            // window.location.reload();
+                            var clickedButtonId = 'submit' + rowIdx;
+                            $('#' + clickedButtonId).prop('disabled', true);
+
+
                         },
 
                         error: function(message) {
@@ -451,7 +452,7 @@
                                 $('#grn_no_' + (rowIdx - 1)).val(message.payment_payables[0].grn_no);
                                 $('#grn_code_' + (rowIdx - 1)).val(message.payment_payables[0].grn_code);
                                 $('#invoice_amount_' + (rowIdx - 1)).val(message.payment_payables[0].invoice_amount);
-                                $('#payable_amount_' + (rowIdx - 1)).val(message.payment_payables[0].payable_amount);
+                                // $('#payable_amount_' + (rowIdx - 1)).val(message.payment_payables[0].payable_amount);
                                 $('#payment_mode_' + (rowIdx - 1)).val(message.payment_payables[0].payment_mode);
 
                                 $('#method').val('UPDATE');
@@ -540,6 +541,7 @@
                                         add_text();
                                         console.log(data.data1);
 
+
                                         $('#grn_date_' + create_id).val(item.grn_date);
                                         $('#grn_code_' + create_id).val(item.grn_code);
                                         $('#grn_no_' + create_id).val(item.grn_no);
@@ -566,7 +568,7 @@
                 var formValidationConfig = {
                     rules: {
 
-                        payable_amount: "required",
+
                         payment_mode: "required",
                         project_name: {
                             required: true,
@@ -576,7 +578,7 @@
                     },
                     messages: {
 
-                        payable_amount: "Please enter the Month",
+
                         payment_mode: "Please enter the year",
                         project_name: {
                             required: "Please enter the project name",

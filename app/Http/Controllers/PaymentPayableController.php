@@ -74,10 +74,13 @@ class PaymentPayableController extends Controller
     public function store(Request $request)
     {
 
+
         try {
             $rowIndex = $request->input('rowIndex');
             $grnDate = $request->input('grn_date');
             $projectNo = $request->input('project_no');
+            $supplier=$request->input('supplier_no');
+            info('go'.$supplier);
             if (is_array($grnDate) && isset($grnDate[$rowIndex])) {
                 $grnDateValue = $grnDate[$rowIndex];
                 // Use the $grnDateValue as needed
@@ -100,13 +103,7 @@ class PaymentPayableController extends Controller
             } else {
                 // Handle the case when $invoiceAmount is not an array or $rowIndex is out of bounds
             }
-            $payableAmount = $request->input('payable_amount');
-            if (is_array($payableAmount) && isset($payableAmount[$rowIndex])) {
-                $payableAmountValue = $invoiceAmount[$rowIndex];
-                // Use the $invoiceAmountValue as needed
-            } else {
-                // Handle the case when $invoiceAmount is not an array or $rowIndex is out of bounds
-            }
+
 
             $paymentType = $request->input('payment_mode');
             $paymentTypeValue = null; // Initialize the variable
@@ -124,34 +121,16 @@ class PaymentPayableController extends Controller
                 $chequeNo = $request->input('cheque_no');
                 $chequeDate = $request->input('cheque_date');
             }
-         // Retrieve the maximum ap_no for the given grn_no
-            $maxApNo = PaymentPayable::where('project_no', $projectNo)->max('ap_no');
-
-            // Calculate opening and closing balances
-            if ($maxApNo) {
-                $previousClosingBalance = PaymentPayable::where('ap_no', $maxApNo)->value('closing_balance');
-                // $amount = PaymentPayable::where('ap_no', $maxApNo)->value('closing_balance');
-                $grnNo = $request->input('grn_no');
-
-                // Retrieve total_amount from goods_received_note table based on grn_no
-                $invoiceamount = GoodsReceivingNote::where('grn_no', $grnNo)->value('total_amount');
-                //$invoiceamount = PaymentPayable::where('ap_no', $maxApNo)->value('invoice_amount');
-                $requestedAmount = $request->input('payable_amount');
-
-                $openingBalance = $previousClosingBalance;
-                $remainingAmount = $invoiceamount - $requestedAmount;
-                $closingBalance = $openingBalance + $remainingAmount;
 
 
+            $openingBalance = GoodsReceivingNote::where('supplier_no', $supplier)
+            ->where('deleted', 0)
+            ->where('pay_status', 0)
+            ->sum('total_amount');
+            // $previousClosingBalance = PaymentPayable::where('ap_no', $maxApNo)->value('closing_balance');
+            $requestedAmount = $request->input('invoice_amount');
+            $closingBalance = $openingBalance - $requestedAmount;
 
-            } else {
-                $amount = $request->input('payable_amount');
-                $grnNo = $request->input('grn_no');
-
-                // Retrieve total_amount from goods_received_note table based on grn_no
-                $openingBalance = GoodsReceivingNote::where('grn_no', $grnNo)->value('total_amount');// Assign invoice amount to opening balance
-                $closingBalance = $openingBalance-$amount; // Assuming the closing balance is 0 for the first record
-            }
           // Check if the payment type is "cheque"
           if ($paymentType === 'cheque') {
               $chequeNo = $request->input('cheque_no');
@@ -162,7 +141,7 @@ class PaymentPayableController extends Controller
                 'grn_date' => $grnDate,
                 'grn_no' => $grnNo,
                 'invoice_amount' => $invoiceAmount,
-                'payable_amount' => $payableAmount,
+                // 'payable_amount' => $payableAmount,
                 'payment_mode' => $paymentType,
                 'cheque_no' => $chequeNo,
                 'cheque_date' => $chequeDate,
@@ -181,7 +160,6 @@ class PaymentPayableController extends Controller
             return response()->json('Error occurred in the store', 400);
         }
     }
-
 
 
 
@@ -235,9 +213,7 @@ class PaymentPayableController extends Controller
 //
 public function update(Request $request, $id)
 {
-
     try {
-
         $paymentPayable = PaymentPayable::where('ap_no', $id)->first();
         if (!$paymentPayable) {
             return response()->json('Payment Payable not found', 404);
@@ -256,14 +232,20 @@ public function update(Request $request, $id)
         $paymentPayable->invoice_amount = $request->input('invoice_amount');
         $paymentPayable->payment_mode = $request->input('payment_mode');
 
-        // Update the opening_balance and closing_balance fields based on the changes in payable_amount
-        $previousClosingBalance = $paymentPayable->closing_balance;
-        $requestedAmount = $request->input('payable_amount');
-        $remainingAmount = $paymentPayable->invoice_amount - $requestedAmount;
-        $closingBalance = $previousClosingBalance + $remainingAmount;
+        // Retrieve the supplier number from the paymentPayable object
+        $supplier = $paymentPayable->supplier_no;
+
+        // Calculate the opening_balance and closing_balance based on the requestedAmount
+        $openingBalance = GoodsReceivingNote::where('supplier_no', $supplier)
+            ->where('deleted', 0)
+            ->where('pay_status', 0)
+            ->sum('total_amount');
+
+        $requestedAmount = $request->input('invoice_amount');
+        $closingBalance = $openingBalance - $requestedAmount;
 
         $paymentPayable->payable_amount = $requestedAmount;
-        $paymentPayable->opening_balance = $previousClosingBalance;
+        $paymentPayable->opening_balance = $openingBalance;
         $paymentPayable->closing_balance = $closingBalance;
 
         $paymentPayable->save();
@@ -274,7 +256,6 @@ public function update(Request $request, $id)
         return response()->json('Error occurred in the update', 400);
     }
 }
-
  /**
      * Remove the specified resource from storage.
      *

@@ -113,4 +113,14 @@ class SupplierMasterController extends Controller
             return response()->json('Error occured in the delete', 400);
         }
     }
+    // SOA for supplier from payables
+    public function soa($id)
+    {
+       $supplierData = SupplierMaster::where('supplier_masters.supplier_no', $id)
+       ->join('goods_received_note', 'supplier_masters.supplier_no', '=', 'goods_received_note.supplier_no')
+       ->join('payment_payable', 'goods_received_note.project_no', '=', 'goods_received_note.project_no')
+       ->get(['supplier_masters.supplier_no', 'supplier_masters.name', 'payment_payable.*','goods_received_note.total_amount']);
+
+      return response()->json($supplierData);
+}
 }

@@ -31,6 +31,7 @@ Route::post("/supplier/{supplier}/update", [App\Http\Controllers\SupplierMasterC
 Route::delete("/supplier/{supplier}/delete", [App\Http\Controllers\SupplierMasterController::class, 'destroy'])->name('supplierApi.delete');
 Route::get("/supplier/{supplier}/show", [App\Http\Controllers\SupplierMasterController::class, 'show'])->name('supplierApi.show');
 Route::get("/getSupplier", [App\Http\Controllers\SupplierMasterController::class, 'getSupplier'])->name('getSupplier');
+Route::get("/supplier/{supplier}/soa", [App\Http\Controllers\SupplierMasterController::class, 'soa'])->name('supplierApi.soa');
 //sitemaster
  Route::post("/site", [App\Http\Controllers\SiteMasterController::class, 'store'])->name('siteApi.store');
  Route::post("/site/{site_no}/update", [App\Http\Controllers\SiteMasterController::class, 'update'])->name('siteApi.update');

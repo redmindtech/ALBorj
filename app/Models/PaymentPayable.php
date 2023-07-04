@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\DB;
 class PaymentPayable extends Model
 {
     use HasFactory;
-    const REQUEST_INPUTS = ['ap_code','grn_no','project_no','grn_date','invoice_amount','payable_amount','payment_mode','opening_balance','closing_balance','cheque_no','cheque_date','deleted'];
+    const REQUEST_INPUTS = ['ap_code','grn_no','project_no','grn_date','invoice_amount','payment_mode','opening_balance','closing_balance','cheque_no','cheque_date','deleted'];
     protected $table ='payment_payable';
 
-    protected $fillable = ['ap_code','grn_no','project_no','grn_date','invoice_amount','payable_amount','payment_mode','opening_balance','closing_balance','cheque_no','cheque_date','deleted'];
+    protected $fillable = ['ap_code','grn_no','project_no','grn_date','invoice_amount','payment_mode','opening_balance','closing_balance','cheque_no','cheque_date','deleted'];
     protected $primaryKey='ap_no';
     protected static function booted()
     {

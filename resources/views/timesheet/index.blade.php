@@ -439,7 +439,7 @@
     {
         let url = '{{route('timesheetApi.delete',":id")}}';
         url= url.replace(':id',id);
-        if (confirm("Are you sure you want to delete this Employee Timesheet Details?"))
+        if (confirm("Are you sure want to delete this Employee Timesheet Details?"))
         {
             $.ajax
             ({
