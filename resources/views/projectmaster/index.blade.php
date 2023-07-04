@@ -213,10 +213,10 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-4">
-                            <label for="company_name" class="form-label fw-bold">Client / Company Name<a
+                            <label for="company_name" class="form-label fw-bold">Client Company Name<a
                                     style="text-decoration: none;color:red">*</a></label>
                             <input type="text" id="company_name" name="company_name"
-                                value="{{ old('company_name') }}" placeholder="Client / Company Name"
+                                value="{{ old('company_name') }}" placeholder="Client Company Name"
                                 class="form-control" autocomplete="off">
                             <input type="text" id="client_no" hidden name="client_no" value="{{ old('client_no') }}"
                                 class="form-control" autocomplete="off">
@@ -658,54 +658,58 @@
     
     });
 // calculation
-    function calculateTotal() {
-      var total = 0;
-      $("input[name='amount[]']").each(function() {
-        var val = parseFloat($(this).val());
-        if (!isNaN(val)) {
-          total += val;
-        }
-      });
-      $("#total_price_cost").val(total.toFixed(2));
-    }
-    jQuery($ => {
-    $(document).on('focus click', $("#tbody"), function() {
-        
-        $('#tbody').find('.item_name').autocomplete({
-                source: function( request, response )
+    function calculateTotal() 
+    {
+        var total = 0;
+        $("input[name='amount[]']").each(function() 
+        {
+            var val = parseFloat($(this).val());
+            if (!isNaN(val)) 
             {
-                $.ajax
-                ({
-                    type:"GET",
-                    url: "{{ route('getitemnamedata') }}",
-                    dataType: "json",
-                    data:
-                    {
-                        'itemname':request.term
-                    },
-                    success: function( data )
-                    {
-                        result = [];
-                        for(var i in data)
-                        {
-                            result.push(data[i]["item_name"]);
-                        }
-                        response(result);
-                    },fail: function(xhr, textStatus, errorThrown)
-                    {
-                        alert(errorThrown);
-                    }
-                });
-            },
-            minLength: 1
+            total += val;
+            }
         });
-    
+        $("#total_price_cost").val(total.toFixed(2));
+    }
+
+    jQuery($ => 
+    {
+        $(document).on('focus click', $("#tbody"), function() 
+        {
+            $('#tbody').find('.item_name').autocomplete(
+            {
+                source: function( request, response )
+                {
+                    $.ajax
+                    ({
+                        type:"GET",
+                        url: "{{ route('getitemnamedata') }}",
+                        dataType: "json",
+                        data:
+                        {
+                            'itemname':request.term
+                        },
+                        success: function( data )
+                        {
+                            result = [];
+                            for(var i in data)
+                            {
+                                result.push(data[i]["item_name"]);
+                            }
+                            response(result);
+                        },fail: function(xhr, textStatus, errorThrown)
+                        {
+                            alert(errorThrown);
+                        }
+                    });
+                },
+                minLength: 1
+            });
         });
         
-    });
         $(document).on('change', '.item_name', function() 
         {     
-        var id=rowIdx-1;
+            var id=rowIdx-1;
             $.ajax
             ({
                 type:"GET",
@@ -721,13 +725,17 @@
                     for(var i in data)
                     {                    
                         $('#item_no_'+id).val(data[0]["id"]);
+                        $('#unit_'+id).val(data[0]["item_unit"]);
                         
                     }
-                },fail: function(xhr, textStatus, errorThrown){
-                alert(errorThrown);
+                },
+                fail: function(xhr, textStatus, errorThrown)
+                {
+                    alert(errorThrown);
                 }
             });
         });
+    });
                 function handleDialog() {
                     document.getElementById("myDialog").open = true;
                     window.scrollTo(0, 0);

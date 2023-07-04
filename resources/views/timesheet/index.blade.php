@@ -30,11 +30,11 @@
                     <table id="myTable" class="table table-bordered table-striped">
                         <thead>
                             <tr class="text-center">
-                                <th>Site Name</th>
-                                <!-- <th>Site Incharge</th> -->
                                 <th>Employee Name</th>
-                                <!-- <th>Designation</th>
-                                <th>Department</th> -->
+                                <th>Site Name</th>
+                                <th>From Date</th>
+                                <th>To Date</th>
+                                <!-- <th>Total WorkingDays</th> -->
                                 <th>Date</th>
                                 <th data-orderable="false" class="action notexport">Show</th>
                                 <th data-orderable="false" class="action notexport">Edit</th>
@@ -45,10 +45,10 @@
                         <tbody>
                         @foreach($times as $time)
                             <tr class="text-center">
-                                <td>{{$time->site_name}}</td>
                                 <td>{{$time->firstname}}</td>
-                                <!-- <td>{{$time->desigination}}</td>
-                                <td>{{$time->depart}}</td> -->
+                                <td>{{$time->site_name}}</td>
+                                <td>{{date('d-m-Y', strtotime($time->from_date))}}</td>
+                                <td>{{date('d-m-Y', strtotime($time->to_date))}}</td>
                                 <td>{{ date('d-m-Y', strtotime($time->created_at)) }}</td>
                                 <td>
                                     <a  onclick="handleShowAndEdit('{{$time->id}}','show')"
@@ -365,7 +365,7 @@
                 }
                 totalHours = end.diff(start, 'hours', true);
             }
-            $('input[name="total_time[]"]').eq(index).val(totalHours.toFixed(2) + " hours");
+            $('input[name="total_time[]"]').eq(index).val(totalHours.toFixed(2));
         });
     }
 
@@ -397,7 +397,7 @@
                 }
                 totalHours = end.diff(start, 'hours', true);
             }
-            $('input[name="ot_total_time[]"]').eq(index).val(totalHours.toFixed(2) + " hours");
+            $('input[name="ot_total_time[]"]').eq(index).val(totalHours.toFixed(2));
         });
     }
 
@@ -1102,7 +1102,7 @@
                 }
                 totalHours = end.diff(start, 'hours', true);
             }
-            $('input[name="total_time[]"]').eq(index).val(totalHours.toFixed(2) + " hours");
+            $('input[name="total_time[]"]').eq(index).val(totalHours.toFixed(2));
         });
     }
 
@@ -1133,7 +1133,7 @@
                 }
                 totalHours = end.diff(start, 'hours', true);
             }
-            $('input[name="ot_total_time[]"]').eq(index).val(totalHours.toFixed(2) + " hours");
+            $('input[name="ot_total_time[]"]').eq(index).val(totalHours.toFixed(2));
         });
     }
 
