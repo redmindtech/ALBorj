@@ -20,6 +20,13 @@ class ItemMaster extends Model
          "item_name","item_category","item_subcategory","stock_type","item_type","item_unit",
         "total_quantity","deleted"
     ];
-
+    protected static function booted()
+    {
+        parent::boot();
+        static::creating(function ($itemmaster) {
+            
+            $itemmaster->deleted='0';
+        });
+    }
 
 }

@@ -38,6 +38,7 @@ class SiteMaster extends Model
             $currentYear = substr(date('Y'), -2);
             $siteNo = str_pad($results, 3, '0', STR_PAD_LEFT);
             $site->site_code = 'ST' .  $currentYear. $siteNo;
+            $site->deleted ='0';
         });
     }
     public function ProjectMaster()

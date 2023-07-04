@@ -10,13 +10,14 @@ class MaterialRequisitionItem extends Model
     use HasFactory;
     protected $table = 'material_requisition_item';
 
-    const REQUEST_INPUTS = ['mr_no','item_no','quantity','specification' ];
+    const REQUEST_INPUTS = ['mr_no','item_no','quantity','specification','deleted'];
 
     protected $fillable = [
         'mr_no',
         'item_no',
         'quantity',
-        'specification'
+        'specification',
+        'deleted'
     ];
     protected $primaryKey='mr_item_no ';
     public function materials(){

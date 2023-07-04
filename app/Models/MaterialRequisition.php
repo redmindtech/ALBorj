@@ -22,7 +22,8 @@ class MaterialRequisition extends Model
         //"purchase_type",
         "mr_reference_code",
         "reference_date",
-        "remarks"
+        "remarks",
+        "deleted"
     ];
 
     const REQUEST_INPUTS = [
@@ -33,7 +34,8 @@ class MaterialRequisition extends Model
         //"purchase_type",        
         "mr_reference_code",
         "reference_date",
-        "remarks"
+        "remarks",
+        "deleted"
     ];
     protected $primaryKey='mr_id';
     public function projects(){
