@@ -385,35 +385,15 @@ new Chart(horizontalBarChartCanvas, {
 //pie chart
 var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
 
-var expenseData = {
-  labels: ['office','site','project','employee','other'],
-  datasets: [{
-    data: [15000, 10000, 12000, 10150, 10100],
-    backgroundColor: ['rgba(255, 99, 132, 0.8)', 'rgba(54, 162, 235, 0.8)', 'rgba(255, 206, 86, 0.8)', 'rgba(75, 192, 192, 0.8)', 'rgba(153, 102, 255, 0.8)'],
-    borderColor: '#fff',
-    borderWidth: 1
-  }]
-};
+var expenseData = @json($expenseData);
 
-var pieChartOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  legend: {
-    position: 'bottom',
-    labels: {
-      fontColor: '#333',
-      fontSize: 12,
-      padding: 10
-    }
-  }
-};
+var pieChartOptions = @json($pieChartOptions);
 
 new Chart(pieChartCanvas, {
-  type: 'pie',
-  data: expenseData,
-  options: pieChartOptions
+    type: 'pie',
+    data: expenseData,
+    options: pieChartOptions
 });
-
 //sales
 var salesChartCanvas = $('#salesorderChart').get(0).getContext('2d');
 

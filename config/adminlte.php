@@ -386,25 +386,25 @@ return [
             'icon' =>  'nav-icon fas fa-fw fa-book',
             'submenu' => [
                 [
-                    'text' => 'Project Reports',
+                    'text' => 'VAT Filing Reports',
                     'url'  => 'account',
                     'icon' => 'nav-icon fas fa-fw fa-regular fa-star text-warning',
 
                 ],
                 [
-                    'text' => 'Inventory Reports',
+                    'text' => 'Payroll Reports',
                     'url'  => 'account',
                     'icon' => 'nav-icon fas fa-fw fa-regular fa-star text-danger',
 
                 ],
                 [
-                    'text' => 'Accounting Balance Reports',
+                    'text' => 'GRN Inventory Reports',
                     'url'  => 'account',
                     'icon' => 'nav-icon fas fa-fw fa-regular fa-star text-primary',
 
                 ],
                 [
-                    'text' => 'User Defined Reports',
+                    'text' => 'Profit/Loss Reports',
                     'url'  => 'account',
                     'icon' => 'nav-icon fas fa-fw fa-regular fa-star text-success',
 

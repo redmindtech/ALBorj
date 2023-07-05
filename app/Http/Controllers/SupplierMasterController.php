@@ -118,7 +118,7 @@ class SupplierMasterController extends Controller
     {
        $supplierData = SupplierMaster::where('supplier_masters.supplier_no', $id)
        ->join('goods_received_note', 'supplier_masters.supplier_no', '=', 'goods_received_note.supplier_no')
-       ->join('payment_payable', 'goods_received_note.project_no', '=', 'goods_received_note.project_no')
+       ->join('payment_payable', 'goods_received_note.grn_no', '=', 'payment_payable.grn_no')
        ->get(['supplier_masters.supplier_no', 'supplier_masters.name', 'payment_payable.*','goods_received_note.total_amount']);
 
       return response()->json($supplierData);

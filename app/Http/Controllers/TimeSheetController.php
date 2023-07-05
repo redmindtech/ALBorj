@@ -26,6 +26,12 @@ class TimeSheetController extends Controller
         {  
             if ($request->session()->has('user')) 
             {   
+                $project_name = ProjectMaster::where('deleted', 0)
+                ->pluck('project_name');
+                $employee_name = EmployeeMaster::where('deleted', 0)
+                ->pluck('firstname');
+                $site_name = SiteMaster::where('deleted', 0)
+                ->pluck('site_name'); 
                 $times = DB::table('emp_timesheets')
                 ->join('site_masters', 'emp_timesheets.site_no', '=', 'site_masters.site_no')
                 ->join('employee_masters', 'emp_timesheets.emp_no', '=', 'employee_masters.id')
@@ -33,7 +39,10 @@ class TimeSheetController extends Controller
                 ->where('emp_timesheets.deleted','0')
                 ->get();
                 return view('timesheet.index')->with([
-                    'times' => $times
+                    'times' => $times,
+                    'project_name' => $project_name,
+                    'employee_name' => $employee_name,
+                    'site_name' => $site_name,
                 ]);
             }
             else

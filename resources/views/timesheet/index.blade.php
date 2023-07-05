@@ -394,45 +394,48 @@
     function handleSubmit()
     {
         event.preventDefault();
-        let form_data = new FormData(document.getElementById('form'));
-        let method = $('#method').val();
-        let url;
-        let type;
-        if(method == 'ADD')
+        var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
+        // alert(hiddenErrorElements);
+        if(hiddenErrorElements === 0)
         {
-            url = '{{route('timesheetApi.store')}}';
-            type  = 'POST';
-        } 
-        else
-        {
-            let id = $('#id').val();
-            url = '{{route('timesheetApi.update',":id")}}';
-            url= url.replace(':id',id);
-            type = 'POST';
-        }
-        $.ajax
-        ({
-            url: url,
-            type: type,
-            data: form_data,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function (message)
+            // Disable the submit button
+            $('#submit').prop('disabled', true);
+            let form_data = new FormData(document.getElementById('form'));
+            let method = $('#method').val();
+            let url;
+            let type;
+            if(method == 'ADD')
             {
-                alert(message);
-                window.location.reload();
-            },
-            error: function (message)
+                url = '{{route('timesheetApi.store')}}';
+                type  = 'POST';
+            } 
+            else
             {
-                var data = message.responseJSON;
-                $('p[id ^= "error_"]').html("");
-                $.each(data.errors, function (key, val)
-                {
-                    $(`#error_${key}`).html(val[0]);
-                })
+                let id = $('#id').val();
+                url = '{{route('timesheetApi.update',":id")}}';
+                url= url.replace(':id',id);
+                type = 'POST';
             }
-        })
+            $.ajax
+            ({
+                url: url,
+                type: type,
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function (message)
+                {
+                    alert(message);
+                    window.location.reload();
+                },
+                error: function (message)
+                {
+                    var data = message.responseJSON;
+                     $('#submit').prop('disabled', false);
+                }
+            })
+        }
     }
     //DATA SHOW FOR EDIT AND SHOW
     function handleShowAndEdit(id,action)
@@ -781,6 +784,123 @@
                 }
             });
         });
+
+        // inline validation
+        var project_name = @json($project_name);
+        $.validator.addMethod("projectname", function(value, element) 
+        {
+            if (value.trim() === "") 
+            {
+                return true; // If value is empty, validation is considered successful
+            }
+            return project_name.includes(value);
+        });
+
+        var employee_name = @json($employee_name);
+        $.validator.addMethod("employeename", function(value, element) 
+        {
+            if (value.trim() === "") 
+            {
+                return true; // If value is empty, validation is considered successful
+            }
+            return employee_name.includes(value);
+        });
+
+        var site_name = @json($site_name);
+        $.validator.addMethod("sitename", function(value, element) 
+        {
+            if (value.trim() === "") 
+            {
+                return true; // If value is empty, validation is considered successful
+            }
+            return site_name.includes(value);
+        });
+
+        $.validator.addMethod("greaterThan", function(value, element, param) 
+        {
+            var fromDate = $(param).val();
+            if (!value || !fromDate) 
+            {
+                return true; // Skip validation if either date is missing
+            }
+                return new Date(value) > new Date(fromDate);
+        });
+
+        // Initialize form validation
+        var formValidationConfig = 
+        {
+            rules: 
+            {
+                project_name: 
+                {
+                    required:true,
+                    projectname: true
+                },
+                firstname: 
+                {
+                    required:true,
+                    employeename: true
+                },
+                site_name:
+                {
+                    required:true,
+                    sitename:true
+                },
+                from_date: 
+                {
+                    required: true,
+                },
+                // to_date: 
+                // {
+                //     required: true,
+                //     date: true,
+                //     greaterThan: "#to_date"
+                // },
+            },
+            messages: 
+            {
+                project_name: 
+                {
+                    required:"please enter a projectname",
+                    projectname: "Please enter a valid projectname."
+                },
+                firstname: 
+                {
+                    required:"please enter a firstname",
+                    employeename: "Please enter a valid firstname."
+                }, 
+                site_name:
+                {
+                    required:"please enter a sitename",
+                    sitename:"Please enter a valid sitename."
+                },
+                from_date: 
+                {
+                    required: "Please enter a from date",
+                },
+                // to_date: 
+                // {
+                //     required: "Please enter a To date",
+                //     date: "Please enter a valid date",
+                //     greaterThan: "End date must be after the start date"
+                // },
+            },
+            errorElement: "error",
+            errorClass: "error-msg",
+            highlight: function(element, errorClass, validClass) 
+            {
+                $(element).addClass(errorClass).removeClass(validClass);
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function(element, errorClass, validClass) 
+            {
+                $(element).removeClass(errorClass).addClass(validClass);
+                $(element).closest('.form-group').removeClass('has-error');
+            }
+        };
+
+        $("#form").validate(formValidationConfig);
+
 </script>
 
 <!-- SITELEVEL TIMESHEET -->
