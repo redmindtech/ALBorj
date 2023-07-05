@@ -200,10 +200,24 @@
                     <div class="col-md-3">
                         <label>Project Cost</label>
                         <p id="show_project_cost"></p>
-                    </div>
-                 
-                                            
+                    </div> 
                     <div class="col-md-3">
+                        <label>Opening Balanace</label>
+                        <p id="show_opening_bal"></p>
+                    </div>    
+                    <div class="col-md-3">
+                        <label>Item Amount</label>
+                        <p id="show_item_amount"></p>
+                    </div>
+                    
+                    
+                </div>     
+                <div class="row">
+                <div class="col-md-3">
+                        <label>VAT Amount</label>
+                        <p id="show_vat_amount"></p>
+                    </div>  
+                <div class="col-md-3">
                         <label>Received Amt</label>
                         <p id="show_received_amt"></p>
                     </div>
@@ -211,7 +225,11 @@
                         <label>Balanace Amount</label>
                         <p id="show_balance_amount"></p>
                     </div>
-                </div>        
+                    <div class="col-md-3">
+                        <label>Closing Balanace</label>
+                        <p id="show_closing_bal"></p>
+                    </div>
+                </div>   
                 
                 
                 <div id="item_details_show"></div>

@@ -487,29 +487,36 @@
                 <tr>
                     <td><label>Total Project Cost</label></td>
                     <td><p id="show_total_price_cost"></p></td>
-                    <td><label>Advance Amount</label></td>
+                    <td><label>Total Amount</label></td>
+                    <td><p id="show_total_amount"></p></td>
+                    <td><label>Vat Amount</label></td>
+                    <td><p id="show_vat_amount"></p></td>
+                   
+                </tr>
+                <tr>
+                <td><label>Advance Amount</label></td>
                     <td><p id="show_advanced_amount"></p></td>
                     <td><label>Retention</label></td>
                     <td><p id="show_retention"></p></td>
-                </tr>
-                <tr>
                     <td><label>Balance Amount to be Received</label></td>
                     <td><p id="show_amount_to_be_received"></p></td>
-                    <td><label>Amount Return</label></td>
+                    
+                </tr>
+                <tr>
+                <td><label>Amount Return</label></td>
                     <td><p id="show_amount_return"></p></td>
                     <td><label>Amount Return Date</label></td>
                     <td><p id="show_amount_return_date"></p></td>
-                </tr>
-                <tr>
                     <td><label>Amount Return Comments</label></td>
                     <td><p id="show_amount_returns_comment"></p></td>
-                    <td><label>Approved Variation Cost</label></td>
+                   
+                </tr>
+                <tr> <td><label>Approved Variation Cost</label></td>
                     <td> <p id="show_Approved_Variation_Cost"></p></td>
                     <td> <label>Advance Variation Amount</label></td>
                     <td> <p id="show_Advance_Variation_Amount"></p></td>
-                </tr>
-                <tr><td> <label>Retention_Variation_Amount</label></td>
-                      <td> <p id="show_Retention_Variation_Amount"></p></td>
+                    <td> <label>Retention Variation Amount</label></td>
+                    <td> <p id="show_Retention_Variation_Amount"></p></td>
                 </tr>
             </tbody>
         </table>
@@ -615,8 +622,7 @@
         html += '<td><div class="col-xs-12"><input type="number" name="rate_per_qty[]" id="rate_per_qty_' + rowIdx +
             '"  name="rate_per_qty[]" class="rate_per_qty form-control"></div></td>';        
         html += '<td><div class="col-xs-12"><input type="text" name="amount[]" id="amount_' + rowIdx +
-            '"  name="amount[]" class="amount form-control" readonly></div></td>';      
-  
+            '"  name="amount[]" class="amount form-control" readonly></div></td>';  
         if(rowIdx !=1){
         html +=
             '<td><button class="btn btn-danger remove btn-sm" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
