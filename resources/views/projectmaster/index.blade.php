@@ -558,7 +558,21 @@
                         <button class="btn btn-md btn-primary" id="addBtn" type="button">Add Row</button>
                     </div>
                 </div>
-                
+                <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="total_amount" class="form-label fw-bold">Total Amount</label>
+                            <input type="text" id="total_amount" name="total_amount"
+                                value="{{ old('total_amount') }}" placeholder="Total Amount"
+                                class="form-control" autocomplete="off" readonly>
+                        </div>
+                      
+                        <div class="form-group col-md-4">
+                            <label for="vat_amount" class="form-label fw-bold">Vat Amount(5 %)</label>
+                            <input type="text" id="vat_amount" name="vat_amount"
+                                value="{{ old('amount') }}" placeholder="Vat Amount"
+                                class="form-control" autocomplete="off" readonly>
+                        </div>
+                </div>
                 <div style="text-align: center;">
                     <button class="btn btn-md btn-primary" id="submitButton" onclick="handlesubmit1()" type="submit">Submit</button>
                 </div>
@@ -659,8 +673,7 @@
     });
 // calculation
     function calculateTotal() 
-    {
-        var total = 0;
+    {        var total = 0;
         $("input[name='amount[]']").each(function() 
         {
             var val = parseFloat($(this).val());
@@ -668,8 +681,12 @@
             {
             total += val;
             }
-        });
-        $("#total_price_cost").val(total.toFixed(2));
+        });        
+    var vat = total * 0.05; // Calculate VAT amount (5% of the total)
+    var totalWithVat = total + vat; 
+    $("#total_amount").val(total.toFixed(2));
+    $("#vat_amount").val(vat.toFixed(2));
+    $("#total_price_cost").val(totalWithVat.toFixed(2));
     }
 
     jQuery($ => 

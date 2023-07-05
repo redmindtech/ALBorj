@@ -34,6 +34,8 @@ class ProjectMaster extends Model
              "Approved_Variation_Cost",
             "Advance_Variation_Amount",
             "Retention_Variation_Amount",
+            "total_amount",
+            "vat_amount",
             "deleted"
     ];
     protected $table = 'project_masters';
@@ -64,6 +66,8 @@ class ProjectMaster extends Model
             "Approved_Variation_Cost",
             "Advance_Variation_Amount",
             "Retention_Variation_Amount",
+            "total_amount",
+            "vat_amount",
             "deleted"
         ];
         public function EmployeeMaster() {

@@ -148,6 +148,17 @@
                     <input type="text" readonly name="opening_bal" id="opening_bal" class="form-control mb-2" autocomplete="off">                 
                 </div>
                 <div class="form-group col-md-4">
+                    <label for="item_amount" class="form-label fw-bold">Item Amount</label>
+                    <input type="text" readonly name="item_amount" id="item_amount" class="form-control mb-2" autocomplete="off">                 
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="vat_amount" class="form-label fw-bold">VAT amount</label>
+                    <input type="text" readonly name="vat_amount" id="vat_amount" class="form-control mb-2" autocomplete="off">                 
+                </div>
+              
+            </div>
+            <div class="row"> 
+            <div class="form-group col-md-4">
                 <label for="total_amount" class="form-label fw-bold">Total Amount</label>
                 <input type="text" readonly name="total_amount" id="total_amount" class="form-control mb-2" autocomplete="off">
                 </div>
@@ -155,13 +166,14 @@
                 <label for="project_cost" class="form-label fw-bold">Project cost</label>
                 <input type="text"readonly  name="project_cost" id="project_cost" class="form-control mb-2" autocomplete="off">
                 </div>
-            </div>
-            <div class="row"> 
                 <div class="form-group col-md-4">
                 <label for="" class="form-label fw-bold">Received Amount</label>
                 <input type="text" readonly name="received_amt" id="received_amt" class="form-control mb-2" autocomplete="off">
                 </div>
-                <div class="form-group col-md-4">
+      
+            </div>
+            <div class="row"> 
+            <div class="form-group col-md-4">
                 <label for="" class="form-label fw-bold">Balance Amount</label>
                 <input type="text" readonly name="balance_amount" id="balance_amount" class="form-control mb-2 total" autocomplete="off">
                 </div>
@@ -169,28 +181,7 @@
                 <label for="" class="form-label fw-bold">Closing Balance</label>
                 <input type="text" readonly name="closing_bal" id="closing_bal" class="form-control mb-2" autocomplete="off">
                 </div>
-            </div>
-
-                <!-- <div class="row" style="margin-top:10px;">
-               <br>
-                <div class="col-md-2">  
-                    <label for="" class="float-end mt-4 text-end">Opening Balance</label><br>             
-                    <label for="" class="float-end mt-3 text-end">Total Amount</label><br>
-                    <label for="" class="float-end mt-3 text-end">Project cost</label><br>
-                    <label for="" class="float-end my-3 text-end">Received Amount</label>
-                    <label for="" class="float-end my-1 text-end">Balance Amount</label>
-                    <label for="" class="float-end my-2 text-end">Closing Balance</label><br>   
-                </div>
-                <div class="col-md-4">            
-                    <br>
-                    <input type="text" readonly name="opening_bal" id="opening_bal" class="form-control mb-2" autocomplete="off">
-                    <input type="text" readonly name="total_amount" id="total_amount" class="form-control mb-2" autocomplete="off">
-                    <input type="text"readonly  name="project_cost" id="project_cost" class="form-control mb-2" autocomplete="off">
-                   
-                    
-                   
-                </div> -->
-                <!-- </div> -->
+            </div>             
                 <div class="row mt-3">
                     <div class="form-group col-md-12">
                         <center><button id="submit" class="btn btn-primary mx-3 mt-3">Collect</button></center>
@@ -247,10 +238,6 @@
     function handleDialog(){
              document.getElementById("myDialog").open = true;
              window.scrollTo(0, 0);
-            
-            //   add_text();
-            // $('#dis_type').prop('checked', true);
-          
              $('#method').val("ADD");
              $('#submit').text("Save");
              $('#heading_name').text("Add Payment Receivables Details").css('font-weight', 'bold');
@@ -267,7 +254,6 @@ function handleClose(){
                 $('#form')[0].reset();
                 $('#cheque').hide();
                 $('#cheque_date').hide();
-               
                 $("#tbody").empty();
                 // show_table
                 $("#item_details_show").empty();
@@ -457,17 +443,11 @@ function handleClose(){
         html += '<td><div class="col-xs-12"><input type="text" name="unit[]"  id="unit_' + rowIdx +'" class="unit form-control" readonly ></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" name="pending_qty[]"  id="pending_qty_' + rowIdx +'" class="pending_qty form-control" readonly ></div></td>';  
         html += '<td><div class="col-xs-12"><input type="number" name="used_qty[]"  id="used_qty_' + rowIdx +'" class="used_qty form-control"></div></td>';
-          
         html += '<td><div class="col-xs-12"><input type="text" name="remaining_qty[]"  id="remaining_qty_' + rowIdx +'" class="remaining_qty form-control" readonly></div></td>';
         html += '<td><div class="col-xs-12"><input type="number" name="rate_per_qty[]" id="rate_per_qty_' + rowIdx +'" class="rate_per_qty_ form-control" readonly></div></td>';
-        
-        
         html += '<td><div class="col-xs-12"><input type="text" name="amount[]" id="amount_' + rowIdx +'" class="amount form-control" readonly></div></td>';
-               
-        html +=
-            '<td><button class="btn btn-danger remove btn-sm" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
-        html += '</tr>';
-        
+        html += '<td><button class="btn btn-danger remove btn-sm" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
+        html += '</tr>';       
 
         $("#tbody").append(html);
         rowIdx++;
@@ -620,18 +600,22 @@ function calculateTotal() {
       total += val;
     }
   });
-
-  $("#total_amount").val(total.toFixed(2));
-  $("#received_amt").val(total.toFixed(2));
+  var vat = total * 0.05; // Calculate VAT amount (5% of the total)
+    var totalWithVat = total + vat; 
+  $("#item_amount").val(total.toFixed(2));
+  $("#vat_amount").val(vat.toFixed(2));
+  $("#total_amount").val(totalWithVat.toFixed(2));
+  $("#received_amt").val(totalWithVat.toFixed(2));
   updateCalculation();
 }
+
+
 
 function updateCalculation() {
   var opening_bal = parseFloat($("#opening_bal").val()) || 0;
   var receivedAmt = parseFloat($("#received_amt").val()) || 0;
   var balanceAmount = opening_bal - receivedAmt;
-  $("#balance_amount").val(balanceAmount.toFixed(2));
-  
+  $("#balance_amount").val(balanceAmount.toFixed(2));  
   $("#closing_bal").val(balanceAmount.toFixed(2));
 }
 // VALIDATION

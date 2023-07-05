@@ -20,6 +20,8 @@ class PaymentReceivables extends Model
         "cheque_date",
         "opening_bal",
         "closing_bal",
+        "item_amount",
+        "vat_amount",
         "deleted"
 ];
 protected $table = 'payment_receivables';
@@ -37,6 +39,8 @@ protected $fillable =
         "cheque_date",
         "opening_bal",
         "closing_bal",
+        "item_amount",
+        "vat_amount",
         "deleted"
     ];
     protected static function booted()
