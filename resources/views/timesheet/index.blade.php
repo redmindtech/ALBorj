@@ -272,9 +272,9 @@
             '<p><input type="text" class="leave_ref" name="leave_ref[]" id="leave_ref_' + i + '" value="0"></p>' +
             '</td>' +
             '</tr>';
-
-        $('#emp_tbody').append(rowHtml);
+            $('#emp_tbody').append(rowHtml);
     }
+
     // Function to validate holiday and leave checkboxes
     function validateHolidayLeave() 
     {
@@ -329,8 +329,7 @@
         $('#time_table').show();
     });
 
-</script>
-<script type="text/javascript">
+
     $.ajaxSetup
     ({
         headers: 
@@ -384,8 +383,7 @@
         $('#form')[0].reset();
         $("#emp_tbody").empty();
         $('#time_table').hide();
-        // Hide any error messages
-        a=1;
+        i=1;
         // Hide any error messages
         $('p[id^="error_"]').html('');
         // Hide the dialog background
@@ -507,27 +505,33 @@
                         }
                         $(`#show_${key}`).text(value);
                         if(message.time[0].over_time=="1")
-                            {
-                                $('#show_over_time').text("Yes");
-                            }
-                            else
-                            {
-                                $('#show_over_time').text("No");
-                            }   
+                        {
+                            $('#show_over_time').text("Yes");
+                        }
+                        else
+                        {
+                            $('#show_over_time').text("No");
+                        }   
                     }
                         let script = '<table id="show_table" class="table table-striped"><thead><tr><th>Date</th><th>Start Time</th><th>End Time</th><th>Ot start Time</th><th>Ot End Time</th><th>Holiday</th><th>Leave</th><th>Leave Type</th></tr></thead><tbody>';
                         for (const time of message.time_sheet) 
                         {
                             let holiday_flag = time.holiday;
-                            if(holiday_flag == "1"){
+                            if(holiday_flag == "1")
+                            {
                                 holiday_flag = "Yes";
-                            }else{
+                            }
+                            else
+                            {
                                 holiday_flag = "No";
                             }
                             let leave_flag = time.leave;
-                            if(leave_flag == "1"){
+                            if(leave_flag == "1")
+                            {
                                 leave_flag = "Yes";
-                            }else{
+                            }
+                            else
+                            {
                                 leave_flag = "No";
                             }
                             script += '<tr>';
@@ -557,7 +561,8 @@
                             if (hours >= 12) 
                             {
                                 meridiem = 'PM';
-                                if (hours > 12) {
+                                if (hours > 12) 
+                                {
                                     hours -= 12;
                                 }
                             }
@@ -565,13 +570,11 @@
                             return formattedTime7;
                         }
                 }
-                        document.getElementById("myDialog").open = true;
-                        window.scrollTo(0, 0);                       
+                document.getElementById("myDialog").open = true;
+                window.scrollTo(0, 0);                       
             },
         })
     }
-
-
 
         // Employee master autocomplete
         jQuery($ => 
@@ -608,46 +611,46 @@
                     },
                 });
             });
-        });
-        // EMPLOYEE CODE
-        $("#firstname").on('change',function()
-        {
-            var code= $(this).val();
-            $.ajax
-            ({
-                type:"GET",
-                url: "{{ route('getemployeedata') }}",
-                dataType: "json",
-                data:
-                {
-                    'firstname':$(this).val()
-                },
-                success: function( data ) 
-                {
-                    result = [];
-                    for(var i in data)
+
+            // EMPLOYEE CODE
+            $("#firstname").on('change',function()
+            {
+                var code= $(this).val();
+                $.ajax
+                ({
+                    type:"GET",
+                    url: "{{ route('getemployeedata') }}",
+                    dataType: "json",
+                    data:
                     {
-                        $('#emp_no').val(data[i]["id"]);
-                        $('#employee_no').val(data[i]["employee_no"]);
-                        $('#desigination').val(data[i]["desigination"]);
-                        $('#depart').val(data[i]["depart"]); 
-                        if(data[i]["over_time"]=="1")
+                        'firstname':$(this).val()
+                    },
+                    success: function( data ) 
+                    {
+                        result = [];
+                        for(var i in data)
                         {
-                            $('#over_time').val("Yes");
+                            $('#emp_no').val(data[i]["id"]);
+                            $('#employee_no').val(data[i]["employee_no"]);
+                            $('#desigination').val(data[i]["desigination"]);
+                            $('#depart').val(data[i]["depart"]); 
+                            if(data[i]["over_time"]=="1")
+                            {
+                                $('#over_time').val("Yes");
+                            }
+                            else
+                            {
+                                $('#over_time').val("No");
+                            }   
                         }
-                        else
-                        {
-                            $('#over_time').val("No");
-                        }   
+                    },
+                    fail: function(xhr, textStatus, errorThrown)
+                    {
+                        alert(errorThrown);
                     }
-                },
-                fail: function(xhr, textStatus, errorThrown)
-                {
-                    alert(errorThrown);
-                }
+                });
             });
         });
-
 
         // auto complete for sitename from sitemaster
         jQuery($ => 
@@ -684,36 +687,35 @@
                     },
                 });
             });
-        });
-        // site code
-        $("#site_name").on('change',function()
-        {
-            var code= $(this).val();
-            $.ajax
-            ({
-                type:"GET",
-                url: "{{ route('getsitedata') }}",
-                dataType: "json",
-                data:
-                {
-                    'site_name':$(this).val()
-                },
-                success: function( data ) 
-                {
-                    result = [];
-                    for(var i in data)
+        
+            // site code
+            $("#site_name").on('change',function()
+            {
+                var code= $(this).val();
+                $.ajax
+                ({
+                    type:"GET",
+                    url: "{{ route('getsitedata') }}",
+                    dataType: "json",
+                    data:
                     {
-                        $('#site_no').val(data[i]["site_no"]);
-                        $('#site_code').val(data[i]["site_code"]);
+                        'site_name':$(this).val()
+                    },
+                    success: function( data ) 
+                    {
+                        result = [];
+                        for(var i in data)
+                        {
+                            $('#site_no').val(data[i]["site_no"]);
+                        }
+                    },
+                    fail: function(xhr, textStatus, errorThrown)
+                    {
+                        alert(errorThrown);
                     }
-                },
-                fail: function(xhr, textStatus, errorThrown)
-                {
-                     alert(errorThrown);
-                }
+                });
             });
         });
-
 
         //project name autocomplete from projectermaster
         jQuery($ => 
@@ -779,116 +781,109 @@
                 }
             });
         });
-
 </script>
 
-<!-- ADD AND EDIT FORM -->
-<dialog id="Dialog">
-    <div class="row">
-        <div class="col-md-12">
-            <a class="btn btn-sm" onclick="CloseSitePage()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
-            <center><h4  id='Siteheadingname' style='color:white;background-color:#319DD9;height: 50px;text-align: center;padding-top: 10px;' align="center"><b>Add SiteTimeSheet</b></h4></center>
+<!-- SITELEVEL TIMESHEET -->
+    <!-- ADD AND EDIT FORM -->
+    <dialog id="Dialog">
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-sm" onclick="CloseSitePage()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
+                <center><h4  id='Siteheadingname' style='color:white;background-color:#319DD9;height: 50px;text-align: center;padding-top: 10px;' align="center"><b>Add SiteTimeSheet</b></h4></center>
+            </div>
         </div>
-    </div>
-    <form  class="form-row"  enctype="multipart/form-data" style="display:block" id="formsite" onsubmit="SubmitSitePage()">
-        <input type="hidden" id="sitemethod" value="ADDSITE"/>
-        <input type="hidden" id="id" name="id" value=""/><br>
-
-        {!! csrf_field() !!}
-            <div class="row">
-                <div class="form-group col-md-4">
-                    <label for="site_name" class="form-label fw-bold">Site Name<a style="text-decoration: none;color:red">*</a></label>
-                    <input type="text" id="sitename" name="site_name" value="{{ old('site_name') }}" placeholder="Site Name" class="form-control" autocomplete="off">
-                    <input type="text" id="siteno" name="site_no" hidden  value="{{ old('site_no') }}" class="form-control" autocomplete="off"> 
+        <form  class="form-row"  enctype="multipart/form-data" style="display:block" id="formsite" onsubmit="SubmitSitePage()">
+            <input type="hidden" id="sitemethod" value="ADDSITE"/>
+            <input type="hidden" id="id" name="id" value=""/><br>
+            {!! csrf_field() !!}
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="site_name" class="form-label fw-bold">Site Name<a style="text-decoration: none;color:red">*</a></label>
+                        <input type="text" id="sitename" name="site_name" value="{{ old('site_name') }}" placeholder="Site Name" class="form-control" autocomplete="off">
+                        <input type="text" id="siteno" name="site_no" hidden  value="{{ old('site_no') }}" class="form-control" autocomplete="off"> 
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="site_manager" class="form-label fw-bold">Site Incharge</label>
+                        <input type="text" id="site_manager" name="site_manager" readonly value="{{ old('site_manager') }}" placeholder="Site Incharge" class="form-control" autocomplete="off">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="site_location" class="form-label fw-bold">Location</label>
+                        <input type="text" id="site_location" readonly name="site_location" value="{{ old('site_location') }}" placeholder="Site Location" class="form-control" autocomplete="off">                  
+                    </div>
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="site_manager" class="form-label fw-bold">Site Incharge</label>
-                    <input type="text" id="site_manager" readonly value="{{ old('site_manager') }}" placeholder="Site Incharge" class="form-control" autocomplete="off">
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="join_date" class="form-label fw-bold">From Date<a style="text-decoration: none;color:red">*</a></label>
+                        <input type="date" id="fromdate" name="from_date" value="{{ old('date') }}" placeholder="date" class="form-control" autocomplete="off">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="join_date" class="form-label fw-bold">To Date<a style="text-decoration: none;color:red">*</a></label>
+                        <input type="date" id="todate" name="to_date" value="{{ old('date') }}" placeholder="date" class="form-control" autocomplete="off">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="employee_name" class="form-label fw-bold">Employee Name<a style="text-decoration: none;color:red">*</a></label>
+                            <div class="input-group">
+                                <input type="text" id="first_name" value="{{ old('firstname') }}" placeholder="Manager Name" class="form-control" autocomplete="off">
+                                <button type="button" class="btn btn-primary" onclick="addEmployeeName()">ADD</button>
+                            </div>
+                                <input type="text" id="empno" name="emp_no" hidden value="{{ old('emp_no') }}" class="form-control" autocomplete="off">
+                    </div>
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="site_location" class="form-label fw-bold">Location</label>
-                    <input type="text" id="site_location" readonly name="site_location" value="{{ old('site_location') }}" placeholder="Site Location" class="form-control" autocomplete="off">
-                  
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label">Employee Names</label>
+                        <textarea class="form-control" id="remarks" cols="30" rows="5" name="remarks" autocomplete="off"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-4">
-                    <label for="join_date" class="form-label fw-bold">From Date<a style="text-decoration: none;color:red">*</a></label>
-                    <input type="date" id="fromdate" name="from_date" value="{{ old('date') }}" placeholder="date" class="form-control" autocomplete="off">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="join_date" class="form-label fw-bold">To Date<a style="text-decoration: none;color:red">*</a></label>
-                    <input type="date" id="todate" name="to_date" value="{{ old('date') }}" placeholder="date" class="form-control" autocomplete="off">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="employee_name" class="form-label fw-bold">Employee Name<a style="text-decoration: none;color:red">*</a></label>
-                        <div class="input-group">
-                            <input type="text" id="first_name" value="{{ old('firstname') }}" placeholder="Manager Name" class="form-control" autocomplete="off">
-                            <button type="button" class="btn btn-primary" onclick="addEmployeeName()">ADD</button>
-                        </div>
-                        <input type="text" id="empno" name="emp_no" hidden value="{{ old('emp_no') }}" class="form-control" autocomplete="off">
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <label class="form-label">Employee Names</label>
-                    <textarea class="form-control" id="remarks" cols="30" rows="5" name="remarks" autocomplete="off"></textarea>
-                </div>
-            </div>
-            <script>
-                    
-                var employee = [];
-                function addEmployeeName() 
-                {
-                    var firstname = document.getElementById('first_name').value;
-                    var empNo = document.getElementById('empno').value; // Retrieve emp_no value
-                    var remarks = document.getElementById('remarks');
-                    // Append the entered name to the textarea
-                    remarks.value += firstname + "\n";
-                    // Add emp_no to the employee array
-                    employee.push(empNo);
-
-                    // Clear the input fields
-                    document.getElementById('first_name').value = '';
-                    document.getElementById('empno').value = '';
-                    console.log(employee);
-                }
-            </script>
-
-
+            
              <!-- ADD & Remove table Employee Attendance Table Heading -->
-            <div class="container pt-4">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead id="sitetime_table">
-                            <tr>
-                                <th>Date</th>
-                                <th>Start Time</th>
-                                <th>End Time</th>
-                                <th>OT Start Time</th>
-                                <th>OT End Time</th>
-                                <th>Holiday</th>
-                                <th>Leave</th>
-                                <th>Leave Type</th>
-                            </tr>
-                        </thead>
-                        <tbody id="site_tbody"></tbody>
-                    </table>
+                <div class="container pt-4">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead id="sitetime_table">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>OT Start Time</th>
+                                    <th>OT End Time</th>
+                                    <th>Holiday</th>
+                                    <th>Leave</th>
+                                    <th>Leave Type</th>
+                                </tr>
+                            </thead>
+                            <tbody id="site_tbody"></tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
             <!-- End Employee Attendance Table Heading -->
             
-            <div class="row mt-3">
-                <div class="form-group col-md-12">
-                    <button type="submit" id="submitsite"  class="btn btn-primary mx-3 mt-3 ">SAVE</button>
+                <div class="row mt-3">
+                    <div class="form-group col-md-12">
+                        <button type="submit" id="submitsite"  class="btn btn-primary mx-3 mt-3 ">SAVE</button>
+                    </div>
                 </div>
-            </div>
-    </form>
-    
-</dialog>
-<!-- Employee Attendance Sheet Calculations -->
+        </form>
+    </dialog>
 <script>
+                    
+    var employee = [];
+    function addEmployeeName() 
+    {
+        var firstname = document.getElementById('first_name').value;
+        var empNo = document.getElementById('empno').value; // Retrieve emp_no value
+        var remarks = document.getElementById('remarks');
+        // Append the entered name to the textarea
+        remarks.value += firstname + "\n";
+        // Add emp_no to the employee array
+        employee.push(empNo);
+
+        // Clear the input fields
+        document.getElementById('first_name').value = '';
+        document.getElementById('empno').value = '';
+    }
+           
+    //  Employee Attendance Sheet Calculations
     $('#sitetime_table').hide();
     // Set the start and end dates
     var sitestartDate;
@@ -991,11 +986,7 @@
         $('#sitetime_table').show();
     });
 
-        
-   
-</script>
 
-<script type="text/javascript">
     $.ajaxSetup
     ({
         headers: 
@@ -1014,6 +1005,8 @@
         $('#Siteheadingname').text("Add SiteTimesheet Details").css('font-weight', 'bold');
         $('#formsite').css('display','block');
         $('#blur-background').css('display','block');
+        $('#site_manager').val('');
+        $('#site_location').val('');
     }
 
     // DIALOG CLOSE BUTTON
@@ -1024,10 +1017,12 @@
         $('#formsite')[0].reset();
         $("#site_tbody").empty();
         $('#sitetime_table').hide();
+        i=1;
         // Hide any error messages
         $('p[id^="error_"]').html('');
         // Hide the dialog background
         $('#blur-background').css('display','none');
+        
     }
 
     // DIALOG SUBMIT FOR ADD AND EDIT
@@ -1153,46 +1148,46 @@
 
 
         // auto complete for sitename from sitemaster
-        jQuery($ => 
+    jQuery($ => 
+    {
+        $(document).on('focus click', $("#sitename"), function() 
         {
-            $(document).on('focus click', $("#sitename"), function() 
+            $("#sitename").autocomplete(
             {
-                $("#sitename").autocomplete(
+                source: function( request, response ) 
                 {
-                    source: function( request, response ) 
-                    {
-                        $.ajax
-                        ({
-                            type:"GET",
-                            url: "{{ route('getsitedata') }}",
-                            dataType: "json",
-                            data:
+                    $.ajax
+                    ({
+                        type:"GET",
+                        url: "{{ route('getsitedata') }}",
+                        dataType: "json",
+                        data:
+                        {
+                            'site_name':$("#sitename").val()
+                        },
+                        success: function( data ) 
+                        {
+                            result = [];
+                            for(var i in data)
                             {
-                                'site_name':$("#sitename").val()
-                            },
-                            success: function( data ) 
-                            {
-                                result = [];
-                                for(var i in data)
-                                {
-                                    result.push(data[i]["site_name"]);
-                                }
-                                response(result);
-                            },
-                            fail: function(xhr, textStatus, errorThrown)
-                            {
-                                alert(errorThrown);
+                                result.push(data[i]["site_name"]);
                             }
-                        });
-                    },
-                    select: function(event, ui) 
-                    {
-                        $('#siteno').val(null);
-                        var selectedSiteName = ui.item.value;
-                        updateSiteNoValue(selectedSiteName);
-                    }
-                });
+                                response(result);
+                        },
+                        fail: function(xhr, textStatus, errorThrown)
+                        {
+                            alert(errorThrown);
+                        }
+                    });
+                },
+                select: function(event, ui) 
+                {
+                    $('#siteno').val(null);
+                    var selectedSiteName = ui.item.value;
+                    updateSiteNoValue(selectedSiteName);
+                }
             });
+        });
        
         // site code
         $("#sitename").on('input', function() 
@@ -1228,7 +1223,6 @@
             });
         }
     });
-
 
 </script>
 @stop                           

@@ -292,6 +292,8 @@
                     //   alert(hiddenErrorElements);
                     if(hiddenErrorElements === 0)
                     {
+                        // Disable the submit button
+                        $('#submit').prop('disabled', true);
                         let form_data = new FormData(document.getElementById('form'));
                         let method = $('#method').val();
                         let url;
@@ -320,7 +322,7 @@
                             error: function(message) 
                             {
                                 var data = message.responseJSON;
-                               
+                                $('#submit').prop('disabled', false);
                             }
                         })
                     }

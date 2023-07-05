@@ -345,11 +345,15 @@
                     if (method === 'ADD') {
                         url = '{{ route('paymentpayableApi.store') }}';
                         type = 'POST';
+                        var clickedButtonId = 'submit' + rowIdx;
+                        $('#' + clickedButtonId).prop('disabled', true);
                     } else {
                         let id = $('#ap_no').val();
                         url = '{{ route('paymentpayableApi.update', ':id') }}';
                         url = url.replace(':id', id);
                         type = 'POST';
+                        var clickedButtonId = 'submit' + rowIdx;
+                        $('#' + clickedButtonId).prop('disabled', true);
                     }
 
                     $.ajax({
@@ -360,12 +364,14 @@
                         cache: false,
                         processData: false,
                         success: function(message) {
+                           
                             alert(message);
                             console.log(method)
                             if (method === 'ADD') {
                                 var clickedButtonId = 'submit' + rowIdx;
                                 $('#' + clickedButtonId).prop('disabled', true);
                             } else if (method === 'UPDATE') {
+                                
                                 window.location.reload();
                             }
                         },

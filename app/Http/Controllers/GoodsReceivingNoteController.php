@@ -35,8 +35,7 @@ class GoodsReceivingNoteController extends Controller
             $purchase_order = $purchase->pluck('po_code');
             $grn = GoodsReceivingNote::join('project_masters', 'goods_received_note.project_no', '=', 'project_masters.project_no')
             ->join('supplier_masters', 'goods_received_note.supplier_no', '=', 'supplier_masters.supplier_no')                 
-            ->select('goods_received_note.*', 'project_masters.*', 'supplier_masters.*',
-            )  
+            ->select('goods_received_note.*', 'project_masters.*', 'supplier_masters.*')  
             ->where('goods_received_note.deleted','0')          
             ->get();
             return view('goodsreceivingnote.index')

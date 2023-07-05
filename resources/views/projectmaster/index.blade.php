@@ -915,6 +915,8 @@
                     if(!hasError) {
                     var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
                     if (hiddenErrorElements === 0) {
+                        // Disable the submit button
+                        $('#submit').prop('disabled', true);
                         document.getElementById("dialog1").open = false;
                         event.preventDefault();
                         let form_data = new FormData(document.getElementById('form'));
@@ -954,6 +956,7 @@
                             error: function (message) {
                                 var data = message.responseJSON;
                                 // Handle error
+                                $('#submit').prop('disabled', false);
                             }
                         });
                     }
@@ -1055,7 +1058,7 @@
                                     if(item.pack_specification == null){
                                         item.pack_specification ='';}
                                         
-                                    script += '<td>' + item.specification + '</td>';
+                                    script += '<td>' + (item.specification || '-') + '</td>';
                                     script += '<td>' + item.qty+ '</td>';
                                     script += '<td>' + item.unit+ '</td>';
                                     script += '<td>' + item.rate_per_qty + '</td>';

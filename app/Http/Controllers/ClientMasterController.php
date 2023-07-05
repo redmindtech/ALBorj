@@ -162,6 +162,7 @@ public function update(Request $request, $client_no)
     {   
         $projectData = ProjectMaster::where('client_no', $id)
         ->join('payment_receivables', 'project_masters.project_no', '=', 'payment_receivables.project_no')
+        ->where('payment_receivables.delete' ,0)
         ->get(['project_masters.project_no', 'project_masters.project_name','payment_receivables.*']);
         return response()->json($projectData);    
     

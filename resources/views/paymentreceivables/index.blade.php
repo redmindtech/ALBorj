@@ -332,6 +332,8 @@ function handleClose(){
             // alert(hiddenErrorElements);
             if(hiddenErrorElements === 0)
             {
+                 // Disable the submit button
+                 $('#submit').prop('disabled', true);
             let form_data = new FormData(document.getElementById('form'));
             let method = $('#method').val();
             let url;
@@ -360,8 +362,8 @@ function handleClose(){
                 },
                 error: function (xhr, status, error) {
                 var errorMessage = xhr.responseText; // Get the error message from the response
-                alert(errorMessage);
-                }
+                    // Disable the submit button
+                    $('#submit').prop('disabled', false);                }
             });
         }
             }

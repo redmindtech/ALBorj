@@ -487,6 +487,7 @@
     event.preventDefault();
     var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
     if (hiddenErrorElements === 0) {
+        
         var hasError = false; // Declare hasError variable and set it to false
 
         $('.rowtr').each(function() {
@@ -508,6 +509,8 @@
         });
 
         if (!hasError) {
+             // Disable the submit button
+             $('#submit').prop('disabled', true);
             let form_data = new FormData(document.getElementById('form'));
             let method = $('#method').val();
             let url;
@@ -534,7 +537,7 @@
                 },
                 error: function(message) {
                     var data = message.responseJSON;
-                 
+                  $('#submit').prop('disabled', false);
                 }
             });
         }
