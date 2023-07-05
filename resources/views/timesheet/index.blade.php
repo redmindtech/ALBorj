@@ -816,6 +816,7 @@
             return site_name.includes(value);
         });
 
+        
         $.validator.addMethod("greaterThan", function(value, element, param) 
         {
             var fromDate = $(param).val();
@@ -846,12 +847,12 @@
                     required:true,
                     sitename:true
                 },
+               
                 from_date: 
                 {
                 required: true,
                 },
-                to_date: 
-                {
+                to_date: {
                     required: true,
                     date: true,
                     greaterThan: "#from_date"
@@ -873,7 +874,7 @@
                 {
                     required:"please enter a sitename",
                     sitename:"Please enter a valid sitename."
-                }
+                },
                 from_date: 
                 {
                     required: "Please enter a from date",

@@ -25,17 +25,20 @@ class DashboardController extends Controller
             // Get data for daily expenses table
             $dailyExpenses = Expenses::where('created_at', '>=', '2023-01-01')
             ->where('created_at', '<=', DB::raw('CURDATE()'))
+            ->where('deleted', '0')
             ->selectRaw('COALESCE(SUM(total_amount), 0) AS total_amount')
             ->value('total_amount');
 
             // Get data for salary details table
             $salaryDetails = SalaryDetails:: where('created_at', '>=', '2023-01-01')
             ->where('created_at', '>=', DB::raw('CURRENT_DATE()'))
+            ->where('deleted', '0')
             ->sum('total_salary');
 
             // Get data for purchase table
             $purchases =PaymentPayable::where('created_at', '>=', '2023-01-01')
              ->where('created_at', '>=', DB::raw('CURDATE()'))
+             ->where('deleted', '0')
             ->selectRaw('COALESCE(SUM(CAST(closing_balance AS decimal(10,2))), 0) AS total_payment')
             ->value('total_payment');
 
