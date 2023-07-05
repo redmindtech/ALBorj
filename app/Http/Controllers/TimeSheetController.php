@@ -54,7 +54,7 @@ class TimeSheetController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TimeSheetRequest $request)
+    public function store(Request $request)
     {
         try 
         {
@@ -76,10 +76,8 @@ class TimeSheetController extends Controller
                         'date'=>$request['date'][$i],
                         'start_time' => $request['start_time'][$i],
                         'end_time' => $request['end_time'][$i],
-                        'total_time' => $request['total_time'][$i],
                         'ot_start_time' => $request['ot_start_time'][$i],
                         'ot_end_time' => $request['ot_end_time'][$i],
-                        'ot_total_time' => $request['ot_total_time'][$i],
                         'holiday' => $request['holiday_ref'][$i],
                         'leave' => $request['leave_ref'][$i],
                         'leave_type' => $request['leave_type'][$i]
@@ -259,10 +257,8 @@ class TimeSheetController extends Controller
                         'date' => $request['date'][$i],
                         'start_time' => $request['start_time'][$i],
                         'end_time' => $request['end_time'][$i],
-                        'total_time' => $request['total_time'][$i],
                         'ot_start_time' => $request['ot_start_time'][$i],
                         'ot_end_time' => $request['ot_end_time'][$i],
-                        'ot_total_time' => $request['ot_total_time'][$i],
                         'holiday' => $request['holiday_ref'][$i],
                         'leave' => $request['leave_ref'][$i],
                         'leave_type' => $request['leave_type'][$i]
