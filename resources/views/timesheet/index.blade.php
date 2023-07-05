@@ -823,7 +823,7 @@
             {
                 return true; // Skip validation if either date is missing
             }
-                return new Date(value) > new Date(fromDate);
+            return new Date(value) >= new Date(fromDate); // Use greater than or equal to comparison
         });
 
         // Initialize form validation
@@ -848,14 +848,14 @@
                 },
                 from_date: 
                 {
-                    required: true,
+                required: true,
                 },
-                // to_date: 
-                // {
-                //     required: true,
-                //     date: true,
-                //     greaterThan: "#to_date"
-                // },
+                to_date: 
+                {
+                    required: true,
+                    date: true,
+                    greaterThan: "#from_date"
+                },
             },
             messages: 
             {
@@ -873,17 +873,17 @@
                 {
                     required:"please enter a sitename",
                     sitename:"Please enter a valid sitename."
-                },
+                }
                 from_date: 
                 {
                     required: "Please enter a from date",
                 },
-                // to_date: 
-                // {
-                //     required: "Please enter a To date",
-                //     date: "Please enter a valid date",
-                //     greaterThan: "End date must be after the start date"
-                // },
+                to_date: 
+                {
+                    required: "Please enter a To date",
+                    date: "Please enter a valid date",
+                    greaterThan: "End date must be equal to or after the start date"
+                },
             },
             errorElement: "error",
             errorClass: "error-msg",
