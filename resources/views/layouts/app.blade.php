@@ -489,7 +489,7 @@ input[type=checkbox] {
         body::after {
             content: none;
         }
-        #print,#closeButton {
+        #print,#closeButton,#submit,#delete {
             display: none;
         }
 

@@ -82,7 +82,7 @@
 <dialog id="myDialog">
                     <div class="row">
                         <div class="col-md-12">
-                            <a class="btn  btn-sm" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
+                            <a class="btn  btn-sm" id="closeButton" onclick="handleClose()" style="float:right;padding: 10px 10px;"><i class="fas fa-close"></i></a>
                             <h4  id='heading_name' style='color:white' align="center"><b>Update purchaseOrder Details</b></h4>
                         </div>
                     </div>
@@ -136,10 +136,12 @@
                 <div class="form-group col-md-4" id='cheque' style="display: none;">
                     <label for="cheque_no" class="form-label fw-bold">Cheque No<a style="text-decoration: none;color:red">*</a></label>
                     <input type="text" id="cheque_no"  name="cheque_no" value="{{ old('cheque_no') }}" placeholder="Cheque No" class="form-control" autocomplete="off">
+                    <div id="cheque_no-error" class="error-msg" style="display: none; color: red;"></div>
                 </div>
-                <div class="form-group col-md-4"   id='cheque_date' style="display: none;">
+                <div class="form-group col-md-4"   id='cheque_date1' style="display: none;">
                     <label for="cheque_date" class="form-label fw-bold">Cheque Date<a style="text-decoration: none;color:red">*</a></label>
                     <input type="date" id="cheque_date"  name="cheque_date" value="{{ old('cheque_date') }}" placeholder="Cheque Date" class="form-control" autocomplete="off">
+                    <div id="cheque_date-error" class="error-msg" style="display: none; color: red;"></div>
                 </div>
             </div>
             <div class="row"> 
@@ -271,7 +273,7 @@ function handleClose(){
                 // Clear the form fields
                 $('#form')[0].reset();
                 $('#cheque').hide();
-                $('#cheque_date').hide();
+                $('#cheque_date1').hide();
                 $("#tbody").empty();
                 // show_table
                 $("#item_details_show").empty();
@@ -315,8 +317,7 @@ function handleClose(){
 
         // Get the pending quantity value for the current row
         var pendingQty = parseFloat($('#pending_qty_' + rowIdx).val());
-
-
+      
         if (isNaN(used_Qty) ) {
             alert('Please enter a valid Receiving quantity in row ' + rowIdx);
             hasError = true;
@@ -344,6 +345,7 @@ function handleClose(){
             let type;
 
             if (method == 'ADD') {
+             
                 url = '{{ route('payrecApi.store') }}';
                 type = 'POST';
             } else {
@@ -361,7 +363,13 @@ function handleClose(){
                 cache: false,
                 processData: false,
                 success: function (response) {
-                alert(response); // Show the response message
+
+                alert(response); 
+                  if (method == 'ADD'){
+                $('#heading_name').css('color', 'black').css('font-weight', 'bold');
+                window.print();
+                 $('#heading_name').css('color', 'white').css('font-weight', 'bold');
+                 }
                 window.location.reload();
                 },
                 error: function (xhr, status, error) {
@@ -388,9 +396,10 @@ function handleClose(){
                                 $('#show').css('display', 'none');
                                 $('#form').css('display', 'block');
                                 $('#blur-background').css('display', 'block');
-
+                                
                                 for (const [key, value] of Object.entries(message.payment_recs)) {
                                     $(`#${key}`).val(value);
+                                    console.log($(`#${key}`).val(value));
                                 }
                               var rowid =1;   
                              
@@ -460,9 +469,9 @@ function handleClose(){
         html += '<td><div class="col-xs-12"><input type="text"  id="specification_' + rowIdx +'" name="specification[]" class="specification form-control"></div></td>';         html += '<td><div class="col-xs-12"><input type="text" name="qty[]"  id="qty_' + rowIdx +'" class="qty form-control" readonly ></div></td>';  
         html += '<td><div class="col-xs-12"><input type="text" name="unit[]"  id="unit_' + rowIdx +'" class="unit form-control" readonly ></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" name="pending_qty[]"  id="pending_qty_' + rowIdx +'" class="pending_qty form-control" readonly ></div></td>';  
-        html += '<td><div class="col-xs-12"><input type="number" name="used_qty[]"  id="used_qty_' + rowIdx +'" class="used_qty form-control"></div></td>';
+        html += '<td><div class="col-xs-12"><input type="text" name="used_qty[]"  id="used_qty_' + rowIdx +'" class="used_qty form-control"></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" name="remaining_qty[]"  id="remaining_qty_' + rowIdx +'" class="remaining_qty form-control" readonly></div></td>';
-        html += '<td><div class="col-xs-12"><input type="number" name="rate_per_qty[]" id="rate_per_qty_' + rowIdx +'" class="rate_per_qty_ form-control" readonly></div></td>';
+        html += '<td><div class="col-xs-12"><input type="text" name="rate_per_qty[]" id="rate_per_qty_' + rowIdx +'" class="rate_per_qty_ form-control" readonly></div></td>';
         html += '<td><div class="col-xs-12"><input type="text" name="amount[]" id="amount_' + rowIdx +'" class="amount form-control" readonly></div></td>';
         html += '<td><button class="btn btn-danger remove btn-sm" id="delete" type="button"><i class="fa fa-trash"></i></button></td>';
         html += '</tr>';       
@@ -549,9 +558,7 @@ function handleClose(){
         'projectname': proName
       },
       success: function(data) {
-        console.log(data.project_name);
-        console.log(data.project_master_item);
-        console.log(data.opening_bal);
+       
           $('#project_no').val(data.project_no);
           $('#opening_bal').val(data.opening_bal);
           for (var i in data.project_name){
@@ -583,12 +590,12 @@ function handleClose(){
             if (selectedOption === 'Cheque')
             {
                 $('#cheque').show();
-                $('#cheque_date').show();
+                $('#cheque_date1').show();
 
             } else
             {
                 $('#cheque').hide();
-                $('#cheque_date').hide();
+                $('#cheque_date1').hide();
 
             }
 
@@ -664,20 +671,7 @@ function updateCalculation() {
 
                             required: true,
                         }, 
-                        cheque_no: {
-                             required: {
-                             depends: function(element) {
-                            return $('#source').val() === 'Cheque';
-                              }
-                            }
-                        },
-                        cheque_date: {
-                            required: {
-                                depends: function(element) {
-                                    return $('#source').val() === 'Cheque';
-                                }
-                            }
-                        },
+                    
                         "used_qty[]":
                         {
                             required: true,
@@ -693,12 +687,7 @@ function updateCalculation() {
                         source: {
                             required: "Please select source"
                             },
-                             cheque_no: {
-                                required: "Please enter the cheque number"
-                            },
-                            cheque_date: {
-                                required: "Please select the cheque date"
-                            },                       
+                                            
                        
                        "used_qty[]":
                         {
@@ -719,7 +708,44 @@ function updateCalculation() {
 
                     }
                 };
+                $(document).ready(function() {
+            $("#source").on("focusout", function() {
+                var source  = $(this).val().trim();
+                
+                if (source === "Cheque") {
+                    if($("#cheque_no").val() == ""){
+                        $("#cheque_no-error").text("Please enter the cheque number");
+                        $("#cheque_no-error").show();
+                    }
+                    else {
+                        $("#cheque_no-error").hide();                  
+                    }
 
+                if($("#cheque_date").val() == ""){
+                    $("#cheque_date-error").text("Please select the cheque date");               
+                        $("#cheque_date-error").show();
+                }    
+                else   {
+                    $("#cheque_date-error").hide();
+                }
+            }
+            });
+            $("#cheque_no").on("focusout", function() {
+                if($("#cheque_no").val() != ""){
+                        $("#cheque_no-error").hide();                  
+                    }
+                });
+
+                $("#cheque_date").on("focusout", function() {
+                    console.log($("#cheque_date").val());
+                    if($("#cheque_date").val() != "")
+                    {
+                    $("#cheque_date-error").hide();
+                }
+            
+             });
+           
+             });
                 $("#form").validate(formValidationConfig);
             
 

@@ -170,8 +170,7 @@ class PaymentReceivablesController extends Controller
     
         try{
         $payment_receivables = PaymentReceivables::where('id', $id)->first();
-                $request['opening_bal']='0';
-                $request['closing_bal']='0';
+              
         $payment_receivables->update($request->only(PaymentReceivables::REQUEST_INPUTS));
         $item_no=count($request['item_no']);
 
@@ -190,7 +189,7 @@ class PaymentReceivablesController extends Controller
               
             ]);
         }
-        return response()->json('Purchase Order updated successfully', 200);
+        return response()->json('Payment Receivables updated successfully', 200);
     } catch (Exception $e) {
         info($e);
         return response()->json('Error occurred while updating Payment Receivables', 400);
