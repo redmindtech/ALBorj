@@ -1,3 +1,11 @@
+<style>
+    #firstname-error
+    {
+        position: absolute;
+        top: 95%;
+        left: 1%;
+    }
+</style>
 <!-- STYLE INCLUDED IN LAYOUT PAGE -->
 @extends('layouts.app',[
     'activeName' => 'Employee TimeSheet'
@@ -384,8 +392,10 @@
         $("#emp_tbody").empty();
         $('#time_table').hide();
         i=1;
+        $('.error-msg').removeClass('error-msg');
+        $('.has-error').removeClass('has-error');
         // Hide any error messages
-        $('p[id^="error_"]').html('');
+        $('error').html('');
         // Hide the dialog background
         $('#blur-background').css('display','none');
     }
@@ -943,9 +953,12 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label for="employee_name" class="form-label fw-bold">Employee Name<a style="text-decoration: none;color:red">*</a></label>
-                            <div class="input-group">
-                                <input type="text" id="first_name" value="{{ old('firstname') }}" placeholder="Manager Name" class="form-control" autocomplete="off">
-                                <button type="button" class="btn btn-primary" onclick="addEmployeeName()">ADD</button>
+                           <div class="row w-100">
+                                <div class="input-group w-75 row">
+                                    <input type="text" id="first_name" name="firstname" value="{{ old('firstname') }}" placeholder="Manager Name" class="form-control siteemployee" autocomplete="off">
+                                    
+                                </div>
+                                <button type="button" class="btn btn-primary w-25 h-25" onclick="addEmployeeName()">ADD</button>
                             </div>
                                 <input type="text" id="empno" name="emp_no" hidden value="{{ old('emp_no') }}" class="form-control" autocomplete="off">
                     </div>
@@ -1139,8 +1152,10 @@
         $("#site_tbody").empty();
         $('#sitetime_table').hide();
         i=1;
+        $('.error-msg').removeClass('error-msg');
+        $('.has-error').removeClass('has-error');
         // Hide any error messages
-        $('p[id^="error_"]').html('');
+        $('error').html('');
         // Hide the dialog background
         $('#blur-background').css('display','none');
         
@@ -1150,7 +1165,13 @@
   
     function SubmitSitePage() 
     {
-        event.preventDefault(); 
+        event.preventDefault();
+        var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
+        // alert(hiddenErrorElements);
+        if(hiddenErrorElements === 0)
+        {
+            // Disable the submit button
+            $('#submitsite').prop('disabled', true);
 
         let form_data = new FormData(document.getElementById('formsite'));
         let method = $('#sitemethod').val();
@@ -1180,16 +1201,12 @@
             error: function (message) 
             {
                 var data = message.responseJSON;
-                $('p[id ^= "error_"]').html("");
-                $.each(data.errors, function (key, val) 
-                {
-                    $(`#error_${key}`).html(val[0]);
-                });
+                $('#submitsite').prop('disabled', false);
             }
         });
     }
 
-
+}
     
         // auto complete from employeemaster
     jQuery($ => 
@@ -1344,6 +1361,105 @@
             });
         }
     });
+
+
+        // inline validation
+
+        var employee_name = @json($employee_name);
+        $.validator.addMethod("employeename", function(value, element) 
+        {
+            if (value.trim() === "") 
+            {
+                return true; // If value is empty, validation is considered successful
+            }
+            return employee_name.includes(value);
+        });
+     
+        $.validator.addMethod("greaterThan", function(value, element, param) 
+        {
+            var fromDate = $(param).val();
+            if (!value || !fromDate) 
+            {
+                return true; // Skip validation if either date is missing
+            }
+            return new Date(value) >= new Date(fromDate); // Use greater than or equal to comparison
+        });
+
+        var site_name = @json($site_name);
+        $.validator.addMethod("sitename", function(value, element) 
+        {
+            if (value.trim() === "") 
+            {
+                return true; // If value is empty, validation is considered successful
+            }
+            return site_name.includes(value);
+        });
+        
+        // Initialize form validation
+        var formValidationConfig = 
+        {
+            rules: 
+            {
+                firstname: 
+                {
+                    required:true,
+                    employeename:true
+                },   
+                site_name:
+                {
+                    required:true,
+                    sitename:true
+                },          
+                from_date: 
+                {
+                    required: true,
+                },
+                to_date: 
+                {
+                    required: true,
+                    date: true,
+                    greaterThan: "#fromdate"
+                },
+            },
+            messages: 
+            {
+                firstname: 
+                {
+                    required:"please enter a firstname",
+                    employeename: "Please enter a valid firstname."
+                }, 
+                site_name:
+                {
+                    required:"please enter a sitename",
+                    sitename:"Please enter a valid sitename."
+                },
+                from_date: 
+                {
+                    required: "Please enter a from date",
+                },
+                to_date: 
+                {
+                    required: "Please enter a To date",
+                    date: "Please enter a valid date",
+                    greaterThan: "End date must be equal to or after the start date"
+                },
+                
+            },
+            errorElement: "error",
+            errorClass: "error-msg",
+            highlight: function(element, errorClass, validClass) 
+            {
+                $(element).addClass(errorClass).removeClass(validClass);
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function(element, errorClass, validClass) 
+            {
+                $(element).removeClass(errorClass).addClass(validClass);
+                $(element).closest('.form-group').removeClass('has-error');
+            }
+        };
+
+        $("#formsite").validate(formValidationConfig);
 
 </script>
 @stop                           

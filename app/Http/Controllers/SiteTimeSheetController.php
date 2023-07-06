@@ -19,6 +19,13 @@ class SiteTimeSheetController extends Controller
     {
         try
         {     
+            $request->validate([
+                'site_no' => 'required',
+                'from_date' => 'required',
+                'to_date' => 'required',
+                'employee' => 'required|array|min:1', // Assuming 'employee' is the input containing the array of employee numbers
+            ]);
+    
             $employeeArray = json_decode($request->input('employee'), true);
             $remarks = $request->input('remarks');
             $site_no = $request->input('site_no');
