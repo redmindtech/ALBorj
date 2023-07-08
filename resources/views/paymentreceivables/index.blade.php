@@ -183,6 +183,10 @@
                 <label for="" class="form-label fw-bold">Closing Balance</label>
                 <input type="text" readonly name="closing_bal" id="closing_bal" class="form-control mb-2" autocomplete="off">
                 </div>
+                <div class="form-group col-md-4">
+                <label for="receivables_code" id="code_lable"class="form-label fw-bold">Receivables Code</label>
+                <input type="text" id="receivables_code" name="receivables_code" readonly value="{{ old('Receivables Code') }}" placeholder="Client Code" class="form-control mb-2" autocomplete="off">
+                </div>
             </div>             
                 <div class="row mt-3">
                     <div class="form-group col-md-12">
@@ -231,7 +235,13 @@
                         <label>Closing Balanace</label>
                         <p id="show_closing_bal"></p>
                     </div>
-                </div>   
+                </div>  
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Receivables Code</label>
+                        <p id="show_receivables_code"></p>
+                    </div>  
+                </div> 
                 
                 
                 <div id="item_details_show"></div>
@@ -261,7 +271,8 @@
              $('#method').val("ADD");
              $('#submit').text("Save");
              $('#heading_name').text("Add Payment Receivables Details").css('font-weight', 'bold');
-            
+             $('#code_lable').hide();
+             $('#receivables_code').hide();
              $('#show').css('display','none');
              $('#form').css('display','block');
              $('#blur-background').css('display','block');

@@ -155,3 +155,7 @@ Route::post("/paymentpayable/{ap_no}/update", [App\Http\Controllers\PaymentPayab
 Route::delete("/paymentpayable/{ap_no}/delete", [App\Http\Controllers\PaymentPayableController::class, 'destroy'])->name('paymentpayableApi.delete');
 // ongoing-projects
 Route::get("/ongoing-projects", [App\Http\Controllers\ReportController::class, 'index'])->name('ongoing-projects');
+// Vat Reports
+Route::POST("/dateReport", [App\Http\Controllers\ReportController::class, 'dateReport'])->name('dateReport');
+// vat (PurchaseReport)
+Route::POST("/purchaseReport", [App\Http\Controllers\ReportController::class, 'purchaseReport'])->name('purchaseReport');

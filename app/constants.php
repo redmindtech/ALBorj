@@ -235,4 +235,12 @@ const MONTH = [
     '11' => 'November',
     '12' => 'December',
 ];
+const REPORT_MONTH =[
+
+    '-01-01 to -03-31 '=>'01 January to 31 March',
+    '-04-01 to -06-30'=>'01 April to 30 June',
+    '-07-01 to -09-30'=>'01 July to 30 September',
+    '-10-01 to -12-31'=>'01 October to 31 December',
+];
+
 ?>

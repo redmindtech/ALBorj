@@ -16,6 +16,8 @@ use App\Http\Controllers\TimeSheetController;
 use APP\Http\ControllersPurchaseOrderController;
 use App\Http\Controllers\PayRollController;
 use App\Http\Controllers\PaymentPayableController;
+use App\Http\Controllers\ReportController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -76,3 +78,5 @@ Route::get('/', function () {
     Route::resource('payroll', 'PayRollController');
     Route::resource('paymentreceivables', 'PaymentReceivablesController');
     Route::resource('paymentpayable', 'PaymentPayableController');
+    Route::resource('reports', 'ReportController');
+

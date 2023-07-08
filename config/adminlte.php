@@ -387,8 +387,8 @@ return [
             'submenu' => [
                 [
                     'text' => 'VAT Filing Reports',
-                    'url'  => 'account',
-                    'icon' => 'nav-icon fas fa-fw fa-regular fa-star text-warning',
+                    'url'  => 'reports',
+                    'icon' => 'nav-icon fas fa-file-alt',
 
                 ],
                 [
