@@ -97,5 +97,42 @@ class ReportController extends Controller
             'enddate' => $enddate
         ]);
     }
+    public function purchaseReport()
+    {
+        $startdate = $_POST['startdate'];
+        $enddate = $_POST['enddate'];
+
+        $pur_report = DB::table('goods_received_note AS grn')
+        ->leftJoin('payment_payable AS pay', 'pay.grn_no', '=', 'grn.grn_no')
+        ->leftJoin('project_masters AS project', 'grn.project_no', '=', 'project.project_no')
+        ->leftJoin('site_masters AS site', 'project.site_no', '=', 'site.site_no')
+        ->leftJoin('supplier_masters AS supplier', 'grn.supplier_no', '=', 'supplier.supplier_no')
+        ->whereBetween('pay.created_at', [$startdate, $enddate])
+        ->where('pay.deleted', 0)
+
+        ->select(
+            DB::raw('SUM(grn.total_amount) as total_amount'),
+            DB::raw('SUM(grn.vat_amount) as vat_amount'),
+            DB::raw('SUM(grn.gross_amount) as gross_amount'),
+
+            'site.site_location',
+
+        )
+        ->groupBy(
+
+            'site.site_location',
+
+        )
+        ->get();
+info($pur_report);
+
+
+
+return response()->json([
+    'pur_report' =>$pur_report,
+    'startdate'=>$startdate,
+    'enddate'=>$enddate
+ ]);
+}
 
 }
