@@ -30,11 +30,11 @@ class ReportController extends Controller
                     ->leftJoin('site_masters AS site', 'project.site_no', '=', 'site.site_no')
                     ->leftJoin('client_masters AS client', 'project.client_no', '=', 'client.client_no')
                     ->where('site.site_location', '=', 'Dubai')
-                    ->whereBetween('grn.created_at', ['startdate', 'enddate'])
+                    ->whereBetween('grn.created_at', [$startdate, $enddate])
                     ->select('grn.total_amount', 'grn.vat_amount', 'grn.item_amount', 'grn.created_at', 'grn.receivables_code', 'project.project_code', 'site.site_location', 'client.company_name')
                     ->get();
 
-
+info($reports);
         $reports2 = DB::table('payment_receivables AS grn')
                     ->leftJoin('project_masters AS project', 'grn.project_no', '=', 'project.project_no')
                     ->leftJoin('site_masters AS site', 'project.site_no', '=', 'site.site_no')
@@ -124,10 +124,6 @@ class ReportController extends Controller
 
         )
         ->get();
-info($pur_report);
-
-
-
 return response()->json([
     'pur_report' =>$pur_report,
     'startdate'=>$startdate,
