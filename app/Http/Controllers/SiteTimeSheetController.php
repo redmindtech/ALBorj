@@ -23,7 +23,7 @@ class SiteTimeSheetController extends Controller
                 'site_no' => 'required',
                 'from_date' => 'required',
                 'to_date' => 'required',
-                'employee' => 'required|array|min:1', // Assuming 'employee' is the input containing the array of employee numbers
+                // 'employee' => 'required|array|min:1', // Assuming 'employee' is the input containing the array of employee numbers
             ]);
     
             $employeeArray = json_decode($request->input('employee'), true);
@@ -71,10 +71,8 @@ class SiteTimeSheetController extends Controller
                                 'date'=>$request['date'][$x],
                                 'start_time' => $request['start_time'][$x],
                                 'end_time' => $request['end_time'][$x],
-                                'total_time' => $request['total_time'][$x],
                                 'ot_start_time' => $request['ot_start_time'][$x],
                                 'ot_end_time' => $request['ot_end_time'][$x],
-                                'ot_total_time' => $request['ot_total_time'][$x],
                                 'holiday' => $request['holiday_ref'][$x],
                                 'leave' => $request['leave_ref'][$x],
                                 'leave_type' => $request['leave_type'][$x]

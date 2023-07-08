@@ -1402,7 +1402,6 @@
             {
                 firstname: 
                 {
-                    required:true,
                     employeename:true
                 },   
                 site_name:
@@ -1425,7 +1424,6 @@
             {
                 firstname: 
                 {
-                    required:"please enter a firstname",
                     employeename: "Please enter a valid firstname."
                 }, 
                 site_name:
