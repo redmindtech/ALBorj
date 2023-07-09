@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\PaymentReceivables;
 use App\Models\VisaDetails;
 use Illuminate\Http\Request;
 use App\Models\ProjectMaster;
@@ -41,7 +42,40 @@ class DashboardController extends Controller
              ->where('deleted', '0')
             ->selectRaw('COALESCE(SUM(CAST(closing_balance AS decimal(10,2))), 0) AS total_payment')
             ->value('total_payment');
+            // ACCOUNT CHART
+            $currentYear = date('Y');
+            $current_year = $currentYear . '-01-01';
+            $purchase_bar = PaymentPayable::selectRaw('MONTH(created_at) as month, SUM(invoice_amount) as purchase_bar')
+                ->where('created_at', '>=', $current_year)
+                ->where('created_at', '<=', date('Y-m-d'))
+                ->where('deleted', '0')
+                ->groupBy(DB::raw('MONTH(created_at)'))
+                ->get();
+                $months_bar = [];
+            $purchases_bar = [];
 
+            foreach ($purchase_bar as $purchase) {
+                $months_bar[] = date('M', mktime(0, 0, 0, $purchase->month, 1));
+                $purchases_bar[] = $purchase->purchase_bar;
+            }
+            $receivable_bar = PaymentReceivables::selectRaw('MONTH(created_at) as month, SUM(total_amount) as receivable_bar')
+            ->where('created_at', '>=', $current_year)
+            ->where('created_at', '<=', date('Y-m-d'))
+            ->where('deleted', '0')
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->get();
+        
+        $receivable_months_bar = [];
+        $receivable_amounts_bar = [];
+        
+        foreach ($receivable_bar as $receivable) {
+            $receivable_months_bar[] = date('M', mktime(0, 0, 0, $receivable->month, 1));
+            $receivable_amounts_bar[] = $receivable->receivable_bar;
+        }
+    
+
+
+   
             // Prepare data for the pie chart
             $expenseData = [
                 'labels' => ['Purchase', 'Daily Expense', 'Salary'],
@@ -62,10 +96,6 @@ class DashboardController extends Controller
                     ]
                 ]
             ];
-
-
-
-
             $pieChartOptions = [
                 'responsive' => true,
                 'maintainAspectRatio' => false,
@@ -116,6 +146,10 @@ class DashboardController extends Controller
                 'emp_active' => $emp_active,
                 'emp_inactive' => $emp_inactive,
                 'visa_date' => $visa_date,
+                'months_bar'=>$months_bar,
+                'purchases_bar'=>$purchases_bar,
+                'receivable_months_bar'=>$receivable_months_bar,
+                'receivable_amounts_bar' => $receivable_amounts_bar
             ]);
         } else {
             return redirect("/");

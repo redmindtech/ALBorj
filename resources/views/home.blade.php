@@ -201,58 +201,95 @@
      * -------
      * Here we will create a few charts using ChartJS
      */
+    //-------------
+//- BAR CHART -
+//-------------
+    var months_bar = {!! json_encode($months_bar) !!};
+var purchases_bar = {!! json_encode($purchases_bar) !!};
+var receivable_months_bar = {!! json_encode($receivable_months_bar) !!};
+var receivable_amounts_bar = {!! json_encode($receivable_amounts_bar) !!};
 
-var areaChartData = {
-      labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-  label               : 'Invoice',
-  backgroundColor     : 'rgba(255, 99, 132, 0.8)',
-  borderColor         : 'rgba(255, 99, 132, 1)',
-  pointRadius         : false,
-  pointColor          : '#FFFF00',
-  pointStrokeColor    : 'rgba(255, 99, 132, 1)',
-  pointHighlightFill  : '#0000FF',
-  pointHighlightStroke: 'rgba(255, 99, 132, 1)',
-  data                : [45, 52, 53, 60, 45, 75, 78]
-},
-{
-  label               : 'Payment',
-  backgroundColor     : 'rgba(255, 206, 86, 0.8)',
-  borderColor         : 'rgba(255, 206, 86, 1)',
-  pointRadius         : false,
-  pointColor          : 'rgba(255, 206, 86, 1)',
-  pointStrokeColor    : 'rgba(255, 206, 86, 1)',
-  pointHighlightFill  : '#0000FF',
-  pointHighlightStroke: 'rgba(255, 206, 86, 1)',
-  data                : [35, 50, 43, 55, 43, 55, 70]
-},
-{
-  label               : 'Expense',
-  backgroundColor     : 'rgba(54, 162, 235, 0.8)',
-  borderColor         : 'rgba(54, 162, 235, 1)',
-  pointRadius         : false,
-  pointColor          : 'rgba(54, 162, 235, 1)',
-  pointStrokeColor    : 'rgba(54, 162, 235, 1)',
-  pointHighlightFill  : '#0000FF',
-  pointHighlightStroke: 'rgba(54, 162, 235, 1)',
-  data                : [35, 50, 43, 55, 43, 55, 70]
-},
-{
-  label               : 'Vat',
-  backgroundColor     : 'rgba(75, 192, 192, 0.8)',
-  borderColor         : 'rgba(75, 192, 192, 1)',
-  pointRadius         : false,
-  pointColor          : 'rgba(75, 192, 192, 1)',
-  pointStrokeColor    : 'rgba(75, 192, 192, 1)',
-  pointHighlightFill  : '#0000FF',
-  pointHighlightStroke: 'rgba(75, 192, 192, 1)',
-  data                : [35, 50, 43, 55, 43, 55, 70]
+var mergedMonths = [...new Set(months_bar.concat(receivable_months_bar))];
+var mergedPurchases = [];
+var mergedReceivables = [];
+
+// Merge the purchases data
+for (var i = 0; i < mergedMonths.length; i++) {
+    var index = months_bar.indexOf(mergedMonths[i]);
+    if (index !== -1) {
+        mergedPurchases.push(purchases_bar[index]);
+    } else {
+        mergedPurchases.push(0);
+    }
 }
 
-
-      ]
+// Merge the receivables data
+for (var i = 0; i < mergedMonths.length; i++) {
+    var index = receivable_months_bar.indexOf(mergedMonths[i]);
+    if (index !== -1) {
+        mergedReceivables.push(receivable_amounts_bar[index]);
+    } else {
+        mergedReceivables.push(0);
     }
+}
+
+var areaChartData = {
+    labels: mergedMonths,
+    datasets: [
+        {
+            label: 'Purchase',
+            backgroundColor: 'rgba(255, 206, 86, 0.8)',
+            borderColor: 'rgba(255, 206, 86, 1)',
+            pointRadius: false,
+            pointColor: 'rgba(255, 206, 86, 1)',
+            pointStrokeColor: 'rgba(255, 206, 86, 1)',
+            pointHighlightFill: '#0000FF',
+            pointHighlightStroke: 'rgba(255, 206, 86, 1)',
+            data: mergedPurchases
+        },
+        {
+            label: 'Sales',
+            backgroundColor: 'rgba(54, 162, 235, 0.8)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            pointRadius: false,
+            pointColor: 'rgba(54, 162, 235, 1)',
+            pointStrokeColor: 'rgba(54, 162, 235, 1)',
+            pointHighlightFill: '#0000FF',
+            pointHighlightStroke: 'rgba(54, 162, 235, 1)',
+            data: mergedReceivables
+        }
+    ],
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+};
+var barChartCanvas = $('#barChart').get(0).getContext('2d');
+var barChartData = $.extend(true, {}, areaChartData);
+var temp0 = areaChartData.datasets[0];
+var temp1 = areaChartData.datasets[1];
+barChartData.datasets[0] = temp1;
+barChartData.datasets[1] = temp0;
+
+var barChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  datasetFill: false
+};
+
+new Chart(barChartCanvas, {
+  type: 'bar',
+  data: barChartData,
+  options: barChartOptions
+});
+
+//-------------
+//- BAR CHART ENDS-
+//-------------
 
  //-------------
     // //- DONUT CHART -
@@ -441,29 +478,7 @@ new Chart(salesChartCanvas, {
 });
 
 
-//-------------
-    //- BAR CHART -
-    //-------------
-    var barChartCanvas = $('#barChart').get(0).getContext('2d')
-    var barChartData = $.extend(true, {}, areaChartData)
-    var temp0 = areaChartData.datasets[0]
-    var temp1 = areaChartData.datasets[1]
-    barChartData.datasets[0] = temp1
-    barChartData.datasets[1] = temp0
 
-    var barChartOptions = {
-      responsive              : true,
-      maintainAspectRatio     : false,
-      datasetFill             : false
-    }
-
-    new Chart(barChartCanvas, {
-      type: 'bar',
-      data: barChartData,
-      options: barChartOptions
-    })
-
-    //
 
     //-------------
     //- SALES BAR CHART -
