@@ -1,92 +1,92 @@
 @extends('layouts.app',[
-    'activeName' => 'Reports'
+    'activeName' => 'REPORTS'
 ])
-@section('title', 'Reports')
+@section('title', 'REPORTS')
 
 @section('content_header')
 @stop
+
 @section('content')
-<style>
+<!-- <style>
     table.table-bordered th,
 table.table-bordered td {
   border: 1px solid black;
 }
-</style>
-    <div class="row">
-        <div class="container-fluid">
-            <div class="card shadow">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="font-weight-bold text-dark py">Reports</h4>
+</style> -->
+<div class="row">
+    <div class="container-fluid">
+        <div class="card shadow">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="font-weight-bold text-dark py">Reports</h4>
+                    <div>
+                        <button type="button" id="printButton" class="btn btn-primary">Print</button>
+                        <button type="button" id="csvButton" class="btn btn-primary">CSV</button>
                     </div>
                 </div>
             </div>
-            <form>
-                <div class="row g-2">
-                    <div class="form-group col-md-3">
-                        <label for="month" class="form-label fw-bold">Month<a style="text-decoration: none;color:red">*</a></label>
-                        <select id="month" class="form-control form-select" autocomplete="off">
-                            <option value="">Select Option</option>
-                            @foreach ($report_month as $key => $value)
-                                <option value="{{ $key }}">{{ $value }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group col-md-3">
-                        <label for="year" class="form-label fw-bold">Year <a style="text-decoration: none;color:red">*</a></label>
-                        <input type="text" id="year" name="year" placeholder="Year" class="form-control year" autocomplete="off">
-                    </div>
-                </div>
-            </form>
-            <div class="container pt-4">
-                <div class="table-responsive">
-                    <table class="table table-bordered" style="width:100%;">
-                        <thead>
-                            <tr class="text-center">
-                                <th>S.NO</th>
-                                <th>CompanyName</th>
-                                <th>CUSTOMER NUMBER</th>
-                                <th>PROJECT CODE</th>
-                                <th>MONTH/YEAR</th>
-                                <th>TAXABLE AMOUNT</th>
-                                <th>VAT 5%</th>
-                                <th>TOTAL AMOUNT</th>
-                            </tr>
+        </div>
+    </div>
+</div>
+
+<form>
+    <div class="row g-2">
+        <div class="form-group col-md-3">
+            <label for="month" class="form-label fw-bold">Month<a style="text-decoration: none;color:red">*</a></label>
+                <select id="month" class="form-control form-select" autocomplete="off">
+                    <option value="">Select Option</option>
+                        @foreach ($report_month as $key => $value)
+                            <option value="{{ $key }}">{{ $value }}</option>
+                        @endforeach
+                </select>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="year" class="form-label fw-bold">Year <a style="text-decoration: none;color:red">*</a></label>
+                <select id="year" class="form-control form-select" autocomplete="off">
+                    <option value="">Select Option</option>
+                    @foreach ($report_year as $key => $value)
+                        <option value="{{ $key }}">{{ $value }}</option>
+                    @endforeach
+                </select>
+                        <!-- <input type="text" id="year" name="year" placeholder="Year" class="form-control year" autocomplete="off"> -->
+        </div>
+    </div>
+    </form>  
+        <div class="container pt-4">
+            <div class="table-responsive">
+                <table class="table table-bordered " id="reports" style="width:100%;">
+                    <thead>
+                        <tr class="text-center">
+                            <th>S.NO</th>
+                            <th>COMPANYNAME</th>
+                            <th>CUSTOMER NUMBER</th>
+                            <th>PROJECT CODE</th>
+                            <th>DATE</th>
+                            <th>TAXABLE AMOUNT</th>
+                            <th>VAT 5%</th>
+                            <th>TOTAL AMOUNT</th>
+                        </tr>
                         </thead>
                         <tbody id="abuthabi">
-                            <tr>
-                                <td colspan="8" class="text-center font-weight-bold">ABU DHABI</td>
-                            </tr>
+                           
                         </tbody>
                         <tbody id="ajman">
-                            <tr>
-                                <td colspan="8" class="text-center font-weight-bold">AJMAN</td>
-                            </tr>
+                           
                         </tbody>
                         <tbody id="dubai">
-                            <tr>
-                                <td colspan="8" class="text-center font-weight-bold">DUBAI</td>
-                            </tr>
+                            
                         </tbody>
                         <tbody id="fujairah">
-                            <tr>
-                                <td colspan="8" class="text-center font-weight-bold">FUJAIRAH</td>
-                            </tr>
+                            
                         </tbody>
                         <tbody id="ras_al_khaimah">
-                            <tr>
-                                <td colspan="8" class="text-center font-weight-bold">RAS AL KHAIMAH</td>
-                            </tr>
+                            
                         </tbody>                       
                         <tbody id="sharjah">
-                            <tr>
-                                <td colspan="8" class="text-center font-weight-bold">SHARJAH</td>
-                            </tr>
+                            
                         </tbody>
                         <tbody id="umm_al_quwain">
-                            <tr>
-                                <td colspan="8" class="text-center font-weight-bold">UMM AL QUWAIN</td>
-                            </tr>
+                           
                         </tbody>
                     </table>
 
@@ -94,13 +94,13 @@ table.table-bordered td {
             </div>
             <div class="container pt-4">
                 <div class="table-responsive">
-                    <table class="table table-bordered" style="width:100%">
+                    <table class="table table-bordered"  id="sales_reports"style="width:100%">
                         <thead>
                             <tr>
                                 <th colspan="4" class="text-center text-danger"><h5><b>SALES REPORT</b></h5></th>
                             </tr>
                             <tr class="text-center">
-                                <th>DESCRIPTION</th>
+                                <th>SITE LOCATION</th>
                                 <th>AMOUNT</th>
                                 <th>VAT 5%</th>
                                 <th>TOTAL AMOUNT</th>
@@ -115,14 +115,14 @@ table.table-bordered td {
     </div>
     <div class="container pt-4">
                     <div class="table-responsive">
-                        <table class="table table-bordered" style="width:100%">
+                        <table class="table table-bordered" id="purchase_report" style="width:100%">
                             <thead>
                                 <tr>
                                     <th colspan="5" class="text-center text-danger"><h5><b>PURCHASE REPORT</b></h5></th>
                                 </tr>
                                 <tr>
                                     <th>S.no</th>
-                                    <th>DESCRIPTION</th>
+                                    <th>SITE LOCATION</th>
                                     <th>AMOUNT</th>
                                     <th>VAT 5%</th>
                                     <th>TOTAL</th>
@@ -134,14 +134,13 @@ table.table-bordered td {
                         </table>
                     </div>
                 </div>
+                
 <script>
 $(document).on('change', '#month,#year', function() 
 {
     var month = $("#month").val();
     var year = $("#year").val();
     
-
-    // Input string
     var dateRangeString = month;
 
     // Split the string into before and after values
@@ -167,7 +166,6 @@ $(document).on('change', '#month,#year', function()
 
         success: function(data) 
         {
-            console.log(data.pur_report);
 
             // Clear the existing table rows
             $('#abuthabi').empty();
@@ -185,7 +183,7 @@ $(document).on('change', '#month,#year', function()
             var abuTotalAmount = 0;
            
             // Create a table row with a colspan for the header
-            var headerRow = $('<tr>').append($('<td>').attr('colspan', '8').addClass('text-center font-weight-bold').text('ABU DHABI'));
+            var headerRow = $('<tr>').append($('<td>').attr('colspan', '8').addClass('font-weight-bold').text('ABU DHABI'));
 
             // Append the header row to the table
             $('#abuthabi').append(headerRow);
@@ -197,7 +195,7 @@ $(document).on('change', '#month,#year', function()
                     row += '<td>' + item.company_name + '</td>';
                     row += '<td>' + item.receivables_code + '</td>';
                     row += '<td>' + item.project_code + '</td>';
-                    row += '<td>' + item.created_at + '</td>';
+                    row += '<td>' + new Date(item.created_at).toLocaleDateString('en-GB') + '</td>';
                     row += '<td>' + item.item_amount + '</td>';
                     row += '<td>' + item.vat_amount + '</td>';
                     row += '<td>' + item.total_amount + '</td>';
@@ -213,7 +211,7 @@ $(document).on('change', '#month,#year', function()
                     abuTotalAmount += parseFloat(item.total_amount);
 
                 }            
-            let abu_script ='<tr><td colspan="5" class="text-center font-weight-bold"><center>TOTAL AMOUNT OF ABU DHABI</center></td>';
+            let abu_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT OF ABU DHABI</td>';
             abu_script +='<td class="font-weight-bold">' + abuItemTotal + '</td>';
             abu_script +='<td class="font-weight-bold">' + abuVatAmount + '</td>';
             abu_script +='<td class="font-weight-bold">' + abuTotalAmount + '</td></tr>';
@@ -224,7 +222,7 @@ $(document).on('change', '#month,#year', function()
             var adjmanTotalAmount = 0;
                     
             // Create a table row with a colspan for the header
-            var headerRow = $('<tr>').append($('<td>').attr('colspan', '8').addClass('text-center font-weight-bold').text('AJMAN'));
+            var headerRow = $('<tr>').append($('<td>').attr('colspan', '8').addClass('font-weight-bold').text('AJMAN'));
 
             // Append the header row to the table
             $('#ajman').append(headerRow);
@@ -236,7 +234,7 @@ $(document).on('change', '#month,#year', function()
                 row += '<td>' + item.company_name + '</td>';
                 row += '<td>' + item.receivables_code + '</td>';
                 row += '<td>' + item.project_code + '</td>';
-                row += '<td>' + item.created_at + '</td>';
+                row += '<td>' + new Date(item.created_at).toLocaleDateString('en-GB') + '</td>';
                 row += '<td>' + item.item_amount + '</td>';
                 row += '<td>' + item.vat_amount + '</td>';
                 row += '<td>' + item.total_amount + '</td>';
@@ -252,7 +250,7 @@ $(document).on('change', '#month,#year', function()
                 adjmanTotalAmount += parseFloat(item.total_amount);
 
             }            
-        let adjman_script ='<tr><td colspan="5" class="text-center font-weight-bold"><center>TOTAL AMOUNT OF AJMAN</center></td>';
+        let adjman_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT OF AJMAN</td>';
         adjman_script +='<td class="font-weight-bold">' + adjmanItemTotal + '</td>';
         adjman_script +='<td class="font-weight-bold">' + adjmanVatAmount + '</td>';
         adjman_script +='<td class="font-weight-bold">' + adjmanTotalAmount + '</td></tr>';
@@ -263,7 +261,7 @@ $(document).on('change', '#month,#year', function()
             var dubaiTotalAmount = 0;
                   
             // Create a table row with a colspan for the header
-            var headerRow = $('<tr>').append($('<td>').attr('colspan', '8').addClass('text-center font-weight-bold').text('DUBAI'));
+            var headerRow = $('<tr>').append($('<td>').attr('colspan', '8').addClass('font-weight-bold').text('DUBAI'));
 
             // Append the header row to the table
             $('#dubai').append(headerRow);
@@ -275,7 +273,7 @@ $(document).on('change', '#month,#year', function()
                 row += '<td>' + item.company_name + '</td>';
                 row += '<td>' + item.receivables_code + '</td>';
                 row += '<td>' + item.project_code + '</td>';
-                row += '<td>' + item.created_at + '</td>';
+                row += '<td>' + new Date(item.created_at).toLocaleDateString('en-GB') + '</td>';
                 row += '<td>' + item.item_amount + '</td>';
                 row += '<td>' + item.vat_amount + '</td>';
                 row += '<td>' + item.total_amount + '</td>';
@@ -291,7 +289,7 @@ $(document).on('change', '#month,#year', function()
                 dubaiTotalAmount += parseFloat(item.total_amount);
 
             }            
-        let dubai_script ='<tr><td colspan="5" class="text-center font-weight-bold"><center>TOTAL AMOUNT OF DUBAI</center></td>';
+        let dubai_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT OF DUBAI</td>';
         dubai_script +='<td class="font-weight-bold">' + dubaiItemTotal + '</td>';
         dubai_script +='<td class="font-weight-bold">' + dubaiVatAmount + '</td>';
         dubai_script +='<td class="font-weight-bold">' + dubaiTotalAmount + '</td></tr>';
@@ -302,7 +300,7 @@ $(document).on('change', '#month,#year', function()
             var fujairahTotalAmount = 0;
                   
             // Create a table row with a colspan for the header
-            var headerRow = $('<tr>').append($('<td>').attr('colspan', '8').addClass('text-center font-weight-bold').text('FUJAIRAH'));
+            var headerRow = $('<tr>').append($('<td>').attr('colspan', '8').addClass('font-weight-bold').text('FUJAIRAH'));
 
             // Append the header row to the table
             $('#fujairah').append(headerRow);
@@ -314,7 +312,7 @@ $(document).on('change', '#month,#year', function()
                 row += '<td>' + item.company_name + '</td>';
                 row += '<td>' + item.receivables_code + '</td>';
                 row += '<td>' + item.project_code + '</td>';
-                row += '<td>' + item.created_at + '</td>';
+                row += '<td>' + new Date(item.created_at).toLocaleDateString('en-GB') + '</td>';
                 row += '<td>' + item.item_amount + '</td>';
                 row += '<td>' + item.vat_amount + '</td>';
                 row += '<td>' + item.total_amount + '</td>';
@@ -330,7 +328,7 @@ $(document).on('change', '#month,#year', function()
                 fujairahTotalAmount += parseFloat(item.total_amount);
 
             }            
-        let fujairah_script ='<tr><td colspan="5" class="text-center font-weight-bold"><center>TOTAL AMOUNT OF FUJAIRAH</center></td>';
+        let fujairah_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT OF FUJAIRAH</td>';
         fujairah_script +='<td class="font-weight-bold">' + fujairahItemTotal + '</td>';
         fujairah_script +='<td class="font-weight-bold">' + fujairahVatAmount + '</td>';
         fujairah_script +='<td class="font-weight-bold">' + fujairahTotalAmount + '</td></tr>';
@@ -341,7 +339,7 @@ $(document).on('change', '#month,#year', function()
             var rasTotalAmount = 0;
                   
             // Create a table row with a colspan for the header
-            var headerRow = $('<tr>').append($('<td>').attr('colspan', '8').addClass('text-center font-weight-bold').text('RAS AL KHAIMAH'));
+            var headerRow = $('<tr>').append($('<td>').attr('colspan', '8').addClass('font-weight-bold').text('RAS AL KHAIMAH'));
 
             // Append the header row to the table
             $('#ras_al_khaimah').append(headerRow);
@@ -353,7 +351,7 @@ $(document).on('change', '#month,#year', function()
                 row += '<td>' + item.company_name + '</td>';
                 row += '<td>' + item.receivables_code + '</td>';
                 row += '<td>' + item.project_code + '</td>';
-                row += '<td>' + item.created_at + '</td>';
+                row += '<td>' + new Date(item.created_at).toLocaleDateString('en-GB') + '</td>';
                 row += '<td>' + item.item_amount + '</td>';
                 row += '<td>' + item.vat_amount + '</td>';
                 row += '<td>' + item.total_amount + '</td>';
@@ -369,7 +367,7 @@ $(document).on('change', '#month,#year', function()
                 rasTotalAmount += parseFloat(item.total_amount);
 
             }            
-        let ras_script ='<tr><td colspan="5" class="text-center font-weight-bold"><center>TOTAL AMOUNT OF FUJAIRAH</center></td>';
+        let ras_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT OF FUJAIRAH</td>';
         ras_script +='<td class="font-weight-bold">' + rasItemTotal + '</td>';
         ras_script +='<td class="font-weight-bold">' + rasVatAmount + '</td>';
         ras_script +='<td class="font-weight-bold">' + rasTotalAmount + '</td></tr>';
@@ -380,7 +378,7 @@ $(document).on('change', '#month,#year', function()
             var sharjahTotalAmount = 0;
                   
             // Create a table row with a colspan for the header
-            var headerRow = $('<tr>').append($('<td>').attr('colspan', '8').addClass('text-center font-weight-bold').text('SHARJAN'));
+            var headerRow = $('<tr>').append($('<td>').attr('colspan', '8').addClass('font-weight-bold').text('SHARJAN'));
 
             // Append the header row to the table
             $('#sharjah').append(headerRow);
@@ -392,7 +390,7 @@ $(document).on('change', '#month,#year', function()
                 row += '<td>' + item.company_name + '</td>';
                 row += '<td>' + item.receivables_code + '</td>';
                 row += '<td>' + item.project_code + '</td>';
-                row += '<td>' + item.created_at + '</td>';
+                row += '<td>' + new Date(item.created_at).toLocaleDateString('en-GB') + '</td>';
                 row += '<td>' + item.item_amount + '</td>';
                 row += '<td>' + item.vat_amount + '</td>';
                 row += '<td>' + item.total_amount + '</td>';
@@ -408,7 +406,7 @@ $(document).on('change', '#month,#year', function()
                 sharjahTotalAmount += parseFloat(item.total_amount);
 
             }            
-        let sharjah_script ='<tr><td colspan="5" class="text-center font-weight-bold"><center>TOTAL AMOUNT OF SHARJAH</center></td>';
+        let sharjah_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT OF SHARJAH</td>';
         sharjah_script +='<td class="font-weight-bold">' + sharjahItemTotal + '</td>';
         sharjah_script +='<td class="font-weight-bold">' + sharjahVatAmount + '</td>';
         sharjah_script +='<td class="font-weight-bold">' + sharjahTotalAmount + '</td></tr>';
@@ -419,7 +417,7 @@ $(document).on('change', '#month,#year', function()
             var umm_al_quwainTotalAmount = 0;
                   
             // Create a table row with a colspan for the header
-            var headerRow = $('<tr>').append($('<td>').attr('colspan', '8').addClass('text-center font-weight-bold').text('UMM AL QUWAIN'));
+            var headerRow = $('<tr>').append($('<td>').attr('colspan', '8').addClass('font-weight-bold').text('UMM AL QUWAIN'));
 
             // Append the header row to the table
             $('#umm_al_quwain').append(headerRow);
@@ -431,7 +429,7 @@ $(document).on('change', '#month,#year', function()
                 row += '<td>' + item.company_name + '</td>';
                 row += '<td>' + item.receivables_code + '</td>';
                 row += '<td>' + item.project_code + '</td>';
-                row += '<td>' + item.created_at + '</td>';
+                row += '<td>' + new Date(item.created_at).toLocaleDateString('en-GB') + '</td>';
                 row += '<td>' + item.item_amount + '</td>';
                 row += '<td>' + item.vat_amount + '</td>';
                 row += '<td>' + item.total_amount + '</td>';
@@ -447,7 +445,7 @@ $(document).on('change', '#month,#year', function()
                 umm_al_quwainTotalAmount += parseFloat(item.total_amount);
 
             }            
-        let quwain_script ='<tr><td colspan="5" class="text-center font-weight-bold"><center>TOTAL AMOUNT OF UMM AL QUWAIN</center></td>';
+        let quwain_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT OF UMM AL QUWAIN</td>';
         quwain_script +='<td class="font-weight-bold">' + umm_al_quwainItemTotal + '</td>';
         quwain_script +='<td class="font-weight-bold">' + umm_al_quwainVatAmount + '</td>';
         quwain_script +='<td class="font-weight-bold">' + umm_al_quwainTotalAmount + '</td></tr>';
@@ -461,7 +459,7 @@ $(document).on('change', '#month,#year', function()
             grandVatTotal += abuVatAmount + adjmanVatAmount + dubaiVatAmount + fujairahVatAmount + rasVatAmount + sharjahVatAmount + umm_al_quwainVatAmount;
             grandTotalAmount += abuTotalAmount + adjmanTotalAmount + dubaiTotalAmount + fujairahTotalAmount + rasTotalAmount + sharjahTotalAmount + umm_al_quwainTotalAmount;
 
-            let Grand_total ='<tr><td colspan="5" class="text-center font-weight-bold"><center>GRAND TOTAl</center></td>';
+            let Grand_total ='<tr><td colspan="5" class="text-right font-weight-bold">GRAND TOTAl</td>';
             Grand_total +='<td class="font-weight-bold">' + grandItemTotal + '</td>';
             Grand_total +='<td class="font-weight-bold">' + grandVatTotal + '</td>';
             Grand_total +='<td class="font-weight-bold">' + grandTotalAmount + '</td></tr>';
@@ -469,44 +467,44 @@ $(document).on('change', '#month,#year', function()
 
         // SALES REPORT 
         let abu_sales ='<tr>';
-            abu_sales +='<td class="text-center">ABU DHABI</td>';
+            abu_sales +='<td class="text-center">Abu Dhabi</td>';
             abu_sales +='<td class="text-center">' + abuItemTotal + '</td>';
             abu_sales +='<td class="text-center">' + abuVatAmount + '</td>';
             abu_sales +='<td class="text-center">' + abuTotalAmount + '</td></tr>';
             $('#show_salesreport').append(abu_sales); 
 
         let adjman_sales ='<tr>';
-            adjman_sales +='<td class="text-center">AJMAN</td>';
+            adjman_sales +='<td class="text-center">Ajman</td>';
             adjman_sales +='<td class="text-center">' + adjmanItemTotal + '</td>';
             adjman_sales +='<td class="text-center">' + adjmanVatAmount + '</td>';
             adjman_sales +='<td class="text-center">' + adjmanTotalAmount + '</td></tr>';
             $('#show_salesreport').append(adjman_sales);
         let dubai_sales ='<tr>';
-            dubai_sales +='<td class="text-center">DUBAI</td>';
+            dubai_sales +='<td class="text-center">Dubai</td>';
             dubai_sales +='<td class="text-center">' + dubaiItemTotal + '</td>';
             dubai_sales +='<td class="text-center">' + dubaiVatAmount + '</td>';
             dubai_sales +='<td class="text-center">' + dubaiTotalAmount + '</td></tr>';
             $('#show_salesreport').append(dubai_sales);
             let fujairah_sales ='<tr>';
-            fujairah_sales +='<td class="text-center">FUJAIRAH</td>';
+            fujairah_sales +='<td class="text-center">Fujairah</td>';
             fujairah_sales +='<td class="text-center">' + fujairahItemTotal + '</td>';
             fujairah_sales +='<td class="text-center">' + fujairahVatAmount + '</td>';
             fujairah_sales +='<td class="text-center">' + fujairahTotalAmount + '</td></tr>';
             $('#show_salesreport').append(fujairah_sales);
             let ras_sales ='<tr>';
-            ras_sales +='<td class="text-center">RAS AL KHAIMAH</td>';
+            ras_sales +='<td class="text-center">Ras Al Khaimah</td>';
             ras_sales +='<td class="text-center">' + rasItemTotal + '</td>';
             ras_sales +='<td class="text-center">' + rasVatAmount + '</td>';
             ras_sales +='<td class="text-center">' + rasTotalAmount + '</td></tr>';
             $('#show_salesreport').append(ras_sales);
             let sharjah_sales ='<tr>';
-            sharjah_sales +='<td class="text-center">SHARJAH</td>';
+            sharjah_sales +='<td class="text-center">Sharjah</td>';
             sharjah_sales +='<td class="text-center">' + sharjahItemTotal + '</td>';
             sharjah_sales +='<td class="text-center">' + sharjahVatAmount + '</td>';
             sharjah_sales +='<td class="text-center">' + sharjahTotalAmount + '</td></tr>';
             $('#show_salesreport').append(sharjah_sales);
             let quwain_sales ='<tr>';
-            quwain_sales +='<td class="text-center">UMM AL QUWAIN</td>';
+            quwain_sales +='<td class="text-center">Umm Al Quwain</td>';
             quwain_sales +='<td class="text-center">' + umm_al_quwainItemTotal + '</td>';
             quwain_sales +='<td class="text-center">' + umm_al_quwainVatAmount + '</td>';
             quwain_sales +='<td class="text-center">' + umm_al_quwainTotalAmount + '</td></tr>';
@@ -582,11 +580,11 @@ $(document).on('change', '#month,#year', function()
                     console.log(item);
 
                     var row = '<tr>';
-                    row += '<td>' + create_id + '</td>';
-                    row += '<td>' + item.site_location + '</td>';
-                    row += '<td>' + item.total_amount + '</td>';
-                    row += '<td>' + item.vat_amount + '</td>';
-                    row += '<td>' + item.gross_amount + '</td>';
+                    row += '<td class="text-center">' + create_id + '</td>';
+                    row += '<td class="text-center">' + item.site_location + '</td>';
+                    row += '<td class="text-center">' + item.total_amount + '</td>';
+                    row += '<td class="text-center">' + item.vat_amount + '</td>';
+                    row += '<td class="text-center">' + item.gross_amount + '</td>';
                     row += '</tr>';
 
                     $('#purchase').append(row);
@@ -601,10 +599,10 @@ $(document).on('change', '#month,#year', function()
 
                 // Update the total row
                 var totalRow = '<tr>';
-                totalRow += '<td colspan="2"><center>TOTAL AMOUNT OF ABUTHABI</center></td>';
-                totalRow += '<td><center>' + pur_total_total_amount1 + '</center></td>';
-                totalRow += '<td><center>' + pur_total_vat_amount1 + '</center></td>';
-                totalRow += '<td><center>' + pur_total_gross_amount1 + '</center></td>';
+                totalRow += '<td colspan="2" class="text-center font-weight-bold">PURCHASE GRAND TOTAL</td>';
+                totalRow += '<td class="text-center font-weight-bold">' + pur_total_total_amount1 + '</td>';
+                totalRow += '<td class="text-center font-weight-bold">' + pur_total_vat_amount1 + '</td>';
+                totalRow += '<td class="text-center font-weight-bold">' + pur_total_gross_amount1 + '</td>';
                 totalRow += '</tr>';
 
                 $('#purchase').append(totalRow);
@@ -615,6 +613,70 @@ $(document).on('change', '#month,#year', function()
             }
         });
     });
+    
+
+
+    // Function to print the page
+function printPage() 
+{
+    window.print();
+}
+
+// Add a button or link to trigger the print function
+$('#printButton').on('click', function() {
+    printPage();
+});
+
+
+function exportToCSV() {
+    var csvString = '';
+
+    // Get data from the first table (reports)
+    var tableReports = document.getElementById('reports');
+    for (var i = 0; i < tableReports.rows.length; i++) {
+        var rowData = tableReports.rows[i].cells;
+        for (var j = 0; j < rowData.length; j++) {
+            csvString += rowData[j].innerText + ',';
+        }
+        csvString += '\n';
+    }
+
+    // Get data from the second table (sales report)
+    var tableSalesReport = document.getElementById('sales_reports');
+    for (var i = 0; i < tableSalesReport.rows.length; i++) {
+        var rowData = tableSalesReport.rows[i].cells;
+        for (var j = 0; j < rowData.length; j++) {
+            csvString += rowData[j].innerText + ',';
+        }
+        csvString += '\n';
+    }
+
+    // Get data from the third table (purchase report)
+    var tablePurchaseReport = document.getElementById('purchase_report');
+    for (var i = 0; i < tablePurchaseReport.rows.length; i++) {
+        var rowData = tablePurchaseReport.rows[i].cells;
+        for (var j = 0; j < rowData.length; j++) {
+            csvString += rowData[j].innerText + ',';
+        }
+        csvString += '\n';
+    }
+
+    // Create a temporary link element to download the CSV file
+    var link = document.createElement('a');
+    link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvString);
+    link.download = 'combined_report.csv';
+    link.style.display = 'none';
+
+    // Add the link element to the page and trigger the download
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Add event listener to the CSV button
+$('#csvButton').on('click', function() {
+    exportToCSV();
+});
 
 </script>
 @stop

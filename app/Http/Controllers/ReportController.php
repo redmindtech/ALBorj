@@ -13,8 +13,10 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         $report_month = REPORT_MONTH;
+        $report_year = REPORT_YEARS;
         return view('reports.index')->with([
             'report_month' =>$report_month,
+            'report_year' => $report_year,
             // 'reports'=>$reports
         ]);
        

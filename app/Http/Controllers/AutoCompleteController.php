@@ -381,50 +381,64 @@ public function getpaydata(Request $request)
 }
 // Project master for BOQ
 public function  get_project_boq(){
-try{
-    $projectname = $_GET['projectname'];
-    $project_name = ProjectMaster::where('deleted', 0)
-    ->where('project_name', 'LIKE', $projectname.'%')
-    ->get();
+    try{
+        $projectname = $_GET['projectname'];
+        $project_name = ProjectMaster::where('deleted', 0)
+        ->where('project_name', 'LIKE', $projectname.'%')
+        ->get();
 
-    $project_no = ProjectMaster::where('deleted', 0)
-    ->where('project_name', $projectname)
-    ->value('project_no');
-    
-    $project_master_item = ProjectMasterItem::where('project_master_item.deleted', 0)
-    ->where('proj_no', $project_no)
-    ->join('item_masters', 'item_masters.id', '=', 'project_master_item.item_no')
-    ->select('item_masters.*', 'project_master_item.*')
-    ->get();
-  
-    $payment_receivables_id= PaymentReceivables::where('deleted',0)->where('project_no',$project_no)->max('id');
-           
-            if($payment_receivables_id != "")
-            {
-                $opening_bal= PaymentReceivables::where('deleted',0)->where('id',$payment_receivables_id)->value('closing_bal');
-            
-            }
-            else{
-                $total_price_cost = ProjectMaster::where('deleted', 0)
-                ->where('project_no',$project_no)
-                ->value('total_price_cost');
-                $opening_bal=$total_price_cost;
-            }
-            // info($request['opening_bal']);
-            // $request['closing_bal']=$request['opening_bal']-$request['received_amt'];
+        $project_no = ProjectMaster::where('deleted', 0)
+        ->where('project_name', $projectname)
+        ->value('project_no');
 
-    return response()->json([
-         'project_master_item' => $project_master_item,
-        'project_no'=>$project_no,
-        'project_name'=>$project_name,
-        'opening_bal'=>$opening_bal
-    ]);
-  
-} catch (Exception $e) {
-    info($e);
-    return response()->json('Error occurred in the loading page', 400);
-}
-}
+        $project_master_item = ProjectMasterItem::where('project_master_item.deleted', 0)
+        ->where('proj_no', $project_no)
+        ->join('item_masters', 'item_masters.id', '=', 'project_master_item.item_no')
+        ->select('item_masters.*', 'project_master_item.*')
+        ->get();
+        $project_name1 = ProjectMaster::where('project_name', $projectname)
+        ->join('project_master_item', 'project_master_item.proj_no', '=', 'project_masters.project_no')
+        ->join('payment_receivables', 'payment_receivables.project_no', '=', 'project_masters.project_no')
+        ->select('project_masters.*', 'project_master_item.*', 'payment_receivables.*')
+        ->where('project_masters.deleted', 0)
+        ->distinct('project_masters.project_name')
+        ->selectSub(function ($query) {
+            $query->from('payment_receivables')
+                ->selectRaw('SUM(received_amt)')
+                ->whereRaw('payment_receivables.project_no = project_masters.project_no');
+        }, 'received_amt_sum')
+        ->get();
+
+
+        $payment_receivables_id= PaymentReceivables::where('deleted',0)->where('project_no',$project_no)->max('id');
+
+                if($payment_receivables_id != "")
+                {
+                    $opening_bal= PaymentReceivables::where('deleted',0)->where('id',$payment_receivables_id)->value('closing_bal');
+
+                }
+                else{
+                    $total_price_cost = ProjectMaster::where('deleted', 0)
+                    ->where('project_no',$project_no)
+                    ->value('total_price_cost');
+                    $opening_bal=$total_price_cost;
+                }
+                // info($request['opening_bal']);
+                // $request['closing_bal']=$request['opening_bal']-$request['received_amt'];
+
+        return response()->json([
+             'project_master_item' => $project_master_item,
+            'project_no'=>$project_no,
+            'project_name'=>$project_name,
+            'opening_bal'=>$opening_bal,
+            'project_name1'=>$project_name1
+        ]);
+
+    } catch (Exception $e) {
+        info($e);
+        return response()->json('Error occurred in the loading page', 400);
+    }
+    }
 
 // payment payable
 public function get_grn_data()
