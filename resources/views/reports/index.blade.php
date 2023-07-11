@@ -7,12 +7,7 @@
 @stop
 
 @section('content')
-<!-- <style>
-    table.table-bordered th,
-table.table-bordered td {
-  border: 1px solid black;
-}
-</style> -->
+
 <div class="row">
     <div class="container-fluid">
         <div class="card shadow">
@@ -22,6 +17,7 @@ table.table-bordered td {
                     <div>
                         <button type="button" id="printButton" class="btn btn-primary">Print</button>
                         <button type="button" id="csvButton" class="btn btn-primary">CSV</button>
+                        <!-- <button type="button" id="exportButton" class="btn btn-primary">PDF</button> -->
                     </div>
                 </div>
             </div>
@@ -29,7 +25,7 @@ table.table-bordered td {
     </div>
 </div>
 
-<form>
+<form id="form">
     <div class="row g-2">
         <div class="form-group col-md-3">
             <label for="month" class="form-label fw-bold">Month<a style="text-decoration: none;color:red">*</a></label>
@@ -54,7 +50,7 @@ table.table-bordered td {
     </form>  
         <div class="container pt-4">
             <div class="table-responsive">
-                <table class="table table-bordered " id="reports" style="width:100%;">
+                <table class="table table-bordered sales" id="reports" style="width:100%;display:none;">
                     <thead>
                         <tr class="text-center">
                             <th>S.NO</th>
@@ -94,7 +90,7 @@ table.table-bordered td {
             </div>
             <div class="container pt-4">
                 <div class="table-responsive">
-                    <table class="table table-bordered"  id="sales_reports"style="width:100%">
+                    <table class="table table-bordered"  id="sales_reports"style="width:100%;display:none;">
                         <thead>
                             <tr>
                                 <th colspan="4" class="text-center text-danger"><h5><b>SALES REPORT</b></h5></th>
@@ -115,12 +111,12 @@ table.table-bordered td {
     </div>
     <div class="container pt-4">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="purchase_report" style="width:100%">
+                        <table class="table table-bordered" id="purchase_report" style="width:100%;display:none;">
                             <thead>
                                 <tr>
                                     <th colspan="5" class="text-center text-danger"><h5><b>PURCHASE REPORT</b></h5></th>
                                 </tr>
-                                <tr>
+                                <tr class="text-center">
                                     <th>S.no</th>
                                     <th>SITE LOCATION</th>
                                     <th>AMOUNT</th>
@@ -133,14 +129,23 @@ table.table-bordered td {
                             </tbody>
                         </table>
                     </div>
-                </div>
-                
+                </div>               
 <script>
 $(document).on('change', '#month,#year', function() 
 {
     var month = $("#month").val();
     var year = $("#year").val();
-    
+     // Check if both month and year are selected
+     if (month && year) {
+        $('#reports').show(); // Show the reports table
+        $('#sales_reports').show(); // Show the sales reports table
+        $('#purchase_report').show(); // Show the purchase report table
+    } else {
+        $('#reports').hide(); // Hide the reports table
+        $('#sales_reports').hide(); // Hide the sales reports table
+        $('#purchase_report').hide(); // Hide the purchase report table
+    }
+
     var dateRangeString = month;
 
     // Split the string into before and after values
@@ -211,7 +216,7 @@ $(document).on('change', '#month,#year', function()
                     abuTotalAmount += parseFloat(item.total_amount);
 
                 }            
-            let abu_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT OF ABU DHABI</td>';
+            let abu_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT</td>';
             abu_script +='<td class="font-weight-bold">' + abuItemTotal + '</td>';
             abu_script +='<td class="font-weight-bold">' + abuVatAmount + '</td>';
             abu_script +='<td class="font-weight-bold">' + abuTotalAmount + '</td></tr>';
@@ -250,7 +255,7 @@ $(document).on('change', '#month,#year', function()
                 adjmanTotalAmount += parseFloat(item.total_amount);
 
             }            
-        let adjman_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT OF AJMAN</td>';
+        let adjman_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT</td>';
         adjman_script +='<td class="font-weight-bold">' + adjmanItemTotal + '</td>';
         adjman_script +='<td class="font-weight-bold">' + adjmanVatAmount + '</td>';
         adjman_script +='<td class="font-weight-bold">' + adjmanTotalAmount + '</td></tr>';
@@ -289,7 +294,7 @@ $(document).on('change', '#month,#year', function()
                 dubaiTotalAmount += parseFloat(item.total_amount);
 
             }            
-        let dubai_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT OF DUBAI</td>';
+        let dubai_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT</td>';
         dubai_script +='<td class="font-weight-bold">' + dubaiItemTotal + '</td>';
         dubai_script +='<td class="font-weight-bold">' + dubaiVatAmount + '</td>';
         dubai_script +='<td class="font-weight-bold">' + dubaiTotalAmount + '</td></tr>';
@@ -328,7 +333,7 @@ $(document).on('change', '#month,#year', function()
                 fujairahTotalAmount += parseFloat(item.total_amount);
 
             }            
-        let fujairah_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT OF FUJAIRAH</td>';
+        let fujairah_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT</td>';
         fujairah_script +='<td class="font-weight-bold">' + fujairahItemTotal + '</td>';
         fujairah_script +='<td class="font-weight-bold">' + fujairahVatAmount + '</td>';
         fujairah_script +='<td class="font-weight-bold">' + fujairahTotalAmount + '</td></tr>';
@@ -367,7 +372,7 @@ $(document).on('change', '#month,#year', function()
                 rasTotalAmount += parseFloat(item.total_amount);
 
             }            
-        let ras_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT OF FUJAIRAH</td>';
+        let ras_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT</td>';
         ras_script +='<td class="font-weight-bold">' + rasItemTotal + '</td>';
         ras_script +='<td class="font-weight-bold">' + rasVatAmount + '</td>';
         ras_script +='<td class="font-weight-bold">' + rasTotalAmount + '</td></tr>';
@@ -406,7 +411,7 @@ $(document).on('change', '#month,#year', function()
                 sharjahTotalAmount += parseFloat(item.total_amount);
 
             }            
-        let sharjah_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT OF SHARJAH</td>';
+        let sharjah_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT</td>';
         sharjah_script +='<td class="font-weight-bold">' + sharjahItemTotal + '</td>';
         sharjah_script +='<td class="font-weight-bold">' + sharjahVatAmount + '</td>';
         sharjah_script +='<td class="font-weight-bold">' + sharjahTotalAmount + '</td></tr>';
@@ -445,7 +450,7 @@ $(document).on('change', '#month,#year', function()
                 umm_al_quwainTotalAmount += parseFloat(item.total_amount);
 
             }            
-        let quwain_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT OF UMM AL QUWAIN</td>';
+        let quwain_script ='<tr><td colspan="5" class="text-right font-weight-bold">TOTAL AMOUNT </td>';
         quwain_script +='<td class="font-weight-bold">' + umm_al_quwainItemTotal + '</td>';
         quwain_script +='<td class="font-weight-bold">' + umm_al_quwainVatAmount + '</td>';
         quwain_script +='<td class="font-weight-bold">' + umm_al_quwainTotalAmount + '</td></tr>';
@@ -526,8 +531,9 @@ $(document).on('change', '#month,#year', function()
             }
     });
 });
-</script>
-<script>
+
+
+
 
     $(document).on('change', '#year, #month', function()
     {
@@ -624,9 +630,14 @@ function printPage()
 
 // Add a button or link to trigger the print function
 $('#printButton').on('click', function() {
+    $('#printButton').hide(); // Hide the print button
+    $('#csvButton').hide(); // Hide the print button 
     printPage();
 });
-
+window.addEventListener('afterprint', function() {
+    $('#printButton').show(); // Show the print button
+    $('#csvButton').show(); // Show the CSV button
+});
 
 function exportToCSV() {
     var csvString = '';
@@ -673,10 +684,14 @@ function exportToCSV() {
     document.body.removeChild(link);
 }
 
+
+
 // Add event listener to the CSV button
 $('#csvButton').on('click', function() {
     exportToCSV();
 });
+
+
 
 </script>
 @stop
