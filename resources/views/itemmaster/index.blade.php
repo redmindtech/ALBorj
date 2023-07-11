@@ -587,7 +587,10 @@ jQuery($ => {
   return supplier_company.includes(value);
 });
 
-         
+$.validator.addMethod("alphanumeric", function(value, element) {
+                    
+                    return this.optional(element) || /^[A-Za-z ]+$/i.test(value);
+                });      
     var formValidationConfig ={
     
         rules:
@@ -597,7 +600,11 @@ jQuery($ => {
                 required: true,
                 uniqueItemName:true
             },
-           item_unit:"required",
+            item_unit:
+            {
+                required:true,
+                alphanumeric: true 
+            },
             item_category:"required",
             item_subcategory:"required",
             stock_type:"required",
@@ -613,7 +620,11 @@ jQuery($ => {
             required: "Please enter the item name",
             uniqueItemName: "This item name already exists. Please enter a different item name."
         },
-        item_unit:"Please enter the item unit",
+        item_unit:
+        {
+            required:"Please enter the item unit",
+            alphanumeric: "The item unit allows only alphabets" 
+        },
         item_category: "Please select the item category",
         item_subcategory: "Please select the item subcategory",
         stock_type: "Please select the stock type",

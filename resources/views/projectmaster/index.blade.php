@@ -253,8 +253,7 @@
 
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="actual_project_end_date" class="form-label fw-bold">Actual Project End Date<a
-                                    style="text-decoration: none;color:red">*</a></label>
+                            <label for="actual_project_end_date" class="form-label fw-bold">Actual Project End Date</label>
                             <input type="date" name="actual_project_end_date" id="actual_project_end_date"
                                 value="{{ old('actual_project_end_date') }}" class="form-control" autocomplete="off">
 
@@ -546,12 +545,12 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">S.No</th>
-                                    <th class="text-center" style="width:35%">Item Name</th>
-                                    <th class="text-center" style="width:25%">Specification</th>
-                                    <th class="text-center" style="width:10%">Quantity</th>
-                                    <th class="text-center" style="width:10%">Unit</th>
-                                    <th class="text-center" style="width:10%">Rate Per Quantity</th>                           
-                                    <th class="text-center" style="width:10%">Amount</th>
+                                    <th class="text-center" style="width:30%">Item Name</th>
+                                    <th class="text-center" style="width:23%">Specification</th>
+                                    <th class="text-center" style="width:12%">Quantity</th>
+                                    <th class="text-center" style="width:9%">Unit</th>
+                                    <th class="text-center" style="width:12%">Rate Per Quantity</th>                           
+                                    <th class="text-center" style="width:14%">Amount</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody">
@@ -617,7 +616,7 @@
             '"name="specification[]" class="specification form-control"></div></td>';
         html += '<td><div class="col-xs-12"><input type="number" name="qty[]"  id="qty_' + rowIdx +
             '"name="qty[]" class="qty form-control"></div></td>';
-            html += '<td><div class="col-xs-12"><input type="number" name="unit[]"  id="unit_' + rowIdx +
+            html += '<td><div class="col-xs-12"><input type="text" name="unit[]"  id="unit_' + rowIdx +
             '"name="unit[]" class="unit form-control" readonly></div></td>';
         html += '<td><div class="col-xs-12"><input type="number" name="rate_per_qty[]" id="rate_per_qty_' + rowIdx +
             '"  name="rate_per_qty[]" class="rate_per_qty form-control"></div></td>';        
@@ -819,6 +818,8 @@
                         rowIdx = 1;
                     // Clear the form fields
                     $('#form')[0].reset();
+                    $('#total_amount').val('');
+                    $('#vat_amount').val('');
                     // Hide any error messages
                     $('.error-msg').removeClass('error-msg');
                     $('.has-error').removeClass('has-error');
@@ -1089,7 +1090,7 @@
                                     script += '</tr>';
                                     }
                                 script+= '</tbody></table>';
-                                $('show_table').remove();
+                                $('#show_table').remove();
                                 $('#item_details_show').append(script);
                                 $('#heading_name').text("Project Details").css('font-weight', 'bold');
                                 $('#show').css('display', 'block');
@@ -1324,7 +1325,7 @@
                         },
 
                         actual_project_end_date: {
-                            required: true,
+                            // required: true,
                             date: true,
                             greaterThan: "#start_date"
                         },
@@ -1379,7 +1380,7 @@
                             greaterThan: "The tentative project end date must be after the start date."
                         },
                         actual_project_end_date: {
-                            required: "Please enter the actual project end date",
+                            // required: "Please enter the actual project end date",
                             date: "Please enter a valid date",
                             greaterThan: "The actual project end date must be after the start date."
                         },
