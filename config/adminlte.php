@@ -399,7 +399,7 @@ return [
                 ],
                 [
                     'text' => 'GRN Inventory Reports',
-                    'url'  => 'account',
+                    'url'  => 'grninventoryreport',
                     'icon' => 'nav-icon fas fa-fw fa-regular fa-star text-primary',
 
                 ],

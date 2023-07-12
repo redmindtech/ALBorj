@@ -17,6 +17,7 @@ use APP\Http\ControllersPurchaseOrderController;
 use App\Http\Controllers\PayRollController;
 use App\Http\Controllers\PaymentPayableController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\GrnreportController;
 
 
 /*
@@ -79,4 +80,5 @@ Route::get('/', function () {
     Route::resource('paymentreceivables', 'PaymentReceivablesController');
     Route::resource('paymentpayable', 'PaymentPayableController');
     Route::resource('reports', 'ReportController');
+    Route::resource('grninventoryreport', 'GrnreportController');
 

@@ -159,3 +159,5 @@ Route::get("/ongoing-projects", [App\Http\Controllers\ReportController::class, '
 Route::POST("/dateReport", [App\Http\Controllers\ReportController::class, 'dateReport'])->name('dateReport');
 // vat (PurchaseReport)
 Route::POST("/purchaseReport", [App\Http\Controllers\ReportController::class, 'purchaseReport'])->name('purchaseReport');
+// Grnreport
+Route::get("/grninventoryreport", [App\Http\Controllers\GrnreportController::class, 'index'])->name('grninventoryreport');

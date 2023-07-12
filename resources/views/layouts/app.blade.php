@@ -102,18 +102,66 @@
             'colvis',
             {
                 extend: 'collection',
-                text: '<i class="fa fa-print" aria-hidden="true"></i>',
-                buttons: [
-                    {
-                        extend: 'print',
-                        exportOptions: {
-                            columns: ':not(.notexport)'
+                        text: '<i class="fa fa-print" aria-hidden="true"></i>',
+                        buttons: [{
+                            extend: 'print',
+                            exportOptions: {
+                                columns: ':not(.notexport)'
+                            },
+                            customize: function(win) {
+                        // Add custom CSS class to the table for print styling
+                        $(win.document.body).find('table').addClass('print-table');
+
+                        // Get the current page's URL
+                        var currentPageUrl = window.location.href;
+
+                        // Extract the directory path from the URL
+                        var currentDirectory = currentPageUrl.substring(0, currentPageUrl.lastIndexOf('/') + 1);
+
+                        // Construct the image paths relative to the current directory
+                        var headerImagePath = currentDirectory + 'vendor/adminlte/dist/img/al_borj.jpeg';
+                        var footerImagePath = currentDirectory + 'vendor/adminlte/dist/img/footer.png';
+
+                        // Add header image
+                        var headerImage = new Image();
+                        headerImage.src = headerImagePath;
+                        headerImage.alt = 'Header Image';
+                        headerImage.onload = function() {
+                            var headerImgElement = $('<img>').attr('src', headerImage.src).attr('alt', headerImage.alt).css('width', '100%').css('height', '160px');
+                            $(win.document.body).find('thead').prepend($('<tr>').append($('<th>').attr('colspan', column_length).append(headerImgElement)));
+                        };
+
+                        // Add footer image
+                        var footerImage = new Image();
+                        footerImage.src = footerImagePath;
+                        footerImage.alt = 'Footer Image';
+
+                        function appendFooterImage() {
+                            var footerImgElement = $('<img>').attr('src', footerImage.src).attr('alt', footerImage.alt).css('width', '100%').css('height', 'auto');
+                            $(win.document.body).find('.total-values').after($('<div>').addClass('footer-image-container').append(footerImgElement));
                         }
+
+                        if (footerImage.complete) {
+                            // If the footer image is already loaded, append it immediately
+                            appendFooterImage();
+                        } else {
+                            // If the footer image is not yet loaded, wait for it to load before appending
+                            footerImage.onload = function() {
+                                appendFooterImage();
+                            };
+                        }
+
+                        // Add total values section to the print output
+                        var totalValues = $('.total-values').clone();
+                        $(win.document.body).find('.total-values').remove();
+                        $(win.document.body).find('table').after(totalValues);
+
+                    }
+
+                        }]
                     }
                 ]
-            }
-        ]
-    });
+            });
 
     table.buttons().container().appendTo('#myTable_wrapper .col-md-6:eq(0)');
 
