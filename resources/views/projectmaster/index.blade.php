@@ -134,7 +134,7 @@
                                     <option value="{{ $value->site_name  }}">{{ $value->site_name }}</option>
                                     @endforeach
                                 </select>
-                                <input type="text" id="site_no" name="site_no" value="{{ old('site_no') }}"  class="form-control" autocomplete="off"> 
+                                <input type="text" id="site_no" hidden name="site_no" value="{{ old('site_no') }}"  class="form-control" autocomplete="off"> 
                             </div>
 
                         <div class="form-group col-md-4">
