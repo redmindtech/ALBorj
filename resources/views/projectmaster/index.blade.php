@@ -134,7 +134,7 @@
                                     <option value="{{ $value->site_name  }}">{{ $value->site_name }}</option>
                                     @endforeach
                                 </select>
-                                <input type="text" id="site_no" hidden  name="site_no" value="{{ old('site_no') }}"  class="form-control" autocomplete="off"> 
+                                <input type="text" id="site_no" name="site_no" value="{{ old('site_no') }}"  class="form-control" autocomplete="off"> 
                             </div>
 
                         <div class="form-group col-md-4">
@@ -1165,32 +1165,41 @@
 
                 
                     // Site code
-                    $(document).on('input', '#site_name', function() {
-                        var selectedSiteName = $(this).val();
-                        updateSiteManagerValue(selectedSiteName);
-                    });
+                    var project_name = [];
 
-                    function updateSiteManagerValue(siteName) {
-                        $.ajax({
-                            type: "GET",
-                            url: "{{ route('getsitedata') }}",
-                            dataType: "json",
-                            data: {
-                                'site_name': siteName
-                            },
-                            success: function(data) {
-                                
-                                for (var i in data) {
-                                    $('#site_no').val(data[0]["site_no"]);
-                                    $('#site_code').val(data[0]["site_code"]);
-                                }
-                            },
-                            fail: function(xhr, textStatus, errorThrown) {
-                                alert(errorThrown);
-                            }
-                        });
-                    }
+$(document).on('input', '#site_name', function() {
+    var selectedSiteName = $(this).val();
+    updateSiteManagerValue(selectedSiteName);
+});
+
+function updateSiteManagerValue(siteName) {
+    project_name = [];
+    $.ajax({
+        type: "GET",
+        url: "{{ route('getsitedata') }}",
+        dataType: "json",
+        data: {
+            'site_name': siteName
+        },
+        success: function(data) {
+
+            for (var i in data) {
+                $('#site_no').val(data[0]["site_no"]);
+                $('#site_code').val(data[0]["site_code"]);
+                project_name.push(data[i]["project_name"].toLowerCase().replace(/\s/g, ''));
+                // project_name.push(lowercaseProjectName);
+               // console.log(data[i]["project_name"]);
                 
+            }
+            // /$project = project_name[0];
+            console.log(project_name);
+        },
+        fail: function(xhr, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+}
+
 
                 // auto complete for client from clientmaster
                 jQuery($ => {
@@ -1256,21 +1265,28 @@
                 });
                 // / Initialize form validation
 
-                var project_Name = @json($projectName);
+                //  var project_Name = project_name;
                 var sitename = @json($siteNames);
                 var employee_name = @json($employee_name);
                 var client_company = @json($client_company);
 
                 $.validator.addMethod("uniqueProjectName", function(value, element) {
+                    console.log(value);
+                    console.log(name);
 
                     var lowercaseValue = value.toLowerCase().replace(/\s/g, '');
 
                     if ($("#method").val() !== "ADD" && lowercaseValue === currentProjectName) {
                         return true;
                     }
-                    var lowercaseValu = value.toLowerCase().replace(/\s/g, '');
-                    return !project_Name.includes(lowercaseValu);
+
+                    var lowercaseProjectNames = project_name.map(function(name) {
+                        return name.toLowerCase().replace(/\s/g, '');
+                    });
+
+                    return !lowercaseProjectNames.includes(lowercaseValue);
                 });
+                                
 
                 $.validator.addMethod("siteNameCheck", function(value, element) {
                     return sitename.includes(value);
@@ -1355,7 +1371,7 @@
                     messages: {
                         project_name: {
                             required: "Please enter the project name",
-                            uniqueProjectName: "This project name already exists. Please enter a different project name."
+                            uniqueProjectName: "The project name already exists for this site"
                         },
                         site_name: {
                             required: "Please enter the site name",

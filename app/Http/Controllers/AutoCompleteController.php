@@ -181,17 +181,33 @@ catch (Exception $e) {
 public function  getsitedata(){
 try{
   $site_name = $_GET['site_name'];
-  $data = SiteMaster::join('employee_masters', 'site_masters.site_manager', '=', 'employee_masters.id')
+  $projectdata = SiteMaster::join('project_masters','site_masters.site_no','=','project_masters.site_no')
   ->where('site_name','LIKE',$site_name.'%')
   ->where('site_masters.deleted', '0')
+  ->select('site_masters.*', 'project_masters.project_name')
   ->get();
-  return $data;
+  return $projectdata;
+  info(projectdata);
 }
 catch (Exception $e) {
    info($e);
    return response()->json('Error occured in fetching data', 400);
 }
 }
+public function  getsitemanagerdata(){
+    try{
+      $sitename = $_GET['site_name'];
+      $data = SiteMaster::join('employee_masters', 'site_masters.site_manager', '=', 'employee_masters.id')
+      ->where('site_name','LIKE',$sitename.'%')
+      ->where('site_masters.deleted', '0')
+      ->get();
+      return $data;
+    }
+    catch (Exception $e) {
+       info($e);
+       return response()->json('Error occured in fetching data', 400);
+    }
+    }
 // auto complete for employee master for project current location,expenses,GRN,material,material issue,payroll,timesheet
 public function  getlocdata(){
 try{

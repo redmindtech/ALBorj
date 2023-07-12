@@ -25,9 +25,9 @@ class ProjectMasterController extends Controller
             $currency = CURRENCY;
             $project_status= PROJECT_STATUS;
             $projectmasters = ProjectMaster::where('deleted', 0)->get();
-            $projectName = $projectmasters->pluck('project_name')->map(function ($name) {
-                return strtolower(str_replace(' ', '', $name));
-            });
+            // $projectName = $projectmasters->pluck('project_name')->map(function ($name) {
+            //     return strtolower(str_replace(' ', '', $name));
+            // });
             $siteNames = SiteMaster::where('deleted', 0)->pluck('site_name');
             $site_name = SiteMaster::where('deleted', 0)->select('site_name')->get();
             $client_company = ClientMaster::where('deleted', 0)->pluck('company_name');
@@ -47,7 +47,7 @@ class ProjectMasterController extends Controller
                 'projectmasters' => $projectmaster,
                 'project_type' => $project_type,
                 'project_status'=>$project_status ,
-                'projectName'=>$projectName,
+                // 'projectName'=>$projectName,
                 'siteNames'=>$siteNames,
                 'employee_name'=>$employee_name,
                 'client_company'=>$client_company,

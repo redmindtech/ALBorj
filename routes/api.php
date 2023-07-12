@@ -54,6 +54,7 @@ Route::get("/project/{project_no}/show", [App\Http\Controllers\ProjectMasterCont
 // AUTOCOMPLETE
 Route::get("/getautocompletesite", [App\Http\Controllers\AutoCompleteController::class, 'getemployeedata'])->name('getemployeedata');
 Route::get("/getsitenoautocomplete", [App\Http\Controllers\AutoCompleteController::class, 'getsitedata'])->name('getsitedata');
+Route::get("/getsitemanagerdata", [App\Http\Controllers\AutoCompleteController::class, 'getsitemanagerdata'])->name('getsitemanagerdata');
 Route::get("/getclientnoautocomplete", [App\Http\Controllers\AutoCompleteController::class, 'getclientdata'])->name('getclientdata');
 Route::get("/getitemdata", [App\Http\Controllers\AutoCompleteController::class, 'getlocdata'])->name('getlocdata');
 Route::get("/getitemnamedata", [App\Http\Controllers\AutoCompleteController::class, 'getitemnamedata'])->name('getitemnamedata');
