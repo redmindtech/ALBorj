@@ -156,6 +156,11 @@
 
 
 <div class="card" id="show" style="display:none">
+<div class="row">
+            <div class="col-md-12">
+                <img id="header_image" class="print-header-image" src="vendor/adminlte/dist/img/al borj.jpeg" width="100%" height="120" />
+            </div>
+        </div>
     <div class="card-body" style="background-color:white;width:100%;height:20%;">
         <table class="table">
             <tbody>
@@ -186,6 +191,10 @@
             </tbody>
         </table>
         <br>
+        <div>
+            <img id="footer_image" class="print-footer-image" src="vendor/adminlte/dist/img/footer.png"
+                width="100%" height="100" />
+        </div>
         <button type="button" id="print" class="btn btn-primary float-end">Print</button>
     </div>
 </div>
@@ -245,6 +254,8 @@
             $('#show').css('display','none');
             $('#form').css('display','block');
             $('#blur-background').css('display','block');
+            $('#header_image').css('display','none');
+            $('#footer_image').css('display','none');
 
         }
     // DELETE FUNCTION
@@ -418,6 +429,8 @@
                         $('#method').val('UPDATE');
                         $('#submit').text('UPDATE');
                         $('#blur-background').css('display','block');
+                        $('#header_image').css('display','none');
+                        $('#footer_image').css('display','none');
                         current_contact_number=message.contact_number;
                     }
                     else
@@ -430,6 +443,8 @@
                         $('#show').css('display','block');
                         $('#form').css('display','none');
                         $('#blur-background').css('display','block');
+                        $('#header_image').css('display','none');
+                        $('#footer_image').css('display','none');
 
                     }
                     document.getElementById("myDialog").open = true;
@@ -439,11 +454,17 @@
             })
         }
 
-    document.getElementById("print").addEventListener("click", function() {
-        $('#heading_name').css('color', 'black').css('font-weight', 'bold');
-        window.print();
-        $('#heading_name').css('color', 'white').css('font-weight', 'bold');
-    });
+    //print function
+    document.getElementById("print").addEventListener("click", function()
+                {
+                    $('#header_image').css('display','block');
+        $('#footer_image').css('display','block');
+                    $('#heading_name').css('color', 'black').css('font-weight', 'bold');
+                   window.print();
+                   $('#heading_name').css('color', 'white').css('font-weight', 'bold');
+                   $('#header_image').css('display','none');
+        $('#footer_image').css('display','none');
+                });
       // validation
 
       var contact_number=@json($contact_number);

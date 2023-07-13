@@ -168,6 +168,11 @@
                         </form>
                         <!-- SHOW DIALOG -->
                         <div class="card" id="show" style="display:none">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <img id="header_image" class="print-header-image" src="vendor/adminlte/dist/img/al borj.jpeg" width="100%" height="120" />
+                                </div>
+                            </div>
     <div class="card-body" style="background-color:white;">
         <table class="table">
             <tbody>
@@ -203,6 +208,10 @@
         </table>
     
     <br>
+        <div>
+            <img id="footer_image" class="print-footer-image" src="vendor/adminlte/dist/img/footer.png"
+                width="100%" height="100" />
+        </div>
         <button type="button" id="print" class="btn btn-primary float-end">Print</button>
         </div>
 </div>
@@ -270,6 +279,8 @@
             $('#show').css('display','none');
             $('#form').css('display','block');
             $('#blur-background').css('display','block');
+            $('#header_image').css('display','none');
+            $('#footer_image').css('display','none');
 
         }
 // DELETE FUNCTION
@@ -437,6 +448,8 @@ var current_contact_number;
                         $('#show').css('display','none');
                         $('#form').css('display','block');
                         $('#blur-background').css('display','block');
+                        $('#header_image').css('display','none');
+                        $('#footer_image').css('display','none');
                         for (const [key, value] of Object.entries(message))
                         {
                             $(`#${key}`).val(value);
@@ -459,6 +472,8 @@ var current_contact_number;
                         $('#show').css('display','block');
                         $('#form').css('display','none');
                         $('#blur-background').css('display','block');
+                        $('#header_image').css('display','none');
+                        $('#footer_image').css('display','none');
                     }
                     document.getElementById("myDialog").open = true;
                     window.scrollTo(0, 0);
@@ -467,12 +482,19 @@ var current_contact_number;
             })
         }
         
-        document.getElementById("print").addEventListener("click", function() {
-        $('#heading_name').text("Client Details").css('color', 'black').css('font-weight', 'bold');
-        window.print();
-        $('#heading_name').text("Client Details").css('color', 'white').css('font-weight', 'bold');
+      //print function
+      document.getElementById("print").addEventListener("click", function()
+        {
+            $('#header_image').css('display','block');
+            $('#footer_image').css('display','block');
 
-    });
+            $('#heading_name').text("Client Details").css('color', 'black').css('font-weight', 'bold');
+            window.print();
+            $('#heading_name').text("Client Details").css('color', 'white').css('font-weight', 'bold');
+            $('#header_image').css('display','none');
+            $('#footer_image').css('display','none');
+
+        });
         // inline validation
                 var clientNames = @json($clientNames);
                 var contact_number=@json($contact_number);

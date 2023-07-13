@@ -184,34 +184,43 @@
                 </form>
                 <!-- SHOW DIALOG -->
                 <div class="card" id="show" style="display:none">
-    <div class="card-body" style="background-color:white;">
-        <table class="table">
-            <tbody>
-                <tr>
-                    <td><label>Item Name</label></td>
-                    <td><p id="show_item_name"></p></td>
-                    <td><label>Item Unit</label></td>
-                    <td><p id="show_item_unit"></p></td>
-                    <td><label>Item Category</label></td>
-                    <td><p id="show_item_category"></p></td>
-                    <td><label>Item Subcategory</label></td>
-                    <td><p id="show_item_subcategory"></p></td>
-                </tr>
-                <tr>
-                    <td><label>Item Type</label></td>
-                    <td><p id="show_item_type"></p></td>
-                    <td><label>Stock Type</label></td>
-                    <td><p id="show_stock_type"></p></td>
-                    <td><label id="item_quantity">Item Total Quantity</label></td>
-                    <td><p id="show_total_quantity"></p></td>
-                </tr>
-            </tbody>
-        </table>
-        <div id="item_details_show"></div>
-    </div>
-        
-    <button type="button" id="print" class="btn btn-primary float-end">Print</button>
-</div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img id="header_image" class="print-header-image" src="vendor/adminlte/dist/img/al borj.jpeg" width="100%" height="120" />
+                        </div>
+                    </div>
+                    <div class="card-body" style="background-color:white;">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td><label>Item Name</label></td>
+                                    <td><p id="show_item_name"></p></td>
+                                    <td><label>Item Unit</label></td>
+                                    <td><p id="show_item_unit"></p></td>
+                                    <td><label>Item Category</label></td>
+                                    <td><p id="show_item_category"></p></td>
+                                    <td><label>Item Subcategory</label></td>
+                                    <td><p id="show_item_subcategory"></p></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Item Type</label></td>
+                                    <td><p id="show_item_type"></p></td>
+                                    <td><label>Stock Type</label></td>
+                                    <td><p id="show_stock_type"></p></td>
+                                    <td><label id="item_quantity">Item Total Quantity</label></td>
+                                    <td><p id="show_total_quantity"></p></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div id="item_details_show"></div>
+                    </div>
+                    
+                    <div>
+                        <img id="footer_image" class="print-footer-image" src="vendor/adminlte/dist/img/footer.png"
+                            width="100%" height="100" />
+                    </div>  
+                    <button type="button" id="print" class="btn btn-primary float-end">Print</button>
+                </div>
        
             </dialog>
             <script type="text/javascript">
@@ -246,6 +255,8 @@
                     $('#show').css('display', 'none');
                     $('#form').css('display', 'block');
                     $('#blur-background').css('display', 'block');
+                    $('#header_image').css('display','none');
+                    $('#footer_image').css('display','none');
                     // $('#total_quantity').val('0');
                      // Set default value of total_quantity to 0 if it is empty
                     $("#quantity").val('0' || $("#quantity").val());
@@ -349,6 +360,8 @@
                                 $('#show').css('display', 'none');
                                 $('#form').css('display', 'block');
                                 $('#blur-background').css('display', 'block');
+                                $('#header_image').css('display','none');
+                                $('#footer_image').css('display','none');
                                 $("#item_category").val(message.itemsupplier[0].item_category).attr("selected",
                                     "selected");
                                 itemcategory_load();
@@ -376,6 +389,8 @@
                                 $('#show_code').hide();
                                 $('#item_quantity').show();
                                 $('#show_total_quantity').show();
+                                $('#header_image').css('display','none');
+                                $('#footer_image').css('display','none');
                                 document.getElementById("myDialog").open = true;
                                 window.scrollTo(0, 0)
                                 $('#blur-background').css('display', 'block');
@@ -411,6 +426,8 @@
                                     $('#item_quantity').hide();
                                     $('#show_total_quantity').hide();
                                     $('#blur-background').css('display', 'block');
+                                    $('#header_image').css('display','none');
+                                    $('#footer_image').css('display','none');
 
                                     document.getElementById("myDialog").open = true;
                                     window.scrollTo(0, 0)
@@ -450,6 +467,8 @@
                                     $('#item_quantity').hide();
                                     $('#show_total_quantity').hide();
                                     $('#blur-background').css('display', 'block');
+                                    $('#header_image').css('display','none');
+                                    $('#footer_image').css('display','none');
 
                                     document.getElementById("myDialog").open = true;
                                     window.scrollTo(0, 0)
@@ -558,10 +577,18 @@ jQuery($ => {
                     handleShowAndEdit('edit');
                 }
 
-                document.getElementById("print").addEventListener("click", function() {
+                
+                document.getElementById("print").addEventListener("click", function()
+                {
+                    $('#header_image').css('display','block');
+                    $('#footer_image').css('display','block');
+
                     $('#heading_name').css('color', 'black').css('font-weight', 'bold');
-                   window.print();
-                   $('#heading_name').css('color', 'white').css('font-weight', 'bold');
+                    window.print();
+                    $('#heading_name').css('color', 'white').css('font-weight', 'bold');
+                    $('#header_image').css('display','none');
+                    $('#footer_image').css('display','none');
+
                 });
                 var item_Name = @json($itemName);
    

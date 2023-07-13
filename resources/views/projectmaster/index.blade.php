@@ -274,7 +274,7 @@
                                         @endforeach
                                     </select>
                                     <a onclick="boq()"
-                                                class="btn btn-primary btn-circle btn-sm ">
+                                                class="btn btn-primary btn-circle btn-sm " id="boq">
                                                 BOQ
                                             </a>  
                                  </div>                              
@@ -440,6 +440,11 @@
                 </script>
                 <!-- SHOW DIALOG -->
                 <div class="card" id="show" style="display:none">
+                <div class="row">
+                <div class="col-md-12">
+                    <img id="header_image" class="print-header-image" src="vendor/adminlte/dist/img/al borj.jpeg" width="100%" height="120" />
+                </div>
+        </div>
     <div class="card-body" style="background-color:white;">
         <table class="table">
             <tbody>
@@ -521,6 +526,10 @@
         </table>
         <div id="item_details_show"></div>
         <br>
+        <div>
+            <img id="footer_image" class="print-footer-image" src="vendor/adminlte/dist/img/footer.png"
+                width="100%" height="100" />
+        </div>
         <button type="button" id="print" class="btn btn-primary float-end">Print</button>
     
     </div>
@@ -769,6 +778,8 @@
                     $('#show').css('display', 'none');
                     $('#form').css('display', 'block');
                     $('#blur-background').css('display', 'block');
+                    $('#header_image').css('display','none');
+                    $('#footer_image').css('display','none');
 
                 }
                 function boq(){
@@ -1006,7 +1017,9 @@
                                 $('#show').css('display', 'none');
                                 $('#form').css('display', 'block');
                                 $('#blur-background').css('display', 'block');
-
+                                $('#header_image').css('display','none');
+                                $('#footer_image').css('display','none');
+                                $('#boq').css('display', 'none');
                                 for (const [key, value] of Object.entries(message.data[0])) {
                                     $(`#${key}`).val(value);
                                 }
@@ -1096,6 +1109,8 @@
                                 $('#show').css('display', 'block');
                                 $('#form').css('display', 'none');
                                 $('#blur-background').css('display', 'block');
+                                $('#header_image').css('display','none');
+                                $('#footer_image').css('display','none');
                             }
                             document.getElementById("myDialog").open = true;
                             window.scrollTo(0, 0);
@@ -1258,10 +1273,16 @@ function updateSiteManagerValue(siteName) {
                     }
                 });
 
-                document.getElementById("print").addEventListener("click", function() {
+                //print function
+                document.getElementById("print").addEventListener("click", function()
+                {
+                    $('#header_image').css('display','block');
+                    $('#footer_image').css('display','block');
                     $('#heading_name').css('color', 'black').css('font-weight', 'bold');
                    window.print();
-                     $('#heading_name').css('color', 'white').css('font-weight', 'bold');
+                   $('#heading_name').css('color', 'white').css('font-weight', 'bold');
+                   $('#header_image').css('display','none');
+                    $('#footer_image').css('display','none');
                 });
                 // / Initialize form validation
 
