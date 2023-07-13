@@ -955,10 +955,10 @@
                         <label for="employee_name" class="form-label fw-bold">Employee Name<a style="text-decoration: none;color:red">*</a></label>
                            <div class="row w-100">
                                 <div class="input-group w-75 row">
-                                    <input type="text" id="first_name" name="firstname" value="{{ old('firstname') }}" placeholder="Manager Name" class="form-control siteemployee" autocomplete="off">
+                                    <input type="text" id="first_name" name="firstname" value="{{ old('firstname') }}" placeholder="Employee Name" class="form-control siteemployee" autocomplete="off">
                                     
                                 </div>
-                                <button type="button" class="btn btn-primary w-25 h-25" onclick="addEmployeeName()">ADD</button>
+                                <button type="button" id="addbtn" class="btn btn-primary w-25 h-25" onclick="addEmployeeName()">ADD</button>
                             </div>
                                 <input type="text" id="empno" name="emp_no" hidden value="{{ old('emp_no') }}" class="form-control" autocomplete="off">
                     </div>
@@ -966,7 +966,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label class="form-label">Employee Names</label>
-                        <textarea class="form-control" id="remarks" cols="30" rows="5" name="remarks" autocomplete="off"></textarea>
+                        <textarea class="form-control" readonly id="remarks" cols="30" rows="5" name="remarks" autocomplete="off"></textarea>
                     </div>
                 </div>
             
@@ -1000,22 +1000,32 @@
         </form>
     </dialog>
 <script>
-                    
-    var employee = [];
-    function addEmployeeName() 
-    {
-        var firstname = document.getElementById('first_name').value;
-        var empNo = document.getElementById('empno').value; // Retrieve emp_no value
-        var remarks = document.getElementById('remarks');
-        // Append the entered name to the textarea
-        remarks.value += firstname + "\n";
-        // Add emp_no to the employee array
-        employee.push(empNo);
 
-        // Clear the input fields
-        document.getElementById('first_name').value = '';
-        document.getElementById('empno').value = '';
-    }
+var employee = [];
+function addEmployeeName() {
+  var firstname = document.getElementById('first_name').value;
+  var empNo = document.getElementById('empno').value; // Retrieve emp_no value
+  var remarks = document.getElementById('remarks');
+
+  // Append the entered name to the textarea
+  if (firstname === '') {
+    alert('Please enter a name before adding it to the Employee Names field.');
+    return;
+  } else {
+    remarks.value += firstname + "\n";
+  }
+
+  // Add emp_no to the employee array
+  employee.push(empNo);
+
+  // Clear the input fields
+  document.getElementById('first_name').value = '';
+  document.getElementById('empno').value = '';
+
+   
+}
+
+
            
     //  Employee Attendance Sheet Calculations
     $('#sitetime_table').hide();
@@ -1141,6 +1151,7 @@
         $('#blur-background').css('display','block');
         $('#site_manager').val('');
         $('#site_location').val('');
+        // $("#addbtn").prop('disabled', true);
     }
 
     // DIALOG CLOSE BUTTON
@@ -1297,7 +1308,7 @@
                     $.ajax
                     ({
                         type:"GET",
-                        url: "{{ route('getsitedata') }}",
+                        url: "{{ route('getsitemanagerdata') }}",
                         dataType: "json",
                         data:
                         {
@@ -1339,7 +1350,7 @@
             $.ajax
             ({
                 type:"GET",
-                url: "{{ route('getsitedata') }}",
+                url: "{{ route('getsitemanagerdata') }}",
                 dataType: "json",
                 data:
                 {
@@ -1419,6 +1430,10 @@
                     date: true,
                     greaterThan: "#fromdate"
                 },
+                remarks:
+                {
+                    required: true,
+                },
             },
             messages: 
             {
@@ -1440,6 +1455,10 @@
                     required: "Please enter a To date",
                     date: "Please enter a valid date",
                     greaterThan: "End date must be equal to or after the start date"
+                },
+                remarks:
+                {
+                    required: "Please add employee name",
                 },
                 
             },

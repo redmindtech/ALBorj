@@ -281,7 +281,7 @@ return [
 
                 ],
                 [
-                    'text' => 'Timesheet Sitewise',
+                    'text' => 'Timesheet',
                     'url'  => 'timesheet',
                     'icon' => 'nav-icon fas fa-fw fa-clock',
 
@@ -398,7 +398,7 @@ return [
 
                 ],
                 [
-                    'text' => 'GRN Inventory Reports',
+                    'text' => 'Inventory Reports',
                     'url'  => 'grninventoryreport',
                     'icon' => 'nav-icon fas fa-fw fa-regular fa-star text-primary',
 

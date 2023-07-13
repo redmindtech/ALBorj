@@ -27,9 +27,9 @@
                                     <th>Supplier name</th>
                                     <th>Item Name</th>
                                     <th>Item Category</th>
-                                    <th>Item Type</th>
-                                    <th>Stock Type</th>
                                     <th>Quantity</th>
+                                    <th>Stock Type</th>
+                                    <th>Item Type</th>
                                     <th>Unit</th>
                                     <th>Price per quantity</th>
                                     <th>Total Price</th>
@@ -42,9 +42,9 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->item_name }}</td>
                                     <td>{{ $item->item_category }}</td>
-                                    <td>{{ $item->item_type }}</td>
-                                    <td>{{ $item->stock_type }}</td>
                                     <td>{{ $item->quantity }}</td>
+                                    <td>{{ $item->stock_type }}</td>
+                                    <td>{{ $item->item_type }}</td>
                                     <td>{{ $item->item_unit }}</td>
                                     <td>{{ $item->price_per_qty }}</td>
                                     <td>{{ $item->total_price }}</td>

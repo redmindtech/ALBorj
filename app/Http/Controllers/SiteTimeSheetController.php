@@ -23,7 +23,8 @@ class SiteTimeSheetController extends Controller
                 'site_no' => 'required',
                 'from_date' => 'required',
                 'to_date' => 'required',
-                // 'employee' => 'required|array|min:1', // Assuming 'employee' is the input containing the array of employee numbers
+                // 'employee' => 'array|min:1', // Assuming 'employee' is the input containing the array of employee numbers
+                'remarks' => 'required',
             ]);
     
             $employeeArray = json_decode($request->input('employee'), true);
