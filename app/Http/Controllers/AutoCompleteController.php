@@ -179,16 +179,24 @@ catch (Exception $e) {
 }
 //  autocomplete data for project master form sitmaster(site name),timesheet
 public function  getsitedata(){
-try{
-  $site_name = $_GET['site_name'];
-  $projectdata = SiteMaster::join('project_masters','site_masters.site_no','=','project_masters.site_no')
-  ->where('site_name','LIKE',$site_name.'%')
-  ->where('site_masters.deleted', '0')
-  ->select('site_masters.*', 'project_masters.project_name')
-  ->get();
-  return $projectdata;
-  info(projectdata);
-}
+    try {
+        $site_name = $_GET['site_name'];
+        $projectdata = SiteMaster::join('project_masters', 'site_masters.site_no', '=', 'project_masters.site_no')
+            ->where('site_name', 'LIKE', $site_name.'%')
+            ->where('site_masters.deleted', 0)
+            ->select('site_masters.*', 'project_masters.project_name')
+            ->get();
+
+        if ($projectdata->count() > 0) {
+            return $projectdata;
+        } else {
+            $newProjectData = SiteMaster::where('site_name', 'LIKE', $site_name . '%')
+            ->where('site_masters.deleted', 0)
+            ->select('site_masters.*')
+            ->get();
+            return $newProjectData;
+        }
+    }
 catch (Exception $e) {
    info($e);
    return response()->json('Error occured in fetching data', 400);
@@ -414,16 +422,18 @@ public function  get_project_boq(){
         ->get();
         $project_name1 = ProjectMaster::where('project_name', $projectname)
         ->join('project_master_item', 'project_master_item.proj_no', '=', 'project_masters.project_no')
-        ->join('payment_receivables', 'payment_receivables.project_no', '=', 'project_masters.project_no')
-        ->select('project_masters.*', 'project_master_item.*', 'payment_receivables.*')
+        // ->join('payment_receivables', 'payment_receivables.project_no', '=', 'project_masters.project_no')
+        ->join('client_masters', 'project_masters.client_no', '=', 'client_masters.client_no')
+        ->join('item_masters', 'project_master_item.item_no', '=', 'item_masters.id')
+        ->select('project_masters.project_name', 'project_masters.created_at', 'project_masters.total_amount', 'project_masters.vat_amount',
+       'client_masters.client_no','client_masters.trn_number', 'client_masters.company_name', 'client_masters.address',
+        'client_masters.contact_number','item_masters.*','project_master_item.*')
         ->where('project_masters.deleted', 0)
         ->distinct('project_masters.project_name')
-        ->selectSub(function ($query) {
-            $query->from('payment_receivables')
-                ->selectRaw('SUM(received_amt)')
-                ->whereRaw('payment_receivables.project_no = project_masters.project_no');
-        }, 'received_amt_sum')
         ->get();
+
+        // 'payment_receivables.receivables_code',
+        info($project_name1);
 
 
         $payment_receivables_id= PaymentReceivables::where('deleted',0)->where('project_no',$project_no)->max('id');

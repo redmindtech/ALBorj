@@ -259,193 +259,72 @@
                     width="100%" height="120" />
 
                 <h4 id="heading_name" style="color: white; background-color:#45A6F2;" align="center">
-                    <b>Progress Payment Certificate</b>
+                    <b>Receipt Voucher</b>
                 </h4>
-
-
             </div>
         </div>
-
 
         <div class="card-body" style="background-color: white; width: 100%; height: 20%;">
-            <div class="row table-bordered">
-                <div class="col-md-6 column-border">
-                    <label>Subcontractor</label>
-                    <p id="project_name1"></p>
+            <div class="row mt-3 justify-content-end">
+                <div class="col text-left">
+                    <p>
+                        <label>To</label><br>
+                        <span id="company_name" style="font-weight: bold;"></span><br>
+                        P.O Box : <span id="address"></span><br>
+                        Tel : <span id="contact_number"></span><br>
+                        TRN : <span id="trn_number"></span>
+                    </p>
                 </div>
-                <div class="col-md-6">
-                    <label>Certificate No</label>
-                    <p id="certify_no"></p>
-                </div>
-            </div>
-            <div class="row table-bordered">
-                <div class="col-md-6 column-border">
-                    <label>BOQ No</label>
-                    <p id="boq_no"></p>
-                </div>
-                <div class="col-md-6">
-                    <label>Date</label>
-                    <p id="date"></p>
-                </div>
-            </div>
-            <div class="row table-bordered">
-                <div class="col-md-6 column-border">
-                    <label>BOQ Value Total (excl. tax)</label>
-                    <p id="boq_value"></p>
-                </div>
-                <div class="col-md-6">
-                    <label>Currency</label>
-                    <p>AED</p>
+                <div class="col text-right">
+                    <p>
+                        <label>TRN :</label><span id="trn"></span>
+                        <br>
+                        <label>INV NO :</label><span id="invoice_numer"></span>
+                        <br>
+                        <label>Date :</label><span id="date"></span>
+                        <br>
+                        <label>Sub Contract :</label><span id="project_name1"></span>
+                    </p>
                 </div>
             </div>
-        </div>
 
-        <style>
-            .column-border {
-                border-right: 1px solid #beb8b8;
-            }
-        </style>
-
-
-        <div class="container pt-4">
-            <div class="table-responsive">
-                <center>
-                    <table class="table table-bordered">
-                        <tr>
-                            <td>
-                                <label>Description</label>
-                            </td>
-                            <td>
-                                <label>Work included in form of tender</label>
-                            </td>
-                            <td>
-                                <label>Value of Extra Work
-                                    Authorization</label>
-                            </td>
-                            <td>
-                                <label>Total Value<br>
-                                    (F.O.T. + E.W.A.) </label>
-                            </td>
-
-                        </tr>
-                        <tr>
-                        <tr>
-                            <td class="text-bold">Value of work
-                                completed to date </td>
-                            <td>
-                                <p id="received_amt1"></p>
-                            </td>
-                            <td>
-                                <p id="variation"></p>
-                            </td>
-                            <td>
-                                <p id="total_value"></p>
-                            </td>
-                        </tr>
-                        </tr>
-                        <tr>
-                        <tr>
-                            <td class="text-bold">Gross value of work completed to
-                                date </td>
-                            <center>
-                                <td>
-                                    <p id="gross_value"></p>
-                                </td>
-                            </center>
-
-                        </tr>
-                        </tr>
-                    </table>
-                </center>
-            </div>
             <div class="container pt-4">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div>
-                            <label>Rentention Rate</label>
-                            <p id="rentention_rate"></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div>
-                            <label>Net value of work completed to date</label>
-                            <p id="net_value"></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div>
-                            <label>Deduct previous payments</label>
-                            <p id="pre_value"></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div>
-                            <label>Amount due for payment (excl tax)</label>
-                            <p id="due_amount"></p>
-                        </div>
-                    </div>
+                <div class="table-responsive">
+                    <center>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>S.no</th>
+                                    <th>ITEM DETAILS</th>
+                                    <th>QTY</th>
+                                    <th>UNIT</th>
+                                    <th>UNIT PRICE</th>
+                                    <th>AMOUNT</th>
+                                </tr>
+                            </thead>
+                            <tbody id="boq_details"></tbody>
+                        </table>
+                    </center>
                 </div>
             </div>
 
-            <div class="pt-3">
-                <p>Certified that the amount stated above is now due to the subcontractor in accordance with the terms of
-                    the contract.</p>
+            <div class="text-left" style="margin-top: 20px;">
+               <b><span id="amount_words"></span></b>
             </div>
-            <div class="row table-bordered">
-                <p>Accepted for Company</p>
-            </div>
-            <div class="row table-bordered">
-                <div class="col-md-6 column-border">
-                    <label>Subcontracts/Control Manager</label>
-                    <p id="project_name1"></p>
-                </div>
-                <div class="col-md-6">
-                    <label>Date</label>
-                    <p id="item_amount1"></p>
-                </div>
-            </div>
-            <div class="row table-bordered">
-                <p></p>
-            </div>
-            <div class="row table-bordered">
-                <div class="col-md-6 column-border">
-                    <label>Project Construction Manager</label>
-                    <p id="boq_no"></p>
-                </div>
-                <div class="col-md-6">
-                    <label>Date</label>
-                    <p id=""></p>
-                </div>
-            </div>
-            <div class="row table-bordered">
-                <p></p>
-            </div> <!-- Empty Row -->
-            <div class="row table-bordered">
-                <div class="col-md-6 column-border">
-                    <label>Accepted for Client</label>
-                    <p id=""></p>
-                </div>
-                <div class="col-md-6">
-                    <label>Date</label>
-                    <p></p>
-                </div>
-            </div>
-            <div class="row table-bordered">
-                <p></p>
-            </div><!-- Empty Row -->
-            <div><img id="footer_image" class="print-footer-image" src="vendor/adminlte/dist/img/footer.png"
-                    width="100%" height="100" /></div>
 
+            <div class="text-left" style="margin-top: 20px;">
+                <strong>Best regards,</strong>
+            </div>
+            <div class="text-left" style="margin-top: 25px;">
+                <strong >For: Al Borj Al Mumtaz tech cont</strong>
+            </div>
+
+            <div style="margin-top: 85px;">
+                <img id="footer_image" class="print-footer-image" src="vendor/adminlte/dist/img/footer.png" width="100%" height="100" />
+            </div>
             <button type="button" id="print" class="btn btn-primary float-end">Print</button>
         </div>
     </dialog>
-
 <script type="text/javascript">
 
     $.ajaxSetup(
@@ -500,19 +379,14 @@ function updatePPCButton() {
             // Scroll to the top of the dialog
             dialog.scrollTop = 0;
 
-            $('#project_name1').empty();
-            $('#boq_no').empty();
-            $('#boq_value').empty();
-            $('#rentention_rate').empty();
-            $('#certify_no').empty();
-            $('#net_value').empty();
-            $('#received_amt1').empty();
-            $('#variation').empty();
-            $('#total_value').empty();
-            $('#pre_value').empty();
-            $('#due_amount').empty();
+            $('#trn_number').empty();
+            $('#invoice_numer').empty();
             $('#date').empty();
-            $('#gross_value').empty();
+            $('#project_name1').empty();
+            $('#company_name').empty();
+            $('#address').empty();
+            $('#contact_number').empty();
+            $('#trn').empty();
 
             var projectName = $('#project_name').val();
             $.ajax({
@@ -523,55 +397,137 @@ function updatePPCButton() {
                     'projectname': projectName
                 },
                 success: function(data) {
-                    console.log(data.project_name1[0]);
-                    console.log(data.project_name1[0].received_amt_sum);
+                    $('#trn_number').text(data.project_name1[0].trn_number);
+                    $('#trn').text(data.project_name1[0].trn_number);
+                    // $('#invoice_numer').text(data.project_name1[0].receivables_code);
                     $('#project_name1').text(data.project_name1[0].project_name);
-                    $('#boq_no').text(data.project_name1[0].project_code);
-                    $('#boq_value').text(data.project_name1[0].total_price_cost);
-                    $('#rentention_rate').text(data.project_name1[0].retention);
-                    $('#certify_no').text(data.project_name1[0].receivables_code);
-                    $('#pre_value').text(data.project_name1[0].received_amt_sum);
-                    $('#received_amt1').text($("#received_amt").val());
-
-                    // total_value, net_value,gross_value calculation.
-
-                    var total_amount = data.project_name1[0]
-                    .total_price_cost; // Replace with your actual total amount value
-                    var balance_amount = data.project_name1[0]
-                    .balance_amount; // Replace with your actual balance amount value
-
-                    if (balance_amount > total_amount) {
-                        $('#variation').text(balance_amount - total_amount);
-                    } else {
-                        $('#variation').text(0);
-                    }
-                    var received_amt = parseFloat($("#received_amt")
-                .val()); // Parse the received_amt value as an integer
-                    var variation = parseFloat($('#variation')
-                .text()); // Parse the variation value as an integer
-
-                    var sum = received_amt + variation;
-                    $('#total_value').text(sum);
-                    $('#net_value').text(sum);
-                    $('#gross_value').text(sum);
-                    //due amount
-                    var boqValue = data.project_name1[0]
-                    .total_price_cost; // Get the value from $('#boq_value') and parse it as a float
-                    var totalValue = $('#total_value')
-                .text(); // Get the value from $('#total_value') and parse it as a float
-                    var dueAmount = boqValue - totalValue;
-
-                    $('#due_amount').text(dueAmount);
+                    $('#company_name').text(data.project_name1[0].company_name);
+                    $('#address').text(data.project_name1[0].address);
+                    $("#contact_number").text(data.project_name1[0].contact_number);
                     // date format changes
-
                     var createdDate = new Date(data.project_name1[0].created_at);
                     var day = createdDate.getDate().toString().padStart(2, '0');
                     var month = (createdDate.getMonth() + 1).toString().padStart(2, '0');
                     var year = createdDate.getFullYear().toString();
                     var formattedDate = day + '-' + month + '-' + year;
-
                     $('#date').text(formattedDate);
 
+                    $('#boq_details').empty();
+
+                    var create_id = 1;
+                    for (var item of data.project_name1)
+                    {
+                        console.log(data.project_name1);
+                        var row = '<tr>';
+                        row += '<td class="text-center">' + create_id + '</td>';
+                        row += '<td class="text-center">' + item.item_name + '</td>';
+                        row += '<td class="text-center">' + item.qty + '</td>';
+                        row += '<td class="text-center">' + item.unit + '</td>';
+                        row += '<td class="text-center">' + item.rate_per_qty + '</td>';
+                        row += '<td class="text-center">' + item.amount + '</td>';
+                        row += '</tr>';
+
+                        $('#boq_details').append(row);
+
+                        create_id++;
+                    }
+                    var totalAmount = parseFloat(data.project_name1[0].total_amount);
+                    var vatAmount = parseFloat(data.project_name1[0].vat_amount);
+                    var grandTotal = totalAmount + vatAmount;
+
+                    var totalRow = '<tr>';
+                    totalRow += '<td colspan="5" class="text-right font-weight-bold">Total Amount</td>';
+                    totalRow += '<td class="text-center">' + totalAmount + '</td>';
+                    totalRow += '</tr>';
+                    totalRow += '<tr>';
+                    totalRow += '<td colspan="5" class="text-right">Vat 5%</td>';
+                    totalRow += '<td class="text-center">' + vatAmount + '</td>';
+                    totalRow += '</tr>';
+                    totalRow += '<tr>';
+                    totalRow += '<td colspan="5" class="text-right font-weight-bold">Grand Total</td>';
+                    totalRow += '<td class="text-center font-weight-bold">' + grandTotal + '</td>';
+                    totalRow += '</tr>';
+
+
+                    $('#boq_details').append(totalRow);
+
+                    function convertNumberToWords(number)
+                    {
+                        var units = [
+                            'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
+                            'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen',
+                            'eighteen', 'nineteen'
+                        ];
+                        var tens = [
+                            '', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
+                        ];
+                        var scales = ['', 'thousand', 'million', 'billion', 'trillion', 'quadrillion', 'quintillion', 'sextillion'];
+
+                        if (number === 0)
+                        {
+                            return 'DHS ' + units[0] + ' dirhams';
+                        }
+
+                        var words = '';
+
+                        // Handle negative numbers
+                        if (number < 0) {
+                            words += 'negative ';
+                            number = Math.abs(number);
+                        }
+
+                        var wholePart = Math.floor(number);
+                        var decimalPart = Math.round((number - wholePart) * 100);
+
+                        // Convert the whole part
+                        var scaleIndex = 0;
+
+                        while (wholePart > 0) {
+                            var chunk = wholePart % 1000;
+                            if (chunk !== 0) {
+                            var chunkWords = '';
+
+                            var hundreds = Math.floor(chunk / 100);
+                            if (hundreds !== 0) {
+                                chunkWords += units[hundreds] + ' hundred ';
+                            }
+
+                            var tensAndUnits = chunk % 100;
+                            if (tensAndUnits < 20) {
+                                chunkWords += units[tensAndUnits] + ' ';
+                            } else {
+                                var tensDigit = Math.floor(tensAndUnits / 10);
+                                var unitsDigit = tensAndUnits % 10;
+                                chunkWords += tens[tensDigit] + ' ' + units[unitsDigit] + ' ';
+                            }
+
+                            chunkWords += scales[scaleIndex] + ' ';
+                            words = chunkWords + words;
+                            }
+
+                            wholePart = Math.floor(wholePart / 1000);
+                            scaleIndex++;
+                        }
+
+                        // Convert the decimal part
+                        if (decimalPart > 0) {
+                            words += 'and ';
+                            if (decimalPart < 20) {
+                            words += units[decimalPart] + ' ';
+                            } else {
+                            var tensDigit = Math.floor(decimalPart / 10);
+                            var unitsDigit = decimalPart % 10;
+                            words += tens[tensDigit] + ' ' + units[unitsDigit] + ' ';
+                            }
+                        }
+
+                        return '(DHS  '  + words.trim() + ' dirhams)';
+                    }
+
+                        // Usage example
+                        var grandTotalInWords = convertNumberToWords(grandTotal);
+                        document.getElementById("amount_words").textContent = grandTotalInWords;
+                        console.log(grandTotalInWords);
 
                 },
                 error: function(xhr, textStatus, errorThrown) {
@@ -683,10 +639,30 @@ function handleClose(){
     
             var hiddenErrorElements = $('.error-msg:not(:hidden)').length;
             // alert(hiddenErrorElements);
-            if(hiddenErrorElements === 0)
-            {
-                 // Disable the submit button
-                 $('#submit').prop('disabled', true);
+            if (hiddenErrorElements === 0) {
+  // Check balance amount and closing balance
+  var balanceAmount = parseFloat($('#balance_amount').val());
+  var closingBalance = parseFloat($('#closing_bal').val());
+
+  if (balanceAmount === 0 && closingBalance === 0) {
+    var confirmation = confirm('The project is completed! Do you want to proceed?');
+    if (confirmation) {
+      // Code to execute when the user chooses to proceed
+      submitForm();
+    } else {
+      // Code to handle when the user chooses not to proceed
+      alert('Please update project BOQ');
+      window.location.href = '{{ route('projectmaster.index') }}';
+    }
+  } else {
+    // Code to execute when balance amount and closing balance are not equal to 0
+    submitForm();
+  }
+}
+          }
+            function submitForm(){
+                       // Disable the submit button
+                       $('#submit').prop('disabled', true);
             let form_data = new FormData(document.getElementById('form'));
             let method = $('#method').val();
             let url;
@@ -719,14 +695,15 @@ function handleClose(){
                  $('#heading_name').css('color', 'white').css('font-weight', 'bold');
                  }
                 window.location.reload();
+               
                 },
                 error: function (xhr, status, error) {
                 var errorMessage = xhr.responseText; // Get the error message from the response
                     // Disable the submit button
                     $('#submit').prop('disabled', false);                }
             });
-        }
-            }
+        } 
+            
             function handleShowAndEdit(id, action) {
                     let url = '{{ route('payrecApi.show', ':project_no') }}';
                     url = url.replace(':project_no', id);

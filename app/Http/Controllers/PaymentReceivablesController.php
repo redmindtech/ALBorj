@@ -61,8 +61,9 @@ class PaymentReceivablesController extends Controller
      */
     public function store(Request $request)
     {
+        info($request);
         try{
-            
+           
             // $payment_receivables_id= PaymentReceivables::where('deleted',0)->where('project_no',$request['project_no'])->max('id');
             // info($payment_receivables_id);
             // if($payment_receivables_id != "")
@@ -101,9 +102,14 @@ class PaymentReceivablesController extends Controller
               
             ]);
         }
+      
+        if ($request['balance_amount'] === '0.00' && $request['closing_bal'] === '0.00') {
+            ProjectMaster::where('project_no', $request['project_no'])->update(['status' => 'Completed']);
+        }
+                      
         
         return response()->json('Payment Receivables created Successfully',200);
-    
+        
         } catch (Exception $e) {
             info($e);
             return response()->json('Error occured in Payment Receivables store',400);

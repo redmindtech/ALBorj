@@ -831,6 +831,7 @@
                     $('#form')[0].reset();
                     $('#total_amount').val('');
                     $('#vat_amount').val('');
+                    $('#boq').css('display', 'block');
                     // Hide any error messages
                     $('.error-msg').removeClass('error-msg');
                     $('.has-error').removeClass('has-error');
@@ -1020,6 +1021,7 @@
                                 $('#header_image').css('display','none');
                                 $('#footer_image').css('display','none');
                                 $('#boq').css('display', 'none');
+
                                 for (const [key, value] of Object.entries(message.data[0])) {
                                     $(`#${key}`).val(value);
                                 }
@@ -1197,16 +1199,17 @@ function updateSiteManagerValue(siteName) {
             'site_name': siteName
         },
         success: function(data) {
-
             for (var i in data) {
-                $('#site_no').val(data[0]["site_no"]);
-                $('#site_code').val(data[0]["site_code"]);
-                project_name.push(data[i]["project_name"].toLowerCase().replace(/\s/g, ''));
-                // project_name.push(lowercaseProjectName);
-               // console.log(data[i]["project_name"]);
-                
+                $('#site_no').val(data[i]["site_no"]);
+                $('#site_code').val(data[i]["site_code"]);
+                console.log(data[i]["site_code"]);
+                try {
+                    project_name.push(data[i]["project_name"].toLowerCase().replace(/\s/g, ''));
+                } catch (error) {
+                    // alert(error);
+                    project_name = [];
+                }
             }
-            // /$project = project_name[0];
             console.log(project_name);
         },
         fail: function(xhr, textStatus, errorThrown) {
@@ -1214,6 +1217,7 @@ function updateSiteManagerValue(siteName) {
         }
     });
 }
+
 
 
                 // auto complete for client from clientmaster
@@ -1272,6 +1276,26 @@ function updateSiteManagerValue(siteName) {
                         });
                     }
                 });
+
+
+                // if($("#method").val()!== "ADD"){
+                //     $('#Approved_Variation_Cost').on('change',function(){
+                //         alert('hlo');
+                //         // $('#boq').attr('onclick', '');
+                //         $('#boq').css('display', 'block');
+
+                //     })
+                // }
+                
+  $('#Approved_Variation_Cost').on('change', function() {
+     if ($("#method").val() !== "ADD") {
+    // alert('hello');
+    $('#boq').css('display', 'block');
+     }
+  });
+// }
+
+              
 
                 //print function
                 document.getElementById("print").addEventListener("click", function()
